@@ -1,0 +1,3 @@
+grant codeBase "file:/sdsrmi/server/" {
+    permission java.security.AllPermission;
+};

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <f:view >
+        <h:head> 
+
+        </h:head>
+        <h:body >
+
+            <h:form>
+                <p:growl id="growl" showDetail="true" sticky="true" /> 
+                <h:panelGrid columns="2" >  
+                    <f:facet name="header">  
+                    </f:facet>
+
+                    <h:outputLabel for="credit_advice_file_id" value="Credit Batch ID:" />  
+                    <h:inputText id="credit_advice_file_id" value="#{generateCa.fileId}" label="credit_advice_file_id"/> 
+
+                    <h:outputLabel for="memo_id" value="Memo ID:" />
+
+                    <h:inputText id="memo_id" value="#{generateCa.memoId}" label="memo_id"  />
+
+                    <h:outputLabel for="memo_name" value="Memo Name:" />  
+
+                    <h:inputText id="memo_name" value="#{generateCa.memoName}" label="memo_name"  /> 
+
+                    <h:outputLabel for="FilePrepareDateFromcal" value="Credit Advice Preparing Date From:" /> 
+                    <p:calendar value="#{generateCa.filePrepareDateFrom}" id="FilePrepareDateFromcal"/>
+
+                    <h:outputLabel for="FilePrepareDateTocal" value="Credit Advice Preparing Date To:" />  
+                    <p:calendar value="#{generateCa.filePrepareDateTo}" id="FilePrepareDateTocal"/>
+
+
+
+                    <f:facet name="footer">  
+                        <p:commandButton type="submit" value="Search" action="#{generateCa.findAvailableCredits()}" update="@form" process="@form"/>
+                        <p:commandButton type="submit" value="Generate" action="#{generateCa.generateCredits()}"  update="@form"/>
+                    </f:facet>  
+                </h:panelGrid> 
+
+
+
+
+                <ui:repeat value="#{generateCa.filesList}"  var="file">
+                    File ID:#{file.fileId}
+                    <p:selectBooleanCheckbox  value="#{generateCa.checked[file.fileId]}" >
+                        <p:ajax update="@this" listener="#{generateCa.testSamy}"/>
+                        <f:param name="generateCacheckedfileId" value="#{file.fileId}"/>
+                    </p:selectBooleanCheckbox>
+                    <p:dataTable var="camMemos" value="#{file.camMemos}">
+                        <f:facet name="header">  
+
+                                                            
+                            <p:commandLink value="View" process="@form" update="@form" action="#{generateCa.viewFiles()}" oncomplete="View.show();">
+                                <f:param name="fileId" value="#{file.fileId}" />
+                            </p:commandLink> -
+                            <p:commandLink value="Delete"  action="#{generateCa.deleteFiles()}" process="@form" update="@form">
+                                <f:param name="fileId" value="#{file.fileId}" />
+                            </p:commandLink> 
+                        </f:facet> 
+                        
+
+                        <p:column headerText="Memo ID">
+                            #{camMemos.memoId} 
+                        </p:column>
+                        <p:column headerText="Memo Name">
+                            #{camMemos.memoName}
+                        </p:column>
+                        <p:column headerText="Memo Desc">
+                            #{camMemos.desc}
+                        </p:column>
+
+
+
+                    </p:dataTable>
+
+                </ui:repeat>
+ 
+                
+
+                <p:dialog id="View" header="View Dialog" widgetVar="View" modal="true" height="200" width="800">  
+
+                    <p:dataTable id="salesTable" var="file" value="#{generateCa.memosList2}">
+
+
+                        <p:columnGroup type="header">
+                            <p:row>
+                                <p:column rowspan="3" headerText="SCM CODE" />
+                                <p:column rowspan="3" headerText="SCM NAME" />
+                                <p:column colspan="4" headerText="MEMO" />
+                            </p:row>
+                            <p:row>
+                                <p:column headerText="Memo ID" />
+                                <p:column  headerText="Memo Name" />
+                                <p:column headerText="Amount" />
+                                <p:column  headerText="Tax" />
+                            </p:row>
+
+                        </p:columnGroup>
+
+                        <p:column rowspan="3">
+                            #{file.dcmCode}
+                        </p:column>
+
+                        <p:column rowspan="3">
+                            #{file.dcmName}
+                        </p:column>
+
+
+                        <p:column>
+                            #{file.memoId}
+                        </p:column>
+
+                        <p:column>
+                            #{file.memoName}
+                        </p:column>
+
+                        <p:column>
+                            #{file.totalPayment}
+                        </p:column>
+
+                        <p:column>
+                            #{file.withHoldTax}
+                        </p:column>
+
+
+                    </p:dataTable>
+
+
+                </p:dialog> 
+
+
+
+
+
+
+
+
+
+
+
+                <p:dialog id="View1" header="View Dialog" widgetVar="View1" modal="true" height="200" width="800">  
+
+
+                    <p:dataTable var="file" value="#{generateCa.memosList2}">  
+
+
+                        <p:column headerText="Memo Id">  
+                            <h:outputText value="#{file.memoId}" />  
+                        </p:column>
+
+                        <p:column headerText="Memo Name">  
+                            <h:outputText value="#{file.memoName}" />  
+                        </p:column>
+
+                        <p:column headerText="SCM Id">  
+                            <h:outputText value="#{file.dcmCode}" />  
+
+                        </p:column>
+
+                        <p:column headerText="SCM Name">  
+                            <h:outputText value="#{file.dcmName}" />  
+
+                        </p:column>
+
+                        <p:column headerText="Amount">  
+                            <h:outputText value="#{file.totalPayment}" />  
+
+                        </p:column>
+
+                        <p:column headerText="Tax">  
+                            <h:outputText value="#{file.withHoldTax}" />  
+
+                        </p:column>
+
+
+                        <p:commandButton value="ok"  onclick="View.hide();" update="@form"/>
+                    </p:dataTable>'
+
+                </p:dialog> 
+
+            </h:form>
+
+        </h:body>
+
+    </f:view>
+</html>

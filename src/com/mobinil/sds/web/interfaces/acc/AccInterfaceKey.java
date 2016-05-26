@@ -1,0 +1,78 @@
+package com.mobinil.sds.web.interfaces.acc;
+
+public class AccInterfaceKey {
+
+	
+	public static final String ACTION_SELECT_PRODUCT_CHANNEL = "select_product_channel";
+	public static final String ACTION_VIEW_PRODUCT_VALUES= "view_product_values";
+	public static final String ACTION_SAVE_PRODUCT_VALUES= "save_product_values";
+	public static final String ACTION_SELECT_DCM_CHANNEL = "select_dcm_channel";
+	public static final String ACTION_VIEW_DCM_VALUES = "view_dcm_values";
+	public static final String ACTION_SAVE_DCM_VALUES = "save_dcm_values";
+	public static final String ACTION_VIEW_DCM_PRODUCT = "view_dcm_product";
+	public static final String ACTION_SEARCH_DCM_PRODUCT = "search_dcm_product";
+	public static final String ACTION_EXPORT_DCM_PRODUCT = "export_dcm_product";
+	public static final String ACTION_VIEW_TRANSACTION_TYPE = "view_transaction_type";
+	public static final String ACTION_SAVE_TRANSACTION_TYPE = "save_transaction_type";
+	public static final String ACTION_SAVE_ACCRUAL_VALUE = "save_accrual_value";
+	public static final String ACTION_VIEW_ACCRUAL_DATA ="view_accrual_data";
+	public static final String ACTION_VIEW_ACCRUAL_DETAIL_DATA ="view_accrual_detail_data";
+	public static final String ACTION_VIEW_GROUP_MANAGEMENT ="view_group_management";
+	public static final String ACTION_CREATE_NEW_TRANSACTIONTYPE_GROUP = "create_new_transactionType_group";
+	public static final String ACTION_EDIT_TRANSACTIONTYPE_GROUP ="edit_transactionType_group";
+	public static final String ACTION_DELETE_TRANSACTIONTYPE_GROUP ="delete_transactionType_group";
+	public static final String ACTION_SAVE_TRANSACTIONTYPE_GROUP = "save_transactionType_group";
+	public static final String ACTION_UPDATE_TRANSACTIONTYPE_GROUP = "update_transactionType_group";
+	public static final String ACTION_VIEW_WITH_HOLD_TAX = "view_with_hold_tax";
+	public static final String ACTION_EDIT_WITH_HOLD_TAX = "edit_with_hold_tax";
+	public static final String ACTION_DELETE_WITH_HOLD_TAX = "delete_with_hold_tax";
+	public static final String ACTION_ADD_WITH_HOLD_TAX = "add_with_hold_tax";
+	public static final String ACTION_SAVE_WITH_HOLD_TAX = "save_with_hold_tax";
+	public static final String ACTION_UPDATE_WITH_HOLD_TAX = "update_with_hold_tax";
+	public static final String ACTION_VIEW_FRANCHISE_GROUP = "view_franchise_group";
+	public static final String ACTION_EDIT_FRANCHISE_GROUP = "edit_franchise_group";
+	public static final String ACTION_ADD_FRANCHISE_GROUP = "add_franchise_group";
+	public static final String ACTION_SAVE_FRANCHISE_GROUP = "save_franchise_group";
+	public static final String ACTION_UPDATE_FRANCHISE_GROUP = "update_franchise_group";
+	public static final String ACTION_DELETE_FRANCHISE_GROUP = "delete_franchise_group";
+	public static final String ACTION_VIEW_FRANCHISE_LIST = "view_franchise_list";
+	public static final String ACTION_ADD_FRANCHISE_LIST = "add_franchise_list";
+	public static final String ACTION_SAVE_FRANCHISE_LIST = "save_franchise_list";
+	public static final String ACTION_EDIT_FRANCHISE_LIST = "edit_franchise_list";
+	public static final String ACTION_UPDATE_FRANCHISE_LIST = "update_franchise_list";
+	public static final String ACTION_DELETE_FRANCHISE_LIST = "delete_franchise_list";
+	public static final String ACTION_VIEW_COMMISSION_DCM = "view_commission_dcm";
+	public static final String ACTION_EDIT_COMMISSION_DCM = "edit_commission_dcm";
+	public static final String ACTION_CREATE_NEW_COMMISSION_DCM = "create_new_commission_dcm";
+	public static final String ACTION_DELETE_COMMISSION_DCM = "delete_commission_dcm";
+	public static final String ACTION_SAVE_COMMISSION_DCM = "save_commission_dcm";
+	public static final String ACTION_UPDATE_COMMISSION_DCM = "update_commission_dcm";
+	
+	public static final String INPUT_HIDDEN_CHANNEL_ID= "hidden_channel_id";
+	public static final String INPUT_HIDDEN_CHANNEL_NAME= "hidden_channel_name";
+	public static final String INPUT_HIDDEN_GROUP_ID = "hidden_group_id";
+	public static final String INPUT_TEXT_PRODUCT_VALUE = "Product_Value";
+	public static final String INPUT_TEXT_DCM_VALUE = "Dcm_Value";
+	public static final String INPUT_HIDDEN_DCM_NAME = "hidden_dcm_name";
+	public static final String INPUT_SEARCH_TEXT_ACTIVATION_DATE_FROM ="activation_date_from";
+	public static final String INPUT_SEARCH_TEXT_ACTIVATION_DATE_TO = "activation_data_to";
+	public static final String INPUT_SEARCH_TEXT_CHANNEL_ID = "channel_id";
+	public static final String INPUT_SEARCH_TEXT_GROUP_ID = "group_id";
+	public static final String INPUT_HIDDEN_ACCRUAL_VALUE = "accrual_value";
+	public static final String INPUT_HIDDEN_ACCRUAL_DETAIL_VALUE = "accrual_detail_value";
+	public static final String INPUT_TEXT_GROUP_ID = "group_id";
+	public static final String INPUT_TEXT_GROUP_NAME = "group_name";
+	public static final String INPUT_HIDDEN_DCM_CODE = "dcm_code";
+	public static final String INPUT_HIDDEN_WITH_HOLD_TAX = "with_hold_tax";
+	public static final String INPUT_TEXT_DCM_CODE = "text_dcm_code";
+	public static final String INPUT_TEXT_WITH_HOLD_TAX = "text_with_hold_tax";
+	public static final String INPUT_HIDDEN_FRANCHISE_GROUP_ID = "franchise_group_id";
+	public static final String INPUT_HIDDEN_FRANCHISE_CODE = "hidden_franchise_code";
+	public static final String INPUT_TEXT_FRANCHISE_GROUP_NAME = "franhise_group_name";
+	public static final String INPUT_TEXT_FRANCHISE_GROUP_DESCRIPTION = "franchise_group_description";
+	public static final String INPUT_TEXT_FRANCHISE_CODE = "franchise_code";
+	public static final String INPUT_TEXT_OLD_DCM_CODE = "old_dcm_code";
+	public static final String INPUT_TEXT_NEW_DCM_CODE = "new_dcm_code";
+	public static final String INPUT_HIDDEN_NEW_DCM_ID = "hidden_new_dcm_id";
+	public static final String INPUT_HIDDEN_OLD_DCM_ID = "hidden_old_dcm_id";        
+}

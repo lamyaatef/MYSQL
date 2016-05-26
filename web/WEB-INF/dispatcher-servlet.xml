@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc ="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation=
+       "http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+            
+        <mvc:annotation-driven />
+        <context:annotation-config />
+        <context:component-scan base-package="com.mobinil.mcss"/>
+        
+    
+    
+    <!--
+    Most controllers will use the ControllerClassNameHandlerMapping above, but
+    for the index controller we are using ParameterizableViewController, so we must
+    define an explicit mapping for it.
+    -->
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>                                
+                <prop key="/articles.htm">articleController</prop>
+                <prop key="/articles/*.htm">articleController</prop>
+                <!-- nameController -->            
+                
+                <prop key="/dp/factorname/names.htm">nameController</prop>
+                <prop key="/dp/factorname/*.htm">nameController</prop>
+                <!--DrivingPlan Controller-->
+                <prop key="/dp/managment/DrivingPlanManagment.htm">DPController</prop>
+                <prop key="/dp/managment/*.htm">DPController</prop>
+                <!--Approve Driving Plan  -->
+                <prop key="/dp/managment/ApproveDrivingPlan.htm">DPController</prop>
+                <prop key="/dp/managment/*.htm">DPController</prop>
+			<!--Factor Controller-->
+		     <prop key="/dp/factor/factors.htm">factorController</prop>
+                <prop key="/dp/factor/*.htm">factorController</prop>
+                	<!--DCM List Controller-->
+		     <prop key="/dl/list/DCMList.htm">DCMListController</prop>
+                <prop key="/dl/list/*.htm">DCMListController</prop>
+                
+                <prop key="/xyz/POSListManagment.htm">XYZController</prop>
+                <prop key="/xyz/*.htm">XYZController</prop>
+                
+                <prop key="/zone/ZoneManagement.htm">zoneController</prop>                
+                <prop key="/zone/*.htm">zoneController</prop>
+                
+                <prop key="/dist/DistrictManagement.htm">distController</prop>
+                <prop key="/dist/*.htm">distController</prop>
+
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/"          
+          p:suffix=".jsp" 
+          p:order="0"
+          />
+    <bean id="dpFactoryNameViewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/dp/factorname/"          
+          p:suffix=".jsp" 
+          p:order="1"
+          />
+          
+    <bean id="dpmanagmentViewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/dp/managment/"          
+          p:suffix=".jsp" 
+          p:order="2"
+          />      
+    
+    
+    <bean id="dpFactoryViewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/dp/factor/"          
+          p:suffix=".jsp" 
+          p:order="3"
+          />
+    
+    <bean id="dlListViewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/dl/list"          
+          p:suffix=".jsp" 
+          p:order="4"
+          />
+          
+    <bean id="posListViewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/xyz/"          
+          p:suffix=".jsp" 
+          p:order="5"
+          />
+  
+  <bean id="zoneViewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/zone/"          
+          p:suffix=".jsp" 
+          p:order="6"
+          />
+          
+   <bean id="distViewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/dist/"          
+          p:suffix=".jsp" 
+          p:order="7"
+          />       
+    <!-- Configure the multipart resolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- one of the properties available; the maximum file size in bytes -->
+        <property name="maxUploadSize" value="10000000"/>
+    </bean>
+    
+    
+    
+          
+       
+      
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="/WEB-INF/messages" />
+    </bean>
+</beans>

@@ -1,0 +1,4017 @@
+
+
+
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
+    <LINK REL=STYLESHEET TYPE="text/css" HREF="../resources/css/Template2.css">
+    <SCRIPT language=JavaScript src="../resources/js/utilities.js" type=text/javascript></SCRIPT>
+    <SCRIPT language=JavaScript src="/SDSMobinilProjectFinal/resources/js/tree.js" type=text/javascript></SCRIPT>
+
+  </head>
+  <body>
+    <CENTER>
+      <H2> Report Groups List</H2>
+    </CENTER>
+  
+
+    <form action="../servlet/com.mobinil.sds.web.controller.WebControllerServlet" name="formReportList" id="formReportList" method="post">&nbsp;
+
+    <input type="hidden" name="action" value="">
+<input type="hidden" name="param_load_report_id" value="">
+<input type="hidden" name="param_preview_report_id" value="">
+<input type="hidden" name="param_preview_report_rows_per_page" value="">
+<input type="hidden" name="param_preview_report_page_num" value="">
+<input type="hidden" name="param_preview_report_params_num" value="">
+<input type="hidden" name="param_load_report_details_id" value="">
+<script>
+function exportReportWithParameter(reportId) {
+document.formReportList.action.value="action_show_report_param_excel";
+document.formReportList.param_load_report_details_id.value=reportId;
+document.formReportList.param_preview_report_rows_per_page.value=200;
+document.formReportList.param_preview_report_page_num.value=1;
+document.formReportList.param_preview_report_params_num.value=0;
+formReportList.submit();}
+</script>
+<script>
+function exportReportToText(reportId) {
+document.formReportList.action.value="action_show_report_param_text";
+document.formReportList.param_load_report_details_id.value=reportId;
+document.formReportList.param_preview_report_rows_per_page.value=200;
+document.formReportList.param_preview_report_page_num.value=1;
+document.formReportList.param_preview_report_params_num.value=0;
+formReportList.submit();}
+</script>
+<script>
+function viewReportWithParameter(reportId) {
+document.formReportList.action.value="action_show_report_param";
+document.formReportList.param_load_report_details_id.value=reportId;
+document.formReportList.param_preview_report_rows_per_page.value=200;
+document.formReportList.param_preview_report_page_num.value=1;
+document.formReportList.param_preview_report_params_num.value=0;
+formReportList.submit();}
+</script>
+<script>
+function viewReport(reportId) {
+document.formReportList.action.value="action_preview_report";
+document.formReportList.param_preview_report_id.value=reportId;
+document.formReportList.param_preview_report_rows_per_page.value=200;
+document.formReportList.param_preview_report_page_num.value=1;
+document.formReportList.param_preview_report_params_num.value=0;
+formReportList.submit();}
+</script>
+<script>
+function loadReport(reportId) {
+document.formReportList.action.value="action_load_report";
+document.formReportList.param_load_report_id.value=reportId;
+formReportList.submit();}
+</script>
+<script>
+function newReport() {
+document.formReportList.action.value="action_initialize_wizard";
+formReportList.submit();}
+function saveReportStatus() {
+document.formReportList.action.value="save_report_status";
+formReportList.submit();}
+</script>
+
+
+<TABLE style="BORDER-COLLAPSE: collapse" cellSpacing=2 cellPadding=1 width="100%" border=1>
+<TR class=TableHeader>
+<td nowrap align=center ><font size=2>Report Groups</font></a></TD></TR>
+<TR>
+<td width="100%">
+<a id=x1 href="javascript:Toggle('1');">
+<IMG height=16 hspace=0 src="/SDSMobinilProjectFinal/resources/img/plus.gif" width=16 border=0 ></a>G1<div id="1" style="display: none">
+<TABLE style="BORDER-COLLAPSE: collapse" cellSpacing=2 cellPadding=1 width="100%" border=1>
+<TR class=TableHeader>
+<td width="20%" nowrap align=middle>  Report  Name</td>
+<td width="40%" nowrap align=middle>  Description</td>
+<TD noWrap align=middle width="20%">Export To Excel</TD>
+<TD noWrap align=middle width="20%">Export To Text</TD>
+<td width="10%" nowrap align=middle>View</td>
+<TD noWrap align=middle width="10%">Edit</TD>
+<td width="10%" nowrap align=middle>Status</td>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Accepted_Delivery_POS_Product</TD>
+<TD>Accepted_Delivery_POS_Product</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(133)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(133)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(133)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(133)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus133" id="reportstatus133">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Accepted_Delivery_Pre_Product</TD>
+<TD>Accepted_Delivery_Pre_Product</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(134)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(134)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(134)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(134)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus134" id="reportstatus134">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Accepted_Deliv_postnew_copon</TD>
+<TD>this report shows the accepted delivery or the accepted verify for specific period (delivery and activations) per pos per product</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(137)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(137)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(137)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(137)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus137" id="reportstatus137">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Accepted_deliv_postnew_product</TD>
+<TD>Accepted_deliv_postnew_product</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(136)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(136)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(136)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(136)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus136" id="reportstatus136">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>All Sheet Contracts</TD>
+<TD>All Sheet Contracts</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(64)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(64)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(64)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(64)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus64" id="reportstatus64">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>All_sheet_contract_Parameter</TD>
+<TD>All_sheet_contract_Parameter</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(65)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(65)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(65)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(65)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus65" id="reportstatus65">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Alo_Moga_upload_report</TD>
+<TD>null</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(117)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(117)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(117)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(117)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus117" id="reportstatus117">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Batch_Cntr_Details_GStatus</TD>
+<TD>Batch_Cntr_Details_PerStatus</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(56)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(56)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(56)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(56)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus56" id="reportstatus56">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Batch_Contract_Status_Count</TD>
+<TD>This report shows the total status count for contracts in a certain batch (batch ID is a parameter).</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(54)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(54)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(54)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(54)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus54" id="reportstatus54">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Batch_Details_by_sheet_Categ2</TD>
+<TD>Batch_Details_by_sheet_Categ2</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(104)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(104)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(104)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(104)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus104" id="reportstatus104">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Batch_Details_By_Sheet_Categ3</TD>
+<TD>Trial to be deleted</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(105)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(105)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(105)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(105)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus105" id="reportstatus105">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Contracts_Count_per_user_phase</TD>
+<TD>contracts count per user per phase 
+the status coutned are the first status in that phase</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(92)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(92)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(92)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(92)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus92" id="reportstatus92">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Cont_Count of Type</TD>
+<TD>Cont_Count of Type</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(66)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(66)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(66)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(66)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus66" id="reportstatus66">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Daily Sales Total (with date parameter)</TD>
+<TD>Daily Sales Total (with date parameter)</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(88)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(88)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(88)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(88)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus88" id="reportstatus88">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Daily_Rejected_Contracts_in_Batch_and_warnings</TD>
+<TD>show the contracts in a batch that are rejected verify and show all its warnings</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(95)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(95)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(95)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(95)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus95" id="reportstatus95">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Daily_Reject_Verify</TD>
+<TD>This report show the contracts in a batch (parameter)
+that are rejected verify 
+and all the warnings of each contract are shown </TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(94)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(94)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(94)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(94)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus94" id="reportstatus94">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>DCM Level</TD>
+<TD>null</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(70)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(70)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(70)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(70)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus70" id="reportstatus70">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>DCM Level New</TD>
+<TD>null</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(71)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(71)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(71)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(71)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus71" id="reportstatus71">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Delivery report per day</TD>
+<TD>Delivery report per day</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(108)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(108)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(108)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(108)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus108" id="reportstatus108">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Delivery Report per Day2</TD>
+<TD>Delivery Report per Day</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(115)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(115)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(115)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(115)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus115" id="reportstatus115">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Delivery_per_Batch</TD>
+<TD>Delivery_per_Batch</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(131)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(131)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(131)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(131)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus131" id="reportstatus131">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Delivery_per_sheet</TD>
+<TD>Delivery_per_sheet</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(132)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(132)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(132)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(132)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus132" id="reportstatus132">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Elig.Master</TD>
+<TD>null</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(69)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(69)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(69)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(69)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus69" id="reportstatus69">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Elig_POS_Sales_Threshold</TD>
+<TD>Elig_POS_Sales_Threshold</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(73)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(73)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(73)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(73)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus73" id="reportstatus73">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Elig_Prepaid</TD>
+<TD>Elig_Prepaid</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(87)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(87)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(87)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(87)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus87" id="reportstatus87">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Elig_SD Sales Per POS</TD>
+<TD>Elig_SD Sales Per POS</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(72)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(72)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(72)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(72)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus72" id="reportstatus72">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>first_status_contracts_count_per_user</TD>
+<TD>count the number of contracts for each user on that date</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(91)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(91)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(91)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(91)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus91" id="reportstatus91">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>HL_Batch_Contracts_Details_Per_Status</TD>
+<TD>Show the count of each contract status in the batch specified as input parameter</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(100)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(100)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(100)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(100)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus100" id="reportstatus100">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>HL_BATCH_DETAILS_BY_SHEET_CONTRACT</TD>
+<TD>.</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(103)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(103)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(103)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(103)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus103" id="reportstatus103">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>HL_BATCH_DETAILS_BY_SHEET_CONTRACT_CATEGORY</TD>
+<TD>SHOW THE COUNT OF THE CATEGORY SPECIFIED IN THE PARAMETER FOR EACH SHEET IN THE BATCH SPECIFIED IN THE REPORT PARAMETER</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(102)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(102)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(102)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(102)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus102" id="reportstatus102">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>HL_Batch_Detials_by_sheet_catg2</TD>
+<TD>Sheet count per product</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(106)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(106)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(106)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(106)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus106" id="reportstatus106">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>HL_Contracts_count_missmatch</TD>
+<TD>missmatch in contracts count</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(109)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(109)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(109)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(109)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus109" id="reportstatus109">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>HL_Count_Rejected_Contracts_in_Batch</TD>
+<TD>HL_Count_Rejected_Contracts_in_Batch</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(140)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(140)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(140)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(140)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus140" id="reportstatus140">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>HL_DAILY_DELIVERY_REPORT</TD>
+<TD>SHOW THE DAILY DELIVERY REPORT 
+ALL BATCHS THAT CAME AND THEIR DCM AND THE COUNT OF EACH PRODUCT TYPE THAT WAS ATLEAST ACCEPTED DELIVERY</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(101)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(101)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(101)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(101)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus101" id="reportstatus101">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>HL_Rejected _Contracts_In_Batch14-3-06</TD>
+<TD>Shows the sim serials rejected in Batch </TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(146)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(146)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(146)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(146)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus146" id="reportstatus146">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>HL_Rejected_Contracts_in_Batch</TD>
+<TD>show the rejected contracts in a batch with all its warnings</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(96)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(96)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(96)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(96)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus96" id="reportstatus96">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>HL_Rejected_Contracts_in_Batch(3)</TD>
+<TD>HL_Rejected_Contracts_in_Batch(3)</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(143)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(143)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(143)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(143)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus143" id="reportstatus143">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>HL_Rejected_Contracts_in_Batch(V2)</TD>
+<TD>HL_Rejected_Contracts_in_Batch</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(139)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(139)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(139)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(139)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus139" id="reportstatus139">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>HL_Rejected_Contracts_in_Batch(V3)</TD>
+<TD>HL_Rejected_Contracts_in_Batch(3)</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(142)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(142)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(142)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(142)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus142" id="reportstatus142">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>HL_Rejected_Contracts_in_Batch(V4)</TD>
+<TD>HL_Rejected_Contracts_in_Batch(3)</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(144)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(144)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(144)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(144)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus144" id="reportstatus144">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>HL_Rejected_Contracts_in_Batch(VLast)</TD>
+<TD>HL_Rejected_Contracts_in_Batch(Last)</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(145)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(145)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(145)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(145)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus145" id="reportstatus145">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>HL_SHEET COUNT  PER PROUDUCT</TD>
+<TD>SHEET COUNT  PER PROUDUCT</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(107)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(107)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(107)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(107)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus107" id="reportstatus107">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>HL_Sheet_Without_Batch</TD>
+<TD>show the sheets of a certin distributor that are not assigned to a batch</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(97)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(97)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(97)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(97)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus97" id="reportstatus97">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>HL_User_Count_per_phase</TD>
+<TD>show the count of how many contractd did the user process in the specified date </TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(98)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(98)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(98)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(98)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus98" id="reportstatus98">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>HL_User_Count_per_phase_date_range</TD>
+<TD>show the count of contracts processed by each user in this date range</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(99)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(99)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(99)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(99)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus99" id="reportstatus99">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>july 17 report</TD>
+<TD>this is a demo of a report</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(77)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(77)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(77)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(77)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus77" id="reportstatus77">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>List_Batch_Sheets_By_Batch_ID</TD>
+<TD>List all sheets that belong to a certain batch</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(53)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(53)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(53)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(53)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus53" id="reportstatus53">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Migration Report</TD>
+<TD>Migration Report</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(113)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(113)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(113)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(113)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus113" id="reportstatus113">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Migration Report to Unity</TD>
+<TD>migration</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(116)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(116)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(116)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(116)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus116" id="reportstatus116">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Migration Report2</TD>
+<TD>Migration Report</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(114)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(114)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(114)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(114)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus114" id="reportstatus114">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>MigrationReport</TD>
+<TD>null</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(119)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(119)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(119)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(119)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus119" id="reportstatus119">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>MigrationReport200</TD>
+<TD>MigrationReport200</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(122)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(122)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(122)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(122)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus122" id="reportstatus122">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Migration_DateView_06-02-06</TD>
+<TD>Migration_DateView_06-02-06</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(128)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(128)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(128)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(128)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus128" id="reportstatus128">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Migration_DateView_06-02-0614:18</TD>
+<TD>Migration_DateView_06-02-06</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(129)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(129)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(129)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(129)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus129" id="reportstatus129">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Migration_DateView_22-02-06</TD>
+<TD>Migration_DateView_22-02-06</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(138)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(138)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(138)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(138)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus138" id="reportstatus138">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Migration_Report</TD>
+<TD>Migration_Report100</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(121)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(121)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(121)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(121)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus121" id="reportstatus121">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Migration_Report_2_1_2006</TD>
+<TD>Migration_Report_2-1-2006</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(118)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(118)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(118)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(118)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus118" id="reportstatus118">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Migration_Report_Last</TD>
+<TD>Migration_Report_Last</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(120)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(120)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(120)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(120)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus120" id="reportstatus120">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Migration_WelcomCall</TD>
+<TD>Migration_WelcomCall</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(127)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(127)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(127)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(127)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus127" id="reportstatus127">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>new_batch_by_date</TD>
+<TD>d</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(80)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(80)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(80)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(80)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus80" id="reportstatus80">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>POS sheets</TD>
+<TD>Sheets per POS, City, District</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(68)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(68)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(68)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(68)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus68" id="reportstatus68">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>POSTPAID_PerSim</TD>
+<TD>POSTPAID_PerSim</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(135)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(135)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(135)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(135)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus135" id="reportstatus135">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>POST_Paid_AcceptedDelivery</TD>
+<TD>POST_Paid_AcceptedDelivery</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(130)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(130)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(130)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(130)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus130" id="reportstatus130">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>POST_Paid_AcceptedDelivery/For delayed moga</TD>
+<TD>POST_Paid_AcceptedDelivery/For delayed moga</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(147)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(147)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(147)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(147)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus147" id="reportstatus147">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Rejected_Verify_Contracts_per_batch</TD>
+<TD>Rejected_Verify_Contracts_per_batch</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(93)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(93)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(93)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(93)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus93" id="reportstatus93">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>rej_verify_contracts_per_batch</TD>
+<TD>rejected contracts in verification per batch</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(83)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(83)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(83)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(83)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus83" id="reportstatus83">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>RPT_GEN_DCM _LEVEL_Param</TD>
+<TD>RPT_GEN_DCM _LEVEL_Param</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(76)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(76)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(76)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(76)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus76" id="reportstatus76">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>user-sheet</TD>
+<TD>user-sheet</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(123)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(123)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(123)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(123)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus123" id="reportstatus123">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>User_Contract_Entry_by_Date_Phase</TD>
+<TD>This view shows the total number of contract status entered by a each user for a certain date and in a certain phase.</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(61)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(61)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(61)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(61)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus61" id="reportstatus61">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>View_Customer_Data</TD>
+<TD>View_Customer_Data</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(125)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(125)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(125)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(125)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus125" id="reportstatus125">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>View_Customer_Data/bysim</TD>
+<TD>View_Customer_Data/bysim</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(148)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(148)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(148)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(148)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus148" id="reportstatus148">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>View_Customer_Data_byDial</TD>
+<TD>View_Customer_Data_Dial</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(126)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(126)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(126)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(126)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus126" id="reportstatus126">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>View_Customer_Data_bysim</TD>
+<TD>View_Customer_Data_bysim</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(149)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(149)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(149)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(149)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus149" id="reportstatus149">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>View_Customer_Data_bysimNumber</TD>
+<TD>View_Customer_Data_bysim</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(150)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(150)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(150)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(150)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus150" id="reportstatus150">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>vw_batch_by_date_report</TD>
+<TD>it displays batch by date</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(79)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(79)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(79)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(79)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus79" id="reportstatus79">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>vw_contract_all</TD>
+<TD>d</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(81)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(81)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(81)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(81)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus81" id="reportstatus81">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+</TABLE>
+</div><td><tr>
+<TR>
+<td width="100%">
+<a id=x2 href="javascript:Toggle('2');">
+<IMG height=16 hspace=0 src="/SDSMobinilProjectFinal/resources/img/plus.gif" width=16 border=0 ></a>G2<div id="2" style="display: none">
+<TABLE style="BORDER-COLLAPSE: collapse" cellSpacing=2 cellPadding=1 width="100%" border=1>
+<TR class=TableHeader>
+<td width="20%" nowrap align=middle>  Report  Name</td>
+<td width="40%" nowrap align=middle>  Description</td>
+<TD noWrap align=middle width="20%">Export To Excel</TD>
+<TD noWrap align=middle width="20%">Export To Text</TD>
+<td width="10%" nowrap align=middle>View</td>
+<TD noWrap align=middle width="10%">Edit</TD>
+<td width="10%" nowrap align=middle>Status</td>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Accepted_Verify_Per_Product_Per_Distributor</TD>
+<TD>Shows the number of accepted cif on the accepted verification phase per product per distributor</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(154)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(154)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(154)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(154)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus154" id="reportstatus154">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>ADD&WIN_MIGRATION</TD>
+<TD>ADD&WIN_MIGRATION</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(210)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(210)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(210)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(210)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus210" id="reportstatus210">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Alo Activation per day >=01-05-06</TD>
+<TD>Alo Activation per day >=01-05-06</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(202)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(202)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(202)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(202)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus202" id="reportstatus202">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>ANLS_HL_Batch_Phase_Status</TD>
+<TD>shows the status per phase</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(197)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(197)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(197)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(197)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus197" id="reportstatus197">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>ANLS_HL_Count_Batch_Status</TD>
+<TD>ANLS_HL_Count_Batch_Status</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(194)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(194)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(194)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(194)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus194" id="reportstatus194">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>ANLS_HL_Count_Batch_Status_Phase</TD>
+<TD>ANLS_HL_Count_Batch_Status_Phase</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(208)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(208)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(208)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(208)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus208" id="reportstatus208">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>ANL_Batch_Details_Per_Batch_Type</TD>
+<TD>ANL_Batch_Details_Per_Batch_TYpe</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(215)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(215)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(215)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(215)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus215" id="reportstatus215">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>ANL_Batch_Details_Per_contract_status_range</TD>
+<TD>contract status count by batch per status using the date range of contract status</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(221)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(221)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(221)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(221)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus221" id="reportstatus221">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>CHK_Post_paid_activation</TD>
+<TD>check post paid activation by date range</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(218)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(218)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(218)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(218)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus218" id="reportstatus218">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>CHK_Pre_paid_activation</TD>
+<TD>check pre paid activation by date range</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(219)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(219)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(219)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(219)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus219" id="reportstatus219">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>CHK_Sim_Swap_activation</TD>
+<TD>check sim swap activation</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(220)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(220)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(220)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(220)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus220" id="reportstatus220">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Codes</TD>
+<TD>Codes</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(213)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(213)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(213)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(213)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus213" id="reportstatus213">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Customer_Data_D</TD>
+<TD>Customer_Data</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(174)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(174)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(174)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(174)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus174" id="reportstatus174">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Customer_Data_det2</TD>
+<TD>Customer_Data_detailed2</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(177)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(177)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(177)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(177)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus177" id="reportstatus177">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Customer_Data_Detailed</TD>
+<TD>Customer_Data_Detailed</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(175)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(175)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(175)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(175)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus175" id="reportstatus175">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Customer_Data_DetNEW</TD>
+<TD>Customer_Data_detailed2</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(178)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(178)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(178)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(178)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus178" id="reportstatus178">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Customer_Data_Legal</TD>
+<TD>Customer_Data_Legal</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(179)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(179)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(179)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(179)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus179" id="reportstatus179">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Customer_Data_LegalPRE</TD>
+<TD>Customer_Data_LegalPRE</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(180)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(180)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(180)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(180)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus180" id="reportstatus180">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>daily</TD>
+<TD>hfdhdgghdghdgd</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(214)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(214)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(214)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(214)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus214" id="reportstatus214">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Daily Delivery Report</TD>
+<TD>Daily Delivery Report</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(168)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(168)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(168)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(168)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus168" id="reportstatus168">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Daily Delivery Report Accepted Verify</TD>
+<TD>Daily Delivery Report Accepted Verify</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(172)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(172)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(172)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(172)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus172" id="reportstatus172">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Daily_Acc_Verif_Per_Product_LCS_DCM</TD>
+<TD>Daily_Acc_Verif_Per_Product_LCS_DCM</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(207)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(207)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(207)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(207)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus207" id="reportstatus207">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Dist Contracts-SD Contracts Acc.verify</TD>
+<TD>Dist Contracts-SD Contracts Acc.verify</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(209)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(209)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(209)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(209)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus209" id="reportstatus209">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>HL_Daily Report</TD>
+<TD>Daily Report</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(165)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(165)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(165)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(165)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus165" id="reportstatus165">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>HL_Daily Report</TD>
+<TD>Daily Report</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(166)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(166)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(166)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(166)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus166" id="reportstatus166">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>HL_Daily Report_per product</TD>
+<TD>Daily Report</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(167)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(167)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(167)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(167)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus167" id="reportstatus167">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>inv_rpt_sheet</TD>
+<TD>inv_rpt_sheet</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(187)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(187)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(187)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(187)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus187" id="reportstatus187">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Marian_TotalRejects</TD>
+<TD>New Report by Marian</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(192)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(192)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(192)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(192)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus192" id="reportstatus192">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Migration_AW</TD>
+<TD>null</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(184)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(184)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(184)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(184)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus184" id="reportstatus184">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Migration_Data_View_23-05-06</TD>
+<TD>Migration_Data_View_23-05-06</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(171)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(171)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(171)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(171)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus171" id="reportstatus171">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Mig_Welcom</TD>
+<TD>Mig_Welcome</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(182)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(182)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(182)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(182)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus182" id="reportstatus182">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Moga Accepted Report Per Batch</TD>
+<TD>Moga Report Per Batch</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(198)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(198)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(198)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(198)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus198" id="reportstatus198">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Moga Accepted Report Per Day</TD>
+<TD>Moga Report Per Day</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(199)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(199)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(199)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(199)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus199" id="reportstatus199">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Moga Accepted Report _ Monthly</TD>
+<TD>Moga Accepted Report _ Monthly</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(212)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(212)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(212)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(212)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus212" id="reportstatus212">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>monthly report</TD>
+<TD>m</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(164)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(164)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(164)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(164)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus164" id="reportstatus164">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>MWC</TD>
+<TD>null</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(185)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(185)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(185)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(185)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus185" id="reportstatus185">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>MWCT</TD>
+<TD>MW</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(186)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(186)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(186)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(186)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus186" id="reportstatus186">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>PrePaid_Activation</TD>
+<TD>Shows the count per day</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(188)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(188)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(188)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(188)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus188" id="reportstatus188">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>PrePaid_Activations25-7-06</TD>
+<TD>PrePaid_Activations25-7-06</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(189)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(189)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(189)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(189)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus189" id="reportstatus189">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>rejected delivery batch-hamed</TD>
+<TD>rejected delivery batch</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(203)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(203)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(203)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(203)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus203" id="reportstatus203">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Rejected Delivery_42113</TD>
+<TD>null</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(205)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(205)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(205)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(205)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus205" id="reportstatus205">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Report Batch Types</TD>
+<TD>report batch type</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(223)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(223)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(223)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(223)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus223" id="reportstatus223">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>report_cotract by ID</TD>
+<TD>CUSTOMER id</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(222)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(222)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(222)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(222)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus222" id="reportstatus222">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>SDS_Ferm_War</TD>
+<TD>SDS_Ferm_War</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(193)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(193)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(193)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(193)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus193" id="reportstatus193">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Traning_Reprot1</TD>
+<TD>Traning_Reprot1</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(196)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(196)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(196)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(196)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus196" id="reportstatus196">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Trial_POS_Name_Search</TD>
+<TD>Trial_POS_Name_Search</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(191)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(191)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(191)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(191)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus191" id="reportstatus191">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>User q</TD>
+<TD>null</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(217)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(217)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(217)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(217)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus217" id="reportstatus217">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>View_Customer_Data_byDialNew</TD>
+<TD>View_Customer_Data_byDial_New</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(151)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(151)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(151)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(151)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus151" id="reportstatus151">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>View_Customer_Data_bySimN</TD>
+<TD>View_Customer_Data_bySim</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(152)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(152)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(152)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(152)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus152" id="reportstatus152">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Warnings_Contracts_per_Batch</TD>
+<TD>Warnings_Contracts_per_Batch</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(200)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(200)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(200)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(200)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus200" id="reportstatus200">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Warnings_Contracts_per_Sheet</TD>
+<TD>Warnings_Contracts_per_Sheet</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(195)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(195)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(195)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(195)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus195" id="reportstatus195">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Warning_Contracts_DateParam</TD>
+<TD>Warning_Contracts_DateParam</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(190)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(190)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(190)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(190)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus190" id="reportstatus190">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Warning_contracts_per_BatchNI</TD>
+<TD>Warning_contracts_per_BatchNI</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(201)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(201)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(201)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(201)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus201" id="reportstatus201">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Warn_CIF_DIFF_TYPE_DTAE</TD>
+<TD>Rejetced Verify &WARNING: DIFF TYPE IN LCS</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(206)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(206)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(206)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(206)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus206" id="reportstatus206">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>WCall</TD>
+<TD>Wcall</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(183)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(183)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(183)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(183)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus183" id="reportstatus183">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Weclome Call report</TD>
+<TD>Weclome Call</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(159)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(159)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(159)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(159)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus159" id="reportstatus159">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Welcome Call result per Sim</TD>
+<TD>Welcome Call result per Sim</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(157)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(157)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(157)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(157)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus157" id="reportstatus157">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Welcome_Call_Report_PerSim</TD>
+<TD>Welcome_Call_Report_PerSim</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(158)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(158)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(158)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(158)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus158" id="reportstatus158">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Welcom_Call_Report_Status</TD>
+<TD>Welcom_Call_Report_Status</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(169)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(169)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(169)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(169)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus169" id="reportstatus169">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Welcom_Call_Report_StatusLast</TD>
+<TD>Welcom_Call_Report_Statuslast</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(170)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(170)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(170)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(170)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus170" id="reportstatus170">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Wel_Call_Report</TD>
+<TD>Wel_Call_Report</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(162)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(162)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(162)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(162)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus162" id="reportstatus162">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Wrning_Btch_fulData</TD>
+<TD>Displays Warning per batch with user &CUSTOMER name</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(211)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(211)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(211)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(211)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus211" id="reportstatus211">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+</TABLE>
+</div><td><tr>
+<TR>
+<td width="100%">
+<a id=x3 href="javascript:Toggle('3');">
+<IMG height=16 hspace=0 src="/SDSMobinilProjectFinal/resources/img/plus.gif" width=16 border=0 ></a>G3<div id="3" style="display: none">
+<TABLE style="BORDER-COLLAPSE: collapse" cellSpacing=2 cellPadding=1 width="100%" border=1>
+<TR class=TableHeader>
+<td width="20%" nowrap align=middle>  Report  Name</td>
+<td width="40%" nowrap align=middle>  Description</td>
+<TD noWrap align=middle width="20%">Export To Excel</TD>
+<TD noWrap align=middle width="20%">Export To Text</TD>
+<td width="10%" nowrap align=middle>View</td>
+<TD noWrap align=middle width="10%">Edit</TD>
+<td width="10%" nowrap align=middle>Status</td>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>hisham user q 2</TD>
+<TD>by range</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(26605)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(26605)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(26605)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(26605)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus26605" id="reportstatus26605">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Ramy Decode Report</TD>
+<TD>This is the report according to the data view</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(115637)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(115637)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(115637)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(115637)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus115637" id="reportstatus115637">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Ramy test</TD>
+<TD>dsfsd</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(115431)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(115431)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(115431)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(115431)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus115431" id="reportstatus115431">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Ramy Test for 2</TD>
+<TD>null</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(115452)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(115452)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(115452)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(115452)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus115452" id="reportstatus115452">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Report Active Pos Cnt Dist Gov</TD>
+<TD>Report Active Pos Cnt Dist Gov</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(102539)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(102539)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(102539)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(102539)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus102539" id="reportstatus102539">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Report Active Pos Cnt Gov</TD>
+<TD>Report Active Pos Cnt Gov</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(102543)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(102543)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(102543)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(102543)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus102543" id="reportstatus102543">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Report Active Pos Cnt per Dist</TD>
+<TD>Report Active Pos Cnt per Dist</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(102549)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(102549)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(102549)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(102549)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus102549" id="reportstatus102549">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Report Add &WIN Accepted Contracts Details</TD>
+<TD>this report shows the contract details of the accepted verify and initialzed for add and win channel between two different dates</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(72420)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(72420)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(72420)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(72420)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus72420" id="reportstatus72420">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Report Add &WIN Accepted NI Contracts Details</TD>
+<TD>Report shows contract details of accepted verify add and win that are not initialized</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(72712)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(72712)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(72712)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(72712)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus72712" id="reportstatus72712">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Report Carrefour Accepted Contracts </TD>
+<TD>Report Carrefour Accepted Contracts Details</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(81971)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(81971)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(81971)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(81971)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus81971" id="reportstatus81971">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Report D2D Kiosks Acc Crt</TD>
+<TD>Report shows the details contract of D2D and Kiosks </TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(76954)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(76954)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(76954)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(76954)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus76954" id="reportstatus76954">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Report D2D Kiosks Batch Trac</TD>
+<TD>Report D2D Kiosks Batch Trace</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(77784)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(77784)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(77784)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(77784)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus77784" id="reportstatus77784">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>Report Star Activation 2</TD>
+<TD>Report Star Activation 2</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(102880)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(102880)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(102880)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(102880)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus102880" id="reportstatus102880">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Report Star Activation Serial 3</TD>
+<TD>Report Star Activation Serial 3</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(102964)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(102964)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(102964)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(102964)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus102964" id="reportstatus102964">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>REPORT_STAR_ACTIVATION</TD>
+<TD>STAR ACTIVATION</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(102472)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(102472)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(102472)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(102472)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus102472" id="reportstatus102472">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>REPORT_STAR_ACTIVATION_SERIAL</TD>
+<TD>SERIAL OF STAR ACTIVATION</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(102492)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(102492)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(102492)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(102492)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus102492" id="reportstatus102492">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>sheets count hisham</TD>
+<TD>sheets user count</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(38753)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(38753)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(38753)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(38753)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus38753" id="reportstatus38753">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>Test Amir Active POS</TD>
+<TD>Test Amir Active POS</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(102720)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(102720)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(102720)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(102720)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus102720" id="reportstatus102720">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>trans_test_report</TD>
+<TD>trans_test_report</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(115140)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(115140)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(115140)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(115140)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus115140" id="reportstatus115140">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>View details By cust name</TD>
+<TD>View details By cust name</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(18057)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(18057)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(18057)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(18057)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus18057" id="reportstatus18057">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>View details by customer name</TD>
+<TD>View details by customer name</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(17525)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(17525)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(17525)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(17525)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus17525" id="reportstatus17525">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>WARNING BATCH FULL DATA</TD>
+<TD>null</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(9264)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(9264)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(9264)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(9264)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus9264" id="reportstatus9264">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>waseem_function_parameter_report_test</TD>
+<TD>aa</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(118096)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(118096)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(118096)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(118096)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus118096" id="reportstatus118096">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>zaa</TD>
+<TD>aa</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(118239)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(118239)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(118239)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(118239)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus118239" id="reportstatus118239">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>zaa_duplicate_report</TD>
+<TD>aa</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(118457)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(118457)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(118457)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(118457)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus118457" id="reportstatus118457">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>zaa_new_data_view_with_long_name_toooooooooo_2df</TD>
+<TD>descDDDDDDDDDDD</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(117590)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(117590)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(117590)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(117590)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus117590" id="reportstatus117590">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>zzzz</TD>
+<TD>zzz</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(132187)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(132187)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(132187)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(132187)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus132187" id="reportstatus132187">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>z_param_test</TD>
+<TD>.</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(112752)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(112752)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(112752)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(112752)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus112752" id="reportstatus112752">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnOdd">
+<TD>z_userid</TD>
+<TD>dafs</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(131163)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(131163)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(131163)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(131163)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus131163" id="reportstatus131163">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+<TR class="TableTextColumnEven">
+<TD>null</TD>
+<TD>dsfsd</TD>
+<TD align=middle>
+<INPUT id=button2 class=button type=button value="Export To Excel" name=button2 onclick="exportReportWithParameter(115429)">
+</TD>
+</TD>
+<TD calign=middle>
+<INPUT id=button3 class=button type=button value="Export To Text" name=button3 onclick="exportReportToText(115429)">
+</TD>
+<TD align=middle>
+<input class=button type="button" name="edit_kpi_template1" value=" View "
+onclick="viewReportWithParameter(115429)">
+</TD>
+<TD align=middle><INPUT class=button onclick="loadReport(115429)"type=button value=" Edit " name=edit_kpi_template1></TD>
+<TD align=middle>
+<select name="reportstatus115429" id="reportstatus115429">
+<option value=1 selected>Active</option>
+<option value=2 >Inactive</option>
+<option value=3 >Deleted</option>
+</select>
+</TD>
+</TR>
+</TABLE>
+</div><td><tr>
+</TABLE>
+
+      
+
+        <table  cellspacing="2" cellpadding="1" border="0" width="100%">
+        <tr>
+          <td align=middle><!--            <input class=button type="button" name="update" value="Update KPI Template" 
+            onclick="document.formKPITemplateManagment.action.value='action_update_kpi_template'; formKPITemplateManagment.submit();" disabled>-->
+            <INPUT class=button type=button onclick="newReport();" value="New Report">
+            <INPUT class=button type=button onclick="saveReportStatus();" value="Save Status">
+          </td>
+        </tr>
+      </table>
+      
+    </form>
+   </body>
+</html>
+

@@ -1,0 +1,35 @@
+var GC_APPEARANCE = {
+	'weekdays':  ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'], 
+	'longmonth' : ['January','February','March','April','May','June','July','August','September','October','November','December'],
+	'messages' : {
+				'Warning' : 'Warning: the date entered does not meet preset date format',
+				'AltPrevYear' : 'to previous year',
+				'AltNextYear' : 'to next year',
+				'AltPrevMonth' : 'to previous month',
+				'AltNextMonth' : 'to next month'
+	},
+	'CalDiv' : 'clsCalDiv',
+	'OuterFrame' : 'clsOuterFrame',
+	'InnerFrame' : 'clsInnerFrame',
+	'TopPartNavpanel' : 'clsTopPartNavpanel',
+	'BottomPartNavpanel' : 'clsBottomPartNavpanel',
+	'MidRow' : 'clsMidRow',
+	'DateGrid':'clsDateGrid',
+	'WeekDay':'clsWeekDay',
+	'WorkDayCell': 'clsWorkDayCell',
+	'HoliDayCell': 'clsHoliDayCell',
+	'OtherMonthDayCell': 'clsOtherMonthDayCell',
+	'SelectedDayCell': 'clsSelectedDayCell',
+	'CurrentMonthDay': 'clsCurrentMonthDay',
+	'OtherMonthDay': 'clsOtherMonthDay',
+	'SelectedDay': 'clsSelectedDay',
+	'InfoTitle':'clsInfoTitle',
+	'DataArea':'clsDataArea',
+	'PrevYear':'../resources/img/prev_year.gif',
+	'PrevMonth':'../resources/img/prev_month.gif',
+	'NextYear':'../resources/img/next_year.gif',
+	'NextMonth':'../resources/img/next_month.gif',
+	'IcoCalUnVis': '../resources/img/dpr_unvis.gif',
+	'IcoCalVis': '../resources/img/dpr_vis.gif'
+
+};

@@ -1,0 +1,23 @@
+Channel Name,Emp Id,Mode of Sales,Line of Business,KPI Metric,KPI Metric Value,Transaction Date 
+Distribution,L2365,Indirect,SUPER_DEALER,EX_POS,700,31-Dec-09
+Distribution,261,Indirect,SUPER_DEALER,NON_EX_POS,100,31-Dec-09
+Distribution,L2361,Indirect,SUPER_DEALER,NON_EX_POS,200,31-Dec-09
+Distribution,259,Indirect,SUPER_DEALER,NON_EX_POS,300,31-Dec-09
+Distribution,252,Indirect,SUPER_DEALER,NON_EX_POS,300,31-Dec-09
+Distribution,259,Indirect,SUPER_DEALER,EX_POS,800,31-Dec-09
+Distribution,261,Indirect,SUPER_DEALER,EX_POS,600,31-Dec-09
+Distribution,254,Indirect,SUPER_DEALER,EX_POS,600,31-Dec-09
+Distribution,254,Indirect,SUPER_DEALER,NON_EX_POS,200,31-Dec-09
+Distribution,256,Indirect,SUPER_DEALER,NON_EX_POS,200,31-Dec-09
+Distribution,258,Indirect,SUPER_DEALER,EX_POS,800,31-Dec-09
+Distribution,253,Indirect,SUPER_DEALER,NON_EX_POS,100,31-Dec-09
+Distribution,255,Indirect,SUPER_DEALER,NON_EX_POS,300,31-Dec-09
+Distribution,252,Indirect,SUPER_DEALER,EX_POS,500,31-Dec-09
+Distribution,255,Indirect,SUPER_DEALER,EX_POS,700,31-Dec-09
+Distribution,256,Indirect,SUPER_DEALER,EX_POS,500,31-Dec-09
+Distribution,257,Indirect,SUPER_DEALER,EX_POS,900,31-Dec-09
+Distribution,258,Indirect,SUPER_DEALER,NON_EX_POS,100,31-Dec-09
+Distribution,L2361,Indirect,SUPER_DEALER,EX_POS,900,31-Dec-09
+Distribution,253,Indirect,SUPER_DEALER,EX_POS,500,31-Dec-09
+Distribution,L2365,Indirect,SUPER_DEALER,NON_EX_POS,200,31-Dec-09
+Distribution,257,Indirect,SUPER_DEALER,NON_EX_POS,100,31-Dec-09

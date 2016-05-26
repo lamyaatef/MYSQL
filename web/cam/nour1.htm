@@ -1,0 +1,513 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0035)http://localhost:8084/nour/form.jsp -->
+<HTML><HEAD><TITLE>JSP Page</TITLE>
+<SCRIPT>
+    function submitForm()
+    {
+        var tables = document.getElementsByTagName("table");
+        for(i=0;i<tables.length;i++)
+        {
+            tables[i].border="0";
+        }
+        var Ps = document.getElementsByTagName("p");
+        for(i=0;i<Ps.length;i++)
+        {
+            if(Ps[i].name != "input_td")
+            {
+                Ps[i].innerHTML="";
+            }
+        }
+        var TDs = document.getElementsByTagName("td");
+        for(i=0;i<TDs.length;i++)
+        {
+            TDs[i].bgColor="white";
+        }
+        window.print();
+    }
+
+</SCRIPT>
+
+<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+<META content="MSHTML 6.00.2900.2873" name=GENERATOR></HEAD>
+<BODY bgColor=white>
+<FORM>
+<TABLE borderColor=black cellSpacing=0 cellPadding=0 width=200 border=1 
+name="main_table">
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=0 border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>236</P></TD>
+          <TD>input</TD>
+          <TD>
+            <P>2124&nbsp;8533</P></TD></TR></TBODY></TABLE></TD>
+    <TD align=right>
+      <TABLE cellSpacing=0 border=0>
+        <TBODY>
+        <TR>
+          <TD align=right width="20%">
+            <P>236- 2124&nbsp;8533</P></TD></TR></TBODY></TABLE></TD>
+  <TR>
+    <TD vAlign=top width="50%">
+      <TABLE cellSpacing=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="50%">
+            <P>Shipper's name and address</P></TD>
+          <TD>
+            <TABLE borderColor=black height=10 cellSpacing=0 cellPadding=0 
+            width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD vAlign=top align=middle>
+                  <P>&nbsp;&nbsp;Shipper's account 
+          number</P></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD colSpan=2 height=10>
+            <P name="input_td"><INPUT 
+            style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" 
+            value=dd></P></TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>not negoticable</P>
+            <P><B>Air Waybill</B></P></TD></TR>
+        <TR>
+          <TD>&nbsp; </TD></TR>
+        <TR>
+          <TD>
+            <TABLE borderColor=black cellSpacing=0 cellPadding=0 border=1>
+              <TBODY>
+              <TR>
+                <TD>
+                  <P>&nbsp;&nbsp;Copies 1,2 add 3 of this waybill are original 
+                  and have the same 
+      validit</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="50%">
+            <P>Consignee's Name and Address</P></TD>
+          <TD>
+            <TABLE borderColor=black height=30 cellSpacing=0 cellPadding=0 
+            width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD vAlign=top align=middle bgColor=silver>
+                  <P>Consignee's account number</P></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD colSpan=2 height=30><TEXTAREA style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" rows=3 cols=55></TEXTAREA></TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 border=0>
+        <TBODY>
+        <TR></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 width="100%" border=0>
+        <TBODY>
+        <TR height=50>
+          <TD vAlign=top width="50%">
+            <P>issuing Carrier's Agent Name and City</P></TD></TR>
+        <TR>
+          <TD>
+            <TABLE borderColor=black height=50 cellSpacing=0 cellPadding=0 
+            width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD vAlign=top>
+                  <P>Agent IATA Code </P></TD>
+                <TD vAlign=top>
+                  <P>Account No.</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P>Accounting Information</P></TD></TR>
+        <TR>
+          <TD>input </TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="50%">
+            <P>Airport of Departure (Addr. of First Carrier) and Requested 
+            Routing</P></TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=top borderColor=white>
+      <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+        <TBODY>
+        <TR align=middle height=50>
+          <TD vAlign=top width="33%">
+            <P>Reference Number</P></TD>
+          <TD vAlign=top width="33%">
+            <P>Option Shipping Information</P></TD>
+          <TD vAlign=top width="33%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top borderColor=white>
+      <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+        <TBODY>
+        <TR height=30>
+          <TD vAlign=top width="10%">
+            <P>To</P><INPUT 
+            style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" 
+            size=3></TD>
+          <TD vAlign=top width="50%">
+            <TABLE cellSpacing=0 border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <P>By First Carrier&nbsp;&nbsp;</P></TD>
+                <TD>
+                  <TABLE borderColor=black cellSpacing=0 cellPadding=0 
+                    border=1><TBODY>
+                    <TR>
+                      <TD borderColor=white>
+                        <P>Routing and 
+              Destination</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><INPUT 
+            style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px"></TD>
+          <TD vAlign=top width="10%">
+            <P>To</P><INPUT 
+            style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" 
+            size=3></TD>
+          <TD vAlign=top width="10%">
+            <P>By</P><INPUT 
+            style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" 
+            size=3></TD>
+          <TD vAlign=top width="10%">
+            <P>To</P><INPUT 
+            style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" 
+            size=3></TD>
+          <TD vAlign=top width="10%">
+            <P>By</P><INPUT 
+            style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" 
+            size=3></TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=top borderColor=white>
+      <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+        <TBODY>
+        <TR align=middle height=50>
+          <TD vAlign=top width="33%">
+            <TABLE borderColor=black height=50 cellSpacing=0 cellPadding=0 
+            width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD vAlign=top>
+                  <P>Currency</P></TD>
+                <TD vAlign=top bgColor=silver>
+                  <P>CHGS Code</P><INPUT 
+                  style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" 
+                  size=1></TD>
+                <TD vAlign=top borderColor=white>
+                  <TABLE borderColor=black height=50 cellSpacing=0 cellPadding=0 
+                  width="100%" border=1>
+                    <TBODY>
+                    <TR>
+                      <TD vAlign=top colSpan=2>
+                        <P>WT/VAL</P></TD>
+                      <TD vAlign=top colSpan=2>
+                        <P>Other</P></TD></TR>
+                    <TR vAlign=top>
+                      <TD>
+                        <P>PPD</P><INPUT 
+                        style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" 
+                        size=1></TD>
+                      <TD>
+                        <P>COLL</P><INPUT 
+                        style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" 
+                        size=1></TD>
+                      <TD>
+                        <P>PPD</P><INPUT 
+                        style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" 
+                        size=1></TD>
+                      <TD>
+                        <P>COLL</P><INPUT 
+                        style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" 
+                        size=1></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top width="33%">
+            <P>Declared Value for Carriage</P></TD>
+          <TD vAlign=top width="33%">
+            <P>Declared Value for Customs</P></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top height=50>
+      <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+        <TBODY>
+        <TR height=50>
+          <TD vAlign=top width="50%">
+            <TABLE borderColor=black height=50 cellSpacing=0 width="100%" 
+            border=1>
+              <TBODY>
+              <TR>
+                <TD vAlign=top align=middle>
+                  <P>Airport of Destination</P></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top borderColor=white>
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD vAlign=top align=middle colSpan=2>
+                  <P>Requested Filight Date</P></TD></TR>
+              <TR>
+                <TD>
+                  <P>input</P></TD>
+                <TD>
+                  <P>input</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=top borderColor=white height=50>
+      <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+        <TBODY>
+        <TR align=middle height=50>
+          <TD vAlign=top width="33%">
+            <P>Amount of Inssurance</P></TD>
+          <TD vAlign=top align=left width="33%">
+            <P>Inssurance -- if carrier offers inssurance, and such inssurance 
+            is requested in accordance with the conditions therof, indicate 
+            amount to be insured in figures in box marked "Amount of 
+            Inssurance"</P></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top colSpan=2>
+      <TABLE borderColor=black cellSpacing=0 width="100%" border=0>
+        <TBODY>
+        <TR align=left>
+          <TD vAlign=top width="33%">
+            <P>Handing Information</P></TD></TR>
+        <TR>
+          <TD vAlign=bottom width="90%">
+            <P>These commodities, techonology or software were exporeted from 
+            the United States in accordane witj the Export Administration 
+            Regulations, Diversion contrart to USA law prohibited.</P></TD>
+          <TD>
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD vAlign=top align=middle>
+                  <P>SCI</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top borderColor=white colSpan=2>
+      <TABLE borderColor=black cellSpacing=0 width="75%" border=1>
+        <TBODY>
+        <TR vAlign=top align=left height=10>
+          <TD width="20%">
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR align=left>
+                <TD vAlign=top width="40%">
+                  <P>No. of Pieces RCP</P></TD>
+                <TD vAlign=top width="55%">
+                  <P>Gross Weight</P></TD>
+                <TD vAlign=top width="5%">
+                  <P>Kg/lb</P></TD></TR>
+              <TR vAlign=top>
+                <TD><TEXTAREA style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" rows=4 cols=10></TEXTAREA></TD>
+                <TD><TEXTAREA style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" rows=4 cols=15></TEXTAREA></TD></TR></TBODY></TABLE></TD>
+          <TD width="2%" height=10>
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD bgColor=silver>&nbsp;&nbsp;</TD></TR></TBODY></TABLE></TD>
+          <TD width="10%">
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR align=left height=10>
+                <TD vAlign=top width="55%">
+                  <P>Rate Class</P></TD></TR>
+              <TR>
+                <TD><TEXTAREA style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" rows=4 cols=13></TEXTAREA></TD></TR></TBODY></TABLE></TD>
+          <TD width="2%">
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD bgColor=silver>&nbsp;&nbsp;</TD></TR></TBODY></TABLE></TD>
+          <TD width="10%">
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR align=left height=10>
+                <TD vAlign=top width="55%">
+                  <P>Chargeable Weight</P></TD></TR>
+              <TR>
+                <TD><TEXTAREA style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" rows=4 cols=13></TEXTAREA></TD></TR></TBODY></TABLE></TD>
+          <TD width="2%">
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD bgColor=silver>&nbsp;&nbsp;</TD></TR></TBODY></TABLE></TD>
+          <TD width="10%">
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR align=left height=10>
+                <TD vAlign=top width="55%">
+                  <P>Rate / Charge</P></TD></TR>
+              <TR>
+                <TD><TEXTAREA style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" rows=4 cols=13></TEXTAREA></TD></TR></TBODY></TABLE></TD>
+          <TD width="2%">
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD bgColor=silver>&nbsp;&nbsp;</TD></TR></TBODY></TABLE></TD>
+          <TD width="10%">
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR align=left height=10>
+                <TD vAlign=top width="55%">
+                  <P>Total</P></TD></TR>
+              <TR>
+                <TD><TEXTAREA style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" rows=4 cols=14></TEXTAREA></TD></TR></TBODY></TABLE></TD>
+          <TD width="2%">
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD bgColor=silver>&nbsp;&nbsp;</TD></TR></TBODY></TABLE></TD>
+          <TD width="10%">
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR align=left height=10>
+                <TD vAlign=top width="55%">
+                  <P>Nature and Quantity of Goods (incl. Dimenstions or 
+                  Volume)</P></TD></TR>
+              <TR>
+                <TD><TEXTAREA style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; OVERFLOW: auto; BORDER-RIGHT-WIDTH: 0px" cols=15>aaa</TEXTAREA></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top borderColor=white height=50>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR height=50>
+          <TD vAlign=top align=middle>
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD>
+                  <P>Prepaid</P></TD>
+                <TD>
+                  <P>Weight Charge</P></TD>
+                <TD>
+                  <P>Collect</P></TD></TR></TBODY></TABLE>
+            <TABLE borderColor=black cellSpacing=1 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD>&nbsp;</TD>
+                <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+        <TR height=50>
+          <TD vAlign=top align=middle>
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD align=middle>
+                  <P>Validation Charge</P></TD></TR></TBODY></TABLE>
+            <TABLE borderColor=black cellSpacing=1 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD>&nbsp;</TD>
+                <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+        <TR height=50>
+          <TD vAlign=top align=middle>
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD align=middle>
+                  <P>Tax</P></TD></TR></TBODY></TABLE>
+            <TABLE borderColor=black cellSpacing=1 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD>&nbsp;</TD>
+                <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=top height=50>
+      <TABLE borderColor=black cellSpacing=0 width="100%" border=0>
+        <TBODY>
+        <TR height=50>
+          <TD vAlign=top width="33%">
+            <P>Other Charges</P></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top borderColor=white height=50>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR height=50>
+          <TD vAlign=top align=middle>
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD align=middle>
+                  <P>Total Other Charges Due Agent</P></TD></TR></TBODY></TABLE>
+            <TABLE borderColor=black cellSpacing=1 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD><INPUT size=50></TD></TR></TBODY></TABLE></TD></TR>
+        <TR height=30>
+          <TD vAlign=top align=middle>
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD align=middle>
+                  <P>Total Other Charges Due Carrier</P></TD></TR></TBODY></TABLE>
+            <TABLE borderColor=black cellSpacing=1 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD>&nbsp;</TD>
+                <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+        <TR height=30>
+          <TD vAlign=top align=middle bgColor=silver></TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=top>
+      <TABLE borderColor=black cellSpacing=0 width="100%" border=0>
+        <TBODY>
+        <TR height=30>
+          <TD vAlign=top>
+            <P>Other Charges</P></TD></TR>
+        <TR height=30>
+          <TD vAlign=top><TEXTAREA rows=4 cols=50></TEXTAREA></TD></TR>
+        <TR height=30>
+          <TD vAlign=bottom>
+            <P>Signature of Shipper or his Agent</P></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top borderColor=white>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR height=30>
+          <TD vAlign=top align=middle>
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD>
+                  <P>Total Prepaid</P></TD>
+                <TD>
+                  <P>Total Collect</P></TD></TR></TBODY></TABLE>
+            <TABLE borderColor=black cellSpacing=1 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD>&nbsp;</TD>
+                <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+        <TR bgColor=silver height=30>
+          <TD vAlign=top align=middle>
+            <TABLE borderColor=black cellSpacing=0 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD align=middle width="50%">
+                  <P>Currency conversion</P></TD>
+                <TD align=middle>
+                  <P>CC Charge in Dest. currency</P></TD></TR></TBODY></TABLE>
+            <TABLE borderColor=black cellSpacing=1 width="100%" border=1>
+              <TBODY>
+              <TR>
+                <TD>&nbsp;</TD>
+                <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=top>
+      <TABLE borderColor=black cellSpacing=0 width="100%" border=0>
+        <TBODY>
+        <TR height=30>
+          <TD vAlign=top 
+width="33%"><TEXTAREA rows=4 cols=65></TEXTAREA></TD></TR>
+        <TR height=30></TR></TBODY></TABLE>
+      <TABLE>
+        <TBODY>
+        <TR>
+          <TD align=left width="33%">
+            <P>Excuted on (date)</P></TD>
+          <TD align=middle width="33%">
+            <P>At (place)</P></TD>
+          <TD align=right width="33%">
+            <P>Signature of Issuing Carrier or its 
+    Agent</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR><TR><TD 
+colspan="2"><INPUT onclick=javascript:submitForm(); type=button value=Print></TD></TR> 
+</TABLE></FORM></BODY></HTML>

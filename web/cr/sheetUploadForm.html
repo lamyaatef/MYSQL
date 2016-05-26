@@ -1,0 +1,17 @@
+
+<HTML>
+   <HEAD>
+      <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252"/>
+      <LINK REL=STYLESHEET TYPE="text/css" HREF="../resources/css/Template1.css">
+      <TITLE>untitled1</TITLE>
+   </HEAD>
+   <body onkeypress = "if(event.keyCode==13){myform.submit();}">
+     <form name="myform" action="/SDS/servlet/com.mobinil.sds.web.controller.WebControllerServlet"
+ method="post" enctype="multipart/form-data">
+    Specify your File:<br />
+    <input type="hidden" name="hiddenField">
+      <input type="file" name="myfile"><br /><br />
+    <input class="button" type="button" name="Submit" value="Submit your file" onclick="myform.submit();">
+
+   </BODY>
+</HTML>

@@ -1,0 +1,212 @@
+
+
+@font-face {
+font-family: 'HelvNeue55';
+src: url('../fonts/HelvNeue55_W1G.ttf')  format('truetype')
+}
+
+@font-face {
+font-family: 'HelvNeue75';
+src: url('../fonts/HelvNeue75_W1G.ttf')  format('truetype')
+}
+
+@font-face {
+font-family: 'HelveticaNeueLTArabicRoman';
+src: url('../fonts/HelveticaNeueLTArabic-Roman.ttf')  format('truetype')
+}
+
+@font-face {
+font-family: 'HelveticaNeueLTArabicBold';
+src: url('../fonts/HelveticaNeueLTArabic-Bold.ttf')  format('truetype')
+}
+
+
+/********** Body **********/
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  font-family: 'HelvNeue75', Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  font-family: 'HelvNeue75', Arial, Helvetica, sans-serif;
+  font-weight: 700;
+}
+
+a {
+	text-decoration: none;
+	outline:none;
+	-webkit-transition: .5s;
+	-moz-transition: .5s;
+	-o-transition: .5s;
+	transition: .5s;
+}
+
+a:hover {
+	text-decoration: none;
+	outline:none;
+        color: #ff6600;
+	-webkit-transition: .5s;
+	-moz-transition: .5s;
+	-o-transition: .5s;
+	transition: .5s;
+}
+
+a:focus {
+	text-decoration: none;
+	outline:none;
+        color: #ff6600;
+	-webkit-transition: .5s;
+	-moz-transition: .5s;
+	-o-transition: .5s;
+	transition: .5s;
+}
+
+.clear {
+	clear: both;
+}
+
+/********** Footer **********/
+
+#footer-login {
+	margin: 0;
+	padding: 5px 0;
+	width: 100%;
+	background: #5b5b5b;
+	border-top: 1px solid #333333;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 100;
+}
+
+
+#footer-login p {
+	width: 100%;
+	text-align: center;
+	color: #ffffff;
+	font-size: 85%;
+}
+
+#footer-login p a {
+	color: #ffffff;
+	font-size: 12px;
+    font-weight: 400;
+	text-decoration: underline;
+}
+
+#footer-login p a:hover {
+	color: #ff6600;
+}
+
+
+/********** Pages **********/
+
+#page-login {
+	margin-left: 25%;
+	padding: 0 1%;
+	width: 400px;
+	background: #fff;
+}
+
+.logo-page {
+	width: 8%;
+	height: auto;
+	margin: 50px;
+}
+
+#page-login h1 {
+	width: 100%;
+	text-align: center;
+	color: #000000;
+	font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin: 10px 0 40px 0;
+}
+
+#page-login h1 span {
+	font-size: 32px;
+    display: block;
+	margin-bottom: 10px;
+}
+
+.form-login {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+}
+
+
+.form-login-space {
+	width: 100%;
+	margin: 0;
+}
+
+.form-login input {
+	padding: 10px;
+	margin-bottom: 10px;
+	background: #ffffff;
+	width: 100%;
+	text-align: left;
+	border: 1px solid #000000;
+	border-radius: 0;
+	outline: none;
+}
+
+.form-login input:focus, .form-login input:hover {
+	border: 1px solid #ff6600;
+}
+
+.form-login button {
+	padding: 10px 20px;
+	margin: 10px 0 0 0;
+	background: #000000;
+	width: 100px;
+	color: #ffffff;
+	font-size: 130%;
+	text-align: center;
+	letter-spacing: 1px;
+	border: 1px solid #000000;
+	border-radius: 0;
+	outline: none;
+	cursor: pointer;
+	-webkit-transition: .5s;
+	-moz-transition: .5s;
+	-o-transition: .5s;
+	transition: .5s;
+}
+
+.form-login button:hover {
+	background-color: #ff6600;
+	border: 1px solid #ff6600;
+	-webkit-transition: .5s;
+	-moz-transition: .5s;
+	-o-transition: .5s;
+	transition: .5s;
+}
+
+.form-login p {
+	width: 100%;
+	text-align: right;
+	color: #000000;
+	font-size: 14px;
+    font-weight: 400;
+	margin: 20px 0 0 0;
+}
+
+.form-login p a {
+	width: 100%;
+	color: #000000;
+	font-size: 110%;
+}
+
+.form-login p a:hover {
+	color: #ff6600;
+}
