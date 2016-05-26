@@ -2500,7 +2500,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
 
         if (posDataRegion != null && posDataRegion.compareTo("") != 0) {
 
-            whereStr.append("  and REGION_ID = " + posDataRegion);
+            whereStr.append("  and detail.REGION_ID = " + posDataRegion);
 
         }
 
