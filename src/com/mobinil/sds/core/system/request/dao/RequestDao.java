@@ -3735,7 +3735,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
                 + " and DCM_POS_DETAIL.HISTORY_ID = DCM_POS_PHONE.HISTORY_ID"
                 + " and pos_code = '" + POSCode + "'"
                 + "order by DCM_POS_DETAIL.UPDATED_IN desc";
-
+        System.out.println("query for POS history : "+query);
         Vector<GeneralHistory> historyVec = DBUtil.executeSqlQueryMultiValue(query, GeneralHistory.class, con);
         System.out.println(query);
         return historyVec;

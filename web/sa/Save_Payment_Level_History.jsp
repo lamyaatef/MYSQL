@@ -165,7 +165,7 @@ Save Payment Level History
       
       if(confirm("date chosen exists, do u wish to overwrite?")){
       
-        bool = false;
+        bool = true;
             }
         }
    

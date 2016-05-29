@@ -423,7 +423,7 @@ String selectedId = (String)dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_REG
       out.println("  <TD class=TableTextNote><input type='text' name='"+ SCMInterfaceKey.CONTROL_TEXT_POS_PHONE +"' id='"+ SCMInterfaceKey.CONTROL_TEXT_POS_PHONE +"' value='"+posPhone+"'></TD>");
       out.println("  </TD>");
       out.println("</TR>");
-      out.println("</table>");
+    //  out.println("</table>");
 
       out.println("</td>");
       out.println("</tr>");
@@ -532,6 +532,7 @@ String selectedId = (String)dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_REG
         out.println("<TD colspan=2 class=TableTextNote>Salesrep Data ");
         out.println("</TD>");
         out.println("</tr>");
+        
         out.println("<TR class=TableTextNote>");
         out.println("      <TD colspan=2>");
         out.println("      <table border=1 align='center' width='100%'>");
@@ -580,14 +581,20 @@ String selectedId = (String)dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_REG
       
       String ownerIDTypeName = "";
 
-
+/*
       out.println("<TR class=TableTextNote>");
       out.println("      <TD colspan=2>");
       out.println("      <table border=1 align='center' width='80%'>");
       out.println("<tr>");
       out.println("<td colspan=2>Owner Data ");
       out.println("</td>");
-      out.println("</tr>");
+      out.println("</tr>");*/
+      
+       out.println("<TR>");
+        out.println("<TD colspan=2 class=TableTextNote>Owner Data");
+        out.println("</TD>");
+        out.println("</tr>");
+        
       out.println("<TR class=TableTextNote>");
       out.println("      <TD width='40%'>Owner Name</TD>");
       out.println("      <TD><input type='text' name='" + SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_NAME + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_NAME + "' value='"+posOwner+"'></TD>");

@@ -55,6 +55,11 @@ String formAction5 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                     +InterfaceKey.HASHMAP_KEY_ACTION+"="
                     +SCMInterfaceKey.ACTION_POS_DATA_EDIT;
 
+String formAction6 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.ACTION_POS_DATA_VIEW_HISTORY;
+
+
 
 %>
 
@@ -603,6 +608,7 @@ String formAction5 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     {
         document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_POS_ID%>.value  = id;
         document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%=SCMInterfaceKey.ACTION_POS_DATA_VIEW_HISTORY%>';
+        $("#formPosMangement").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction6);%>");
         document.formPosMangement.submit();
     }
     
