@@ -368,26 +368,32 @@ public class RequestDao {
             Statement stmt = con.createStatement();
             String sqlString = "select * from dcm_user_detail , dcm_user where dcm_user_detail.user_detail_id = dcm_user.user_detail_id and dcm_user.dcm_user_id = dcm_user_detail.user_id and dcm_user_detail.user_id='"+userDetailId+"' ";
             System.out.println("GET USER  OF ID : "+userDetailId+" query: "+sqlString);
-            ResultSet rs = stmt.executeQuery(sqlString);
-            rs = stmt.executeQuery(sqlString);
-            if (rs.next()) {
-                userDataModel = new UserDataModel();
-                userDataModel.setCreationTimestamp(rs.getString("CREATION_TIMESTAMP"));
-                userDataModel.setCreationUserId(rs.getString("CREATION_USER_ID"));
-                userDataModel.setRegionId(rs.getString("REGION_ID"));
-                userDataModel.setUserAddress(rs.getString("USER_ADDRESS"));
-                userDataModel.setUserDetailId(rs.getString("USER_DETAIL_ID"));
-                userDataModel.setUserDetailStatusId(rs.getString("USER_DETAIL_STATUS_ID"));
-                userDataModel.setUserEmail(rs.getString("USER_EMAIL"));
-                userDataModel.setUserFullName(rs.getString("USER_FULL_NAME"));
-                userDataModel.setUserId(rs.getString("USER_ID"));
-                userDataModel.setUserMobile(rs.getString("USER_MOBILE"));
-                userDataModel.setDcmUserId("DCM_USER_ID");
-                userDataModel.setManagerDcmUserId("MANAGER_DCM_USER_ID");
-                userDataModel.setUserLevelTypeId("USER_LEVEL_TYPE_ID");
+            if(userDetailId!=null && userDetailId.compareTo("")!=0)
+            
+            {
+                ResultSet rs = stmt.executeQuery(sqlString);
+                rs = stmt.executeQuery(sqlString);
+                if (rs.next()) {
+                    userDataModel = new UserDataModel();
+                    userDataModel.setCreationTimestamp(rs.getString("CREATION_TIMESTAMP"));
+                    userDataModel.setCreationUserId(rs.getString("CREATION_USER_ID"));
+                    userDataModel.setRegionId(rs.getString("REGION_ID"));
+                    userDataModel.setUserAddress(rs.getString("USER_ADDRESS"));
+                    userDataModel.setUserDetailId(rs.getString("USER_DETAIL_ID"));
+                    userDataModel.setUserDetailStatusId(rs.getString("USER_DETAIL_STATUS_ID"));
+                    userDataModel.setUserEmail(rs.getString("USER_EMAIL"));
+                    userDataModel.setUserFullName(rs.getString("USER_FULL_NAME"));
+                    userDataModel.setUserId(rs.getString("USER_ID"));
+                    userDataModel.setUserMobile(rs.getString("USER_MOBILE"));
+                    userDataModel.setDcmUserId("DCM_USER_ID");
+                    userDataModel.setManagerDcmUserId("MANAGER_DCM_USER_ID");
+                    userDataModel.setUserLevelTypeId("USER_LEVEL_TYPE_ID");
+                }
+                stmt.close();
+                rs.close();
             }
-            stmt.close();
-            rs.close();
+            
+            
 
         } catch (SQLException ex) {
             Logger.getLogger(RequestDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -835,11 +841,44 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
     
     
     public static void updateUserDetailData(Connection con, UserDataModel userDetail) {
-        System.out.println("lamya inside updateUserDetailData in RequestDao.java");
+        System.out.println("UPDATE.....");
         try {
             Statement stmt = con.createStatement();
             String update = "UPDATE dcm_user_detail SET user_full_name= '"+userDetail.getUserFullName()+"' , user_email = '"+userDetail.getUserEmail()+"' , user_address='" + userDetail.getUserAddress() + "' ,user_mobile='" + userDetail.getUserMobile() + "' WHERE user_detail_id='"+userDetail.getUserDetailId()+"'";
             System.out.print("update supervisor data query : "+update);
+            stmt.execute(update);
+            stmt.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+    
+    
+    public static void insertUserDetailData(Connection con, UserDataModel userDetail, int userLevelTypeId, int managerId, int regionId) {
+        System.out.println("lamya inside insertUserDetailData in RequestDao");
+        String userId="";
+        String userDetailId="";
+        try {
+            Statement stmt = con.createStatement();
+            
+            String insert = "insert into dcm_user (dcm_user_id,user_id,manager_dcm_user_id,user_level_type_id,user_status_type_id,region_id,user_level_id) values ((select max(dcm_user_id)+1 from dcm_user),456,"+managerId+","+userLevelTypeId+",1,"+regionId+",0)";
+            stmt.executeUpdate(insert);
+            String selectId = "select dcm_user_id from dcm_user order by dcm_user_id desc";
+            ResultSet rs = stmt.executeQuery(selectId);
+            if (rs.next())
+                userId = rs.getString("dcm_user_id");
+            rs.close();
+            
+            String insert2= "insert into dcm_user_detail (user_detail_id,user_id,user_full_name,user_address,user_email,user_mobile,region_id,user_detail_status_id,creation_timestamp,creation_user_id) values ((select max(user_detail_id)+1 from dcm_user_detail),"+userId+",'"+userDetail.getUserFullName()+"','"+userDetail.getUserAddress()+"','"+userDetail.getUserEmail()+"','"+userDetail.getUserMobile()+"',291,1,sysdate,54)";
+            stmt.executeUpdate(insert2);
+            String selectId2 = "select user_detail_id from dcm_user_detail order by user_detail_id desc";
+            ResultSet rs2 = stmt.executeQuery(selectId2);
+            if (rs2.next())
+                userDetailId = rs2.getString("user_detail_id");
+            rs2.close();
+            
+            String update = "update dcm_user set user_detail_id="+userDetailId+" where dcm_user_id="+userId;
             stmt.execute(update);
             stmt.close();
         } catch (Exception ex) {
@@ -1614,6 +1653,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
     public static UserDataModel insertUserDetail(Connection con, String Name, String Mobile, String Email,String Address, String userLevelTypeId, String regionId, String managerId)
     
     {
+        System.out.println("INSERT.....");
         UserDataModel user2 = new UserDataModel();
         
         try{
@@ -1626,7 +1666,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
             ResultSet rs = stmt.executeQuery(sqlString);
             if(rs.next())
             {
-                user2.setUserId(rs.getString("USER_ID"));
+               // user2.setUserId(rs.getString("USER_ID"));
                 user2.setDcmUserId(rs.getString("dcm_user_id"));
                 user2.setManagerDcmUserId(managerId);
                 user2.setUserLevelTypeId(userLevelTypeId);
@@ -1745,13 +1785,13 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
             posDetailId = Utility.getSequenceNextVal(con, "SEQ_DCM_POS_DETAIL");
 
             String sqlString = "INSERT INTO DCM_POS_DETAIL "
-                    + "(SUPERVISOR_NAME, TEAMLEADER_NAME, SALESREP_NAME,MOBICASH_NUMBER, IS_NOMAD,IS_MOBICASH, IS_EXCLUSIVE, IS_LEVEL_ONE, IS_QUALITY_CLUB, DCM_LEVEL_ID,IS_DIRTY,POS_DETAIL_ID, POS_ID ,POS_CODE,"
+                    + "(SUPERVISOR_ID, TEAMLEADER_ID, SALESREP_ID,MOBICASH_NUMBER, IS_NOMAD,IS_MOBICASH, IS_EXCLUSIVE, IS_LEVEL_ONE, IS_QUALITY_CLUB, DCM_LEVEL_ID,IS_DIRTY,POS_DETAIL_ID, POS_ID ,POS_CODE,"
                     + "POS_NAME,POS_EMAIL,"
                     + "POS_ADDRESS,POS_STATUS_TYPE_ID,REGION_ID,"
                     + "UPDATED_IN,USER_ID"
                     + ", POS_CHANNEL_ID , POS_BRANCH_OF , POS_GOVERNRATE , POS_AREA_ID , POS_DEMO_LINE , POS_PROPOSED_DOC_ID"
                         + " , POS_DOC_NUM , POS_RATE_ID , POS_PLACE_TYPE_ID , POS_DISTRICT_ID , POS_CITY_ID,SURVEY_DATE,SURVEY_ID,DCM_PAYMENT_LEVEL_ID,POS_ARABIC_NAME,POS_ARABIC_ADDRESS,HAS_SIGN,REPORT_TO_CALIDUS, PAYMENT_TYPE_METHOD_ID,DOC_LOCATION)"
-                    + "values("+posModel.getPosDetailModel().getSupervisorName()+","+posModel.getPosDetailModel().getTeamleaderName()+","+posModel.getPosDetailModel().getSalesrepName()+","+mobicashNum+" , '"+isNomad+"','"+isMobicash+"','"+isEX+"','"+isL1+"','"+isQC+"', '"+posLevel+"','1'," + posDetailId
+                    + "values('"+posModel.getPosDetailModel().getSupervisorName()+"','"+posModel.getPosDetailModel().getTeamleaderName()+"','"+posModel.getPosDetailModel().getSalesrepName()+"',"+mobicashNum+" , '"+isNomad+"','"+isMobicash+"','"+isEX+"','"+isL1+"','"+isQC+"', '"+posLevel+"','1'," + posDetailId
                     + ",'" + dcmId + "','" + posCode + "','" + posName + "','" + posEmail + "','" + posAddress + "','" + statusTypeId + "','" + posRegion + "'"
                     + ",sysdate,'" + UserID + "', " + posModel.getChannelId() + " , '" + posModel.getBranchOf() + "', " + posModel.getGovernateId()
                     + " , " + posModel.getAreaId() + " , '" + posModel.getDemoLineNum() + "' , " + (posModel.getProposedDocId() == -1 ? "null" : posModel.getProposedDocId())

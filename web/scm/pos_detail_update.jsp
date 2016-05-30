@@ -63,9 +63,13 @@
         <SCRIPT  src="../resources/js/deepgrid.js" type="text/javascript"></SCRIPT>
         <SCRIPT  src="../resources/js/yav/yav.js" type="text/javascript"></SCRIPT>
         <SCRIPT  src="../resources/js/yav/yav-config.js" type="text/javascript"></SCRIPT>
+        <script src="../resources/js/jquery-1.11.3.js"></script>
     </head>
 
     <body >
+        <%String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.ACTION_POS_DATA_EDIT_STORE;%>
         <%
             HashMap dataHashMap = new HashMap(100);
             dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
@@ -151,7 +155,7 @@
             //out.println("<input type=hidden name='"+ InterfaceKey.HASHMAP_KEY_ACTION + "  id='"+ InterfaceKey.HASHMAP_KEY_ACTION +"' value="+ SCMInterfaceKey.ACTION_POS_DATA_ENTRY_STORE+"/>");
 
 
-            out.println("<form  onsubmit=\"mySubmit.disabled = true;\" name='formDataView' action='' method='post'>");
+            out.println("<form id='formDataView' onsubmit=\"mySubmit.disabled = true;\" name='formDataView' action='' method='post'>");
         %>
         <input type="hidden" name="<%= SCMInterfaceKey.CONTROL_REGION_PARENT_ID%>" id="<%= SCMInterfaceKey.CONTROL_REGION_PARENT_ID%>" value="<%=parentIdstr%>" />
         <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_ACTION%>" >
@@ -1302,7 +1306,7 @@
     function saveForm()
     {
        
-        
+        console.log("inside save form");
         
         var flag = 0;
         // var posCode = document.getElementById('<%=SCMInterfaceKey.CONTROL_TEXT_POS_CODE%>').value;
@@ -1498,6 +1502,7 @@
 
         if(flag != 1)
         {
+            console.log("aaaa");
             
             document.formDataView.phones__R0__C1.value=trimPhone(document.formDataView.phones__R0__C1.value);
             document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value=trimPhone(document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value);
@@ -1507,9 +1512,9 @@
             document.formDataView.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%= SCMInterfaceKey.ACTION_POS_DATA_EDIT_STORE%>';
           //  document.formDataView.
             
-            
-        
-            formDataView.submit();
+            console.log("formAction ","<%out.print(formAction);%>");
+            $("#formDataView").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction);%>");
+            document.formDataView.submit();
         }
 
 
