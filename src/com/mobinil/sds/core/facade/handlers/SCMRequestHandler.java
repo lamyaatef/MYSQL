@@ -1710,7 +1710,7 @@ public class SCMRequestHandler {
                     
                     DCM_CODE = RequestDao.getDCMCodeForPOS(posDetailId);
                     
-                    posMobicashNum = (RequestDao.getMobicashNum(DCM_CODE)==null) ? 0 : Long.parseLong(RequestDao.getMobicashNum(DCM_CODE));
+                    posMobicashNum = (RequestDao.getMobicashNum(DCM_CODE)==null || RequestDao.getMobicashNum(DCM_CODE).compareTo("")==0) ? 0 : Long.parseLong(RequestDao.getMobicashNum(DCM_CODE));
                     String channel = RequestDao.getchannelIDForPOS(posDetailId);
                     String POSLevel = RequestDao.getLevelIDForPOS(posDetailId);
                     String PaymentLevel = RequestDao.getPaymentLevelIDForPOS(posDetailId);
@@ -2007,10 +2007,25 @@ public class SCMRequestHandler {
                     else
                         posModel.setDistrictId(0);
                     
+                    
                     posModel.setDocNumber(proposedDocNum == null ? "" : proposedDocNum.trim());
-                    posModel.setGovernateId(Integer.parseInt(governrateId));
-                    posModel.setPaymentLevelId(Integer.parseInt(Payment));
-                    posModel.setLevelId(Integer.parseInt(levelId));
+                    
+                    
+                    if (governrateId != null && !governrateId.equals("empty") && !governrateId.equals("") && !governrateId.equals("--")) 
+                        posModel.setGovernateId(Integer.parseInt(governrateId));
+                    else
+                         posModel.setGovernateId(0);
+                    if (Payment != null && !Payment.equals("empty") && !Payment.equals("") && !Payment.equals("--")) 
+                        posModel.setPaymentLevelId(Integer.parseInt(Payment));
+                    else
+                        posModel.setPaymentLevelId(0);
+                    
+                    if (levelId != null && !levelId.equals("empty") && !levelId.equals("") && !levelId.equals("--")) 
+                        posModel.setLevelId(Integer.parseInt(levelId));
+                    else
+                        posModel.setLevelId(0);
+                        
+                        
                     if (proposedDocId != null && !proposedDocId.equals("--") && !proposedDocId.equals("empty") && !proposedDocId.equals("")) 
                         posModel.setProposedDocId(Integer.parseInt(proposedDocId));
                     else

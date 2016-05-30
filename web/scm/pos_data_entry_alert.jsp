@@ -21,8 +21,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <LINK REL=STYLESHEET TYPE="text/css" HREF="../resources/css/Template1.css">
         <LINK REL=STYLESHEET TYPE="text/css" HREF="../resources/css/yav-style.css">
+        <script src="../resources/js/jquery-1.11.3.js"></script>
         <title>POS Pre-Request Data Entry</title>
     </head>
+    <%String appName = request.getContextPath();
+        String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.ACTION_VIEW_POS_DATA_MANAGEMENT;%>
 <%
 
 HashMap objDataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
@@ -46,7 +51,7 @@ String strUserID = (String)objDataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
         {
               %>
               <center>
-                <input class=button  name="backButton" id="backButton" value="Back" type=button onclick="formRepKit.submit();" />
+                <input class=button  name="backButton" id="backButton" value="Back" type=button onclick="formSubmit();" />
              </center>
               <%
         }
@@ -54,7 +59,7 @@ String strUserID = (String)objDataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
           {
           %>
             <center>
-               <input class=button  name="backButton" id="backButton" value="Back" type=button onclick="formRepKit.submit();" />
+               <input class=button  name="backButton" id="backButton" value="Back" type=button onclick="formSubmit();" />
             </center>
           <%
            }
@@ -85,7 +90,11 @@ function divAppearance()
 
 
 
-
+function formSubmit()
+{
+    $("#formRepKit").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction);%>");
+            document.formRepKit.submit();
+}
 
 
 
