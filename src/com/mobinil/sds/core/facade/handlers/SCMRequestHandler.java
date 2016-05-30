@@ -2116,7 +2116,7 @@ public class SCMRequestHandler {
                         if (salesrepDetailId!=null && salesrepDetailId.compareTo("")!=0)
                             mdl.setSalesrepName(salesrepDetailId);
                         else
-                            mdl.setTeamleaderName(salesrepData.getUserDetailId());
+                            mdl.setSalesrepName(salesrepData.getUserDetailId());
                         
                         posModel.setPosDetailModel(mdl);
                         Long pos_detail_id = RequestDao.insertPosDetail(con, posModel, posId, "1");
