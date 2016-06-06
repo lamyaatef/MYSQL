@@ -366,7 +366,7 @@ public class RequestDao {
         UserDataModel userDataModel = new UserDataModel();
         try {
             Statement stmt = con.createStatement();
-            String sqlString = "select * from dcm_user_detail , dcm_user where dcm_user_detail.user_detail_id = dcm_user.user_detail_id and dcm_user.dcm_user_id = dcm_user_detail.user_id and dcm_user_detail.user_id='"+userDetailId+"' ";
+            String sqlString = "select * from dcm_user_detail , dcm_user where dcm_user_detail.user_detail_id = dcm_user.user_detail_id and dcm_user.dcm_user_id = dcm_user_detail.user_id and dcm_user_detail.user_detail_id='"+userDetailId+"' ";
             System.out.println("GET USER  OF ID : "+userDetailId+" query: "+sqlString);
             if(userDetailId!=null && userDetailId.compareTo("")!=0)
             
@@ -2815,9 +2815,9 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
         ResultSet rs = st.executeQuery(queryStr);
         while (rs.next()) {
             POSSearchExcelModel posSearchExcelModel = new POSSearchExcelModel();
-            posSearchExcelModel.setSupervisorId(rs.getString("SUPERVISOR_ID"));
-            posSearchExcelModel.setTeamleaderId(rs.getString("TEAMLEADER_ID"));
-            posSearchExcelModel.setSalesrepId(rs.getString("SALESREP_ID"));
+            posSearchExcelModel.setSupervisorId(getUserDataByDetailId(con, rs.getString("SUPERVISOR_ID")).getUserFullName());//rs.getString("SUPERVISOR_ID")
+            posSearchExcelModel.setTeamleaderId(getUserDataByDetailId(con, rs.getString("TEAMLEADER_ID")).getUserFullName()); //rs.getString("TEAMLEADER_ID")
+            posSearchExcelModel.setSalesrepId(getUserDataByDetailId(con, rs.getString("SALESREP_ID")).getUserFullName());//rs.getString("SALESREP_ID")
             posSearchExcelModel.setArabicAddress(rs.getString("POS_ARABIC_ADDRESS"));
             posSearchExcelModel.setAreaId(rs.getString("AREA"));
             posSearchExcelModel.setCbillCase(rs.getString("CASE"));

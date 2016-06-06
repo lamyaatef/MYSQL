@@ -1,4 +1,4 @@
-<%-- 
+    <%-- 
     Document   : pos_detail_update
     Created on : Nov 9, 2010, 11:44:53 AM
     Author     : Salma
@@ -573,9 +573,9 @@
         out.println("      <table border=1 align='center' width='100%'>");
         out.println("<TR class=TableTextNote>");
         out.println("      <TD width='40%'>Supervisor Name</TD>");
-        if(userData.getUserFullName()==null || userData.getUserFullName().compareTo("")==0)
+        /*if(userData.getUserFullName()==null || userData.getUserFullName().compareTo("")==0)
             out.println("      <TD><input type='text' value='" + posDetailModel.getSupervisorName()+ "' name='" + SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_NAME + "' id='" + SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_NAME + "'></TD>");
-        else
+        else*/
             out.println("      <TD><input type='text' value='" + userData.getUserFullName()+ "' name='" + SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_NAME + "' id='" + SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_NAME + "'></TD>");
         
         out.println("</tr>");
