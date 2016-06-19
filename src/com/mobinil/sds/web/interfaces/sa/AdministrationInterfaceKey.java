@@ -60,6 +60,7 @@ public static final String CACH_OBJ_MODULE_LIST = "cach_obj_module_list";
   
   public static final String ACTION_SHOW_NOMAD_IMPORT_SCREEN="show_nomad_file_import_screen";
   public static final String ACTION_NOMAD_IMPORT_PROCESS = "nomad_file_import_process";
+  public static final String ACTION_TANGO_IMPORT_PROCESS = "tango_file_import_process";
   public static final String ACTION_VIEW_NOMAD_FILE = "view_nomad_file";
   public static final String ACTION_DELETE_NOMAD_FILE = "delete_nomad_file";
   public static final String VECTOR_FILES = "vector_files";

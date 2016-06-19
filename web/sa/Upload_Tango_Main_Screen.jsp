@@ -14,13 +14,11 @@
    <HEAD>
       <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252"/>
       <LINK REL=STYLESHEET TYPE="text/css" HREF="../resources/css/Template1.css">
-      <TITLE>Nomad File Import</TITLE>
+      <TITLE>Tango File Import</TITLE>
 <center>
-      <h2>Upload Nomad Data</h2>
+      <h2>Upload Tango Data</h2>
 </center>
    <br><br><br>
-      
-
    </HEAD>
 
 
@@ -40,7 +38,7 @@ String appName = request.getContextPath();
 
 String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
                     +InterfaceKey.HASHMAP_KEY_ACTION+"="
-                    +AdministrationInterfaceKey.ACTION_NOMAD_IMPORT_PROCESS; //action=
+                    +AdministrationInterfaceKey.ACTION_TANGO_IMPORT_PROCESS; //action=
 
 
 

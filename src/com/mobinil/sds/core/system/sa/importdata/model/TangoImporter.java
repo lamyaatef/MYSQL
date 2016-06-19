@@ -5,40 +5,38 @@ package com.mobinil.sds.core.system.sa.importdata.model;
 import com.mobinil.sds.core.system.authenticationResult.dao.AuthResDAO;
 import com.mobinil.sds.core.system.nomad.dao.NomadFileDAO;
 import com.mobinil.sds.core.system.tango.dao.TangoFileDAO;
-        import java.io.File;
-        import java.io.IOException;
-        import java.io.InputStream;
-        import java.io.PrintStream;
-        import java.sql.Connection;
-        import java.sql.Statement;
-
-        import javax.xml.parsers.ParserConfigurationException;
-
-        import com.mobinil.sds.core.utilities.Utility;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.sql.Connection;
+import java.sql.Statement;
+import javax.xml.parsers.ParserConfigurationException;
+import com.mobinil.sds.core.utilities.Utility;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-        import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
-        import org.apache.poi.openxml4j.opc.OPCPackage;
-        import org.apache.poi.openxml4j.opc.PackageAccess;
-        import org.apache.poi.ss.usermodel.DataFormatter;
-        import org.apache.poi.ss.util.CellReference;
-        import org.apache.poi.util.SAXHelper;
-        import org.apache.poi.xssf.eventusermodel.ReadOnlySharedStringsTable;
-        import org.apache.poi.xssf.eventusermodel.XSSFReader;
-        import org.apache.poi.xssf.eventusermodel.XSSFSheetXMLHandler;
-        import org.apache.poi.xssf.eventusermodel.XSSFSheetXMLHandler.SheetContentsHandler;
-        import org.apache.poi.xssf.model.StylesTable;
-        import org.apache.poi.xssf.usermodel.XSSFComment;
-        import org.xml.sax.ContentHandler;
-        import org.xml.sax.InputSource;
-        import org.xml.sax.SAXException;
-        import org.xml.sax.XMLReader;
+import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.openxml4j.opc.PackageAccess;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.util.SAXHelper;
+import org.apache.poi.xssf.eventusermodel.ReadOnlySharedStringsTable;
+import org.apache.poi.xssf.eventusermodel.XSSFReader;
+import org.apache.poi.xssf.eventusermodel.XSSFSheetXMLHandler;
+import org.apache.poi.xssf.eventusermodel.XSSFSheetXMLHandler.SheetContentsHandler;
+import org.apache.poi.xssf.model.StylesTable;
+import org.apache.poi.xssf.usermodel.XSSFComment;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
-public class NomadImporter {
+public class TangoImporter {
     /**
      * Uses the XSSF Event SAX helpers to do most of the work
      *  of parsing the Sheet XML, and outputs the contents
@@ -73,7 +71,7 @@ public class NomadImporter {
         }
     }
 
-    public NomadImporter (String fileDate,Long fileID , String filePath , int minColumns)
+    public TangoImporter (String fileDate,Long fileID , String filePath , int minColumns)
     {
         System.out.println("file path : "+filePath);
         int updateOn=-1;
@@ -112,75 +110,49 @@ public class NomadImporter {
                     e1.printStackTrace();
                 }
                 
-                try {
+               try {
 
 
-            //    System.out.println("NOMAD line = input.readLine() "+input.readLine());
+//System.out.println("line = input.readLine() "+input.readLine());
                     while ((line = input.readLine()) != null) {
                         count++;
                         // first row titles
                         if (count == 1) {
-                           //System.out.println("inside count 1 ") ;
-                            String tempLine = line;
-                            String[] fieldUpdatedOn = tempLine.split(","); // \t
+                           
+                            String titles = line;
+                            String[] fieldUpdatedOn = titles.split("\t");
+                           
                             
-                            for(int i=0;i< fieldUpdatedOn.length;i++)
-                            {
-                                System.out.println("LOOP fieldUpdatedOn[i] : "+fieldUpdatedOn[i]);
-                                //System.out.println("updated on = "+ UPDATED_ON);
-                               // System.out.println("selleer user name ="+ SELLER_USERNAME);
-                                if (fieldUpdatedOn[i].compareToIgnoreCase(UPDATED_ON)==0)
-                                { 
-                                    updateOn = i;
-                                    
-                                }
-                                if (fieldUpdatedOn[i].compareToIgnoreCase(SELLER_USERNAME)==0)
-                                {
-                                    sellerIndx = i;
-                                  
-                                }
-                                
-                                if (fieldUpdatedOn[i].compareToIgnoreCase(STATUS_NAME)==0)
-                                {
-                                    statusIndx = i;
-                                     
-                                }
-                            }
-                            //fileid = AuthResDAO.insertSearchFile(con, year, month, "processing", description, user_id, label, catId, fileTypeId);
                         }
 
-                       // System.out.println("line issss " + line);
-                        if (count > 1) {//!=0
-                            System.out.println("count > 1");
+                       
+                        if (count > 1) {
+                           
                             String fields = line;
                             String v1 = fields;
-                            String[] lineFields = v1.split(","); // \t
+                            String[] lineFields = v1.split("\t");
                             //if a record is short or has invalid chars such as \n, continue to while loop and get the next line/record
-                            System.out.println("lineFields.length "+lineFields.length+" updated on index : "+updateOn);
-                            if (lineFields.length <10 ) 
-                            {
-                                System.out.println("continue..");
-                                continue;
-                            } 
+                            System.out.println("lineFields.length "+lineFields.length);
+                            if (lineFields.length <9 ) continue; 
                             //System.out.println("fileds "+v1+" line fields at date index: "+lineFields[updateOn]);
                             if (v1 == null) 
                                 v1 = "";
                             
-                            String updatedDate = lineFields[updateOn];
-                            updatedDate = updatedDate.substring(0, updatedDate.indexOf(" "));
-                            System.out.println("the date in updated on is as String trimmed: "+updatedDate);
-                            DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-                            System.out.println("the date coming is as String: "+fileDate);
-                            if (updatedDate.compareTo(fileDate)==0) 
+                           /* String updatedDate = lineFields[updateOn];
+                            updatedDate = updatedDate.substring(0, updatedDate.indexOf(" "));*/
+                            //System.out.println("the date in updated on is as String trimmed: "+updatedDate);
+                           /* DateFormat df = new SimpleDateFormat("dd-mm-yyyy");*/
+                            //System.out.println("the date coming is as String: "+fileDate);
+                           // if (updatedDate.compareTo(fileDate)==0) 
                             
-                                NomadFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx/*,fileDate,updateOn*/);
-                                
+                                TangoFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx);
+                               
                             
-                        }
-                       // System.out.println("count isssssss      " + count);
+                       }
+                       
 
                     }
-                    this.numberOfRowsInserted = NomadFileDAO.getNomadDataRecords(con, stat, fileID);
+                    this.numberOfRowsInserted = TangoFileDAO.getNomadDataRecords(con, stat, fileID);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -198,7 +170,7 @@ public class NomadImporter {
     }
 
 
-    public NomadImporter(OPCPackage pkg) {
+    public TangoImporter(OPCPackage pkg) {
         this.xlsxPackage = pkg;
 
     }

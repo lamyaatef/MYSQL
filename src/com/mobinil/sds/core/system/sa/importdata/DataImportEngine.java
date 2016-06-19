@@ -7,6 +7,7 @@ import java.util.*;
 import com.mobinil.sds.core.system.cam.memo.dao.MemoDAO;
 import com.mobinil.sds.core.system.cr.bundle.dao.BundleDao;
 import com.mobinil.sds.core.system.nomad.dao.NomadFileDAO;
+import com.mobinil.sds.core.system.tango.dao.TangoFileDAO;
 import com.mobinil.sds.core.system.sa.importdata.model.*;
 import com.mobinil.sds.core.utilities.Utility;
 import org.apache.poi.hssf.usermodel.*;
@@ -691,7 +692,7 @@ public class DataImportEngine {
                 }
             }
             System.out.println("-> insert in file but the nomad records added are : "+numberOfRowsInserted);
-            //String labelName = NomadFileDAO.getLabelName(labelId);
+            //String labelName = TangoFileDAO.getLabelName(labelId);
             //TODO: get user id , min date in nomad data , max date in nomad data
             
             
