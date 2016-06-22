@@ -190,10 +190,11 @@ public class TangoFileDAO{
     
     
     public static void insertNomadData(Connection con, Statement stat,String[] lineFields,Long fileID, int sellerIndex,int statusIndex/*, String fileDate, int updatedIndex*/) throws ParseException {
-        System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
+        
         String concatFields = "";
         for (int i=0; i<lineFields.length;i++)
         {
+            System.out.println("lineFields["+i+"] "+lineFields[i]);
             concatFields += "'"+lineFields[i]+"'"+",";
             /*if (i==sellerIndex) 
             {
@@ -220,13 +221,8 @@ public class TangoFileDAO{
                 else concatFields += "'"+lineFields[i]+"'"+",";
             }*/
         }
-        System.out.println("after for loop");
-        concatFields = concatFields.substring(0, concatFields.length()-1);
-            
-        //System.out.println("fields concatenated : "+concatFields);
-        
-        
-        try {
+       concatFields = concatFields.substring(0, concatFields.length()-1);
+       try {
   
 //            String strSql = "insert into gen_dcm_nomad ( GEN_DCM_NOMAD_FILE_ID, CONTRACT_NUMBER, TYPE, SOURCE ,MSISDN, SIM_NUMBER, ID_NUMBER, SELLER_USERNAME, SELLER, SALES_CHANNEL,CHANNEL_TYPE,SHOP_USERNAME,SHOP,RECEIVED_ON, UPDATE_ON, UPDATED_BY, STATUS, THE_COMMENT,REJECT_CAUSE,LINE_TYPE,BUCKET) values ("+fileID+","+concatFields+")";
             String strSql = "insert into DCM_TANGO_REGISTRATION_DATA (MOBILE_NUMBER,USER_NAME,TANGO_REGISTATION_DATE,REGISTERED_BY,POS_CODE,POS_NAME,MOBICASH_SUPERVISOR,SUPERVISOR,AWP) values ("+concatFields+")";
@@ -245,7 +241,7 @@ public class TangoFileDAO{
     public static int getNomadDataRecords(Connection con, Statement stat,Long fileID) throws ParseException {
         int count=-1;
         try {
-            String strSql = "select count(*) from gen_dcm_nomad where gen_dcm_nomad_file_id="+fileID;
+            String strSql = "select count(*) from DCM_TANGO_REGISTRATION_DATA";// where gen_dcm_nomad_file_id="+fileID;
             System.out.println("SQL is " + strSql);
             ResultSet rs = stat.executeQuery(strSql);
             if(rs.next())

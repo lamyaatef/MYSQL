@@ -130,7 +130,7 @@ System.out.println("-> import Report");
 Long nomadFileId = TangoFileDAO.insertNewFile("New", "274",labelId);
 System.out.println("nomadFileId step 1 : "+nomadFileId);*/
 
-System.out.println("tango importer..."+baseDirectory+fileUniqueName);
+System.out.println("infoforte importer..."+baseDirectory+fileUniqueName);
 TangoImporter nomadImporterObj = new TangoImporter(fileDateStr,Long.valueOf(0), /*nomadFileId,*/ baseDirectory+fileUniqueName , 12);
  // nomadImporterObj.process();
   nomadImporterObj.clean();
@@ -142,7 +142,7 @@ TangoImporter nomadImporterObj = new TangoImporter(fileDateStr,Long.valueOf(0), 
 
   System.out.println("-> get Report");
 
-out.println("Tango Data Upload Was Completed");
+out.println("InfoForte Data Upload Was Completed");
   printToStream("<h3>",out);
   printToStream("Number of records inserted " + nomadImporterObj.getNumberOfRowsInserted(),out);
   printToStream("</h3>",out);
