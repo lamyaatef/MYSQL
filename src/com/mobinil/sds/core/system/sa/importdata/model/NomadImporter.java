@@ -122,7 +122,7 @@ public class NomadImporter {
                         if (count == 1) {
                            //System.out.println("inside count 1 ") ;
                             String tempLine = line;
-                            String[] fieldUpdatedOn = tempLine.split(","); // \t
+                            String[] fieldUpdatedOn = tempLine.split("\t");//tab based file
                             
                             for(int i=0;i< fieldUpdatedOn.length;i++)
                             {
