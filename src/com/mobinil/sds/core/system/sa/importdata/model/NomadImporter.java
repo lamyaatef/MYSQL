@@ -127,27 +127,29 @@ public class NomadImporter {
                                 fieldUpdatedOn = tempLine.split(","); // \t
                             else if (tempLine.contains("\t"))
                                 fieldUpdatedOn = tempLine.split("\t"); // \t
-                            
-                            for(int i=0;i< fieldUpdatedOn.length;i++)
+                            if(fieldUpdatedOn!=null)
                             {
-                                System.out.println("LOOP fieldUpdatedOn[i] : "+fieldUpdatedOn[i]);
-                                //System.out.println("updated on = "+ UPDATED_ON);
-                               // System.out.println("selleer user name ="+ SELLER_USERNAME);
-                                if (fieldUpdatedOn[i].compareToIgnoreCase(UPDATED_ON)==0)
-                                { 
-                                    updateOn = i;
-                                    
-                                }
-                                if (fieldUpdatedOn[i].compareToIgnoreCase(SELLER_USERNAME)==0)
+                                for(int i=0;i< fieldUpdatedOn.length;i++)
                                 {
-                                    sellerIndx = i;
-                                  
-                                }
-                                
-                                if (fieldUpdatedOn[i].compareToIgnoreCase(STATUS_NAME)==0)
-                                {
-                                    statusIndx = i;
-                                     
+                                    System.out.println("LOOP fieldUpdatedOn[i] : "+fieldUpdatedOn[i]);
+                                    //System.out.println("updated on = "+ UPDATED_ON);
+                                   // System.out.println("selleer user name ="+ SELLER_USERNAME);
+                                    if (fieldUpdatedOn[i].compareToIgnoreCase(UPDATED_ON)==0)
+                                    { 
+                                        updateOn = i;
+
+                                    }
+                                    if (fieldUpdatedOn[i].compareToIgnoreCase(SELLER_USERNAME)==0)
+                                    {
+                                        sellerIndx = i;
+
+                                    }
+
+                                    if (fieldUpdatedOn[i].compareToIgnoreCase(STATUS_NAME)==0)
+                                    {
+                                        statusIndx = i;
+
+                                    }
                                 }
                             }
                             //fileid = AuthResDAO.insertSearchFile(con, year, month, "processing", description, user_id, label, catId, fileTypeId);
@@ -158,7 +160,7 @@ public class NomadImporter {
                             System.out.println("count > 1");
                             String fields = line;
                             String v1 = fields;
-                            
+                            System.out.println("V1 : "+v1);
                             String[] lineFields = null;
                              if (v1.contains(","))
                                 lineFields = v1.split(","); // \t
@@ -169,7 +171,9 @@ public class NomadImporter {
                             
                             //if a record is short or has invalid chars such as \n, continue to while loop and get the next line/record
                            // System.out.println("lineFields.length "+lineFields.length+" updated on index : "+updateOn);
-                            if (lineFields.length <10 ) 
+                           if(lineFields!=null)
+                           {
+                            if (lineFields.length <10 )
                             {
                                 System.out.println("continue....");
                                 continue;
@@ -185,10 +189,8 @@ public class NomadImporter {
                             System.out.println("the date coming is as String: "+fileDate);
 
                             if (updatedDate.compareTo(fileDate)==0)       
-                            {
-                                
                                 NomadFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx/*,fileDate,updateOn*/);
-                            }   
+                           }  
                             
                         }
                        // System.out.println("count isssssss      " + count);
