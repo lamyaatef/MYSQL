@@ -1,40 +1,17 @@
 package com.mobinil.sds.core.system.nomad.dao;
 
-import com.mobinil.sds.core.system.authenticationResult.dao.*;
-import com.mobinil.mcss.lcs.model.LCSContractData;
-import com.mobinil.mcss.lcs.model.LCSContractInfo;
-import static com.mobinil.sds.core.system.authenticationResult.dao.AuthResDAO.updateAuthSaerchData;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
-import java.text.DateFormat;
-import oracle.jdbc.driver.OracleTypes;
-
-import com.mobinil.sds.core.system.authenticationResult.model.AuthResFileModel;
-import com.mobinil.sds.core.system.authenticationResult.model.AuthResInvalidsimSerialModel;
-import com.mobinil.sds.core.system.authenticationResult.model.AuthResLabelModel;
-import com.mobinil.sds.core.system.authenticationResult.model.AuthResSearchDataModel;
-import com.mobinil.sds.core.system.authenticationResult.model.AuthResSearchFileModel;
-import com.mobinil.sds.core.system.authenticationResult.model.AuthResStatisticsModel;
-import com.mobinil.sds.core.system.authenticationResult.model.AuthResUserLabelModel;
 import com.mobinil.sds.core.utilities.Utility;
 
-import com.mobinil.sds.core.system.authenticationResult.model.AuthResGrossAddsFileModel;
-import com.mobinil.sds.core.system.authenticationResult.model.SimInfoModel;
 import com.mobinil.sds.core.system.nomadFile.model.NomadFileModel;
 import com.mobinil.sds.core.system.nomadFile.model.NomadFileUserLabelModel;
 import com.mobinil.sds.core.system.nomadFile.model.NomadLabelModel;
-import com.mobinil.sds.core.system.sa.importdata.dao.DataImportTableDefDAO;
-import com.mobinil.sds.core.system.sa.importdata.model.DataImportTableDefModel;
 import com.mobinil.sds.core.utilities.DBUtil;
-import com.mobinil.sds.web.interfaces.ar.AuthResInterfaceKey;
-import java.sql.ResultSetMetaData;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 public class NomadFileDAO{
@@ -42,16 +19,16 @@ public class NomadFileDAO{
     public static Vector getallNomadfiles(Connection con, String userId) {
         Vector vec = new Vector();
         String personName="";
+        System.out.println("getallNomadfiles ");
         try {
             Statement stat = con.createStatement();
             //String strSql = "select gf.GEN_DCM_NOMAD_FILE_ID, gf.USER_ID, gf.FILE_CREATION_DATE, gf.FILE_UPLOAD_DATE, gf.TOTAL_NUMBER_OF_RECORDS, gl.NOMAD_LABEL_NAME from  GEN_DCM_NOMAD_FILE gf, GEN_DCM_NOMAD_LABEL gl where gf.user_id = '"+userId+"' and gf.label_id = gl.NOMAD_LABEL_ID and gf.status <> 'Deleted'";
-            String strSql = "select * from gen_dcm_nomad_file";
+            System.out.println("^^^^^^^^^^");
+            String strSql = "select * from gen_dcm_nomad_file order by to_number(gen_dcm_nomad_file_id) desc";
+            System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%");
+            System.out.println("str sql "+ strSql);
             ResultSet res = stat.executeQuery(strSql);
             personName = getUserNameById(con, userId);
-            /*ResultSetMetaData metadata = res.getMetaData();
-            int numberOfColumns = metadata.getColumnCount();
-            System.out.println("resssss : "+numberOfColumns);*/
-            
             while (res.next()) {
                 System.out.println("in resultttt ");
                 vec.add(new NomadFileModel(res,personName));
@@ -170,11 +147,10 @@ public class NomadFileDAO{
 
     }
     public static void delNomadFileById(Connection con, String file_id) {
-        DBUtil.executeSQL("delete from gen_dcm_nomad_file where gen_dcm_nomad_file_id='" + file_id + "'", con);
-        DBUtil.executeSQL("commit", con);
         DBUtil.executeSQL("delete from gen_dcm_nomad where gen_dcm_nomad_file_id='" + file_id + "'", con);
-        DBUtil.executeSQL("commit", con);
-        //DBUtil.executeSQL("commit", con);
+         DBUtil.executeSQL("delete from gen_dcm_nomad_file where gen_dcm_nomad_file_id='" + file_id + "'", con);
+       
+     
     }
     private static boolean isValidDate(String inDate) {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -232,7 +208,7 @@ public class NomadFileDAO{
         try {
             /*Contract Number	Type	Source	MSISDN	SIM number	Id number	Seller Username	Seller	Sales channel	Channel type	Shop Username	Shop	Received on	Update on	Updated By	Status	Comment	Reject cause	Line type	Bucket
 */
-            String strSql = "insert into gen_dcm_nomad ( GEN_DCM_NOMAD_FILE_ID, CONTRACT_NUMBER, TYPE, SOURCE ,MSISDN, SIM_NUMBER, ID_NUMBER, SELLER_USERNAME, SELLER, SALES_CHANNEL,CHANNEL_TYPE,SHOP_USERNAME,SHOP,RECEIVED_ON, UPDATE_ON, UPDATED_BY, STATUS, THE_COMMENT,REJECT_CAUSE,LINE_TYPE,BUCKET) values ("+fileID+","+concatFields+")";
+            String strSql = "insert into gen_dcm_nomad ( GEN_DCM_NOMAD_FILE_ID, CONTRACT_NUMBER, TYPE, SOURCE ,MSISDN, SIM_NUMBER, ID_NUMBER, SELLER_USERNAME, SELLER, SALES_CHANNEL,CHANNEL_TYPE,SHOP_USERNAME,SHOP,RECEIVED_ON, UPDATE_ON, UPDATED_BY, STATUS, comment_text,REJECT_CAUSE,LINE_TYPE,BUCKET) values ("+fileID+","+concatFields+")";
 
             System.out.println("SQL is " + strSql);
             stat.execute(strSql);
