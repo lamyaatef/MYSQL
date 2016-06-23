@@ -122,7 +122,11 @@ public class NomadImporter {
                         if (count == 1) {
                            //System.out.println("inside count 1 ") ;
                             String tempLine = line;
-                            String[] fieldUpdatedOn = tempLine.split("\t");//tab based file
+                            String[] fieldUpdatedOn=null;
+                            if(tempLine.contains(","))
+                                fieldUpdatedOn = tempLine.split(","); // \t
+                            else if (tempLine.contains("\t"))
+                                fieldUpdatedOn = tempLine.split("\t"); // \t
                             
                             for(int i=0;i< fieldUpdatedOn.length;i++)
                             {
@@ -155,7 +159,11 @@ public class NomadImporter {
                             String fields = line;
                             String v1 = fields;
                             
-                            String[] lineFields = v1.split("\t"); // \t
+                            String[] lineFields = null;
+                             if (v1.contains(","))
+                                lineFields = v1.split(","); // \t
+                            else if (v1.contains("\t"))
+                                lineFields = v1.split("\t"); // \t
                             
                             //System.out.println("fileds "+v1+" line fields at date index: "+lineFields[updateOn]);
                             

@@ -129,6 +129,13 @@ Save Payment Level History
     out.println("<td  nowrap align=center> This Payment Level History Number Is </td>" );
     out.println("<td  nowrap align=center> "+historyId+" </td>" );    
     out.println("</tr>");
+    
+    out.println("<tr class=TableHeader>");
+    out.println("<input class=button type=\"button\" name=\"View\" value=\"   Export Data To Excel   \" ");
+    out.print(" onclick=\"if (checkBeforeView(document.SheetRevenue."+AdministrationInterfaceKey.CONTROL_INPUT_YEAR+")){ if (checkMonthInYear()==true){ document.SheetRevenue."+InterfaceKey.HASHMAP_KEY_ACTION+".value='"+
+    AdministrationInterfaceKey.ACTION_EXPORT_PAYMENT_LEVEL_HISTORY+"'; document.SheetRevenue.submit();} } else alert('Please Enter A Valid Year');\">");
+
+    out.println("</tr>");
     }
     
     
