@@ -154,15 +154,19 @@ public class NomadImporter {
                             System.out.println("count > 1");
                             String fields = line;
                             String v1 = fields;
-                            String[] lineFields = v1.split(","); // \t
+                            
+                            String[] lineFields = v1.split("\t"); // \t
+                            
+                            //System.out.println("fileds "+v1+" line fields at date index: "+lineFields[updateOn]);
+                            
                             //if a record is short or has invalid chars such as \n, continue to while loop and get the next line/record
-                            System.out.println("lineFields.length "+lineFields.length+" updated on index : "+updateOn);
+                           // System.out.println("lineFields.length "+lineFields.length+" updated on index : "+updateOn);
                             if (lineFields.length <10 ) 
                             {
-                                System.out.println("continue..");
+                                System.out.println("continue....");
                                 continue;
                             } 
-                            //System.out.println("fileds "+v1+" line fields at date index: "+lineFields[updateOn]);
+                            System.out.println("fileds "+v1+" line fields at date index: "+lineFields[updateOn]);
                             if (v1 == null) 
                                 v1 = "";
                             
@@ -171,10 +175,12 @@ public class NomadImporter {
                             System.out.println("the date in updated on is as String trimmed: "+updatedDate);
                             DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
                             System.out.println("the date coming is as String: "+fileDate);
-                            if (updatedDate.compareTo(fileDate)==0) 
-                            
-                                NomadFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx/*,fileDate,updateOn*/);
+
+                            if (updatedDate.compareTo(fileDate)==0)       
+                            {
                                 
+                                NomadFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx/*,fileDate,updateOn*/);
+                            }   
                             
                         }
                        // System.out.println("count isssssss      " + count);
