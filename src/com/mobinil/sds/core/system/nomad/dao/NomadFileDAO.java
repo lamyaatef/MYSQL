@@ -204,16 +204,17 @@ public class NomadFileDAO{
             
         //System.out.println("fields concatenated : "+concatFields);
         
-        
+        String strSql = "";
         try {
             /*Contract Number	Type	Source	MSISDN	SIM number	Id number	Seller Username	Seller	Sales channel	Channel type	Shop Username	Shop	Received on	Update on	Updated By	Status	Comment	Reject cause	Line type	Bucket
 */
-            String strSql = "insert into gen_dcm_nomad ( GEN_DCM_NOMAD_FILE_ID, CONTRACT_NUMBER, TYPE, SOURCE ,MSISDN, SIM_NUMBER, ID_NUMBER, SELLER_USERNAME, SELLER, SALES_CHANNEL,CHANNEL_TYPE,SHOP_USERNAME,SHOP,RECEIVED_ON, UPDATE_ON, UPDATED_BY, STATUS, comment_text,REJECT_CAUSE,LINE_TYPE,BUCKET) values ("+fileID+","+concatFields+")";
+             strSql = "insert into gen_dcm_nomad ( GEN_DCM_NOMAD_FILE_ID, CONTRACT_NUMBER, TYPE, SOURCE ,MSISDN, SIM_NUMBER, ID_NUMBER, SELLER_USERNAME, SELLER, SALES_CHANNEL,CHANNEL_TYPE,SHOP_USERNAME,SHOP,RECEIVED_ON, UPDATE_ON, UPDATED_BY, STATUS, comment_text,REJECT_CAUSE,LINE_TYPE,BUCKET) values ("+fileID+","+concatFields+")";
 
-           // System.out.println("SQL is " + strSql);
+  
             stat.execute(strSql);
 
         } catch (Exception e) {
+                     System.out.println("SQL is " + strSql);
             e.printStackTrace();
         }
         

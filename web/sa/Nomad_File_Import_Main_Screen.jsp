@@ -31,6 +31,7 @@
 function submitForm()
 {
    
+   alert ('Please Wait Until Loading is Complete');
   document.myform.submit();
   
 }
