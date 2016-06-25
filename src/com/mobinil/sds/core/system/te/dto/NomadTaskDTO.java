@@ -23,6 +23,8 @@ public class NomadTaskDTO extends Model{
     private String updatedRows;
     private String totalTime;
     private String taskName;
+    
+    private String taskStatusTypeId ;
 
     /**
      * @return the taskId
@@ -41,8 +43,9 @@ public class NomadTaskDTO extends Model{
     /**
      * @return the startTime
      */
-    public Timestamp getStartTime() {
-        return startTime;
+    public Timestamp  getStartTime() {
+       
+            return startTime;
     }
 
     /**
@@ -56,7 +59,8 @@ public class NomadTaskDTO extends Model{
      * @return the endTime
      */
     public Timestamp getEndTime() {
-        return endTime;
+         
+            return endTime;
     }
 
     /**
@@ -88,6 +92,11 @@ public class NomadTaskDTO extends Model{
             this.setEndTime(res.getTimestamp("END_TIME"));
             this.setUpdatedRows(res.getString("UPDATED_ROWS"));
             this.setTaskName(res.getString("TASK_NAME"));
+            this.taskStatusTypeId= res.getString("task_status_type_name");
+            if (this.getEndTime() != null && this.getStartTime() != null)
+            this.totalTime =(  this.getEndTime().getTime() - this.getStartTime().getTime() ) / 1000 +"";
+            else
+            this.totalTime = "";
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -119,5 +128,12 @@ public class NomadTaskDTO extends Model{
      */
     public void setTaskName(String taskName) {
         this.taskName = taskName;
+    }
+
+    /**
+     * @return the taskStatusTypeId
+     */
+    public String getTaskStatusTypeId() {
+        return taskStatusTypeId;
     }
 }

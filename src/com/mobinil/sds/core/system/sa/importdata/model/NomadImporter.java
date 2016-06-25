@@ -103,12 +103,12 @@ public class NomadImporter {
         int count = 0;
         
                 try {
-                    System.out.println("before buffered reader : "+filePath);
+                  //  System.out.println("before buffered reader : "+filePath);
                     input = new BufferedReader(new FileReader(filePath));
                     System.out.println("input is for csv : "+input);
                 } catch (FileNotFoundException e1) {
                     // TODO Auto-generated catch block
-                    System.out.println("buffered reader exception "+e1);
+                //    System.out.println("buffered reader exception "+e1);
                     e1.printStackTrace();
                 }
                 
@@ -131,7 +131,7 @@ public class NomadImporter {
                             {
                                 for(int i=0;i< fieldUpdatedOn.length;i++)
                                 {
-                                    System.out.println("LOOP fieldUpdatedOn[i] : "+fieldUpdatedOn[i]);
+                              //      System.out.println("LOOP fieldUpdatedOn[i] : "+fieldUpdatedOn[i]);
                                     //System.out.println("updated on = "+ UPDATED_ON);
                                    // System.out.println("selleer user name ="+ SELLER_USERNAME);
                                     if (fieldUpdatedOn[i].compareToIgnoreCase(UPDATED_ON)==0)
@@ -157,12 +157,13 @@ public class NomadImporter {
 
                        // System.out.println("line issss " + line);
                         if (count > 1) {//!=0
-                            System.out.println("count > 1");
+                           /// System.out.println("count > 1");
                             String fields = line;
                             String v1 = fields;
-                            System.out.println("V1 : "+v1);
+                            //System.out.println("V1 : "+v1);
                             String[] lineFields = null;
-                             if (v1.contains(","))
+                            
+                            if (v1.contains(","))
                                 lineFields = v1.split(","); // \t
                             else if (v1.contains("\t"))
                                 lineFields = v1.split("\t"); // \t
@@ -175,18 +176,18 @@ public class NomadImporter {
                            {
                             if (lineFields.length <10 )
                             {
-                                System.out.println("continue....");
+                              //  System.out.println("continue....");
                                 continue;
                             } 
-                            System.out.println("fileds "+v1+" line fields at date index: "+lineFields[updateOn]);
+                            //System.out.println("fileds "+v1+" line fields at date index: "+lineFields[updateOn]);
                             if (v1 == null) 
                                 v1 = "";
                             
                             String updatedDate = lineFields[updateOn];
                             updatedDate = updatedDate.substring(0, updatedDate.indexOf(" "));
-                            System.out.println("the date in updated on is as String trimmed: "+updatedDate);
+                            //System.out.println("the date in updated on is as String trimmed: "+updatedDate);
                             DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-                            System.out.println("the date coming is as String: "+fileDate);
+                            //System.out.println("the date coming is as String: "+fileDate);
 
                             if (updatedDate.compareTo(fileDate)==0)       
                                 NomadFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx/*,fileDate,updateOn*/);

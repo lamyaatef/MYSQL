@@ -272,9 +272,15 @@ public class TaskHandler {
             }
             if (actionType == SHOW_TASKS) {
                 System.out.println("SHOW_TASKS isssssssssss " + SHOW_TASKS+"task type flag: "+taskTypeFalg);
+             if (taskTypeFalg != 7 )//optimization i already did noamd show need to work on others to remove this status need
+             {
                 dataHashMap.put(TaskInterfaceKey.VEC_TASKS, TaskDAO.getTaskStatus(con, false, "0", true, "and ts.TASK_STATUS_TYPE_ID!=5", taskTypeFalg));
+             }
                 dataHashMap.put(TaskInterfaceKey.CONTROL_TASK_TYPE, Integer.toString(taskTypeFalg));
+
                 if (taskTypeFalg == 5) {
+                    
+                    
 
                     Vector<IVRTaskDTO> ivr = TaskDAO.getIVRTaskTimeData(con);
 
@@ -299,7 +305,7 @@ public class TaskHandler {
                     dataHashMap.put(TaskInterfaceKey.CONTROL_NOMAD_TASK_TIME_DATA, nomadTaskRepData);
                     dataHashMap.put(TaskInterfaceKey.VEC_NOMAD_TASKS, nomadTaskRepData);//lamya
                     //dataHashMap.put(TaskInterfaceKey.VEC_TASKS, nomadTaskRepData);
-
+                     System.out.println("adding nomad data ");
                 }
                 if (taskTypeFalg == 8) {
 

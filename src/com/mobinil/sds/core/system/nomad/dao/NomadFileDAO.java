@@ -165,7 +165,7 @@ public class NomadFileDAO{
     
     
     public static void insertNomadData(Connection con, Statement stat,String[] lineFields,Long fileID, int sellerIndex,int statusIndex/*, String fileDate, int updatedIndex*/) throws ParseException {
-        System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
+      //  System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
         
         
@@ -199,7 +199,7 @@ public class NomadFileDAO{
                 else concatFields += "'"+lineFields[i]+"'"+",";
             }
         }
-        System.out.println("after for loop");
+        //System.out.println("after for loop");
         concatFields = concatFields.substring(0, concatFields.length()-1);
             
         //System.out.println("fields concatenated : "+concatFields);
@@ -210,7 +210,7 @@ public class NomadFileDAO{
 */
             String strSql = "insert into gen_dcm_nomad ( GEN_DCM_NOMAD_FILE_ID, CONTRACT_NUMBER, TYPE, SOURCE ,MSISDN, SIM_NUMBER, ID_NUMBER, SELLER_USERNAME, SELLER, SALES_CHANNEL,CHANNEL_TYPE,SHOP_USERNAME,SHOP,RECEIVED_ON, UPDATE_ON, UPDATED_BY, STATUS, comment_text,REJECT_CAUSE,LINE_TYPE,BUCKET) values ("+fileID+","+concatFields+")";
 
-            System.out.println("SQL is " + strSql);
+           // System.out.println("SQL is " + strSql);
             stat.execute(strSql);
 
         } catch (Exception e) {

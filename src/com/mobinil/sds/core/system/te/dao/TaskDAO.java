@@ -413,10 +413,16 @@ public class TaskDAO {
         int taskStatusId = 0;
         try {
             System.out.println("inside insert nomad task");
-            taskId = getSeqValue(con, "task_seq_ID");
+            //taskId = getSeqValue(con, "task_seq_ID");
             System.out.println("task id : "+taskId);
           //  taskStatusId = getSeqValue(con, "task_seq_status_ID");
-            taskStatusId = getSeqValue(con, "tsk_seq_status_ID");
+          //  taskStatusId = getSeqValue(con, "tsk_seq_status_ID");
+            
+            
+              taskId = getSeqValue(con, "TSK_SEQ_ID");
+              taskStatusId = getSeqValue(con, "TSK_SEQ_STATUS_ID");
+        
+        
             System.out.println("task status id : "+taskStatusId);
             
             String taskquery = "INSERT INTO SDS.TSK_TASK (TASK_ID, TASK_NAME, TASK_DESCRIPTION,"
@@ -453,7 +459,12 @@ public class TaskDAO {
     }
 
     public static Vector<NomadTaskDTO> getNomadTaskReportData(Connection con) {
-        String query = "SELECT TASK_ID,TASK_NAME,START_TIME,END_TIME,UPDATED_ROWS FROM TSK_NOMAD  ORDER BY TASK_ID DESC";
+        String query = "select * from tsk_task , tsk_nomad , tsk_status, tsk_status_type\n" +
+"where\n" +
+"tsk_task.task_id = tsk_nomad.TASK_ID \n" +
+"and\n" +
+"tsk_task.TASK_STATUS_ID = tsk_status.TASK_STATUS_ID\n" +
+"and tsk_status.TASK_STATUS_TYPE_ID = tsk_status_type.TASK_STATUS_TYPE_ID  ORDER BY tsk_task.TASK_ID DESC";
         System.out.println("show task query : "+query);
         Vector<NomadTaskDTO> nomadTaskRepData = DBUtil.executeSqlQueryMultiValue(query, NomadTaskDTO.class, con);
 
@@ -461,7 +472,12 @@ public class TaskDAO {
     }
     
     public static Vector<NomadTaskDTO> getNomadTaskByID(Connection con, int taskId) {
-        String query = "SELECT TASK_ID,TASK_NAME,START_TIME,END_TIME,UPDATED_ROWS FROM TSK_NOMAD where TASK_ID = '"+taskId+"'";
+        String query = "select * from tsk_task , tsk_nomad , tsk_status, tsk_status_type " +
+" where " +
+" tsk_task.task_id = tsk_nomad.TASK_ID " +
+" and " +
+" tsk_task.TASK_STATUS_ID = tsk_status.TASK_STATUS_ID " +
+" and tsk_status.TASK_STATUS_TYPE_ID = tsk_status_type.TASK_STATUS_TYPE_ID where tsk_task.TASK_ID = '"+taskId+"'";
         System.out.println("show task query by id : "+query);
         Vector<NomadTaskDTO> nomadTaskRepData = DBUtil.executeSqlQueryMultiValue(query, NomadTaskDTO.class, con);
 

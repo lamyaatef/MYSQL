@@ -96,7 +96,7 @@ out.println("<th ><font size=2>Task Name</font></a></th><th><font size=2>Status<
 if(taskType.equals("5") || taskType.equals("8") || taskType.equals("7")){
 out.println("<th ><font size=2>StartTime</font></a></th><th><font size=2>EndTime</font></a></th>");
 out.println("<th ><font size=2>TotalTime</font></a></th>");
-out.println("<th ><font size=2>UpdatedRows</font></a></th>");
+//out.println("<th ><font size=2>UpdatedRows</font></a></th>");
 }
 
 out.println("</TR></thead><tbody>");
@@ -113,12 +113,12 @@ out.println("</TR></thead><tbody>");
     int taskId = taskDTO.getTaskId();
     String taskName = taskDTO.getTaskName();
     
-    //String taskStatus = taskDTO.getTaskStatusTypeName();
-  //  System.out.println("name status type Id in JSP : "+taskName+"   "+taskStatus+"    "+taskType+"    "+taskDTO.getTaskCurrentStatusId());
+     String taskStatus = taskDTO.getTaskStatusTypeId();
+    //System.out.println("name status type Id in JSP : "+taskName+"   "+taskStatus+"    "+taskType+"    "+taskDTO.getTaskCurrentStatusId());
     out.println("<TR class=\""+InterfaceKey.STYLE[i%2]+"\">");
     out.println("<td width=\"50%\">"+taskName+"</td>");   
-   // out.println("<td width=\"50%\" align=center>"+taskStatus+"</td>");            
-    out.println("<td width=\"50%\" align=center>"+"in progress"+"</td>");            
+    out.println("<td width=\"50%\" align=center>"+taskStatus+"</td>");            
+   // out.println("<td width=\"50%\" align=center>"+"in progress"+"</td>");            
     if(taskType.equals("5") || taskType.equals("7") || taskType.equals("8")){
         Vector <NomadTaskDTO> nomad =(Vector<NomadTaskDTO>)objDataHashMap.get(TaskInterfaceKey.CONTROL_NOMAD_TASK_TIME_DATA);
          System.out.println("NOMAD OBJECT : "+nomad);
@@ -128,17 +128,24 @@ out.println("</TR></thead><tbody>");
         totalTime="Not Finish yet";
         updatedRows=0;
        //String updatedRows="Not Finish yet";
-     //  System.out.println("STATUS jsp taskDTO.getTaskCurrentStatusId "+taskDTO.getTaskCurrentStatusId());
-       if(false/*taskDTO.getTaskCurrentStatusId()==3*/){
+//       System.out.println("STATUS jsp taskDTO.getTaskCurrentStatusId "+taskDTO.getTaskCurrentStatusId());
+      
+      {
+        if ( nomad.get(i).getStartTime()!= null)
        startTime=nomad.get(i).getStartTime().toString();
+        if ( nomad.get(i).getEndTime() != null)
        endTime=nomad.get(i).getEndTime().toString();
+
        totalTime=nomad.get(i).getTotalTime()+" Sec";
+       if ( nomad.get(i).getUpdatedRows() != null)
        updatedRows=new Integer(nomad.get(i).getUpdatedRows());
+        else
+       updatedRows=0;
        }
        out.println("<td width=\"50%\">"+startTime+"</td>");
        out.println("<td width=\"50%\" align=center>"+endTime+"</td>");
        out.println("<td width=\"50%\" align=center>"+totalTime+"</td>");
-       out.println("<td width=\"50%\" align=center>"+updatedRows.toString()+"</td>");
+  //     out.println("<td width=\"50%\" align=center>"+updatedRows.toString()+"</td>");
     }
     if(taskType.equals("6")){
     Vector <NTRATaskDTO> ntraTask =(Vector <NTRATaskDTO>)objDataHashMap.get(TaskInterfaceKey.CONTROL_NTRA_TASK_TIME_DATA);
