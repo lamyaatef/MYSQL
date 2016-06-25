@@ -128,7 +128,7 @@ public class NomadFileDAO{
            // String strSql = "update GEN_DCM_NOMAD_FILE set total_number_of_records = '"+totalNoOfRecords+"', file_upload_date = SYSDATE, max_date = (select max(to_char(received_on,'MM-dd-yyyy hh24:mi')) max_date from GEN_DCM_NOMAD), min_date = (select min(to_char(received_on,'MM-dd-yyyy hh24:mi')) min_date from GEN_DCM_NOMAD) where gen_dcm_nomad_file_id='"+fileId+"'";
             
             // Hagry:
-            String strSql = "update gen_dcm_nomad_file set (min_date,max_date,total_number_of_records,file_upload_date)= (select min(RECEIVED_ON), max(RECEIVED_ON),count(*),SYSDATE from gen_dcm_nomad where gen_dcm_nomad_file_id = '"+fileId+"') where gen_dcm_nomad_file_id = '"+fileId+"'";
+            String strSql = "update gen_dcm_nomad_file set (min_date,max_date,total_number_of_records,file_upload_date)= (select min(update_on), max(update_on),count(*),SYSDATE from gen_dcm_nomad where gen_dcm_nomad_file_id = '"+fileId+"') where gen_dcm_nomad_file_id = '"+fileId+"'";
             System.out.println("UPDATE NOMAD QUERY : "+strSql);
             stat.executeUpdate(strSql);
             String commit = "commit";
