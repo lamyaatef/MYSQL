@@ -63,13 +63,18 @@ import com.mobinil.sds.core.system.dataMigration.model.PaymentLevelModel;
 import com.mobinil.sds.core.system.tango.dao.TangoFileDAO;
 import com.mobinil.sds.core.system.nomad.dao.NomadFileDAO;
 import com.mobinil.sds.core.system.nomad.dao.NomadLabelDao;
+import com.mobinil.sds.core.system.paymentHistory.dao.PaymentHistoryFileDAO;
+import com.mobinil.sds.core.system.request.dao.RequestDao;
 import com.mobinil.sds.core.system.request.model.ChannelModel;
 import com.mobinil.sds.core.system.sa.history.dao.PaymentLevelHistoryDao;
 import com.mobinil.sds.core.system.sa.product.dao.*;
 import com.mobinil.sds.core.system.sa.importdata.dao.*;
+import com.mobinil.sds.core.system.scm.dao.PoiWriteExcelFile;
+import com.mobinil.sds.core.system.scm.model.POSSearchExcelModel;
 
 import com.mobinil.sds.core.utilities.CachEngine;
 import com.mobinil.sds.web.interfaces.ar.AuthResInterfaceKey;
+import java.util.logging.Level;
 public class AdministratorHandler  
 {
   //////////////////Static ints used to switch on the actions.//////////////////
@@ -148,9 +153,11 @@ public class AdministratorHandler
   
   
   static final int SAVE_PAYMENT_LEVEL_HISTORY = 49;
+  
   static final int DELETE_NOMAD_FILE = 50;
   
   static final int LIST_PAYMENT_LEVEL_HISTORY = 51;
+  static final int LIST_PAYMENT_LEVEL_HISTORY_FILES = 52; 
   
   /**
    * handle method:
@@ -389,6 +396,10 @@ public class AdministratorHandler
       {
         actionType = LIST_PAYMENT_LEVEL_HISTORY;
       }
+      else if(action.compareTo(AdministrationInterfaceKey.ACTION_SHOW_HISTORY_FILE)==0)
+      {
+        actionType = LIST_PAYMENT_LEVEL_HISTORY_FILES;
+      }
       //////////////////////////////////////////////////////////////////////////
       switch (actionType) 
       {
@@ -401,6 +412,29 @@ public class AdministratorHandler
               dataHashMap.put(InterfaceKey.HASHMAP_KEY_LIST_COLLECTION, PaymentLevelHistoryDao.getHistoryFileMonthYeatByUserId(strUserID));
         break;
 
+            
+        case LIST_PAYMENT_LEVEL_HISTORY_FILES:
+            {
+                    System.out.println("in LIST_PAYMENT_LEVEL_HISTORY_FILES");
+                    strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+                    dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,strUserID);
+                    Vector files =PaymentHistoryFileDAO.getallHistoryFiles(con,strUserID);
+	            dataHashMap.put(AdministrationInterfaceKey.VECTOR_FILES,files);
+              
+                   }
+            break;
+            
+case SHOW_NOMAD_FILE_LIST:
+		 {
+                    System.out.println("in SHOW_NOMAD_FILE_LIST");
+                    strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+                    dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,strUserID);
+                    Vector files =NomadFileDAO.getallNomadfiles(con,strUserID);
+	            dataHashMap.put(AdministrationInterfaceKey.VECTOR_FILES,files);
+              
+                   }
+			break;
+            
         ////////////////////////list actions + privileges&roles(web interface): Product, Channel, PaymentLevel  
         case LIST_ALL_PAYMENT_LEVELS:
             dataHashMap.put(InterfaceKey.HASHMAP_KEY_COLLECTION, BundleDao.getPaymentLevels(con));
@@ -990,8 +1024,8 @@ public class AdministratorHandler
           //  dataHashMap.put(InterfaceKey.HASHMAP_KEY_ADDITIONAL_COLLECTION,dcmDto);
         }
         break;
-            
-            
+            /////////////////////////////////////////////////
+       
             /////////////////////////////////////////////
         case SEARCH_SCRATCH_CARD:
         {
@@ -1191,16 +1225,7 @@ public class AdministratorHandler
             dataHashMap.put(  AdministrationInterfaceKey.TABLE_DEF_VECTOR  , tableDefVector); 
         }
         break;   */
-            case SHOW_NOMAD_FILE_LIST:
-		 {
-                    System.out.println("in SHOW_NOMAD_FILE_LIST");
-                    strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
-                    dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,strUserID);
-                    Vector files =NomadFileDAO.getallNomadfiles(con,strUserID);
-	            dataHashMap.put(AdministrationInterfaceKey.VECTOR_FILES,files);
-              
-                   }
-			break;
+            
             
             
         case RUN_LINUX_COMMAND_INPUT:
