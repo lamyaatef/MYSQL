@@ -74,6 +74,7 @@ import com.mobinil.sds.core.system.scm.model.POSSearchExcelModel;
 
 import com.mobinil.sds.core.utilities.CachEngine;
 import com.mobinil.sds.web.interfaces.ar.AuthResInterfaceKey;
+import com.mobinil.sds.web.interfaces.scm.SCMInterfaceKey;
 import java.util.logging.Level;
 public class AdministratorHandler  
 {
@@ -155,7 +156,8 @@ public class AdministratorHandler
   static final int SAVE_PAYMENT_LEVEL_HISTORY = 49;
   
   static final int DELETE_NOMAD_FILE = 50;
-  
+  static final int DELETE_HISTORY_FILE = 53;
+  static final int EXPORT_PAYMENT_LEVEL_HISTORY = 54;
   static final int LIST_PAYMENT_LEVEL_HISTORY = 51;
   static final int LIST_PAYMENT_LEVEL_HISTORY_FILES = 52; 
   
@@ -390,7 +392,14 @@ public class AdministratorHandler
       {
         actionType = DELETE_NOMAD_FILE;
       }
-      
+      else if(action.compareTo(AdministrationInterfaceKey.ACTION_DELETE_HISTORY_FILE)==0)
+      {
+        actionType = DELETE_HISTORY_FILE;
+      }
+      else if(action.compareTo(AdministrationInterfaceKey.ACTION_EXPORT_PAYMENT_LEVEL_HISTORY)==0)
+      {
+        actionType = EXPORT_PAYMENT_LEVEL_HISTORY;
+      }
       
       else if(action.compareTo(AdministrationInterfaceKey.ACTION_SHOW_PAYMENT_LEVEL_HISTORY)==0)
       {
@@ -418,7 +427,7 @@ public class AdministratorHandler
                     System.out.println("in LIST_PAYMENT_LEVEL_HISTORY_FILES");
                     strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
                     dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,strUserID);
-                    Vector files =PaymentHistoryFileDAO.getallHistoryFiles(con,strUserID);
+                    Vector files =PaymentHistoryFileDAO.getallFiles(con,strUserID);
 	            dataHashMap.put(AdministrationInterfaceKey.VECTOR_FILES,files);
               
                    }
@@ -1206,6 +1215,31 @@ case SHOW_NOMAD_FILE_LIST:
 	    System.out.println("FILE ID ISSSSSSSSSSSS"+fieldId);
             String  strStatus =(String) paramHashMap.get("statusStr");
             NomadFileDAO.delNomadFileById(con, fieldId);
+        }
+        break;
+          case EXPORT_PAYMENT_LEVEL_HISTORY:
+          {
+             // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
+            System.out.println("%%% export history file action");
+              String Slach = System.getProperty("file.separator");
+              System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
+              String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
+              String  fieldId =(String) paramHashMap.get("fieldId");
+              System.out.println("file id value "+paramHashMap.get("fieldId"));
+              Vector files =PaymentHistoryFileDAO.getallHistoryFiles(con,fieldId);
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForHistory(/*dataVec*/files, baseDirectory);
+              dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
+          }
+          break;  
+            
+            case DELETE_HISTORY_FILE:
+        {
+            System.out.println("%%% delete history file action");
+            dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,strUserID);
+            String  fieldId =(String) paramHashMap.get("fieldId");
+	    System.out.println("FILE ID ISSSSSSSSSSSS"+fieldId);
+            String  strStatus =(String) paramHashMap.get("statusStr");
+            PaymentHistoryFileDAO.delHistoryFileById(con, fieldId);
         }
         break;
             

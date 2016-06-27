@@ -2,6 +2,7 @@ package com.mobinil.sds.core.system.scm.dao;
 
 import com.mobinil.sds.core.system.authenticationResult.dao.AuthResDAO;
 import com.mobinil.sds.core.system.commission.model.RatedFileError;
+import com.mobinil.sds.core.system.paymentHistory.model.PaymentHistoryFileModel;
 import com.mobinil.sds.core.system.scm.model.CaseModel;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -692,7 +693,8 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 				}
 
         }
-
+        
+        
   public static String exportExcelSheetForPOSSearch(Vector<POSSearchExcelModel> POSSearchResults,String directionFile)
   {
       java.util.Date dateNow = new java.util.Date();
@@ -958,6 +960,110 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                 cells.get(j).get(i).setCellValue(POSDAO.getPaymentStatusName(con,Integer.toString(POSSearchResults.get(i-1).getPosPaymentstatus() )));
                                 j++;
                                 cells.get(j).get(i).setCellValue(POSSearchResults.get(i-1).getSurveyId());
+                             }
+              con.close();
+ } catch (SQLException ex) {
+                Logger.getLogger(PoiWriteExcelFile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                                        workbook.write(fileOut);
+					fileOut.flush();
+					fileOut.close();
+					return fileName;
+
+                                } catch (FileNotFoundException e)
+				{
+					e.printStackTrace();
+					return "";
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+					return "";
+				}
+
+
+  }      
+        
+
+  public static String exportExcelSheetForHistory(Vector<PaymentHistoryFileModel> HistoryResults,String directionFile)
+  {
+      java.util.Date dateNow = new java.util.Date();
+        int imonth = dateNow.getMonth() + 1;
+        int iyear = dateNow.getYear() + 1900;
+        String strdate = (new StringBuffer("[")).append(dateNow.getDate()).append("-").append(imonth).append("-").append(iyear).append("]-").append(dateNow.getHours()).append(".").append(dateNow.getMinutes()).append(".").append(dateNow.getSeconds()).append("_").toString();
+        String fileName = strdate+"history_file_report.xls";
+       FileOutputStream fileOut;
+        try {
+            fileOut = new FileOutputStream(directionFile + Slach + fileName);
+
+					HSSFWorkbook workbook = new HSSFWorkbook();
+					HSSFSheet worksheet = workbook.createSheet("POS Worksheet");
+
+					ArrayList<HSSFRow> rows = new ArrayList<HSSFRow>();
+                                        ArrayList<ArrayList<HSSFCell>> cells=new ArrayList<ArrayList<HSSFCell>>();
+					//42 //45
+                                        for(int i=1; i<=9;i++){
+                                        ArrayList<HSSFCell> cell = new ArrayList<HSSFCell>();
+                                            cells.add(cell);
+                                        }
+
+                                       
+
+                                        for (int i=0;i<=HistoryResults.size();i++){
+
+                                            rows.add(worksheet.createRow(i));
+                                             //42
+                                            for(int cellno=0;cellno<9;cellno++){
+                                                
+                                                cells.get(cellno).add(rows.get(i).createCell((short) cellno));
+                                            }
+
+                                        }
+
+
+                                      int header=0;
+                                      cells.get(header).get(0).setCellValue("File Id");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("User Name");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("POS Code");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("File Timestamp");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Month");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Year");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Channel Name");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Payment Level Name");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Status");
+                                      
+            try {
+                Connection con = Utility.getConnection();
+
+
+                             for(int i=1;i<=HistoryResults.size();i++)
+                             {
+                                 PaymentHistoryFileModel ss = HistoryResults.get(i-1);
+                                int j=0;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getHISTORY_FILE_ID());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getUSERNAME());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getDCM_CODE());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getFILE_TIMESTAMP());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getFILE_MONTH());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getFILE_YEAR());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getDCM_CHANNEL_NAME());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getDCM_PAYMENT_LEVEL());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getFILE_STATUS());
                              }
               con.close();
  } catch (SQLException ex) {

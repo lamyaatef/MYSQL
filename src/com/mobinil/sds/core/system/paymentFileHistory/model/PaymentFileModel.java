@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mobinil.sds.core.system.paymentHistory.model;
+package com.mobinil.sds.core.system.paymentFileHistory.model;
 
 import java.sql.ResultSet;
 
@@ -11,46 +11,38 @@ import java.sql.ResultSet;
  *
  * @author sand
  */
-public class PaymentHistoryFileModel {
-            private String  HISTORY_FILE_ID;
+public class PaymentFileModel {
+         private String  HISTORY_FILE_ID;
 	    private String  USER_ID ;
 	    private String  FILE_TIMESTAMP ;
-	    private String  DCM_CHANNEL_NAME ;
-	    private String  DCM_PAYMENT_LEVEL ;
-	    private String  DCM_CODE ;
-            private String  DCM_ID ;
-            private String  FILE_YEAR ;
+	    private String  FILE_YEAR ;
             private String  FILE_MONTH;
-            private String  FILE_STATUS ;
-            private String USERNAME;
+            private String  FILE_STATUS_ID ;
+            private String  STATUS_NAME ;
+            private String  USERNAME ;
 
     /**
      * @return the HISTORY_FILE_ID
      */
             
-               
-public PaymentHistoryFileModel()
+public PaymentFileModel()
 {
 	
 }
-public PaymentHistoryFileModel(ResultSet res)
+public PaymentFileModel(ResultSet res)
 {
     try
 	      {
 	    	  
 	  
 		    HISTORY_FILE_ID = res.getString("HISTORY_FILE_ID");
-                    USERNAME= res.getString("PERSON_FULL_NAME");
-                    DCM_CODE = res.getString("DCM_CODE");
                     FILE_TIMESTAMP = res.getString("TIMESTAMP");
                     FILE_MONTH = res.getString("MONTH");
                     FILE_YEAR = res.getString("YEAR");
-                    DCM_CHANNEL_NAME =  res.getString("CHANNEL_NAME");
-                    DCM_PAYMENT_LEVEL =  res.getString("DCM_PAYMENT_LEVEL_NAME");
-                    FILE_STATUS= res.getString("STATUS_NAME");
-                    
-		    DCM_ID = res.getString("DCM_ID");
+                    FILE_STATUS_ID= res.getString("STATUS_ID");
                     USER_ID = res.getString("USER_ID");
+                    USERNAME = res.getString("PERSON_FULL_NAME");
+                    STATUS_NAME = res.getString("STATUS_NAME");
                 }
 	      catch(Exception e)
 	      {
@@ -60,6 +52,7 @@ public PaymentHistoryFileModel(ResultSet res)
 }        
             
             
+
     public String getHISTORY_FILE_ID() {
         return HISTORY_FILE_ID;
     }
@@ -100,62 +93,6 @@ public PaymentHistoryFileModel(ResultSet res)
     }
 
     /**
-     * @return the DCM_CHANNEL_NAME
-     */
-    public String getDCM_CHANNEL_NAME() {
-        return DCM_CHANNEL_NAME;
-    }
-
-    /**
-     * @param DCM_CHANNEL_NAME the DCM_CHANNEL_NAME to set
-     */
-    public void setDCM_CHANNEL_NAME(String DCM_CHANNEL_NAME) {
-        this.DCM_CHANNEL_NAME = DCM_CHANNEL_NAME;
-    }
-
-    /**
-     * @return the DCM_PAYMENT_LEVEL
-     */
-    public String getDCM_PAYMENT_LEVEL() {
-        return DCM_PAYMENT_LEVEL;
-    }
-
-    /**
-     * @param DCM_PAYMENT_LEVEL the DCM_PAYMENT_LEVEL to set
-     */
-    public void setDCM_PAYMENT_LEVEL(String DCM_PAYMENT_LEVEL) {
-        this.DCM_PAYMENT_LEVEL = DCM_PAYMENT_LEVEL;
-    }
-
-    /**
-     * @return the DCM_CODE
-     */
-    public String getDCM_CODE() {
-        return DCM_CODE;
-    }
-
-    /**
-     * @param DCM_CODE the DCM_CODE to set
-     */
-    public void setDCM_CODE(String DCM_CODE) {
-        this.DCM_CODE = DCM_CODE;
-    }
-
-    /**
-     * @return the DCM_ID
-     */
-    public String getDCM_ID() {
-        return DCM_ID;
-    }
-
-    /**
-     * @param DCM_ID the DCM_ID to set
-     */
-    public void setDCM_ID(String DCM_ID) {
-        this.DCM_ID = DCM_ID;
-    }
-
-    /**
      * @return the FILE_YEAR
      */
     public String getFILE_YEAR() {
@@ -184,17 +121,31 @@ public PaymentHistoryFileModel(ResultSet res)
     }
 
     /**
-     * @return the FILE_STATUS
+     * @return the FILE_STATUS_ID
      */
-    public String getFILE_STATUS() {
-        return FILE_STATUS;
+    public String getFILE_STATUS_ID() {
+        return FILE_STATUS_ID;
     }
 
     /**
-     * @param FILE_STATUS the FILE_STATUS to set
+     * @param FILE_STATUS_ID the FILE_STATUS_ID to set
      */
-    public void setFILE_STATUS(String FILE_STATUS) {
-        this.FILE_STATUS = FILE_STATUS;
+    public void setFILE_STATUS_ID(String FILE_STATUS_ID) {
+        this.FILE_STATUS_ID = FILE_STATUS_ID;
+    }
+
+    /**
+     * @return the STATUS_NAME
+     */
+    public String getSTATUS_NAME() {
+        return STATUS_NAME;
+    }
+
+    /**
+     * @param STATUS_NAME the STATUS_NAME to set
+     */
+    public void setSTATUS_NAME(String STATUS_NAME) {
+        this.STATUS_NAME = STATUS_NAME;
     }
 
     /**

@@ -5,7 +5,9 @@
  */
 package com.mobinil.sds.core.system.paymentHistory.dao;
 
+import com.mobinil.sds.core.system.paymentFileHistory.model.PaymentFileModel;
 import com.mobinil.sds.core.system.paymentHistory.model.PaymentHistoryFileModel;
+import com.mobinil.sds.core.utilities.DBUtil;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -17,16 +19,15 @@ import java.util.Vector;
  */
 public class PaymentHistoryFileDAO {
     
-    public static Vector getallHistoryFiles(Connection con, String userId) {
+    public static Vector getallHistoryFiles(Connection con, String fileId) {
         Vector vec = new Vector();
-        String personName="";
         System.out.println("getallHistoryFiles ");
         try {
             Statement stat = con.createStatement();
-            //String strSql = "select gf.GEN_DCM_NOMAD_FILE_ID, gf.USER_ID, gf.FILE_CREATION_DATE, gf.FILE_UPLOAD_DATE, gf.TOTAL_NUMBER_OF_RECORDS, gl.NOMAD_LABEL_NAME from  GEN_DCM_NOMAD_FILE gf, GEN_DCM_NOMAD_LABEL gl where gf.user_id = '"+userId+"' and gf.label_id = gl.NOMAD_LABEL_ID and gf.status <> 'Deleted'";
-            System.out.println("^^^^^^^^^^");
+            stat.setFetchSize(0);
             String strSql = "SELECT gen_dcm_payment_level_history.history_file_id,\n" +
-"  dcm_payment_level_hist_detail.dcm_code,\n" +
+"  dcm_payment_level_hist_detail.dcm_code,gen_dcm_payment_level_history.user_id,\n" +
+"dcm_payment_level_hist_detail.dcm_id,\n" +
 "  gen_person.person_full_name,\n" +
 "  DCM_PAY_HISTORY_FILE_STATUS.status_name,\n" +
 "  gen_dcm_payment_level_history.TIMESTAMP,\n" +
@@ -45,19 +46,63 @@ public class PaymentHistoryFileDAO {
 "AND dcm_payment_level_hist_detail.channel_id           = gen_channel.channel_id\n" +
 "AND dcm_payment_level_hist_detail.dcm_payment_level_id = gen_dcm_payment_level.dcm_payment_level_id\n" +
 "AND gen_dcm_payment_level_history.status_id            =DCM_PAY_HISTORY_FILE_STATUS.status_id\n" +
-"AND gen_dcm_payment_level_history.user_id              = gen_person.person_id order by gen_dcm_payment_level_history.TIMESTAMP desc";
-            System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%");
+"AND gen_dcm_payment_level_history.user_id              = gen_person.person_id AND gen_dcm_payment_level_history.history_file_id = '"+fileId+"' order by gen_dcm_payment_level_history.TIMESTAMP desc";
             System.out.println("get history query "+ strSql);
             ResultSet res = stat.executeQuery(strSql);
             while (res.next()) {
-                System.out.println("in resultttt ");
+                System.out.println("in result hist ");
                 vec.add(new PaymentHistoryFileModel(res));
                 }
+            res.close();
             stat.close();
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
         return vec;
+    }
+    
+    
+    public static Vector getallFiles(Connection con, String userId) {
+        Vector vec = new Vector();
+        System.out.println("getallFiles ");
+        try {
+            Statement stat = con.createStatement();
+            stat.setFetchSize(0);
+            String strSql = "SELECT gen_dcm_payment_level_history.history_file_id,\n" +
+"  gen_dcm_payment_level_history.user_id,\n" +
+"  gen_dcm_payment_level_history.timestamp,\n" +
+"  gen_dcm_payment_level_history.month,\n" +
+"  gen_dcm_payment_level_history.year,gen_dcm_payment_level_history.status_id,\n" +
+"  gen_person.person_full_name,\n" +
+"  DCM_PAY_HISTORY_FILE_STATUS.status_name\n" +
+"FROM gen_dcm_payment_level_history,\n" +
+"  gen_person,\n" +
+"  DCM_PAY_HISTORY_FILE_STATUS\n" +
+"WHERE gen_dcm_payment_level_history.user_id = gen_person.person_id\n" +
+"AND gen_dcm_payment_level_history.status_id = DCM_PAY_HISTORY_FILE_STATUS.status_id order by gen_dcm_payment_level_history.TIMESTAMP desc";
+            System.out.println("get history query "+ strSql);
+            ResultSet res = stat.executeQuery(strSql);
+            while (res.next()) {
+                System.out.println("in result files");
+                vec.add(new PaymentFileModel(res));
+                }
+            res.close();
+            stat.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return vec;
+    }
+    
+       public static void delHistoryFileById(Connection con, String file_id) {
+        DBUtil.executeSQL("delete from gen_dcm_payment_level_history where history_file_id='" + file_id + "'", con);
+         DBUtil.executeSQL("delete from dcm_payment_level_hist_detail where history_file_id='" + file_id + "'", con);
+       
+     
     }
 
     
