@@ -37,7 +37,7 @@ public class RepManagementDAO {
 
         Vector<DCMUserLevelTypeModel> repAndSupervisorLevels=new Vector();
         String sqlStatement;
-        sqlStatement="SELECT USER_LEVEL_TYPE_ID,USER_LEVEL_TYPE_NAME FROM DCM_USER_LEVEL_TYPE WHERE USER_LEVEL_TYPE_ID=3 OR USER_LEVEL_TYPE_ID=4";
+        sqlStatement="SELECT USER_LEVEL_TYPE_ID,USER_LEVEL_TYPE_NAME FROM DCM_USER_LEVEL_TYPE WHERE USER_LEVEL_TYPE_ID=3 OR USER_LEVEL_TYPE_ID=4 OR USER_LEVEL_TYPE_ID=5";
         repAndSupervisorLevels=DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserLevelTypeModel.class, con);
         return repAndSupervisorLevels;
 
