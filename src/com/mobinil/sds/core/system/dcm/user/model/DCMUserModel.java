@@ -249,6 +249,17 @@ public void setCreationTimeStamp(Date passCreationTimeStamp) {
         }
 
     }
+           public void fillForRepTeamleadAssign(ResultSet res){
+        try {
+
+            this.setDcmUserId(res.getString("DCM_USER_ID"));
+            this.setUserFullName(res.getString("USER_FULL_NAME"));
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DCMUserModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     @Override
     public void fillInstance(ResultSet res) {

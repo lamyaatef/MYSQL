@@ -15,12 +15,14 @@
 <%
             HashMap dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
             Vector<RepSupervisorModel> repSupervisors=new Vector();
+            Vector<RepTeamleaderModel> repTeamleaders=new Vector();
             RepPOSGroupModel posGroup=new RepPOSGroupModel();
             DCMUserDetailModel repDetails=new DCMUserDetailModel();
             String appName = request.getContextPath();
             String formName = "repDetailsForm";
             String userId = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
             repSupervisors=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REP_SUPERVISORS);
+            repTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REP_TEAMLEADS);
             repDetails=(DCMUserDetailModel)dataHashMap.get(SCMInterfaceKey.REP_SUP_DETAILS);
             posGroup=(RepPOSGroupModel)dataHashMap.get(SCMInterfaceKey.REP_POS_GROUP);
             String confMessage=(String)dataHashMap.get(SCMInterfaceKey.CONFIRMATION_MESSAGE);
@@ -91,6 +93,11 @@
                 document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_UNASSIGN_REP_FROM_SUP%>";
                 document.<%=formName%>.submit();
             }
+            function unAssignTeamlead(teamleadId){
+                document.<%=formName%>.<%=SCMInterfaceKey.SUP_ID%>.value=teamleadId;
+                document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_UNASSIGN_REP_FROM_TEAMLEAD%>";
+                document.<%=formName%>.submit();
+            }
 
 
             function showSupDetail(dcmUserId,userLevelTypeId){
@@ -106,6 +113,16 @@
                 }
                 else{
                     alert("Rep already has 2 supervisors.");
+                }
+
+            }
+            function submitToAssignTeamleader(){
+                if(<%=repTeamleaders==null?0:repTeamleaders.size()%><2){
+                    document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_REP_TEAMLEAD_ASSIGN%>";
+                    document.<%=formName%>.submit();
+                }
+                else{
+                    alert("Rep already has 2 teamleaders.");
                 }
 
             }
@@ -159,7 +176,7 @@
                             <font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=repDetails.getRegionName()%></font>
                         </td>
                     </tr>
-
+                    <%--
                     <tr class=TableTextNote>
                         <td align="left">POS Group</td>
                         <td align="left">
@@ -179,7 +196,9 @@
 
                         </td>
                     </tr>
-                                        <tr class=TableTextNote>
+                    --%>
+                    
+                    <tr class=TableTextNote>
                         <td align="left">Supervisors</td>
                         <td align="left">
                             <font style="font-size: 11px;font-family: tahoma;line-height: 15px">
@@ -213,9 +232,59 @@
                             </font>
                         </td>
                     </tr>
+                    <tr class=TableTextNote>
+                        <td align="left">Team Leaders</td>
+                        <td align="left">
+                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px">
 
+
+                                    <%
+                                    if(repTeamleaders!=null&&repTeamleaders.size()!=0){
+                                        for(int i=0;i<repTeamleaders.size();i++){
+                                           RepTeamleaderModel repTeamleader=new RepTeamleaderModel();
+                                            repTeamleader=(RepTeamleaderModel)repTeamleaders.get(i);
+                                    %>
+                                    <b>-</b>&nbsp;<a href="javascript:showSupDetail(<%=repTeamleader.getTeamleadId()%>,5);"><%=repTeamleader.getTeamleadName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignTeamlead(<%=repTeamleader.getTeamleadId()%>);">Unassign</a></font><br>
+
+                                    <%
+                                    }
+                                        %>
+
+
+                                        
+                                    <%
+                                    }else{
+                                        %>
+                                        
+                                        <b>No Team Leaders Assigned.</b>
+
+                                    <%
+                                        }
+                                        %>
+
+
+                            </font>
+                        </td>
+                    </tr>
+<%--
                     <tr>
-                        <td colspan="2" align="center"><input type="button" name="submitButton" class="button" value="Assign Group" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="SubmitToAssignGroup(<%=repDetails.getUserId()%>);">&nbsp;<input type="button" name="submitButton" class="button" value="Assign to Supervisor" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitToAssignSupervisor();">&nbsp;<input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="doBack();"></td>
+                        <td colspan="2" align="center">
+                            <input type="button" name="submitButton" class="button" value="Assign Group" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="SubmitToAssignGroup(<%=repDetails.getUserId()%>);">
+                            &nbsp;
+                            <input type="button" name="submitButton" class="button" value="Assign to Supervisor" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitToAssignSupervisor();">
+                            &nbsp;
+                            <input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="doBack();">
+                        </td>
+                    </tr>
+--%>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input type="button" name="submitButton" class="button" value="Assign to Teamleader" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitToAssignTeamleader();">
+                            &nbsp;
+                            <input type="button" name="submitButton" class="button" value="Assign to Supervisor" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitToAssignSupervisor();">
+                            &nbsp;
+                            <input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="doBack();">
+                        </td>
                     </tr>
                 </table>
 

@@ -126,6 +126,7 @@ public class SCMInterfaceKey {
     public static final String ACTION_VIEW_REP_DETAIL = "view_rep_detail";
     public static final String ACTION_VIEW_SUP_DETAIL = "view_sup_detail";
     public static final String VECTOR_ALL_REP_SUPERVISORS = "rep_supervisors";
+    public static final String VECTOR_ALL_REP_TEAMLEADS = "rep_teamleaders";
     public static final String REP_POS_GROUP = "rep_pos_group";
     public static final String REP_SUP_DETAILS = "rep_sup_details";
     public static final String ACTION_GEN_USER_SEARCH = "gen_user_search";
@@ -148,10 +149,16 @@ public class SCMInterfaceKey {
     //Rep-Group-Relation(Assign)
     //Rep-Sup Relation --Start
     public static final String ACTION_REP_SUP_ASSIGN = "rep_sup_assign";
+    public static final String ACTION_REP_TEAMLEAD_ASSIGN = "rep_teamlead_assign";
     public static final String ACTION_ASSIGN_REP_TO_SUP = "assign_rep_to_sup";
+    public static final String ACTION_ASSIGN_REP_TO_TEAMLEAD = "assign_rep_to_teamlead";
     public static final String ACTION_UNASSIGN_REP_FROM_SUP = "unassign_rep_from_sup";
+   //public static final String ACTION_UNASSIGN_REP_FROM_TEAM = "unassign_rep_from_teamlead";
+    public static final String ACTION_UNASSIGN_REP_FROM_TEAMLEAD = "unassign_rep_from_teamlead";
     public static final String VECTOR_ALL_REGION_SUPERVISORS = "vector_all_region_supervisors";
+    public static final String VECTOR_ALL_REGION_TEAMLEADERS = "vector_all_region_teamleaders";
     public static final String SUP_ID = "sup_id";
+    public static final String TEAMLEAD_ID = "teamlead_id";
     public static final String VECTOR_ALL_SUP_REPS = "vector_all_sup_reps";
     public static final String VECTOR_ALL_REGION_REPS = "vector_all_region_reps";
     public static final String ACTION_ASSIGN_REP_TO_SUPERVISOR = "assign_rep_to_supervisor";

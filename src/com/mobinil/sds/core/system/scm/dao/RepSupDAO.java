@@ -44,8 +44,18 @@ public class RepSupDAO {
         Vector <DCMUserModel> supervisors=new Vector();
         sqlStatement="SELECT DU.DCM_USER_ID,DUD.USER_FULL_NAME FROM DCM_USER DU,DCM_USER_DETAIL DUD" 
                     +" WHERE DU.DCM_USER_ID=DUD.USER_ID AND DU.USER_LEVEL_TYPE_ID=4 AND DU.REGION_ID="+regionId+" ORDER BY LOWER(DUD.USER_FULL_NAME)";
+        System.out.println("getRegionSupervisors "+sqlStatement);
         supervisors=DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class,"fillForRepSupAssign", con);
         return supervisors;
+    }
+    public static Vector<DCMUserModel> getRegionTeamleaders(Connection con,String regionId){
+        String sqlStatement;
+        Vector <DCMUserModel> teamleaders=new Vector();
+        sqlStatement="SELECT DU.DCM_USER_ID,DUD.USER_FULL_NAME FROM DCM_USER DU,DCM_USER_DETAIL DUD" 
+                    +" WHERE DU.DCM_USER_ID=DUD.USER_ID AND DU.USER_LEVEL_TYPE_ID=5 AND DU.REGION_ID="+regionId+" ORDER BY LOWER(DUD.USER_FULL_NAME)";
+        System.out.println("getRegionTeamleaders "+sqlStatement);
+        teamleaders=DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class,"fillForRepTeamleadAssign", con);
+        return teamleaders;
     }
 
     public static void assignRepToSupervisor(Connection con,String repId,String supId,String userId){
@@ -53,10 +63,21 @@ public class RepSupDAO {
         sqlStatement="INSERT INTO SCM_REP_SUPERVISORS VALUES("+repId+","+supId+",sysdate,"+userId+")";
         DBUtil.executeSQL(sqlStatement, con);
     }
+    public static void assignRepToTeamleader(Connection con,String repId,String teamleadId,String userId){
+        String sqlStatement;
+        sqlStatement="INSERT INTO SCM_REP_TEAMLEADERS VALUES("+repId+","+teamleadId+",sysdate,"+userId+")";
+        DBUtil.executeSQL(sqlStatement, con);
+    }
 
     public static void unassignRepFromSupervisor(Connection con,String repId,String supId){
         String sqlStatement;
         sqlStatement="DELETE FROM SCM_REP_SUPERVISORS WHERE REP_ID="+repId+" AND SUP_ID="+supId;
+        DBUtil.executeSQL(sqlStatement, con);   
+    }
+    
+    public static void unassignRepFromTeamleader(Connection con,String repId,String teamleadId){
+        String sqlStatement;
+        sqlStatement="DELETE FROM SCM_REP_TEAMLEADERS WHERE REP_ID="+repId+" AND TEAMLEAD_ID="+teamleadId;
         DBUtil.executeSQL(sqlStatement, con);   
     }
 
@@ -70,10 +91,31 @@ public class RepSupDAO {
         else
             return true;
     }
+    public static boolean checkIfRepAssigntoMoreThanTwoTeamleaders(Connection con,String repId){
+        String sqlStatement;
+        sqlStatement="SELECT COUNT(TEAMLEAD_ID) COUNT FROM SCM_REP_TEAMLEADERS WHERE REP_ID="+repId;
+        int checkFlag=-1;
+        checkFlag=DBUtil.executeQuerySingleValueInt(sqlStatement, "COUNT", con);
+        if(checkFlag<2)
+            return false;
+        else
+            return true;
+    }
 
     public static boolean checkIfRepAlreadyAssignedToThisSup(Connection con,String repId,String supId){
         String sqlStatement;
         sqlStatement="SELECT COUNT(SUP_ID) COUNT FROM SCM_REP_SUPERVISORS WHERE REP_ID="+repId+" AND SUP_ID="+supId;
+        int checkFlag=-1;
+        checkFlag=DBUtil.executeQuerySingleValueInt(sqlStatement, "COUNT", con);
+        if(checkFlag>0)
+            return true;
+        else
+            return false;
+
+    }
+    public static boolean checkIfRepAlreadyAssignedToThisTeamlead(Connection con,String repId,String supId){
+        String sqlStatement;
+        sqlStatement="SELECT COUNT(TEAMLEAD_ID) COUNT FROM SCM_REP_TEAMLEADERS WHERE REP_ID="+repId+" AND TEAMLEAD_ID="+supId;
         int checkFlag=-1;
         checkFlag=DBUtil.executeQuerySingleValueInt(sqlStatement, "COUNT", con);
         if(checkFlag>0)

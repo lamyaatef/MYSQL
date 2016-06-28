@@ -14,6 +14,7 @@ import com.mobinil.sds.core.system.scm.model.DCMUserLevelTypeModel;
 import com.mobinil.sds.core.system.scm.model.POSGroupModel;
 import com.mobinil.sds.core.system.scm.model.RepPOSGroupModel;
 import com.mobinil.sds.core.system.scm.model.RepSupervisorModel;
+import com.mobinil.sds.core.system.scm.model.RepTeamleaderModel;
 import com.mobinil.sds.core.utilities.DBUtil;
 import java.sql.Connection;
 import java.util.Vector;
@@ -300,6 +301,16 @@ public class RepManagementDAO {
                                 +" AND RS.REP_ID="+dcmUserId;
             repSupervisors=DBUtil.executeSqlQueryMultiValue(sqlStatement, RepSupervisorModel.class, con);
             return repSupervisors;
+    }
+        
+           public static Vector<RepTeamleaderModel> getRepTeamleaders(Connection con, String dcmUserId){
+
+            Vector<RepTeamleaderModel> repTeamleaders=new Vector();
+            String sqlStatement="SELECT RT.TEAMLEAD_ID,RT.REP_ID,UD.USER_FULL_NAME TEAMLEAD_NAME,RT.CREATED_BY,RT.CREATED_IN "
+                                +" FROM DCM_USER_DETAIL UD,SCM_REP_TEAMLEADERS RT WHERE RT.TEAMLEAD_ID=UD.USER_ID"
+                                +" AND RT.REP_ID="+dcmUserId;
+            repTeamleaders=DBUtil.executeSqlQueryMultiValue(sqlStatement, RepTeamleaderModel.class, con);
+            return repTeamleaders;
     }
     public static Vector<RepSupervisorModel> getSupervisorReps(Connection con, String dcmUserId){
 
