@@ -78,8 +78,10 @@ public class RepSupDAO {
     public static void unassignRepFromTeamleader(Connection con,String repId,String teamleadId){
         String sqlStatement;
         sqlStatement="DELETE FROM SCM_REP_TEAMLEADERS WHERE REP_ID="+repId+" AND TEAMLEAD_ID="+teamleadId;
+        System.out.println("UNASSIGN REP FROM TEAMLEADER "+sqlStatement);
         DBUtil.executeSQL(sqlStatement, con);   
     }
+    
 
     public static boolean checkIfRepAssigntoMoreThanTwoSupervisors(Connection con,String repId){
         String sqlStatement;
@@ -91,6 +93,7 @@ public class RepSupDAO {
         else
             return true;
     }
+
     public static boolean checkIfRepAssigntoMoreThanTwoTeamleaders(Connection con,String repId){
         String sqlStatement;
         sqlStatement="SELECT COUNT(TEAMLEAD_ID) COUNT FROM SCM_REP_TEAMLEADERS WHERE REP_ID="+repId;

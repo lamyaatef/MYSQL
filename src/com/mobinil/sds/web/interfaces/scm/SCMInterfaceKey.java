@@ -125,10 +125,12 @@ public class SCMInterfaceKey {
     public static final String ACTION_DELETE_REP_SUP = "delete_rep_sup";
     public static final String ACTION_VIEW_REP_DETAIL = "view_rep_detail";
     public static final String ACTION_VIEW_SUP_DETAIL = "view_sup_detail";
+    public static final String ACTION_VIEW_TEAMLEAD_DETAIL = "view_teamlead_detail";
     public static final String VECTOR_ALL_REP_SUPERVISORS = "rep_supervisors";
     public static final String VECTOR_ALL_REP_TEAMLEADS = "rep_teamleaders";
     public static final String REP_POS_GROUP = "rep_pos_group";
     public static final String REP_SUP_DETAILS = "rep_sup_details";
+    public static final String REP_TEAMLEAD_DETAILS = "rep_teamlead_details";
     public static final String ACTION_GEN_USER_SEARCH = "gen_user_search";
     public static final String ACTION_SEARCH_GEN_USER = "search_gen_user";
     public static final String VECTOR_GEN_USER_SEARCH_RESULTS = "vector_gen_user_search_results";
@@ -160,11 +162,15 @@ public class SCMInterfaceKey {
     public static final String SUP_ID = "sup_id";
     public static final String TEAMLEAD_ID = "teamlead_id";
     public static final String VECTOR_ALL_SUP_REPS = "vector_all_sup_reps";
+    public static final String VECTOR_ALL_TEAMLEAD_REPS = "vector_all_teamlead_reps";
     public static final String VECTOR_ALL_REGION_REPS = "vector_all_region_reps";
     public static final String ACTION_ASSIGN_REP_TO_SUPERVISOR = "assign_rep_to_supervisor";
+    public static final String ACTION_ASSIGN_REP_TO_TEAMLEADER = "assign_rep_to_teamleader";
     public static final String ACTION_SUPERVISOR_REP_ASSIGN = "supervisor_rep_assign";
+    public static final String ACTION_TEAMLEADER_REP_ASSIGN = "teamleader_rep_assign";
     public static final String REP_ID = "rep_id";
     public static final String ACTION_UNASSIGN_REP_TO_SUPERVISOR = "unassign_rep_to_supervisor";
+    public static final String ACTION_UNASSIGN_REP_TO_TEAMLEADER = "unassign_rep_to_teamleader";
     //Rep-Sup Relation --End
 //Paging --Start
     public static final String INPUT_CONTROL_PAGE_NUMBER = "control_text_page_number";

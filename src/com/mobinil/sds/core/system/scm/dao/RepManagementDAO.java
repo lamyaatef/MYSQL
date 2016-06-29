@@ -284,6 +284,18 @@ public class RepManagementDAO {
            dcmUserDetail= DBUtil.executeSqlQuerySingleValue(sqlStatement, DCMUserDetailModel.class, "fillForRepSupDetail", con);
            return dcmUserDetail;
     }
+    public static DCMUserDetailModel getRepTeamleadDetail(Connection con,String userLevelTypeId,String dcmUserId){
+
+        DCMUserDetailModel dcmUserDetail=new DCMUserDetailModel();
+        String sqlStatement;
+        sqlStatement="SELECT DCM_USER.DCM_USER_ID, DCM_USER.USER_LEVEL_TYPE_ID, DCM_USER.REGION_ID ,DCM_USER_DETAIL.USER_FULL_NAME,DCM_USER_DETAIL.USER_ADDRESS,DCM_USER_DETAIL.USER_EMAIL,DCM_USER_DETAIL.USER_MOBILE,DCM_REGION.REGION_NAME"
+                    +" FROM  DCM_USER,DCM_USER_DETAIL,DCM_REGION"
+                    +" WHERE DCM_USER.USER_STATUS_TYPE_ID<>3 AND DCM_USER.DCM_USER_ID=DCM_USER_DETAIL.USER_ID AND"
+                    +" DCM_USER.REGION_ID=DCM_REGION.REGION_ID AND DCM_USER.USER_LEVEL_TYPE_ID="+userLevelTypeId+" AND DCM_USER.DCM_USER_ID="+dcmUserId;
+
+           dcmUserDetail= DBUtil.executeSqlQuerySingleValue(sqlStatement, DCMUserDetailModel.class, "fillForRepTeamleadDetail", con);
+           return dcmUserDetail;
+    }
 
     public static RepPOSGroupModel getRepPOSGroup(Connection con, String dcmUserId){
 
@@ -320,6 +332,16 @@ public class RepManagementDAO {
                                 +" AND RS.SUP_ID="+dcmUserId;
             repSupervisors=DBUtil.executeSqlQueryMultiValue(sqlStatement, RepSupervisorModel.class, con);
             return repSupervisors;
+    }
+    public static Vector<RepTeamleaderModel> getTeamleaderReps(Connection con, String dcmUserId){
+
+            Vector<RepTeamleaderModel> repTeamleaders=new Vector();
+            String sqlStatement="SELECT RS.REP_ID,RS.TEAMLEAD_ID,UD.USER_FULL_NAME TEAMLEAD_NAME,RS.CREATED_BY,RS.CREATED_IN "
+                                +" FROM DCM_USER_DETAIL UD,SCM_REP_TEAMLEADERS RS WHERE RS.REP_ID=UD.USER_ID"
+                                +" AND RS.TEAMLEAD_ID="+dcmUserId;
+            System.out.println("getTeamleaderReps "+sqlStatement);
+            repTeamleaders=DBUtil.executeSqlQueryMultiValue(sqlStatement, RepTeamleaderModel.class, con);
+            return repTeamleaders;
     }
 
     public static Vector<PersonModel> searchGENPersons(Connection con,String personName){

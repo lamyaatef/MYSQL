@@ -28,7 +28,6 @@
             String confMessage=(String)dataHashMap.get(SCMInterfaceKey.CONFIRMATION_MESSAGE);
 
 
-
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
@@ -94,9 +93,9 @@
                 document.<%=formName%>.submit();
             }
             function unAssignTeamlead(teamleadId){
-                document.<%=formName%>.<%=SCMInterfaceKey.SUP_ID%>.value=teamleadId;
-                document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_UNASSIGN_REP_FROM_TEAMLEAD%>";
-                document.<%=formName%>.submit();
+               document.<%=formName%>.<%=SCMInterfaceKey.TEAMLEAD_ID%>.value=teamleadId;
+               document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_UNASSIGN_REP_FROM_TEAMLEAD%>";
+               document.<%=formName%>.submit();
             }
 
 
@@ -104,6 +103,12 @@
                         document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ID%>.value=dcmUserId;
                         document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
                         document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_SUP_DETAIL%>";
+                        document.<%=formName%>.submit();
+            }
+            function showTeamleadDetail(dcmUserId,userLevelTypeId){
+                        document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ID%>.value=dcmUserId;
+                        document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
+                        document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_TEAMLEAD_DETAIL%>";
                         document.<%=formName%>.submit();
             }
             function submitToAssignSupervisor(){
@@ -149,6 +154,7 @@
                 <input type="hidden" name="<%=SCMInterfaceKey.REGION_ID%>" value="<%=repDetails.getRegionId()%>">
                 <input type="hidden" name="<%=SCMInterfaceKey.POS_GROUP_ID%>" value="-1">
                 <input type="hidden" name="<%=SCMInterfaceKey.SUP_ID%>" value="-1">
+                <input type="hidden" name="<%=SCMInterfaceKey.TEAMLEAD_ID%>" value="-1">
                 <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="50%" border=1>
 
 
@@ -199,7 +205,7 @@
                     --%>
                     
                     <tr class=TableTextNote>
-                        <td align="left">Supervisors</td>
+                        <td align="left">Supervisor</td>
                         <td align="left">
                             <font style="font-size: 11px;font-family: tahoma;line-height: 15px">
 
@@ -233,7 +239,7 @@
                         </td>
                     </tr>
                     <tr class=TableTextNote>
-                        <td align="left">Team Leaders</td>
+                        <td align="left">Team Leader</td>
                         <td align="left">
                             <font style="font-size: 11px;font-family: tahoma;line-height: 15px">
 
@@ -244,7 +250,7 @@
                                            RepTeamleaderModel repTeamleader=new RepTeamleaderModel();
                                             repTeamleader=(RepTeamleaderModel)repTeamleaders.get(i);
                                     %>
-                                    <b>-</b>&nbsp;<a href="javascript:showSupDetail(<%=repTeamleader.getTeamleadId()%>,5);"><%=repTeamleader.getTeamleadName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignTeamlead(<%=repTeamleader.getTeamleadId()%>);">Unassign</a></font><br>
+                                    <b>-</b>&nbsp;<a href="javascript:showTeamleadDetail(<%=repTeamleader.getTeamleadId()%>,5);"><%=repTeamleader.getTeamleadName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignTeamlead(<%=repTeamleader.getTeamleadId()%>);">Unassign</a></font><br>
 
                                     <%
                                     }

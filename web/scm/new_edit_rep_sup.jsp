@@ -26,6 +26,16 @@
             Vector<RegionModel> regionGovernorates = new Vector();
             Vector<RegionModel> governorateCities = new Vector();
             Vector<RegionModel> cityDistricts = new Vector();
+            Vector<RepSupervisorModel> repSupervisors=new Vector();
+            Vector<RepTeamleaderModel> repTeamleaders=new Vector();
+            repSupervisors=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REP_SUPERVISORS);
+            repTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REP_TEAMLEADS);
+            
+            Vector<DCMUserModel> regionSupervisors=new Vector();
+            Vector<DCMUserModel> regionTeamleaders=new Vector();
+            regionSupervisors=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS);
+            regionTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_TEAMLEADERS);
+            
 //            Vector<RegionModel> districtAreas = new Vector();
 
 
@@ -53,6 +63,8 @@
             String governorateId = (String) dataHashMap.get(SCMInterfaceKey.GOVERNORATE_ID);
             String cityId = (String) dataHashMap.get(SCMInterfaceKey.CITY_ID);
             String districtId = (String) dataHashMap.get(SCMInterfaceKey.DISTRICT_ID);
+            String supId = (String) dataHashMap.get(SCMInterfaceKey.SUP_ID);
+            String teamleadId = (String) dataHashMap.get(SCMInterfaceKey.TEAMLEAD_ID);
             String regionId = (String) dataHashMap.get(SCMInterfaceKey.REGION_ID);
 //            String areaId = (String) dataHashMap.get(SCMInterfaceKey.AREA_ID);
 
@@ -215,6 +227,62 @@
                 document.<%=formName%>.submit();
             }
 
+
+            function viewDetail(dcmUserId,userLevelTypeId){
+                        document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ID%>.value=dcmUserId;
+                        document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
+                        if(userLevelTypeId=="3")
+                            document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_REP_DETAIL%>";
+                        if(userLevelTypeId=="4")
+                            document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_SUP_DETAIL%>";
+                        document.<%=formName%>.submit();
+            }
+            function unAssignSup(supId){
+                document.<%=formName%>.<%=SCMInterfaceKey.SUP_ID%>.value=supId;
+                document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_UNASSIGN_REP_FROM_SUP%>";
+                document.<%=formName%>.submit();
+            }
+            function unAssignTeamlead(teamleadId){
+               document.<%=formName%>.<%=SCMInterfaceKey.TEAMLEAD_ID%>.value=teamleadId;
+               document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_UNASSIGN_REP_FROM_TEAMLEAD%>";
+               document.<%=formName%>.submit();
+            }
+
+
+            function showSupDetail(dcmUserId,userLevelTypeId){
+                        alert("showSupDetail");
+                        document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ID%>.value=dcmUserId;
+                        document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
+                        document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_SUP_DETAIL%>";
+                        document.<%=formName%>.submit();
+            }
+            function showTeamleadDetail(dcmUserId,userLevelTypeId){
+                        document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ID%>.value=dcmUserId;
+                        document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
+                        document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_TEAMLEAD_DETAIL%>";
+                        document.<%=formName%>.submit();
+            }
+            function submitToAssignSupervisor(){
+                if(<%=repSupervisors==null?0:repSupervisors.size()%><2){
+                    document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_REP_SUP_ASSIGN%>";
+                    document.<%=formName%>.submit();
+                }
+                else{
+                    alert("Rep already has 2 supervisors.");
+                }
+
+            }
+            function submitToAssignTeamleader(){
+                if(<%=repTeamleaders==null?0:repTeamleaders.size()%><2){
+                    document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_REP_TEAMLEAD_ASSIGN%>";
+                    document.<%=formName%>.submit();
+                }
+                else{
+                    alert("Rep already has 2 teamleaders.");
+                }
+
+            }
+    
             function ismaxlength(obj){
                 var mlength=obj.getAttribute? parseInt(obj.getAttribute("maxlength")) : ""
                 if (obj.getAttribute && obj.value.length>mlength)
@@ -244,6 +312,16 @@
                 document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_SUBMIT_USER_LEVEL_TYPE%>";
                 document.<%=formName%>.submit();
 
+            }
+            function getUser(level){
+                if(level==4){
+                    document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_GET_REGION_GOVERNORATES%>";
+                    document.<%=formName%>.submit();
+                }
+                else if(level==5){
+                    document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_GET_GOVERNORATE_CITIES%>";
+                    document.<%=formName%>.submit();
+                }
             }
             function getRegion(level){
                 if(level==1){
@@ -279,7 +357,10 @@
                 <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_USER_ID%>" value="<%=userId%>">
                 <input type="hidden" name="<%=SCMInterfaceKey.DCM_USER_ID%>" value="<%=dcmUserId%>">
                 <input type="hidden" name="<%=SCMInterfaceKey.PERSON_ID%>"  value="<%=dcmUserUserId%>">
-
+                <input type="hidden" name="<%=SCMInterfaceKey.SUP_ID%>" value="-1">
+                <input type="hidden" name="<%=SCMInterfaceKey.TEAMLEAD_ID%>" value="-1">
+                <input type="hidden" name="<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>" value="-1">
+                
                 <table style="BORDER-COLLAPSE: collapse" cellSpacing="3" cellPadding="3" width="80%" border="1">
                     <%
                     if(confMessage==null ||(confMessage!=null && !confMessage.equalsIgnoreCase("Invalid, This user already created before."))){
@@ -432,20 +513,20 @@
                             <select name="<%=SCMInterfaceKey.DISTRICT_ID%>" onchange="getRegion(4);">
                                 <option value="">-----</option>
                                 <%
-                                                                                 if (cityDistricts != null && cityDistricts.size() != 0) {
-                                                                                     for (int i = 0; i < cityDistricts.size(); i++) {
-                                                                                         RegionModel district = (RegionModel) cityDistricts.get(i);
+                                    if (cityDistricts != null && cityDistricts.size() != 0) {
+                                        for (int i = 0; i < cityDistricts.size(); i++) {
+                                            RegionModel district = (RegionModel) cityDistricts.get(i);
                                 %>
                                 <option value="<%=district.getRegionId()%>"
-                                        <%
-                                                                                                if (districtId != null && districtId.equalsIgnoreCase(district.getRegionId())) {
-                                                                                                    out.print("selected");
-                                                                                                }
-                                        %>
-                                        ><%=district.getRegionName()%></option>
+                                  <%
+                                            if (districtId != null && districtId.equalsIgnoreCase(district.getRegionId())) {
+                                                out.print("selected");
+                                             }
+                                  %>
+                                 ><%=district.getRegionName()%></option>
                                 <%
-                                                                                     }
-                                                                                 }
+                                      }
+                                    }
                                 %>
                             </select>
 
@@ -453,7 +534,65 @@
 
                         </td>
                     </tr>
+                    
+                    <tr class=TableTextNote>
+                        <td>Supervisors</td>
+                        <td>
+                           <select name="<%=SCMInterfaceKey.SUP_ID%>" onchange="getRegion(4);">
+                                <option value="">-----</option>
+                                <%
+                                    if (repSupervisors != null && repSupervisors.size() != 0) {
+                                        for (int i = 0; i < repSupervisors.size(); i++) {
+                                            RepSupervisorModel repSuper = (RepSupervisorModel) repSupervisors.get(i);
+                                %>
+                                <option value="<%=repSuper.getSupId()%>"
+                                  <%
+                                            if (supId != null && supId.equalsIgnoreCase(repSuper.getSupId())) {
+                                                out.print("selected");
+                                             }
+                                  %>
+                                 ><%=repSuper.getSupName()%></option>
+                                <%
+                                      }
+                                    }
+                                %>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class=TableTextNote>
+                        <td align="left">Team Leaders</td>
+                        <td align="left">
+                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px">
 
+
+                                    <%
+                                    if(repTeamleaders!=null&&repTeamleaders.size()!=0){
+                                        for(int i=0;i<repTeamleaders.size();i++){
+                                           RepTeamleaderModel repTeamleader=new RepTeamleaderModel();
+                                            repTeamleader=(RepTeamleaderModel)repTeamleaders.get(i);
+                                    %>
+                                    <b>-</b>&nbsp;<a href="javascript:showTeamleadDetail(<%=repTeamleader.getTeamleadId()%>,5);"><%=repTeamleader.getTeamleadName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignTeamlead(<%=repTeamleader.getTeamleadId()%>);">Unassign</a></font><br>
+
+                                    <%
+                                    }
+                                        %>
+
+
+                                        
+                                    <%
+                                    }else{
+                                        %>
+                                        
+                                        <b>No Team Leaders Assigned.</b>
+
+                                    <%
+                                        }
+                                        %>
+
+
+                            </font>
+                        </td>
+                    </tr>
 <%--                    <tr class=TableTextNote>
                         <td>Area</td>
                         <td>
