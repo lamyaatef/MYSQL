@@ -1377,7 +1377,7 @@ public class SCMHandler {
                 break;
 
                 case action_update_rep_sup: {
-
+                    
                     String userLevelTypeId = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_LEVEL_TYPE_ID);
                     String userFullName = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_FULL_NAME);
                     String userAddress = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_ADDRESS);
@@ -1386,7 +1386,8 @@ public class SCMHandler {
                     String userRegionId = (String) paramHashMap.get(SCMInterfaceKey.REGION_ID);
                     String systemUserId = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
                     String dcmUserId = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
-
+                   // String supervisorId = (String) paramHashMap.get(SCMInterfaceKey.SUP_ID);
+                  //  System.out.println("MY SUPERVISOR "+supervisorId);
 //                    if (userLevelTypeId.equalsIgnoreCase("3")) {
 //                        userRegionId = (String) paramHashMap.get(SCMInterfaceKey.AREA_ID);
 //                    }
@@ -1429,6 +1430,7 @@ public class SCMHandler {
                 break;
 
                 case action_new_rep_sup: {
+                    System.out.println("action_new_rep_sup");
                     String personId=(String)paramHashMap.get(SCMInterfaceKey.PERSON_ID);
                     if(RepManagementDAO.checkIfUserAlreadyCreated(con, personId)){
                         dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE, "Invalid, This user already created before.");
@@ -1459,50 +1461,88 @@ public class SCMHandler {
                 break;
 
                 case action_edit_rep_sup: {
-
+                    System.out.println("action_edit_rep_sup");
                     String stDcmUserId = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
+                    dataHashMap.put(SCMInterfaceKey.TEAMLEAD_ID, "");
+                    dataHashMap.put(SCMInterfaceKey.SUP_ID, "");
+                    System.out.println("^^^^^^^ DCM_USER_ID ^^^^^^^^ "+stDcmUserId);
+                    //String supId = (String) paramHashMap.get(SCMInterfaceKey.SUP_ID);
+                    //System.out.println("^^^^^^^ supId ^^^^^^^^ "+supId);
+                    String districtID="";
+                    String regionId = "";
+                    //String districtID=(String)paramHashMap.get(SCMInterfaceKey.REGION_ID);
+                 //   System.out.println("edit rep super "+stDcmUserId+"  "+supId+"  "+districtID);
                     Vector<RepSupervisorModel> repSupervisors = new Vector();
                     Vector<RepTeamleaderModel> repTeamleaders = new Vector();
                     Vector<DCMUserModel> supervisors = new Vector();
                     Vector<DCMUserModel> teamleaders = new Vector();
-                    String districtID=(String)paramHashMap.get(SCMInterfaceKey.REGION_ID);
-                    String regionId=RepSupDAO.getDistrictRegionId(con, districtID);
+                  //  String regionId=RepSupDAO.getDistrictRegionId(con, districtID);
                     
-                    supervisors=RepSupDAO.getRegionSupervisors(con, regionId);
-                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS, supervisors);
-                    teamleaders=RepSupDAO.getRegionTeamleaders(con, regionId);
-                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_TEAMLEADERS, teamleaders);
-                    
-                    repSupervisors = RepManagementDAO.getRepSupervisors(con, stDcmUserId);
-                    repTeamleaders = RepManagementDAO.getRepTeamleaders(con, stDcmUserId);
-                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REP_SUPERVISORS, repSupervisors);
-                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REP_TEAMLEADS, repTeamleaders);
                     
                     if (stDcmUserId != null) {
 
                         DCMUserModel dcmUser = RepManagementDAO.getDcmUser(con, stDcmUserId);
-
+                        
                         if (dcmUser.getUserDetailId() != null) {
 
                             DCMUserDetailModel dcmUserDetail = RepManagementDAO.getDcmUserDetail(con, dcmUser.getUserDetailId());
-
+                            System.out.println("dcm user region id "+dcmUser.getRegionId());
+                            
+                            districtID = dcmUser.getRegionId();
+                            regionId=RepSupDAO.getDistrictRegionId(con, districtID);
+                            
                             dataHashMap.put(SCMInterfaceKey.DCM_USER_MODEL, dcmUser);
 
                             dataHashMap.put(SCMInterfaceKey.DCM_USER_DETAIL_MODEL, dcmUserDetail);
 
+                            supervisors=RepSupDAO.getRegionSupervisors(con, regionId);
+                            teamleaders=RepSupDAO.getRegionTeamleaders(con, regionId);
+                            dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_TEAMLEADERS, teamleaders);
+                            dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS, supervisors);
 
+                            repSupervisors = RepManagementDAO.getRepSupervisors(con, stDcmUserId);
+                            repTeamleaders = RepManagementDAO.getRepTeamleaders(con, stDcmUserId);
+                            dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REP_SUPERVISORS, repSupervisors);
+                            dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REP_TEAMLEADS, repTeamleaders);
+                            
+                            for(int i=0; i< supervisors.size();i++)
+                            {
+                                String regionSupervisorId = ((DCMUserModel) supervisors.get(i)).getDcmUserId();
+                                for(int j=0; j<repSupervisors.size();j++)
+                                {
+                                    String repSupervisorId = ((RepSupervisorModel) repSupervisors.get(i)).getSupId();
+                                    if(regionSupervisorId.compareTo(repSupervisorId)==0)
+                                      dataHashMap.put(SCMInterfaceKey.SUP_ID, repSupervisorId);
+                                 
+                                }
+                            }
+                            
+                            for(int i=0; i< teamleaders.size();i++)
+                            {
+                                String regionTeamleaderId = ((DCMUserModel) teamleaders.get(i)).getDcmUserId();
+                                for(int j=0; j<repTeamleaders.size();j++)
+                                {
+                                    String repTeamleaderId = ((RepTeamleaderModel) repTeamleaders.get(i)).getTeamleadId();
+                                    if(regionTeamleaderId.compareTo(repTeamleaderId)==0)
+                                      dataHashMap.put(SCMInterfaceKey.TEAMLEAD_ID, repTeamleaderId);
+                                    
+                                }
+                            }
+                            
                         } else {
 
                             dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE, "Invalid data");
 
                         }
 
-
+                        
                     } else {
 
                         dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE, "Invalid data");
 
                     }
+                    
+                    
 
                 }
 
@@ -2173,7 +2213,7 @@ public class SCMHandler {
     // Rep Management Functions
 
     public static void putRepAddOrUpdateBasicData(HashMap paramHashMap, HashMap dataHashMap, Connection con) {
-
+        System.out.println("func putRepAddOrUpdateBasicData");
         String userLevelTypeId = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_LEVEL_TYPE_ID);
         String userFullName = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_FULL_NAME);
         String userAddress = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_ADDRESS);
@@ -2259,6 +2299,7 @@ public class SCMHandler {
     }
 
     public static void searchRepOrSup(HashMap paramHashMap, HashMap dataHashMap, Connection con) {
+        System.out.println("SEARCH");
         String destinationPage=(String) paramHashMap.get(SCMInterfaceKey.DESTINATION_PAGE);
 
         if(destinationPage==null){

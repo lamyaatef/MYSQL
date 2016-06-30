@@ -108,6 +108,7 @@
             <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_USER_ID%>" value="<%=userId%>">
             <input type="hidden" name="<%=SCMInterfaceKey.DCM_USER_ID%>" value="-1">
             <input type="hidden" name="<%=SCMInterfaceKey.DCM_USER_LEVEL_TYPE_ID%>">
+            
 
 
                 <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1">
