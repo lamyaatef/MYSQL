@@ -315,6 +315,20 @@ public class RepManagementDAO {
             return repSupervisors;
     }
         
+        
+        
+           public static RepSupervisorModel getRepSupervisor(Connection con, String dcmUserId, String superId){
+
+            RepSupervisorModel repSupervisor= null;
+            String sqlStatement="SELECT RS.SUP_ID,RS.REP_ID,UD.USER_FULL_NAME SUP_NAME,RS.CREATED_BY,RS.CREATED_IN "
+                                +" FROM DCM_USER_DETAIL UD,SCM_REP_SUPERVISORS RS WHERE RS.SUP_ID=UD.USER_ID"
+                                +" AND RS.REP_ID="+dcmUserId
+                                +" AND RS.SUP_ID="+superId;
+            System.out.println("GET : "+sqlStatement);
+            repSupervisor=DBUtil.executeSqlQuerySingleValue(sqlStatement, RepSupervisorModel.class, con);
+            return repSupervisor;
+    }
+        
            public static Vector<RepTeamleaderModel> getRepTeamleaders(Connection con, String dcmUserId){
 
             Vector<RepTeamleaderModel> repTeamleaders=new Vector();
@@ -324,6 +338,19 @@ public class RepManagementDAO {
             repTeamleaders=DBUtil.executeSqlQueryMultiValue(sqlStatement, RepTeamleaderModel.class, con);
             return repTeamleaders;
     }
+           
+        public static RepTeamleaderModel getRepTeamleader(Connection con, String dcmUserId, String teamleadId){
+
+            RepTeamleaderModel repTeamleader= null;
+            String sqlStatement="SELECT RT.TEAMLEAD_ID,RT.REP_ID,UD.USER_FULL_NAME TEAMLEAD_NAME,RT.CREATED_BY,RT.CREATED_IN "
+                                +" FROM DCM_USER_DETAIL UD,SCM_REP_TEAMLEADERS RT WHERE RT.TEAMLEAD_ID=UD.USER_ID"
+                                +" AND RT.REP_ID="+dcmUserId
+                                +" AND RT.TEAMLEAD_ID="+teamleadId;
+            repTeamleader=DBUtil.executeSqlQuerySingleValue(sqlStatement, RepTeamleaderModel.class, con);
+            return repTeamleader;
+    }
+           
+           
     public static Vector<RepSupervisorModel> getSupervisorReps(Connection con, String dcmUserId){
 
             Vector<RepSupervisorModel> repSupervisors=new Vector();

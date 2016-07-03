@@ -24,6 +24,8 @@ public class SCMInterfaceKey {
     public static final String CONTROL_IMPORT_OPERATION = "control_import_operation";
     public static final String CONTROL_SELECT_STOCK_TYPE = "control_select_stock_type";
     public static final String CONTROL_HIDDEN_STOCK_ID = "control_hidden_stock_id";
+    public static final String CONTROL_TEXT_SUP_ID = "control_text_sup_id";
+    public static final String CONTROL_TEXT_TEAMLEAD_ID = "control_text_teamlead_id";
     public static final String HASHMAP_STOCKS_ = "hashmap_stocks_";
     public static final String QUERY_STRING_OPERATION = "operation";
     public static final String INSERT_OPERATION = "INSERT";
@@ -159,6 +161,8 @@ public class SCMInterfaceKey {
     public static final String ACTION_UNASSIGN_REP_FROM_TEAMLEAD = "unassign_rep_from_teamlead";
     public static final String VECTOR_ALL_REGION_SUPERVISORS = "vector_all_region_supervisors";
     public static final String VECTOR_ALL_REGION_TEAMLEADERS = "vector_all_region_teamleaders";
+    public static final String SELECTED_REP_SUPERVISOR = "selected_rep_supervisor";
+    public static final String SELECTED_REP_TEAMLEADER = "selected_rep_teamleader";
     public static final String SUP_ID = "sup_id";
     public static final String TEAMLEAD_ID = "teamlead_id";
     public static final String VECTOR_ALL_SUP_REPS = "vector_all_sup_reps";

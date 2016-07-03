@@ -31,7 +31,8 @@
             Vector<RepTeamleaderModel> repTeamleaders=new Vector();
             repSupervisors=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REP_SUPERVISORS);
             repTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REP_TEAMLEADS);
-            
+            RepSupervisorModel selectedRepSuper = (RepSupervisorModel) dataHashMap.get(SCMInterfaceKey.SELECTED_REP_SUPERVISOR);
+            RepTeamleaderModel selectedRepTeamlead = (RepTeamleaderModel) dataHashMap.get(SCMInterfaceKey.SELECTED_REP_TEAMLEADER);
             Vector<DCMUserModel> regionSupervisors=new Vector();
             Vector<DCMUserModel> regionTeamleaders=new Vector();
             regionSupervisors=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS);
@@ -161,7 +162,10 @@
         <SCRIPT language=JavaScript src="<%=appName%>/resources/js/validation.js" type="text/javascript"></SCRIPT>
 
         <title>New/Edit POS Group </title>
+        <script src="../resources/js/jquery-1.11.3.js"></script>
         <script>
+         
+  
             function submitForm()
             {
                 console.log("msg ",document.<%=formName%>.<%=SCMInterfaceKey.REGION_ID%>.value);
@@ -170,7 +174,8 @@
                 userEmail=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_EMAIL%>.value;
                 userMobile=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_MOBILE%>.value;
                 userLevelTypeId=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_LEVEL_TYPE_ID%>.value;
-                
+                document.<%=formName%>.<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>.value;
+                document.<%=formName%>.<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>.value;
                 reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
                 if(userName==""){
                     alert("Please enter full name.");
@@ -233,7 +238,7 @@
             }
 
 
-            function viewDetail(dcmUserId,userLevelTypeId){
+         /*   function viewDetail(dcmUserId,userLevelTypeId){
                         document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ID%>.value=dcmUserId;
                         document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
                         if(userLevelTypeId=="3")
@@ -286,7 +291,7 @@
                     alert("Rep already has 2 teamleaders.");
                 }
 
-            }
+            }*/
     
             function ismaxlength(obj){
                 var mlength=obj.getAttribute? parseInt(obj.getAttribute("maxlength")) : ""
@@ -544,40 +549,39 @@
                     <tr class=TableTextNote>
                         <td>Supervisors</td>
                         <td>
-                           <select name="<%=SCMInterfaceKey.SUP_ID%>" onchange="">
-                                
+                            <select id="selectSuper" name="<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>" onchange="">
+
                                 <%
-                                   System.out.println("rep supervisors jsp******  : "+repSupervisors);
-                                    if(repSupervisors!=null && repSupervisors.size()!=0)
-                                    {
-                                        for (int i = 0; i < repSupervisors.size(); i++)
-                                        {
+                                    System.out.println("rep supervisors jsp count ******  : " + repSupervisors.size());
+
+                                    if (repSupervisors != null && repSupervisors.size() != 0) {
+                                        for (int i = 0; i < repSupervisors.size(); i++) {
                                             RepSupervisorModel repSuper = (RepSupervisorModel) repSupervisors.get(i);
-                                             System.out.println("rep supervisor "+((RepSupervisorModel) repSupervisors.get(i)).getRepId());
-                                            %>
-                                            <option value = "<%=repSuper.getSupId()%>"><%=repSuper.getSupName()%></option>
-                                        <%}
+                                            System.out.println("rep supervisor " + ((RepSupervisorModel) repSupervisors.get(i)).getRepId());
+                                %>
+                                <option value = "<%=repSuper.getSupId()%>"><%=repSuper.getSupName()%></option>
+                                <%}
+                                } else {
+                                %>
+                                <option value="">-----</option>
+                                <%
                                     }
-                                    else{
-                                    %>
-                                    <option value="">-----</option>
-                                     <%
-                                    }
+                                    System.out.println("region supervisors jsp count ******  : " + regionSupervisors.size());
                                     if (regionSupervisors != null && regionSupervisors.size() != 0) {
                                         for (int i = 0; i < regionSupervisors.size(); i++) {
                                             DCMUserModel regionSuper = (DCMUserModel) regionSupervisors.get(i);
-                                            System.out.println("IDS: "+supId+" "+regionSuper.getDcmUserId());
-                                                if (/*supId != null && */!supId.equalsIgnoreCase(regionSuper.getDcmUserId())) {
+                                            System.out.println("IDS: " + supId + " " + regionSuper.getDcmUserId());
+                                            if (/*supId != null && */supId.compareTo(regionSuper.getDcmUserId()) != 0) {
                                 %>
                                 <option value="<%=regionSuper.getDcmUserId()%>"
-                                  <%
-                                  System.out.println("regionSuper.getDcmUserId() and supId : "+regionSuper.getDcmUserId()+"  "+supId);
-                                            
-                                  %>
-                                 ><%=regionSuper.getUserFullName()%></option>
+                                        <%
+                                            System.out.println("regionSuper.getDcmUserId() and supId : " + regionSuper.getDcmUserId() + "  " + supId);
+
+                                        %>
+                                        ><%=regionSuper.getUserFullName()%></option>
                                 <%
-                                                }
-                                      }
+                                            }
+                                        }
                                     }
                                 %>
                             </select>
@@ -586,7 +590,7 @@
                     <tr class=TableTextNote>
                         <td>Team Leaders</td>
                         <td>
-                           <select name="<%=SCMInterfaceKey.TEAMLEAD_ID%>" onchange="">
+                           <select name="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" onchange="">
                                 
                                 <%
                                    System.out.println("rep teamleaders jsp******  : "+repTeamleaders);
@@ -692,5 +696,10 @@
 
             </form>
         </div>
+                                <%--
+                <script>
+                           $("#selectSuper option:selected").val("<%=selectedRepSuper.getSupId()%>");
+                </script>
+                                --%>
     </body>
 </html>
