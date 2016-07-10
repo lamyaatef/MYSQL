@@ -37,7 +37,8 @@
             Vector<DCMUserModel> regionTeamleaders=new Vector();
             regionSupervisors=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS);
             regionTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_TEAMLEADERS);
-            
+            System.out.println("region supers ///// "+regionSupervisors);
+            System.out.println("region leaders ///// "+regionTeamleaders);
 //            Vector<RegionModel> districtAreas = new Vector();
 
 
@@ -63,12 +64,14 @@
 
 
             String governorateId = (String) dataHashMap.get(SCMInterfaceKey.GOVERNORATE_ID);
+            System.out.println("beginning gov id : "+governorateId);
             String cityId = (String) dataHashMap.get(SCMInterfaceKey.CITY_ID);
             String districtId = (String) dataHashMap.get(SCMInterfaceKey.DISTRICT_ID);
             String supId = (String) dataHashMap.get(SCMInterfaceKey.SUP_ID);
             String teamleadId = (String) dataHashMap.get(SCMInterfaceKey.TEAMLEAD_ID);
             System.out.println("supervisor id && teamleader id : "+supId+" "+teamleadId);
             String regionId = (String) dataHashMap.get(SCMInterfaceKey.REGION_ID);
+            System.out.println("region from action "+regionId);
 //            String areaId = (String) dataHashMap.get(SCMInterfaceKey.AREA_ID);
 
             //IF NEW
@@ -103,12 +106,13 @@
 
             } else {
                 //UPDATE
+                System.out.println("UPDATE AGAIN");
                 pageHeader = "Update Rep/Supervisor";
                 buttonValue = "Update";
                 buttonAction = SCMInterfaceKey.ACTION_UPDATE_REP_SUP;
 
                 regionId = dcmUser.getRegionId();
-
+                System.out.println("region from action after UPDATE .."+regionId);
                 userLevelTypeId = dcmUser.getUserLevelTypeId();
         /*
                         if (userLevelTypeId.equalsIgnoreCase("3")&&RepManagementDAO.checkIfRegionIsArea(con, regionId)) {
@@ -131,12 +135,14 @@
         */
 
                         if (userLevelTypeId.equalsIgnoreCase("3")&&RepManagementDAO.checkIfRegionIsDistrict(con, regionId)) {
+                            System.out.println("UPDATE AGAIN .... in IF");
                             districtId = regionId;
 
                             cityId = RepManagementDAO.getParentRegionId(con, districtId);
                             cityDistricts = RepManagementDAO.getDistricts(con, cityId);
 
                             governorateId = RepManagementDAO.getParentRegionId(con, cityId);
+                            System.out.println("middle gov id : "+governorateId);
                             governorateCities = RepManagementDAO.getCities(con, governorateId);
 
                             regionId = RepManagementDAO.getParentRegionId(con, governorateId);
@@ -319,6 +325,7 @@
 
             }
             function checkIfSalesAgentLetHimChooseArea(selectBox){
+                console.log("selected : ",selectBox);
                 document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_SUBMIT_USER_LEVEL_TYPE%>";
                 document.<%=formName%>.submit();
 
@@ -334,6 +341,7 @@
                 }
             }
             function getRegion(level){
+                console.log("LEVEL for Region ",level);
                 if(level==1){
                     document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_GET_REGION_GOVERNORATES%>";
                     document.<%=formName%>.submit();
@@ -382,15 +390,17 @@
                             <select name="<%=SCMInterfaceKey.DCM_USER_LEVEL_TYPE_ID%>" onchange="checkIfSalesAgentLetHimChooseArea(this);">
                                 <option value="">-----</option>
                                 <%
-                                            if (repLevels != null && repLevels.size() != 0) {
+                                System.out.println("Rep LEVELS : "+repLevels.size());
+                                if (repLevels != null && repLevels.size() != 0) {
                                                 for (int i = 0; i < repLevels.size(); i++) {
                                                     DCMUserLevelTypeModel level = (DCMUserLevelTypeModel) repLevels.get(i);
                                 %>
                                 <option value="<%=level.getUserLevelTypeId()%>"
                                         <%
-                                                                                            if (userLevelTypeId != null && !userLevelTypeId.trim().equals("") && level.getUserLevelTypeId() == Integer.parseInt(userLevelTypeId)) {
-                                                                                                out.print("selected");
-                                                                                            }
+                                            if (userLevelTypeId != null && !userLevelTypeId.trim().equals("") && level.getUserLevelTypeId() == Integer.parseInt(userLevelTypeId)) {
+                                                   System.out.println("SELECTED ..."+level.getUserLevelTypeName());
+                                                    out.print("selected");
+                                                }
                                         %>
 
                                         ><%=level.getUserLevelTypeName()%></option>
@@ -406,6 +416,9 @@
                     </tr>
 
                     <tr class=TableTextNote>
+                        <%
+                                System.out.println("user name "+dcmUserName);
+                        %>
                         <td>Full Name</td>
                         <td><input type="hidden" name="<%=SCMInterfaceKey.DCM_USER_FULL_NAME%>" value="<%=dcmUserName%>"><font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=dcmUserName%></font></td>
                     </tr>
@@ -426,6 +439,9 @@
                     <tr class=TableTextNote>
                         <td>Region</td>
                         <td>
+                            <%
+                            System.out.println("REGIONSSSS : "+regions.size());
+                            %>
                             <select name="<%=SCMInterfaceKey.REGION_ID%>" 
                                     <%
                                                 if (userLevelTypeId != null && !userLevelTypeId.trim().equals("") && userLevelTypeId.equals("3")) {
@@ -457,8 +473,9 @@
                     </tr>
 
                     <%
-                                if (userLevelTypeId == null || userLevelTypeId.trim().equals("") || userLevelTypeId.equalsIgnoreCase("4")) {
-                                } else {
+                                if (userLevelTypeId == null || userLevelTypeId.trim().equals("") || userLevelTypeId.equalsIgnoreCase("4") || userLevelTypeId.equalsIgnoreCase("5") ) {
+                                } else  {
+                                    System.out.println("ESLE");
 
                     %>
 
@@ -469,7 +486,8 @@
                             <select name="<%=SCMInterfaceKey.GOVERNORATE_ID%>" onchange="getRegion(2);">
                                 <option value="">-----</option>
                                 <%
-                                                                                 if (regionGovernorates != null && regionGovernorates.size() != 0) {
+                                System.out.println("governorateId "+governorateId);
+                                if (regionGovernorates != null && regionGovernorates.size() != 0) {
                                                                                      for (int i = 0; i < regionGovernorates.size(); i++) {
                                                                                          RegionModel governorate = (RegionModel) regionGovernorates.get(i);
                                 %>
@@ -613,7 +631,8 @@
                                     if (regionTeamleaders != null && regionTeamleaders.size() != 0) {
                                         for (int i = 0; i < regionTeamleaders.size(); i++) {
                                             DCMUserModel regionTeamlead = (DCMUserModel) regionTeamleaders.get(i);
-                                              if (/*teamleadId != null && */!teamleadId.equalsIgnoreCase(regionTeamlead.getDcmUserId())) {
+                                            System.out.println("IDS for teamleader: " + teamleadId + " " + regionTeamlead.getDcmUserId());
+                                              if (/*teamleadId != null && */teamleadId.compareTo(regionTeamlead.getDcmUserId()) != 0) {
                                 %>
                                 <option value="<%=regionTeamlead.getDcmUserId()%>"
                                   <%
