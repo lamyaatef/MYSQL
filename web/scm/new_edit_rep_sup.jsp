@@ -1,4 +1,5 @@
 
+<%@page import="com.mobinil.sds.core.system.scm.dao.RepSupDAO"%>
 <%--
     Document   : new_edit_rep_sup
     Created on : Nov 3, 2010, 12:0:47 PM
@@ -147,7 +148,8 @@
 
                             regionId = RepManagementDAO.getParentRegionId(con, governorateId);
                             regionGovernorates = RepManagementDAO.getGovernorates(con, regionId);
-
+                          //  regionSupervisors=RepSupDAO.getRegionSupervisors(con, regionId);
+                           // regionTeamleaders=RepSupDAO.getRegionTeamleaders(con, regionId);
 
                         }
             }
@@ -341,9 +343,9 @@
                 }
             }
             function getRegion(level){
-                console.log("LEVEL for Region ",level);
                 if(level==1){
                     document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_GET_REGION_GOVERNORATES%>";
+                    document.getElementById("<%=SCMInterfaceKey.DCM_USER_ID%>").value = "<%=dcmUserId%>";
                     document.<%=formName%>.submit();
                 }
                 else if(level==2){
@@ -373,7 +375,7 @@
             <form action="<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet" name="<%=formName%>" method="post">
                 <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_ACTION%>" value="0">
                 <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_USER_ID%>" value="<%=userId%>">
-                <input type="hidden" name="<%=SCMInterfaceKey.DCM_USER_ID%>" value="<%=dcmUserId%>">
+                <input type="hidden" id ="<%=SCMInterfaceKey.DCM_USER_ID%>" name="<%=SCMInterfaceKey.DCM_USER_ID%>" value="<%=dcmUserId%>">
                 <input type="hidden" name="<%=SCMInterfaceKey.PERSON_ID%>"  value="<%=dcmUserUserId%>">
                 
                 
@@ -439,9 +441,6 @@
                     <tr class=TableTextNote>
                         <td>Region</td>
                         <td>
-                            <%
-                            System.out.println("REGIONSSSS : "+regions.size());
-                            %>
                             <select name="<%=SCMInterfaceKey.REGION_ID%>" 
                                     <%
                                                 if (userLevelTypeId != null && !userLevelTypeId.trim().equals("") && userLevelTypeId.equals("3")) {
@@ -486,10 +485,11 @@
                             <select name="<%=SCMInterfaceKey.GOVERNORATE_ID%>" onchange="getRegion(2);">
                                 <option value="">-----</option>
                                 <%
-                                System.out.println("governorateId "+governorateId);
+                                System.out.println("governorateId "+governorateId+" and regionGovernorates "+regionGovernorates);
                                 if (regionGovernorates != null && regionGovernorates.size() != 0) {
                                                                                      for (int i = 0; i < regionGovernorates.size(); i++) {
                                                                                          RegionModel governorate = (RegionModel) regionGovernorates.get(i);
+                                                                                        
                                 %>
                                 <option value="<%=governorate.getRegionId()%>"
                                         <%

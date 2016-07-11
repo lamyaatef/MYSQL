@@ -127,6 +127,7 @@
                 <td align = "center" >Delete Region</td>
                 <td align = "center" >View Parents</td>
                 <td align = "center" >View Childs</td>
+                <td align = "center" >Export</td>
                 <% Integer childnum = 0;
                     if (childnum.parseInt(regions.get(0).getRegionLevelTypeId()) == max) {
                 %>
@@ -167,6 +168,17 @@
                     }
                                            %>name="<%=regions.get(i).getRegionId()%>" name="<%=regions.get(i).getRegionId()%>" value="View childs" onclick="viewchilds(<%=regions.get(i).getRegionId()%>)" /> 
                 </td>
+                
+                
+                <td align="center" ><input type="button" <%
+
+                    if (childnum.parseInt(regions.get(i).getRegionLevelTypeId()) == max) {
+                        out.print("disabled=\"true\"");
+                    }
+                                           %>name="<%=regions.get(i).getRegionId()%>" name="<%=regions.get(i).getRegionId()%>" value="Export" onclick="viewchilds(<%=regions.get(i).getRegionId()%>)" /> 
+                </td>
+                
+                
                 <%
                     if (childnum.parseInt(regions.get(i).getRegionLevelTypeId()) == max) {
                 %><td align="center" >
