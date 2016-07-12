@@ -340,10 +340,10 @@ public class DBUtil {
             if (res.next()) {
                 checkFlag = true;
             }
-            System.out.println("sql:" + sql);
+            System.out.println("sql executeSQLExistCheck:" + sql);
             res.close();
         } catch (Exception e) {
-            System.out.println("sql:" + sql);
+            System.out.println("exception sql executeSQLExistCheck:" + sql);
             e.printStackTrace();
         } finally {
             close(stat);
@@ -711,7 +711,7 @@ public class DBUtil {
             pStmt.execute();
 
         } catch (Exception e) {
-            System.out.println("error in the prepared sql:" + sqlText);
+            System.out.println("error in the " +sqlText);
             printArray(params);
             e.printStackTrace();
         } finally {
