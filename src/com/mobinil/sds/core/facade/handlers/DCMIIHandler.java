@@ -1,5 +1,6 @@
 package com.mobinil.sds.core.facade.handlers;
 
+import static com.mobinil.sds.core.facade.handlers.AdministratorHandler.EXPORT_PAYMENT_LEVEL_HISTORY;
 import java.util.Vector;
 import java.util.HashMap;
 import java.sql.*;
@@ -25,6 +26,9 @@ import com.mobinil.sds.core.system.dcm.region.dto.*;
 import com.mobinil.sds.core.system.dcm.group.dao.*;
 import com.mobinil.sds.core.system.dcm.chain.dao.*;
 import com.mobinil.sds.core.system.dcm.chain.model.*;
+import com.mobinil.sds.core.system.paymentHistory.dao.PaymentHistoryFileDAO;
+import com.mobinil.sds.core.system.regionPOSReport.dao.RegionPOSReportDAO;
+import com.mobinil.sds.core.system.scm.dao.PoiWriteExcelFile;
 import com.mobinil.sds.web.interfaces.scm.SCMInterfaceKey;
 import java.util.Map;
 
@@ -64,6 +68,7 @@ public class DCMIIHandler {
     static final int upload_excel_address = 33;
     static final int generate_excel_template = 34;
     static final int action_upload_generated_file = 35;
+    static final int action_export_region_pos_report = 36;
 
     public static HashMap handle(String action, HashMap paramHashMap, java.sql.Connection con) throws Exception {
         String strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
@@ -161,6 +166,10 @@ public class DCMIIHandler {
             } else if (action.equals(DCMInterfaceKey.ACTION_UPLOAD_GENERATED_FILE)) {
                 actionType = action_upload_generated_file;
             }
+            else if (action.equals(DCMInterfaceKey.ACTION_EXPORT_REGION_POS_REPORT)) {
+                actionType = action_export_region_pos_report;
+            }
+
 
             switch (actionType) {
                 case DCM_POS_SAVE_DETAIL:
@@ -377,6 +386,25 @@ public class DCMIIHandler {
                     }
                     break;
 
+                    
+                    case action_export_region_pos_report:
+          {
+             // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
+            System.out.println("action_export_region_pos_report");
+              String Slach = System.getProperty("file.separator");
+              System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
+              String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
+              //String  fieldId =(String) paramHashMap.get("fieldId");
+              System.out.println("baseDirectory "+baseDirectory);
+              Vector files =RegionPOSReportDAO.getregionPOSData(con);
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForRegionPOSData(/*dataVec*/files, baseDirectory);
+              dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
+          }
+          break;  
+            
+                    
+                    
+                    
                 case DCM_REGIONAL_MANAGEMENT_TREE:
                     try {
                         dataHashMap = new HashMap();

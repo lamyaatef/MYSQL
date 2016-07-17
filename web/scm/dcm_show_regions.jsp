@@ -18,7 +18,8 @@
 
 <%
     HashMap objDataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
-
+String Slach = System.getProperty("file.separator");
+    String base = request.getRealPath(Slach + "scm" + Slach + "upload" + Slach);
 
 
     Boolean checkbox = false;
@@ -73,7 +74,7 @@
         <br>
     </center>
     <form name='DCMform' id='DCMform' action='<%=DCMFormAction%>' method='post' >
-
+        <input type="hidden" name="baseDirectory" id="baseDirectory" value=""/>
         <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1" align="center">
             <tr class=TableHeader>
                 <td align = "center" colspan=5>Search Region</td>
@@ -170,12 +171,7 @@
                 </td>
                 
                 
-                <td align="center" ><input type="button" <%
-
-                    if (childnum.parseInt(regions.get(i).getRegionLevelTypeId()) == max) {
-                        out.print("disabled=\"true\"");
-                    }
-                                           %>name="<%=regions.get(i).getRegionId()%>" name="<%=regions.get(i).getRegionId()%>" value="Export" onclick="viewchilds(<%=regions.get(i).getRegionId()%>)" /> 
+                <td align="center" ><input type="button" name="export_data" value="Export" onclick="exportData('<%=base%>')" /> 
                 </td>
                 
                 
@@ -275,6 +271,13 @@
         document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_REGION_CHILDS);%>'+
             '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
 
+        document.DCMform.submit();
+    }
+    function exportData(base)
+    {
+        
+        document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_EXPORT_REGION_POS_REPORT);%>'
+        document.DCMform.baseDirectory.value=base;
         document.DCMform.submit();
     }
     function viewDetails(i)

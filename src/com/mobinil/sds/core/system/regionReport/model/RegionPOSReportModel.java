@@ -5,6 +5,8 @@
  */
 package com.mobinil.sds.core.system.regionReport.model;
 
+import java.sql.ResultSet;
+
 /**
  *
  * @author sand
@@ -26,10 +28,9 @@ public class RegionPOSReportModel {
     private String channelCode;
     private String address;
     private String arAddress;
-    private String docNumber;
+    private String documentNumber;
     private String entryDate;
     private String posStatus;
-    private String ownerPhone;
     private String posLevel;
     private String regionSupervisor;
     private String regionTeamleader;
@@ -47,6 +48,69 @@ public class RegionPOSReportModel {
     private String Ex;
     private String Sign;
     private String QC;
+    private String documentLocation;
+    private String surveyId;
+    private String branch;
+    private String documents;
+
+    public RegionPOSReportModel()
+{
+	
+}
+public RegionPOSReportModel(ResultSet res)
+{
+    try
+	      {
+	    	  
+	  
+		    posCode = res.getString("pos_code");
+                    posENName = res.getString("pos_name");
+                    posARName = res.getString("pos_arabic_name");
+                    ownerName= res.getString("pos_owner_name");
+                    IdNumber= res.getString("pos_owner_id_number");
+                    IdType= res.getString("pos_owner_id_type_id");
+                    region= res.getString("region_id");
+                    city= res.getString("POS_CITY_ID");
+                    disctrict= res.getString("POS_DISTRICT_ID");
+                    governorate= res.getString("POS_GOVERNRATE");
+                    districtCodeId= res.getString("DISTRICT_CODE");
+                    areaCode= "";//res.getString(IdNumber);
+                    area= res.getString("POS_AREA_ID");
+                    channelCode= res.getString("channel_id");
+                    address= res.getString("pos_address");
+                    arAddress= res.getString("POS_ARABIC_ADDRESS");
+                    documentNumber= res.getString("POS_DOC_NUM");
+                    entryDate= "";//res.getString(IdNumber);
+                    posStatus= res.getString("POS_STATUS_TYPE_ID");
+                    posLevel= res.getString("DCM_LEVEL_ID");
+                    regionSupervisor= "";//res.getString(IdNumber);
+                    regionTeamleader= "";//res.getString(IdNumber);
+                    salesRep= "";//res.getString(IdNumber);
+                    stkDialNumber= res.getString("StkDialNo");
+                    stkStatus= "";//res.getString(IdNumber);
+                    stkActivationDate= res.getString("stkActvDt");
+                    iqrarReceivedDate= res.getString("IqrarRcvDt");
+                    paymentStatus= "";//res.getString(IdNumber);
+                    paymentLevelName= res.getString("DCM_PAYMENT_LEVEL_NAME");
+                    iqrarReceived= "";//res.getString(IdNumber);
+                    verifyOk= "";//res.getString(IdNumber);
+                    posOwnerPhoneNumber= res.getString("pos_owner_phone_number");
+                    L1= res.getString("IS_LEVEL_ONE");
+                    Ex= res.getString("IS_EXCLUSIVE");
+                    Sign= res.getString("HAS_SIGN");
+                    QC= res.getString("IS_QUALITY_CLUB");
+                    documentLocation= res.getString("DOC_LOCATION");
+                    surveyId= res.getString("SURVEY_ID");
+                    branch= res.getString("BRANCH_ID");
+                    documents = res.getString("PosDocuments");
+                }
+	      catch(Exception e)
+	      {
+	        e.printStackTrace();
+	      } 
+	
+}        
+            
 
     /**
      * @return the posCode
@@ -275,15 +339,15 @@ public class RegionPOSReportModel {
     /**
      * @return the docNumber
      */
-    public String getDocNumber() {
-        return docNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
      * @param docNumber the docNumber to set
      */
-    public void setDocNumber(String docNumber) {
-        this.docNumber = docNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
@@ -317,17 +381,7 @@ public class RegionPOSReportModel {
     /**
      * @return the ownerPhone
      */
-    public String getOwnerPhone() {
-        return ownerPhone;
-    }
-
-    /**
-     * @param ownerPhone the ownerPhone to set
-     */
-    public void setOwnerPhone(String ownerPhone) {
-        this.ownerPhone = ownerPhone;
-    }
-
+ 
     /**
      * @return the posLevel
      */
@@ -564,6 +618,62 @@ public class RegionPOSReportModel {
      */
     public void setQC(String QC) {
         this.QC = QC;
+    }
+
+    /**
+     * @return the documentLocation
+     */
+    public String getDocumentLocation() {
+        return documentLocation;
+    }
+
+    /**
+     * @param documentLocation the documentLocation to set
+     */
+    public void setDocumentLocation(String documentLocation) {
+        this.documentLocation = documentLocation;
+    }
+
+    /**
+     * @return the surveyId
+     */
+    public String getSurveyId() {
+        return surveyId;
+    }
+
+    /**
+     * @param surveyId the surveyId to set
+     */
+    public void setSurveyId(String surveyId) {
+        this.surveyId = surveyId;
+    }
+
+    /**
+     * @return the branch
+     */
+    public String getBranch() {
+        return branch;
+    }
+
+    /**
+     * @param branch the branch to set
+     */
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    /**
+     * @return the documents
+     */
+    public String getDocuments() {
+        return documents;
+    }
+
+    /**
+     * @param documents the documents to set
+     */
+    public void setDocuments(String documents) {
+        this.documents = documents;
     }
     
 }
