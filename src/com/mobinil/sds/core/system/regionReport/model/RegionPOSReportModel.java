@@ -57,7 +57,7 @@ public class RegionPOSReportModel {
 {
 	
 }
-public RegionPOSReportModel(ResultSet res)
+public RegionPOSReportModel(ResultSet res,String supervisorName, String teamleaderName)
 {
     try
 	      {
@@ -83,9 +83,9 @@ public RegionPOSReportModel(ResultSet res)
                     entryDate= "";//res.getString(IdNumber);
                     posStatus= res.getString("POS_STATUS_TYPE_ID");
                     posLevel= res.getString("DCM_LEVEL_ID");
-                    regionSupervisor= "";//res.getString(IdNumber);
-                    regionTeamleader= "";//res.getString(IdNumber);
-                    salesRep= "";//res.getString(IdNumber);
+                    regionSupervisor= supervisorName;//res.getString(IdNumber);
+                    regionTeamleader= teamleaderName;//res.getString(IdNumber);
+                    salesRep= res.getString("sales_rep_name");//res.getString(IdNumber);
                     stkDialNumber= res.getString("StkDialNo");
                     stkStatus= "";//res.getString(IdNumber);
                     stkActivationDate= res.getString("stkActvDt");

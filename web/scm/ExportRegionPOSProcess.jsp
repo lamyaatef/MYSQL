@@ -5,6 +5,7 @@
 --%>
 
 
+<%@page import="com.mobinil.sds.web.interfaces.dcm.DCMInterfaceKey"%>
 <%@page import="com.mobinil.sds.web.interfaces.sa.AdministrationInterfaceKey"%>
 <%@page import="java.sql.Blob"%>
 <%@page import="com.mobinil.sds.core.system.scm.dto.STKDistRequestViewerDTO"%>
@@ -50,7 +51,7 @@ session.setAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT, dataHashMap);
         function back ()
         {
             document.GenerateSheet.action="com.mobinil.sds.web.controller.WebControllerServlet?";
-            document.GenerateSheet.action=document.GenerateSheet.action+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='+'<%=AdministrationInterfaceKey.ACTION_SHOW_HISTORY_FILE%>';
+            document.GenerateSheet.action=document.GenerateSheet.action+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='+'<%=DCMInterfaceKey.ACTION_DCM_REGIONAL_MANAGEMENT_TREE%>';
                                                                         
             document.GenerateSheet.submit();
             
