@@ -12,6 +12,36 @@ import java.sql.ResultSet;
  * @author sand
  */
 public class RegionPOSReportModel {
+    private static String RECEIVED = "Received";
+    private static String VERIFIED = "verified";
+
+    /**
+     * @return the RECEIVED
+     */
+    public static String getRECEIVED() {
+        return RECEIVED;
+    }
+
+    /**
+     * @param aRECEIVED the RECEIVED to set
+     */
+    public static void setRECEIVED(String aRECEIVED) {
+        RECEIVED = aRECEIVED;
+    }
+
+    /**
+     * @return the VERIFIED
+     */
+    public static String getVERIFIED() {
+        return VERIFIED;
+    }
+
+    /**
+     * @param aVERIFIED the VERIFIED to set
+     */
+    public static void setVERIFIED(String aVERIFIED) {
+        VERIFIED = aVERIFIED;
+    }
     private String posCode;
     private String posENName;
     private String posARName;
@@ -41,8 +71,9 @@ public class RegionPOSReportModel {
     private String iqrarReceivedDate;
     private String paymentStatus;
     private String paymentLevelName;
-    private String iqrarReceived;//boolean
-    private String verifyOk; //boolean
+    private String iqrarReceived = "";;//boolean
+    private String verifyOk=""; //boolean
+    private String stkVerificationId;
     private String posOwnerPhoneNumber;
     private String L1;
     private String Ex;
@@ -89,11 +120,16 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     stkDialNumber= res.getString("StkDialNo");
                     stkStatus= "";//res.getString(IdNumber);
                     stkActivationDate= res.getString("stkActvDt");
+                    
                     iqrarReceivedDate= res.getString("IqrarRcvDt");
+                    stkVerificationId = res.getString("STKVRFCAT_VANTIFCASEIDNO");
+                    if (iqrarReceivedDate!=null && iqrarReceivedDate.compareTo("")!=0)
+                        iqrarReceived = this.RECEIVED;
+                    if (stkVerificationId!=null && stkVerificationId.compareTo("")!=0)
+                        verifyOk = this.VERIFIED;
+                    
                     paymentStatus= "";//res.getString(IdNumber);
                     paymentLevelName= res.getString("DCM_PAYMENT_LEVEL_NAME");
-                    iqrarReceived= "";//res.getString(IdNumber);
-                    verifyOk= "";//res.getString(IdNumber);
                     posOwnerPhoneNumber= res.getString("pos_owner_phone_number");
                     L1= res.getString("IS_LEVEL_ONE");
                     Ex= res.getString("IS_EXCLUSIVE");

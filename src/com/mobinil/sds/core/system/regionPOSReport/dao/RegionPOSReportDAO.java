@@ -51,7 +51,7 @@ public class RegionPOSReportDAO {
 "  dcm_pos_owner_phone.pos_owner_phone_number,\n" +
 "  dcm_pos_detail.DCM_LEVEL_ID,\n" +
 "  pos_documents.StkDialNo,\n" +
-"  pos_documents.stkActvDt,\n" +
+"  pos_documents.stkActvDt,pos_documents.STKVRFCAT_VANTIFCASEIDNO,\n" +
 "  pos_documents.IqrarRcvDt,\n" +
 "  gen_dcm_payment_level.DCM_PAYMENT_LEVEL_NAME,\n" +
 "  dcm_pos_detail.POS_ARABIC_ADDRESS,\n" +
