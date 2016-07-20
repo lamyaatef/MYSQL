@@ -51,8 +51,17 @@ public class RegionPOSReportDAO {
 "  dcm_pos_owner_phone.pos_owner_phone_number,\n" +
 "  dcm_pos_detail.DCM_LEVEL_ID,\n" +
 "  pos_documents.StkDialNo,\n" +
-"  pos_documents.stkActvDt,pos_documents.STKVRFCAT_VANTIFCASEIDNO,\n" +
+"  pos_documents.stkActvDt,\n" +
 "  pos_documents.IqrarRcvDt,\n" +
+"  \n" +
+"  scm_iqrar_receving_status.name as iqrar_rcv_status,\n" +
+"  scm_stk_status.name as stk_status,\n" +
+"  scm_temp_pos_pay_status.paystatus as pay_status,\n" +
+"  scm_verified_status.name as verified_status,\n" +
+"  dcm_pos_detail.survey_date AS Entry_DATE,\n" +
+"  SCM_DISTRICT_CHILDS.area_code,\n" +
+"  \n" +
+"  pos_documents.STKVRFCAT_VANTIFCASEIDNO,\n" +
 "  gen_dcm_payment_level.DCM_PAYMENT_LEVEL_NAME,\n" +
 "  dcm_pos_detail.POS_ARABIC_ADDRESS,\n" +
 "  dcm_pos_detail.DOC_LOCATION,\n" +
@@ -68,6 +77,14 @@ public class RegionPOSReportDAO {
 "  dcm_user.dcm_user_id as rep_id\n" +
 "FROM dcm_pos_detail,\n" +
 "  gen_dcm,\n" +
+"  \n" +
+"  scm_iqrar_receving_status,\n" +
+"  scm_stk_status,\n" +
+"  scm_verified_status,\n" +
+"  scm_temp_pos_pay_status,\n" +
+"  scm_stk_owner,\n" +
+"  SCM_DISTRICT_CHILDS,\n" +
+"  \n" +
 "  dcm_pos_owner,\n" +
 "  pos_documents,\n" +
 "  dcm_pos_owner_phone,\n" +
@@ -79,6 +96,14 @@ public class RegionPOSReportDAO {
 "WHERE dcm_pos_owner.pos_detail_id              = dcm_pos_detail.pos_detail_id\n" +
 "AND gen_dcm_payment_level.DCM_PAYMENT_LEVEL_ID = gen_dcm.DCM_PAYMENT_LEVEL_ID\n" +
 "AND dcm_branch_pos.pos_ID                      = dcm_pos_detail.pos_ID\n" +
+"\n" +
+"AND scm_iqrar_receving_status.iqrar_receving_status_id = scm_stk_owner.IQRAR_RECEVING_STATUS_ID\n" +
+"AND scm_stk_status.stk_status_id = scm_stk_owner.STK_STATUS_ID\n" +
+"AND scm_verified_status.dcm_verified_status_id = scm_stk_owner.DCM_VERIFIED_STATUS_ID\n" +
+"AND scm_stk_owner.DCM_ID = gen_dcm.DCM_ID\n" +
+"AND scm_temp_pos_pay_status.poscode = dcm_pos_detail.pos_code\n" +
+"AND SCM_DISTRICT_CHILDS.family = dcm_region.region_id\n" +
+"\n" +
 "AND dcm_pos_detail.region_id= dcm_region.region_id\n" +
 "AND dcm_user_detail.region_id= dcm_region.region_id\n" +
 "AND region_level_type_id = '"+regionLevel+"' \n" +

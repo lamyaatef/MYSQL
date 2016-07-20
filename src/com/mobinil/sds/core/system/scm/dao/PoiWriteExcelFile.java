@@ -1104,7 +1104,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 					ArrayList<HSSFRow> rows = new ArrayList<HSSFRow>();
                                         ArrayList<ArrayList<HSSFCell>> cells=new ArrayList<ArrayList<HSSFCell>>();
 					//42 //45
-                                        for(int i=1; i<=42;i++){
+                                        for(int i=1; i<=46;i++){
                                         ArrayList<HSSFCell> cell = new ArrayList<HSSFCell>();
                                             cells.add(cell);
                                         }
@@ -1115,7 +1115,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 
                                             rows.add(worksheet.createRow(i));
                                              //42
-                                            for(int cellno=0;cellno<42;cellno++){
+                                            for(int cellno=0;cellno<46;cellno++){
                                                 
                                                 cells.get(cellno).add(rows.get(i).createCell((short) cellno));
                                             }
@@ -1148,6 +1148,8 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                       header++;
                                       cells.get(header).get(0).setCellValue("District");
                                       header++;
+                                      cells.get(header).get(0).setCellValue("AreaCode");
+                                      header++;
                                       cells.get(header).get(0).setCellValue("Area");
                                       header++;
                                       cells.get(header).get(0).setCellValue("Address");
@@ -1155,6 +1157,8 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                       cells.get(header).get(0).setCellValue("DocNumber");
                                       header++;
                                       cells.get(header).get(0).setCellValue("Documents");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("entryDt");
                                       header++;
                                       cells.get(header).get(0).setCellValue("PosStatus");
                                       header++;
@@ -1170,7 +1174,11 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                       header++;
                                       cells.get(header).get(0).setCellValue("StkDialNo");
                                       header++;
+                                      cells.get(header).get(0).setCellValue("StkStatus");
+                                      header++;
                                       cells.get(header).get(0).setCellValue("StkActivationDate");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("PayStatus");
                                       header++;
                                       cells.get(header).get(0).setCellValue("PayLevelName");
                                       header++;
@@ -1180,10 +1188,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                       header++;
                                       cells.get(header).get(0).setCellValue("VerifyOK");
                                       header++;
-                                      cells.get(header).get(0).setCellValue("IqrarReceived");
-                                      header++;
-                                      cells.get(header).get(0).setCellValue("ArabicAddress");
-                                      header++;
+                                    
                                       cells.get(header).get(0).setCellValue("DocumentLocation");
                                       header++;
                                       cells.get(header).get(0).setCellValue("SurveyID");
@@ -1258,9 +1263,13 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                 j++;
                                 cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getStkDialNumber());
                                 j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getStkStatus());
+                                j++;
                                 cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getStkActivationDate());
                                 j++;
                                 cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getIqrarReceivedDate());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getPaymentStatus());
                                 j++;
                                 cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getPaymentLevelName());
                                 j++;

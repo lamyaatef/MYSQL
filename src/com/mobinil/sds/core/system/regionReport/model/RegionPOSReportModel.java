@@ -13,7 +13,7 @@ import java.sql.ResultSet;
  */
 public class RegionPOSReportModel {
     private static String RECEIVED = "Received";
-    private static String VERIFIED = "verified";
+    private static String VERIFIED = "Verified";
 
     /**
      * @return the RECEIVED
@@ -105,30 +105,31 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     disctrict= res.getString("POS_DISTRICT_ID");
                     governorate= res.getString("POS_GOVERNRATE");
                     districtCodeId= res.getString("DISTRICT_CODE");
-                    areaCode= "";//res.getString(IdNumber);
+                    areaCode= res.getString("area_code");
                     area= res.getString("POS_AREA_ID");
                     channelCode= res.getString("channel_id");
                     address= res.getString("pos_address");
                     arAddress= res.getString("POS_ARABIC_ADDRESS");
                     documentNumber= res.getString("POS_DOC_NUM");
-                    entryDate= "";//res.getString(IdNumber);
+                    entryDate= res.getString("Entry_DATE");
                     posStatus= res.getString("POS_STATUS_TYPE_ID");
                     posLevel= res.getString("DCM_LEVEL_ID");
                     regionSupervisor= supervisorName;//res.getString(IdNumber);
                     regionTeamleader= teamleaderName;//res.getString(IdNumber);
                     salesRep= res.getString("sales_rep_name");//res.getString(IdNumber);
                     stkDialNumber= res.getString("StkDialNo");
-                    stkStatus= "";//res.getString(IdNumber);
+                    stkStatus= res.getString("stk_status");
                     stkActivationDate= res.getString("stkActvDt");
                     
                     iqrarReceivedDate= res.getString("IqrarRcvDt");
                     stkVerificationId = res.getString("STKVRFCAT_VANTIFCASEIDNO");
-                    if (iqrarReceivedDate!=null && iqrarReceivedDate.compareTo("")!=0)
-                        iqrarReceived = this.RECEIVED;
-                    if (stkVerificationId!=null && stkVerificationId.compareTo("")!=0)
-                        verifyOk = this.VERIFIED;
-                    
-                    paymentStatus= "";//res.getString(IdNumber);
+                    /*if (iqrarReceivedDate!=null && iqrarReceivedDate.compareTo("")!=0)
+                        iqrarReceived = this.RECEIVED;*/
+                    iqrarReceived = res.getString("iqrar_rcv_status");
+                    /*if (stkVerificationId!=null && stkVerificationId.compareTo("")!=0)
+                        verifyOk = this.VERIFIED;*/
+                    verifyOk = res.getString("verified_status");
+                    paymentStatus= res.getString("pay_status");
                     paymentLevelName= res.getString("DCM_PAYMENT_LEVEL_NAME");
                     posOwnerPhoneNumber= res.getString("pos_owner_phone_number");
                     L1= res.getString("IS_LEVEL_ONE");
