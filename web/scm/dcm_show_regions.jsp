@@ -88,6 +88,7 @@ String Slach = System.getProperty("file.separator");
                 <td align=middle><select name='<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>' id='<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>'>
                         <option value=''></option>
                         <%
+                       
                             for (int j = 0; j < dcmRegionlevels.size(); j++) {
                                 RegionLevelDto regionlevelModel = (RegionLevelDto) dcmRegionlevels.get(j);
                                 Integer levelIdint = regionlevelModel.getId();

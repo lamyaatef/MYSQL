@@ -461,10 +461,22 @@ public class RegionDAO {
              " connect by prior region_id = parent_region_id "+
              " start with region_id = 1 ";*/
 
-            String sqlString = "select region_name as region_name, vw_dcm_region.* "
+            /*String sqlString = "select region_name as region_name, vw_dcm_region.* "
                     + " from vw_dcm_region "
                     + " connect by prior region_id = parent_region_id "
-                    + " start with region_id = 1 ";
+                    + " start with region_id = 1 ";*/
+            
+            String sqlString = "SELECT dcm_region.region_id, dcm_region.region_name,\n" +
+"          dcm_region.region_status_type_id,\n" +
+"          dcm_region_status_type.region_status_type_name,\n" +
+"          dcm_region.parent_region_id, dcm_region.region_level_type_id,\n" +
+"          dcm_region_level_type.region_level_type_name\n" +
+"     FROM dcm_region, dcm_region_level_type, dcm_region_status_type\n" +
+"    WHERE dcm_region.region_status_type_id =\n" +
+"                                  dcm_region_status_type.region_status_type_id\n" +
+"      AND dcm_region.region_level_type_id =\n" +
+"                                    dcm_region_level_type.region_level_type_id";
+            
 
             ResultSet rs = stmt.executeQuery(sqlString);
             while (rs.next()) {
