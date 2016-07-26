@@ -410,13 +410,13 @@ public class DCMIIHandler {
                 case DCM_REGIONAL_MANAGEMENT_TREE:
                     try {
                         dataHashMap = new HashMap();
-//          String strUserID = (String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+                        //String strUserID = (String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
                         dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, strUserID);
                         Vector dcmRegion = RegionDAO.getAllRegions(con);
                         Vector<RegionLevelDto> levels = RegionDAO.getALLRegionlevels(con);
                         dataHashMap.put(DCMInterfaceKey.VECTOR_ALL_REGIONS_LEVELS, levels);
                         dataHashMap.put(InterfaceKey.HASHMAP_KEY_ADDITIONAL_COLLECTION_2, dcmRegion);
-                        //removed to improve performance of loading page dcm_show_regions.jsp
+                        ///////////// Removed to improve performance of loading page dcm_show_regions.jsp ////////////////
                         //dataHashMap.put(InterfaceKey.HASHMAP_KEY_COLLECTION, RegionDAO.getParentRegions(con));
                         dataHashMap.put(DCMInterfaceKey.SEARCH_REGION_RESULT, null);
                         dataHashMap.put(DCMInterfaceKey.INPUT_TEXT_REGION_NAME, "");
