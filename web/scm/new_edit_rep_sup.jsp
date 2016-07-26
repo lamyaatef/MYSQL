@@ -176,7 +176,7 @@
   
             function submitForm()
             {
-                console.log("msg ",document.<%=formName%>.<%=SCMInterfaceKey.REGION_ID%>.value);
+                //console.log("msg ",document.<%=formName%>.<%=SCMInterfaceKey.REGION_ID%>.value);
                 userName=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_FULL_NAME%>.value;
                 userAddress=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ADDRESS%>.value;
                 userEmail=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_EMAIL%>.value;
@@ -327,7 +327,7 @@
 
             }
             function checkIfSalesAgentLetHimChooseArea(selectBox){
-                console.log("selected : ",selectBox);
+               // console.log("selected : ",selectBox);
                 document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_SUBMIT_USER_LEVEL_TYPE%>";
                 document.<%=formName%>.submit();
 

@@ -1306,7 +1306,7 @@
     function saveForm()
     {
        
-        console.log("inside save form");
+      //  console.log("inside save form");
         
         var flag = 0;
         // var posCode = document.getElementById('<%=SCMInterfaceKey.CONTROL_TEXT_POS_CODE%>').value;
@@ -1502,7 +1502,7 @@
 
         if(flag != 1)
         {
-            console.log("aaaa");
+          //  console.log("aaaa");
             
             document.formDataView.phones__R0__C1.value=trimPhone(document.formDataView.phones__R0__C1.value);
             document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value=trimPhone(document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value);
@@ -1512,7 +1512,7 @@
             document.formDataView.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%= SCMInterfaceKey.ACTION_POS_DATA_EDIT_STORE%>';
           //  document.formDataView.
             
-            console.log("formAction ","<%out.print(formAction);%>");
+        //    console.log("formAction ","<%out.print(formAction);%>");
             $("#formDataView").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction);%>");
             document.formDataView.submit();
         }

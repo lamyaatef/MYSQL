@@ -728,7 +728,7 @@ System.out.println("form action 2 : "+formAction2);
   $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_REGION%>").change(function(){
   //console.log("aaaa ",$(this).val());
   var regionid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_REGION%>").val(); //value id of Option selected in the Select object
-  console.log("value id of option selected in Select object is : ",regionid);
+  //console.log("value id of option selected in Select object is : ",regionid);
     
     $.ajax({
     url : "<%out.print(formAction);%>",
@@ -752,7 +752,7 @@ System.out.println("form action 2 : "+formAction2);
             
             var option= $("<option/>").text(v).val(k);
  
-            console.log("data governorates ",option);
+         //   console.log("data governorates ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").append(option);
 });
 
@@ -788,7 +788,7 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").change(function(){
             
             var option= $("<option/>").text(v).val(k);
  
-            console.log("data governorates ",option);
+          // console.log("data governorates ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").append(option);
 });
         
@@ -833,7 +833,7 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").change(function(){
             
             var option= $("<option/>").text(v).val(k);
  
-            console.log("data governorates ",option);
+           // console.log("data governorates ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").append(option);
 });
         
@@ -880,7 +880,7 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").change(function(){
             
             var option= $("<option/>").text(v).val(k);
  
-            console.log("data governorates ",option);
+         //   console.log("data governorates ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").append(option);
 });
  
@@ -888,7 +888,7 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").change(function(){
             
             var option= $("<option/>").text(v).val(k);
  
-            console.log("data supervisors ",option);
+         //   console.log("data supervisors ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").append(option);
 });
  
@@ -896,7 +896,7 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").change(function(){
             
             var option= $("<option/>").text(v).val(k);
  
-            console.log("data teamleaders ",option);
+        //    console.log("data teamleaders ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append(option);
 });
 
@@ -904,7 +904,7 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").change(function(){
             
             var option= $("<option/>").text(v).val(k);
  
-            console.log("data salesrep ",option);
+     //       console.log("data salesrep ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append(option);
 });
 
@@ -945,7 +945,7 @@ $.each(data.map.superChildren, function(k, v) {
             
             var option= $("<option/>").text(v).val(k);
  
-            console.log("data supervisors ",option);
+          //  console.log("data supervisors ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append(option);
           
 });
@@ -987,7 +987,7 @@ $.each(data.map.superChildren, function(k, v) {
             
             var option= $("<option/>").text(v).val(k);
  
-            console.log("data supervisors ",option);
+      //      console.log("data supervisors ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append(option);
           
 });

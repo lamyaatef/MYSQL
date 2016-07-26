@@ -17,6 +17,7 @@ public class RegionDAO {
         try {
             Statement stat = con.createStatement();
             String strSql = "select REGION_ID from DCM_REGION where PARENT_REGION_ID = " + id + "order by REGION_NAME";
+            System.out.println("getChildRegions "+strSql);
             ResultSet res = stat.executeQuery(strSql);
             while (res.next()) {
                 regionModel = new RegionModel();
@@ -36,6 +37,7 @@ public class RegionDAO {
         try {
             Statement stat = con.createStatement();
             String strSql = "select REGION_ID FROM DCM_REGION where PARENT_REGION_ID is null order by REGION_NAME";
+            System.out.println("getParentRegions "+strSql);
             //Utility.logger.debug(strSql);
             ResultSet res = stat.executeQuery(strSql);
             while (res.next()) {
@@ -85,6 +87,7 @@ public class RegionDAO {
             Statement stat = con.createStatement();
             String strSql = "select REGION_NAME,PARENT_REGION_ID FROM DCM_REGION where REGION_ID = '" + id + "'";
             //Utility.logger.debug(strSql);
+            System.out.println("getRegionModel "+strSql);
             ResultSet res = stat.executeQuery(strSql);
             if (res.next()) {
                 regionModel = new RegionModel();

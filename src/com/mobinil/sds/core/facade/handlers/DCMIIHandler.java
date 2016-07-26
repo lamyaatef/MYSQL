@@ -416,7 +416,8 @@ public class DCMIIHandler {
                         Vector<RegionLevelDto> levels = RegionDAO.getALLRegionlevels(con);
                         dataHashMap.put(DCMInterfaceKey.VECTOR_ALL_REGIONS_LEVELS, levels);
                         dataHashMap.put(InterfaceKey.HASHMAP_KEY_ADDITIONAL_COLLECTION_2, dcmRegion);
-                        dataHashMap.put(InterfaceKey.HASHMAP_KEY_COLLECTION, RegionDAO.getParentRegions(con));
+                        //removed to improve performance of loading page dcm_show_regions.jsp
+                        //dataHashMap.put(InterfaceKey.HASHMAP_KEY_COLLECTION, RegionDAO.getParentRegions(con));
                         dataHashMap.put(DCMInterfaceKey.SEARCH_REGION_RESULT, null);
                         dataHashMap.put(DCMInterfaceKey.INPUT_TEXT_REGION_NAME, "");
                         dataHashMap.put(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME, "");

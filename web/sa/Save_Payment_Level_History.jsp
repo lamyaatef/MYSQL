@@ -163,9 +163,9 @@ Save Payment Level History
   var month = sub[0];
   var year = sub[1];
   
-  console.log("year== selectedYear && month==selectedMonth" +  year== selectedYear && month==selectedMonth);
-  console.log("year== selectedYear" +  year + "=>" + selectedYear);
-  console.log("month == selectedMonth" +  month + "=>" + selectedMonth);
+  //console.log("year== selectedYear && month==selectedMonth" +  year== selectedYear && month==selectedMonth);
+  //console.log("year== selectedYear" +  year + "=>" + selectedYear);
+  //console.log("month == selectedMonth" +  month + "=>" + selectedMonth);
   
   if (year=== selectedYear && month==selectedMonth)
   {
@@ -177,7 +177,7 @@ Save Payment Level History
         }
    
    // alert(year);
-  console.log(year +"=>" + month);
+//  console.log(year +"=>" + month);
  
 });
 
