@@ -97,6 +97,7 @@ public class RegionPOSReportDAO {
 "AND gen_dcm_payment_level.DCM_PAYMENT_LEVEL_ID = gen_dcm.DCM_PAYMENT_LEVEL_ID\n" +
 "AND dcm_branch_pos.pos_ID                      = dcm_pos_detail.pos_ID\n" +
 "\n" +
+"AND pos_documents.code = dcm_pos_detail.pos_code\n" +                    
 "AND scm_iqrar_receving_status.iqrar_receving_status_id = scm_stk_owner.IQRAR_RECEVING_STATUS_ID\n" +
 "AND scm_stk_status.stk_status_id = scm_stk_owner.STK_STATUS_ID\n" +
 "AND scm_verified_status.dcm_verified_status_id = scm_stk_owner.DCM_VERIFIED_STATUS_ID\n" +
