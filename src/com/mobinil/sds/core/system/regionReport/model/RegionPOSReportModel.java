@@ -88,15 +88,19 @@ public class RegionPOSReportModel {
 {
 	
 }
-public RegionPOSReportModel(ResultSet res,String supervisorName, String teamleaderName)
+public RegionPOSReportModel(ResultSet res/*String arName*/,String supervisorName, String teamleaderName)
 {
     try
 	      {
-	    	  
-	  
-		    posCode = res.getString("pos_code");
+	    	   
+                       
+                  posARName = res.getString("pos_arabic_name");
+                  
+                    posCode = res.getString("pos_code");
                     posENName = res.getString("pos_name");
-                    posARName = res.getString("pos_arabic_name");
+		    
+                    
+                   
                     ownerName= res.getString("pos_owner_name");
                     IdNumber= res.getString("pos_owner_id_number");
                     IdType= res.getString("pos_owner_id_type_id");
@@ -105,7 +109,7 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     disctrict= res.getString("POS_DISTRICT_ID");
                     governorate= res.getString("POS_GOVERNRATE");
                     districtCodeId= res.getString("DISTRICT_CODE");
-                    areaCode= res.getString("area_code");
+                    areaCode= "";//res.getString("area_code");
                     area= res.getString("POS_AREA_ID");
                     channelCode= res.getString("channel_id");
                     address= res.getString("pos_address");
@@ -123,13 +127,11 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     
                     iqrarReceivedDate= res.getString("IqrarRcvDt");
                     stkVerificationId = res.getString("STKVRFCAT_VANTIFCASEIDNO");
-                    /*if (iqrarReceivedDate!=null && iqrarReceivedDate.compareTo("")!=0)
-                        iqrarReceived = this.RECEIVED;*/
+              
                     iqrarReceived = res.getString("iqrar_rcv_status");
-                    /*if (stkVerificationId!=null && stkVerificationId.compareTo("")!=0)
-                        verifyOk = this.VERIFIED;*/
+            
                     verifyOk = res.getString("verified_status");
-                    paymentStatus= res.getString("pay_status");
+                    paymentStatus= "";//res.getString("pay_status");
                     paymentLevelName= res.getString("DCM_PAYMENT_LEVEL_NAME");
                     posOwnerPhoneNumber= res.getString("pos_owner_phone_number");
                     L1= res.getString("IS_LEVEL_ONE");
@@ -138,8 +140,9 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     QC= res.getString("IS_QUALITY_CLUB");
                     documentLocation= res.getString("DOC_LOCATION");
                     surveyId= res.getString("SURVEY_ID");
-                    branch= res.getString("BRANCH_ID");
+                    branch= "";//res.getString("BRANCH_ID");
                     documents = res.getString("PosDocuments");
+                   
                 }
 	      catch(Exception e)
 	      {
