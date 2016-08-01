@@ -88,7 +88,7 @@ public class RegionPOSReportModel {
 {
 	
 }
-public RegionPOSReportModel(ResultSet res/*String arName*/,String supervisorName, String teamleaderName)
+public RegionPOSReportModel(ResultSet res,String supervisorName, String teamleaderName)
 {
     try
 	      {
