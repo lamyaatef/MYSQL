@@ -1267,8 +1267,8 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                 j++;
                                 cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getStkActivationDate());
                                 j++;
-                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getIqrarReceivedDate());
-                                j++;
+                                /*cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getIqrarReceivedDate());
+                                j++;*/
                                 cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getPaymentStatus());
                                 j++;
                                 cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getPaymentLevelName());

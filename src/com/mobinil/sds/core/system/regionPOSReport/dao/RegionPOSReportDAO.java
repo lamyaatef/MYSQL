@@ -25,14 +25,12 @@ public class RegionPOSReportDAO {
                 
         System.out.println("getregionPOSData ");
         
-        if(regionLevel.compareTo("1")==0 && regionName.compareToIgnoreCase("Cairo")==0)
-                  regionName = "Greater Cairo";
               
         try {
             Statement stat = con.createStatement();
             Statement stat2 = con.createStatement();
             //stat.setFetchSize(0);
-            String strSql = "SELECT gen_dcm.channel_id, " +
+            String strSql = "SELECT ROWNUM as row_num,gen_dcm.channel_id, " +
 "   dcm_pos_detail.pos_code, " +
 "  dcm_pos_detail.pos_name, " +
 "  dcm_pos_detail.pos_arabic_name, " +
@@ -91,6 +89,7 @@ public class RegionPOSReportDAO {
 "  dcm_user, " +
 "  dcm_user_detail " +
 "WHERE dcm_pos_owner.pos_detail_id              = dcm_pos_detail.pos_detail_id " +
+                    "/*and gen_dcm.dcm_code = dcm_pos_detail.pos_code*/ "+
 "AND gen_dcm_payment_level.DCM_PAYMENT_LEVEL_ID = gen_dcm.DCM_PAYMENT_LEVEL_ID " +
 "/*AND dcm_branch_pos.pos_ID                      = dcm_pos_detail.pos_ID*/ " +
 "/*AND dcm_pos_detail.pos_code = pos_documents.code */ " +
@@ -101,10 +100,12 @@ public class RegionPOSReportDAO {
 "/*AND scm_temp_pos_pay_status.poscode = dcm_pos_detail.pos_code*/ " +
 "/*AND SCM_DISTRICT_CHILDS.family = dcm_region.region_id*/ " +
 "/*AND dcm_pos_detail.region_id= dcm_region.region_id*/ " +
+"/*AND dcm_user.user_id = dcm_user_detail.user_id*/"+
 "AND dcm_user_detail.region_id= dcm_region.region_id " +
+"/*and dcm_pos_owner_phone.pos_owner_id = dcm_pos_owner.pos_owner_id */"+
 "AND dcm_region.region_level_type_id = '"+regionLevel+"' " +
-"AND dcm_region.region_name='"+regionName+"' " +
-"AND dcm_user.user_level_type_id = 3";
+"AND LOWER(dcm_region.region_name) like LOWER('%"+regionName+"%')" +
+"AND dcm_user.user_level_type_id = 3 and ROWNUM <= 10000 order by dcm_pos_detail.pos_code desc";
             System.out.println("sql for region pos data with salesrep name : "+ strSql);
             ResultSet res = stat.executeQuery(strSql);
             while (res.next()) {
@@ -114,13 +115,13 @@ public class RegionPOSReportDAO {
                                         "  dcm_user_detail " +
                                         "WHERE scm_rep_supervisors.rep_id='"+res.getString("rep_id")+"' " +
                                         "AND scm_rep_supervisors.sup_id  = dcm_user_detail.user_id";
-                System.out.println("sql for supervisor name for sales rep id "+res.getString("rep_id")+" "+supervisorSql);
+                //System.out.println("sql for supervisor name for sales rep id "+res.getString("rep_id")+" "+supervisorSql);
                 String teamleaderSql ="SELECT dcm_user_detail.user_full_name as teamleader_name " +
                                         "FROM scm_rep_teamleaders , " +
                                         "  dcm_user_detail " +
                                         "WHERE scm_rep_teamleaders.rep_id='"+res.getString("rep_id")+"' " +
                                         "AND scm_rep_teamleaders.teamlead_id  = dcm_user_detail.user_id";
-                System.out.println("sql for teamleader name for sales rep id "+res.getString("rep_id")+" "+teamleaderSql);
+                //System.out.println("sql for teamleader name for sales rep id "+res.getString("rep_id")+" "+teamleaderSql);
                 
                 ResultSet rs1 = stat2.executeQuery(supervisorSql);
                 if(rs1.next())
@@ -134,7 +135,7 @@ public class RegionPOSReportDAO {
             res.close();
             stat2.close();
             stat.close();
-            con.close();
+           // con.close();
             
         } catch (Exception e) {
             e.printStackTrace();

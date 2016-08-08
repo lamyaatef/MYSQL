@@ -97,6 +97,7 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                   posARName = res.getString("pos_arabic_name");
                   
                     posCode = res.getString("pos_code");
+                    System.out.println("POS_Code : "+posCode);
                     posENName = res.getString("pos_name");
 		    
                     
@@ -118,9 +119,9 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     entryDate= res.getString("Entry_DATE");
                     posStatus= res.getString("POS_STATUS_TYPE_ID");
                     posLevel= res.getString("DCM_LEVEL_ID");
-                    regionSupervisor= supervisorName;//res.getString(IdNumber);
-                    regionTeamleader= teamleaderName;//res.getString(IdNumber);
-                    salesRep= res.getString("sales_rep_name");//res.getString(IdNumber);
+                    regionSupervisor= supervisorName;
+                    regionTeamleader= teamleaderName;
+                    salesRep= res.getString("sales_rep_name");
                     stkDialNumber= res.getString("StkDialNo");
                     stkStatus= res.getString("stk_status");
                     stkActivationDate= res.getString("stkActvDt");
@@ -135,6 +136,7 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     paymentLevelName= res.getString("DCM_PAYMENT_LEVEL_NAME");
                     posOwnerPhoneNumber= res.getString("pos_owner_phone_number");
                     L1= res.getString("IS_LEVEL_ONE");
+                    System.out.println("L1 : "+L1);
                     Ex= res.getString("IS_EXCLUSIVE");
                     Sign= res.getString("HAS_SIGN");
                     QC= res.getString("IS_QUALITY_CLUB");

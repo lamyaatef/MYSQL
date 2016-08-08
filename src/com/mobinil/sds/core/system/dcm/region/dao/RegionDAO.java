@@ -605,7 +605,7 @@ public class RegionDAO {
                         + "AND DCM_REGION_LEVEL_TYPE.REGION_LEVEL_TYPE_ID=dcm_region.REGION_LEVEL_TYPE_ID)WHERE row_num > = ('" + rowNum + "'*20)+1 AND row_num < = ('" + rowNum + "'+1)*20  ORDER BY ROWNUM";
             }
         }
-
+System.out.println("QUERY ... "+query);
 
         Vector<RegionModel> regions = DBUtil.executeSqlQueryMultiValue(query, RegionModel.class, con);
         return regions;
