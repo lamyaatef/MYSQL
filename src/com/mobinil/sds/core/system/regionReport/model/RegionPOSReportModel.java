@@ -95,9 +95,7 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
 	    	   
                        
                   posARName = res.getString("pos_arabic_name");
-                  
-                    posCode = res.getString("pos_code");
-                    System.out.println("POS_Code : "+posCode);
+                  posCode = res.getString("pos_code");
                     posENName = res.getString("pos_name");
 		    
                     
@@ -135,15 +133,17 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     paymentStatus= "";//res.getString("pay_status");
                     paymentLevelName= res.getString("DCM_PAYMENT_LEVEL_NAME");
                     posOwnerPhoneNumber= res.getString("pos_owner_phone_number");
-                    L1= res.getString("IS_LEVEL_ONE");
-                    System.out.println("L1 : "+L1);
-                    Ex= res.getString("IS_EXCLUSIVE");
-                    Sign= res.getString("HAS_SIGN");
-                    QC= res.getString("IS_QUALITY_CLUB");
+                    System.out.println("res.getString(\"ROW_NUM\") "+res.getString("ROW_NUM")+" res.getString(\"pos_code\") "+res.getString("pos_code")+" res.getString(\"IS_LEVEL_ONE\") "+res.getString("IS_LEVEL_ONE"));
+                    L1= res.getString("IS_LEVEL_ONE")!=null && res.getString("IS_LEVEL_ONE").compareTo("1")==0 ? "Y":"N";
+                    Ex= res.getString("IS_EXCLUSIVE")!=null && res.getString("IS_EXCLUSIVE").compareTo("1")==0 ? "Y":"N";
+                    Sign= res.getString("HAS_SIGN")!=null && res.getString("HAS_SIGN").compareTo("1")==0 ? "Y":"N";
+                    QC= res.getString("IS_QUALITY_CLUB")!=null && res.getString("IS_QUALITY_CLUB").compareTo("1")==0 ? "Y":"N";
                     documentLocation= res.getString("DOC_LOCATION");
                     surveyId= res.getString("SURVEY_ID");
                     branch= "";//res.getString("BRANCH_ID");
                     documents = res.getString("PosDocuments");
+                    
+                    
                    
                 }
 	      catch(Exception e)

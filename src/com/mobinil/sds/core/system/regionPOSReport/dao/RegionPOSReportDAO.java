@@ -17,6 +17,8 @@ import java.util.Vector;
  * @author sand
  */
 public class RegionPOSReportDAO {
+    
+    private static final int ROWNUM = 10000;
     public static Vector getregionPOSData(Connection con, String regionName, String regionLevel) {
         
         Vector vec = new Vector();
@@ -105,7 +107,7 @@ public class RegionPOSReportDAO {
 "/*and dcm_pos_owner_phone.pos_owner_id = dcm_pos_owner.pos_owner_id */"+
 "AND dcm_region.region_level_type_id = '"+regionLevel+"' " +
 "AND LOWER(dcm_region.region_name) like LOWER('%"+regionName+"%')" +
-"AND dcm_user.user_level_type_id = 3 and ROWNUM <= 10000 order by dcm_pos_detail.pos_code desc";
+"AND dcm_user.user_level_type_id = 3 and ROWNUM <= "+ROWNUM+" order by dcm_pos_detail.pos_code desc";
             System.out.println("sql for region pos data with salesrep name : "+ strSql);
             ResultSet res = stat.executeQuery(strSql);
             while (res.next()) {
