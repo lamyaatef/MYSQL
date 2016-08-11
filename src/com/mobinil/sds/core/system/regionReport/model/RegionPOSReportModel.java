@@ -103,23 +103,23 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     ownerName= res.getString("pos_owner_name");
                     IdNumber= res.getString("pos_owner_id_number");
                     IdType= res.getString("pos_owner_id_type_id");
-                    region= res.getString("region_id");
-                    city= res.getString("POS_CITY_ID");
-                    disctrict= res.getString("POS_DISTRICT_ID");
-                    governorate= res.getString("POS_GOVERNRATE");
+                    region= res.getString("supervisor_region_id");//region_id
+                    city= res.getString("supervisor_city_id");//POS_CITY_ID
+                    disctrict= res.getString("salesrep_district_id");//POS_DISTRICT_ID
+                    governorate= res.getString("supervisor_govern_id");//POS_GOVERNRATE
                     districtCodeId= res.getString("DISTRICT_CODE");
                     areaCode= "";//res.getString("area_code");
-                    area= res.getString("POS_AREA_ID");
+                    area= res.getString("salesrep_area_id");//POS_AREA_ID
                     channelCode= res.getString("channel_id");
                     address= res.getString("pos_address");
                     arAddress= res.getString("POS_ARABIC_ADDRESS");
                     documentNumber= res.getString("POS_DOC_NUM");
                     entryDate= res.getString("Entry_DATE");
-                    posStatus= res.getString("POS_STATUS_TYPE_ID");
+                    posStatus= res.getString("POS_STATUS_TYPE_NAME");
                     posLevel= res.getString("DCM_LEVEL_ID");
-                    regionSupervisor= supervisorName;
-                    regionTeamleader= teamleaderName;
-                    salesRep= res.getString("sales_rep_name");
+                    regionSupervisor= res.getString("Supervisor_Name");//supervisorName;
+                    regionTeamleader= res.getString("Teamleader_Name");//teamleaderName;
+                    salesRep= res.getString("Salesrep_Name");//sales_rep_name
                     stkDialNumber= res.getString("StkDialNo");
                     stkStatus= res.getString("stk_status");
                     stkActivationDate= res.getString("stkActvDt");
@@ -133,11 +133,11 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     paymentStatus= "";//res.getString("pay_status");
                     paymentLevelName= res.getString("DCM_PAYMENT_LEVEL_NAME");
                     posOwnerPhoneNumber= res.getString("pos_owner_phone_number");
-                    System.out.println("res.getString(\"ROW_NUM\") "+res.getString("ROW_NUM")+" res.getString(\"pos_code\") "+res.getString("pos_code")+" res.getString(\"IS_LEVEL_ONE\") "+res.getString("IS_LEVEL_ONE"));
-                    L1= res.getString("IS_LEVEL_ONE")!=null && res.getString("IS_LEVEL_ONE").compareTo("1")==0 ? "Y":"N";
-                    Ex= res.getString("IS_EXCLUSIVE")!=null && res.getString("IS_EXCLUSIVE").compareTo("1")==0 ? "Y":"N";
-                    Sign= res.getString("HAS_SIGN")!=null && res.getString("HAS_SIGN").compareTo("1")==0 ? "Y":"N";
-                    QC= res.getString("IS_QUALITY_CLUB")!=null && res.getString("IS_QUALITY_CLUB").compareTo("1")==0 ? "Y":"N";
+                  
+                    L1= res.getString("L1")!=null && res.getString("L1").compareTo("1")==0 ? "Y":"N";
+                    Ex= res.getString("EX")!=null && res.getString("EX").compareTo("1")==0 ? "Y":"N";
+                    Sign= res.getString("Sign")!=null && res.getString("Sign").compareTo("1")==0 ? "Y":"N";
+                    QC= res.getString("QC")!=null && res.getString("QC").compareTo("1")==0 ? "Y":"N";
                     documentLocation= res.getString("DOC_LOCATION");
                     surveyId= res.getString("SURVEY_ID");
                     branch= "";//res.getString("BRANCH_ID");

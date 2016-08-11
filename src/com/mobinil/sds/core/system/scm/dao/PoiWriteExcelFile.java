@@ -1089,6 +1089,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
   }
   public static String exportExcelSheetForRegionPOSData(Vector<RegionPOSReportModel> RegionResults,String directionFile)
   {
+      System.out.println("inside exportExcelSheetForRegionPOSData");
       java.util.Date dateNow = new java.util.Date();
         int imonth = dateNow.getMonth() + 1;
         int iyear = dateNow.getYear() + 1900;
