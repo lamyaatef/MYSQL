@@ -45,7 +45,7 @@ public class RegionPOSReportDAO {
 "  vw_supervisor_assignment.city_region_id as supervisor_city_id,\n" +
 "  vw_sales_rep_assignment.SALESREP_DISTRICT_ID as salesrep_district_id,\n" +
 "  dcm_pos_detail.pos_area_id , \n"+
-"  vw_sales_rep_assignment.area_region_id as salesrep_area_id,\n" +
+"  --vw_sales_rep_assignment.area_region_id as salesrep_area_id,\n" +
 "  dcm_pos_detail.pos_address,\n" +
 "  dcm_pos_detail.POS_DOC_NUM,\n" +
 "  pos_documents.PosDocuments,\n" +
@@ -73,7 +73,7 @@ public class RegionPOSReportDAO {
 "  vw_supervisor_assignment.gov_region_name as supervisor_govern_name,\n" +
 "  vw_supervisor_assignment.city_region_name as supervisor_city_name,\n" +
 "  vw_sales_rep_assignment.district_region_name as salesrep_district_name,\n" +
-"  vw_sales_rep_assignment.area_region_name as salesrep_area_name,\n" +
+"  --vw_sales_rep_assignment.area_region_name as salesrep_area_name,\n" +
 "  vw_sales_rep_assignment.salesrep_name as Salesrep_Name,\n" +
 "  vw_supervisor_assignment.supervisor_name as Supervisor_Name,\n" +
 "  vw_teamleader_assignment.teamleader_name as Teamleader_Name,\n" +

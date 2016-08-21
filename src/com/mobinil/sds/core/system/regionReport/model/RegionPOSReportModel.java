@@ -108,8 +108,8 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     disctrict= res.getString("salesrep_district_name");//POS_DISTRICT_ID, salesrep_district_id
                     governorate= res.getString("supervisor_govern_name");//POS_GOVERNRATE , supervisor_govern_id
                     districtCodeId= res.getString("DISTRICT_CODE");
-                    areaCode= res.getString("salesrep_area_id");//res.getString("area_code");
-                    area= res.getString("salesrep_area_name");//POS_AREA_ID
+                    areaCode= res.getString("POS_AREA_ID");//salesrep_area_id,res.getString("area_code");
+                    area= res.getString("POS_AREA_ID");//salesrep_area_name,POS_AREA_ID
                     channelCode= res.getString("channel_id");
                     address= res.getString("pos_address");
                     arAddress= res.getString("POS_ARABIC_ADDRESS");
