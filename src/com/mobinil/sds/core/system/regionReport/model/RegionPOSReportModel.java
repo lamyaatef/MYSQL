@@ -108,8 +108,8 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     disctrict= res.getString("salesrep_district_name");//POS_DISTRICT_ID, salesrep_district_id
                     governorate= res.getString("supervisor_govern_name");//POS_GOVERNRATE , supervisor_govern_id
                     districtCodeId= res.getString("DISTRICT_CODE");
-                    areaCode= "";//res.getString("area_code");
-                    area= res.getString("POS_AREA_ID");//salesrep_area_id
+                    areaCode= res.getString("salesrep_area_id");//res.getString("area_code");
+                    area= res.getString("salesrep_area_name");//POS_AREA_ID
                     channelCode= res.getString("channel_id");
                     address= res.getString("pos_address");
                     arAddress= res.getString("POS_ARABIC_ADDRESS");
@@ -130,7 +130,7 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     iqrarReceived = res.getString("iqrar_rcv_status");
             
                     verifyOk = res.getString("verified_status");
-                    paymentStatus= "";//res.getString("pay_status");
+                    paymentStatus= res.getString("payment_status");//payment_status
                     paymentLevelName= res.getString("DCM_PAYMENT_LEVEL_NAME");
                     posOwnerPhoneNumber= res.getString("pos_owner_phone_number");
                   

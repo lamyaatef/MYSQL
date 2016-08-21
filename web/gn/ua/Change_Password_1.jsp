@@ -30,13 +30,10 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
-    <LINK REL=STYLESHEET TYPE="text/css" HREF="<%out.print(appName);%>/resources/css/login-04.css">
-    <!--[if IE 7]><link rel="stylesheet" href="<%out.print(appName);%>/resources/css/login-04-ie7.css" type="text/css" /><![endif]-->
-<!--[if IE 8]><link rel="stylesheet" href="<%out.print(appName);%>/resources/css/login-04-ie8.css" type="text/css" /><![endif]-->
+    <LINK REL=STYLESHEET TYPE="text/css" HREF="<%out.print(appName);%>/resources/css/Template1.css">
     <SCRIPT language=JavaScript src="<%out.print(appName);%>/resources/js/validation.js" type=text/javascript></SCRIPT>
   </head>
   <body>
-      <img src="<%out.print(appName);%>/resources/img/images/logo.jpg" class="logo-page" alt="" />
     <Center>
       <form action="<%out.print(appName);%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet" name="UserLogin" method="post">
       <input type="hidden" name="<%out.print(InterfaceKey.HASHMAP_KEY_ACTION);%>"

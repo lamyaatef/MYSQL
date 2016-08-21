@@ -118,12 +118,17 @@ alert("Warning:you are using a large resolution(800x600) Site is best viewed wit
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
-    <LINK REL=STYLESHEET TYPE="text/css" HREF="<%out.print(appName);%>/resources/css/Template1.css">
+    <LINK REL=STYLESHEET TYPE="text/css" HREF="<%out.print(appName);%>/resources/css/login-04.css">
+    <!--[if IE 7]><link rel="stylesheet" href="<%out.print(appName);%>/resources/css/login-04-ie7.css" type="text/css" /><![endif]-->
+<!--[if IE 8]><link rel="stylesheet" href="<%out.print(appName);%>/resources/css/login-04-ie8.css" type="text/css" /><![endif]-->
     <SCRIPT language=JavaScript src="<%out.print(appName);%>/resources/js/validation.js" type=text/javascript></SCRIPT>
     <TITLE>:::: SDS ::::</TITLE>
   </head>
   <body onkeypress = "if(event.keyCode==13){checkbeforSubmit();}">
-    <center>
+      
+      <img src="<%out.print(appName);%>/resources/img/images/logo.jpg" class="logo-page" alt="" />
+
+    <center style="margin-top: -5%;">
       <form action="<%out.print(appName);%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet" name="UserLogin" method="post"
        onsubmit="if(NonBlank(<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_EMAIL);%>, true, 'E-Mail'))
          {
@@ -150,7 +155,7 @@ alert("Warning:you are using a large resolution(800x600) Site is best viewed wit
         <TABLE cellSpacing=0 cellPadding=0 align=center border=0>
         <TBODY>
         <TR>
-          <TD colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_02.gif"></TD>
+          
         <TR>
         <TR>
           <TD>
@@ -199,10 +204,15 @@ alert("Warning:you are using a large resolution(800x600) Site is best viewed wit
           <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_43.gif"></td>
         </TR>  
         <TR>
-          <TD colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_31.gif"></TD>
+    
         <TR>      
        </TABLE>
       </form>
     </center>
+<div id="footer-login">
+
+<p>&copy; Egyptian Company for Mobile Services (ECMS), all rights reserved. SDS developed by <a href="http://www.sandcti.com/" target="_blank">SAND S.A.E.</a></p>
+
+</div>
   </body>
 </html>

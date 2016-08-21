@@ -139,13 +139,10 @@ alert("Warning:you are using a large resolution(800x600) Site is best viewed wit
   <head>
     <TITLE>:::: SDS ::::</TITLE>
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
-    <LINK REL=STYLESHEET TYPE="text/css" HREF="<%out.print(appName);%>/resources/css/login-04.css">
-    <!--[if IE 7]><link rel="stylesheet" href="<%out.print(appName);%>/resources/css/login-04-ie7.css" type="text/css" /><![endif]-->
-<!--[if IE 8]><link rel="stylesheet" href="<%out.print(appName);%>/resources/css/login-04-ie8.css" type="text/css" /><![endif]-->
+    <LINK REL=STYLESHEET TYPE="text/css" HREF="<%out.print(appName);%>/resources/css/Template1.css">
     <SCRIPT language=JavaScript src="<%out.print(appName);%>/resources/js/validation.js" type=text/javascript></SCRIPT>
   </head>
   <body>
-      <img src="<%out.print(appName);%>/resources/img/images/logo.jpg" class="logo-page" alt="" />
     <Center>
       <form action="<%out.print(appName);%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet" name="NewPassword" method="post"
         onsubmit="if(NonBlank(<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_NEW_PASSWORD);%>, true, 'text'))

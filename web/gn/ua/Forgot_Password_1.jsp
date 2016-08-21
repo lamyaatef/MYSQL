@@ -10,16 +10,16 @@
 %>
 <%
 /**
- * Renew_Password.jsp:
- * Ask for creating a new password .
+ * Forgot_Password.jsp:
+ * Ask for resending a new password to the provided email.
  * 
  * 
  * redirect(HttpServletRequest request, HttpServletResponse response, JspWriter out): 
- * Redirect to the login page if the new password is valid.
- *  
+ * Redirect to the login page if the user email is valid and that 
+ * he was sent a new password to his email. 
  *
- * @version	1.01 Jan 2009
- * @author  Mahmoud Abdel aal
+ * @version	1.01 March 2004
+ * @author  Victor Saad Fahim
  * @see     
  *
  * SDS
@@ -76,13 +76,11 @@ alert("Warning:you are using a large resolution(800x600) Site is best viewed wit
  *
  */ 
 
-
   public void redirect(HttpServletRequest request, HttpServletResponse response, JspWriter out)
   throws ServletException, IOException
   {
     HashMap dataHashMap = new HashMap(100);
     dataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
-    String userID = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
     if(dataHashMap != null)
     {
       if(! dataHashMap.isEmpty())
@@ -90,19 +88,20 @@ alert("Warning:you are using a large resolution(800x600) Site is best viewed wit
         String strError = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_SERVLET_EXP);
         if(strError != null)
         {
-                    System.out.println("strError1 "+strError);
+        
           out.println("<script type=\"text/javascript\">alert('"+strError+"');</script>");
+        
         }
         else
         {
           String strMessage = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_MESSAGE);
-          System.out.println("strMessage1 "+strMessage);
           if(strMessage != null)
           {
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('"+strMessage+"');");
-            out.println("document.NewPassword."+InterfaceKey.HASHMAP_KEY_ACTION+".value=\""+UserAccountInterfaceKey.ACTION_REDIRECT_TO_LOGIN_PAGE+"\";");
-            out.println("NewPassword.submit();");
+            out.println("<script type=\"text/javascript\">");            
+            String userID = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+            out.println("document.UserLogin."+InterfaceKey.HASHMAP_KEY_ACTION+".value=\""+UserAccountInterfaceKey.ACTION_GO_TO_ACTIVATION+"\";");
+            out.println("document.UserLogin."+InterfaceKey.HASHMAP_KEY_USER_ID+".value="+userID+";");
+            out.println("UserLogin.submit();");
             out.println("</script>");
           }
         }
@@ -113,57 +112,33 @@ alert("Warning:you are using a large resolution(800x600) Site is best viewed wit
 <%
   String serverName = request.getServerName();
   int serverPort = request.getServerPort();
-  String appName = request.getContextPath();
-  HashMap dataHashMap = new HashMap(100);
-    dataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
-  String userID = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
-  System.out.println("sdada "+userID);
+  String appName = request.getContextPath();  
 %>
-
-
-
-
-
-
-
-
-
-              
-              
-
-
-
-
 
 <html>
   <head>
-    <TITLE>:::: SDS ::::</TITLE>
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
-    <LINK REL=STYLESHEET TYPE="text/css" HREF="<%out.print(appName);%>/resources/css/login-04.css">
-    <!--[if IE 7]><link rel="stylesheet" href="<%out.print(appName);%>/resources/css/login-04-ie7.css" type="text/css" /><![endif]-->
-<!--[if IE 8]><link rel="stylesheet" href="<%out.print(appName);%>/resources/css/login-04-ie8.css" type="text/css" /><![endif]-->
+    <LINK REL=STYLESHEET TYPE="text/css" HREF="<%out.print(appName);%>/resources/css/Template1.css">
     <SCRIPT language=JavaScript src="<%out.print(appName);%>/resources/js/validation.js" type=text/javascript></SCRIPT>
+    <TITLE>:::: SDS ::::</TITLE>
   </head>
-  <body>
-      <img src="<%out.print(appName);%>/resources/img/images/logo.jpg" class="logo-page" alt="" />
-    <Center>
-      <form action="<%out.print(appName);%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet" name="NewPassword" method="post"
-        onsubmit="if(NonBlank(<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_NEW_PASSWORD);%>, true, 'text'))
+  <body onkeypress = "if(event.keyCode==13){checkbeforSubmit();}">
+    <center>
+      <form action="<%out.print(appName);%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet" name="UserLogin" method="post"
+       onsubmit="if(NonBlank(<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_EMAIL);%>, true, 'E-Mail'))
          {
-         if(NonBlank(<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_CONFIRM_PASSWORD);%>, true, 'text'))
-         {
-        return true;
-         }   
-        } 
-
-        return false;">
+          if(emailInValid(<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_EMAIL);%>.value))
+          {
+            reruen true;
+          }
+        } return false;">
 
         <input type="hidden" name="<%out.print(InterfaceKey.HASHMAP_KEY_ACTION);%>"
-        value="<%out.print(UserAccountInterfaceKey.ACTION_NEW_PASSWORD);%>">
-
+        value="<%out.print(UserAccountInterfaceKey.ACTION_RESEND_PASSWORD);%>">
+        
         <input type="hidden" name="<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID);%>" 
-        value="<%out.print(userID);%>">
-      
+        value="">
+        
         <input type="hidden" name="<%out.print(UserAccountInterfaceKey.CONTROL_HIDDEN_SERVER_NAME);%>"
         value="<%out.print(serverName);%>">
         <input type="hidden" name="<%out.print(UserAccountInterfaceKey.CONTROL_HIDDEN_SERVER_PORT);%>"
@@ -190,31 +165,27 @@ alert("Warning:you are using a large resolution(800x600) Site is best viewed wit
               </tr>
               <tr>
                 <td colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_11.gif"></td>
-                <td colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_39.gif"></td>
+                <td colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_38.gif"></td>
                 <td colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_13.gif"></td>
               </tr>
               <tr>
                 <td colspan=6><IMG src="<%out.print(appName);%>/resources/img/images/SDS_14.gif"></td>
               </tr>
               <tr style="background: url(<%out.print(appName);%>/resources/img/images/SDS_32.gif) no-repeat 0 0;"> 
-                <td colspan=3><IMG src="<%out.print(appName);%>/resources/img/images/SDS_19.gif"></td>
-                <td colspan=2><input type="password" name="<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_NEW_PASSWORD);%>" value=""></td>
+                <td colspan=3><IMG src="<%out.print(appName);%>/resources/img/images/SDS_15.gif"></td>
+                <td colspan=2><input type="text" name="<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_EMAIL);%>" value=""></td>
                 <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_17.gif"></td>
               </tr>
               <tr>
                 <td colspan=6><IMG src="<%out.print(appName);%>/resources/img/images/SDS_18.gif"></td>
-              </tr>
-              <tr style="background: url(<%out.print(appName);%>/resources/img/images/SDS_32.gif) no-repeat 0 0;">
-                <td colspan=3><IMG src="<%out.print(appName);%>/resources/img/images/SDS_19.gif"></td>
-                <td colspan=2><input type="password" name="<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_CONFIRM_PASSWORD);%>" value=""></td>
-                <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_21.gif"></td>
-              </tr>
+              </tr>              
               <tr>
                 <td colspan=6><IMG src="<%out.print(appName);%>/resources/img/images/SDS_22.gif"></td>
               </tr>
               <tr>
                 <td colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_23.gif"></td>
-                <td colspan=2 align="center" bgcolor="#E6E2DB"><a href="#" onclick="submit();"><IMG border=0 alt="Login" src="<%out.print(appName);%>/resources/img/images/SDS_34.gif"></a></td>
+
+                <td colspan=2 align="center" bgcolor="#E6E2DB"><a href="#" onclick="submit();"><IMG border=0 alt="Login" src="<%out.print(appName);%>/resources/img/images/SDS_33.gif"></a></td>
                 <td colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_26.gif"></td>
               </tr>
               <tr>
@@ -225,7 +196,7 @@ alert("Warning:you are using a large resolution(800x600) Site is best viewed wit
               </tr>
             </table>
           </TD>
-          <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_41.gif"></td>
+          <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_43.gif"></td>
         </TR>  
         <TR>
           <TD colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_31.gif"></TD>
