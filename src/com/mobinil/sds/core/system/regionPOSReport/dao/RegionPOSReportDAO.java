@@ -45,6 +45,7 @@ public class RegionPOSReportDAO {
 "  vw_supervisor_assignment.city_region_id as supervisor_city_id,\n" +
 "  vw_sales_rep_assignment.SALESREP_DISTRICT_ID as salesrep_district_id,\n" +
 "  dcm_pos_detail.pos_area_id , \n"+
+"  dcm_region.region_name as area_name, \n"+
 "  --vw_sales_rep_assignment.area_region_id as salesrep_area_id,\n" +
 "  dcm_pos_detail.pos_address,\n" +
 "  dcm_pos_detail.POS_DOC_NUM,\n" +

@@ -25,10 +25,6 @@
  * SDS
  * MobiNil
  */ 
-     String appName = request.getContextPath();
- String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
-                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
-                    +UserAccountInterfaceKey.ACTION_FORGOT_PASSWORD;
 %>
 <SCRIPT language=JavaScript>
 <!--
@@ -116,7 +112,7 @@ alert("Warning:you are using a large resolution(800x600) Site is best viewed wit
 <%
   String serverName = request.getServerName();
   int serverPort = request.getServerPort();
-  
+  String appName = request.getContextPath();  
 %>
 
 <html>
@@ -131,16 +127,18 @@ alert("Warning:you are using a large resolution(800x600) Site is best viewed wit
   <body onkeypress = "if(event.keyCode==13){checkbeforSubmit();}">
       
       <img src="<%out.print(appName);%>/resources/img/images/logo.jpg" class="logo-page" alt="" />
-<div id="page-login">
 
-<div class="form-login">
+    <center style="margin-top: -5%;">
+      <form action="<%out.print(appName);%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet" name="UserLogin" method="post"
+       onsubmit="if(NonBlank(<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_EMAIL);%>, true, 'E-Mail'))
+         {
+          if(emailInValid(<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_EMAIL);%>.value))
+          {
+            return true;
+          }
+        } return false;">
 
-<div class="form-login-space">
-
-<h1><span>Forgot Password</span></h1>
-      
-      <form action="<%out.print(appName);%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet" name="UserLogin" method="post">
-     <input type="hidden" name="<%out.print(InterfaceKey.HASHMAP_KEY_ACTION);%>"
+        <input type="hidden" name="<%out.print(InterfaceKey.HASHMAP_KEY_ACTION);%>"
         value="<%out.print(UserAccountInterfaceKey.ACTION_RESEND_PASSWORD);%>">
         
         <input type="hidden" name="<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID);%>" 
@@ -153,46 +151,68 @@ alert("Warning:you are using a large resolution(800x600) Site is best viewed wit
         <input type="hidden" name="<%out.print(UserAccountInterfaceKey.CONTROL_HIDDEN_CONTEXT_PATH);%>"
         value="<%out.print(appName);%>">
 
-        <%redirect(request, response, out);%>        
-                <label>User Name:</label>
-              <input type="text" name="<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_EMAIL);%>" value="">
-                
-              
+        <%redirect(request, response, out);%>
+        <TABLE cellSpacing=0 cellPadding=0 align=center border=0>
+        <TBODY>
+        <TR>
           
-              
-                <label>Password:</label>
-                <input type="password" name="<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_PASSWORD);%>" value="">                
-              
-                 <button onclick="checkbeforSubmit();" type="submit" id="submit">Login</button>
+        <TR>
+        <TR>
+          <TD>
+            <TABLE border=0 cellSpacing=0 cellPadding=0>
+              <tr>
+                <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_04.gif"></td>
+                <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_05.gif"></td>
+                <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_06.gif"></td>
+                <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_07.gif"></td>
+                <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_08.gif"></td>
+                <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_09.gif"></td>
+              </tr>
+              <tr>
+                <td colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_11.gif"></td>
+                <td colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_38.gif"></td>
+                <td colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_13.gif"></td>
+              </tr>
+              <tr>
+                <td colspan=6><IMG src="<%out.print(appName);%>/resources/img/images/SDS_14.gif"></td>
+              </tr>
+              <tr style="background: url(<%out.print(appName);%>/resources/img/images/SDS_32.gif) no-repeat 0 0;"> 
+                <td colspan=3><IMG src="<%out.print(appName);%>/resources/img/images/SDS_15.gif"></td>
+                <td colspan=2><input type="text" name="<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_EMAIL);%>" value=""></td>
+                <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_17.gif"></td>
+              </tr>
+              <tr>
+                <td colspan=6><IMG src="<%out.print(appName);%>/resources/img/images/SDS_18.gif"></td>
+              </tr>              
+              <tr>
+                <td colspan=6><IMG src="<%out.print(appName);%>/resources/img/images/SDS_22.gif"></td>
+              </tr>
+              <tr>
+                <td colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_23.gif"></td>
 
-
+                <td colspan=2 align="center" bgcolor="#E6E2DB"><a href="#" onclick="submit();"><IMG border=0 alt="Login" src="<%out.print(appName);%>/resources/img/images/SDS_33.gif"></a></td>
+                <td colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_26.gif"></td>
+              </tr>
+              <tr>
+                <td colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_27.gif"></td>
+                <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_28.gif"></td>
+                <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_29.gif"></td>
+                <td colspan=2><IMG src="<%out.print(appName);%>/resources/img/images/SDS_30.gif"></td>
+              </tr>
+            </table>
+          </TD>
+          <td><IMG src="<%out.print(appName);%>/resources/img/images/SDS_43.gif"></td>
+        </TR>  
+        <TR>
+    
+        <TR>      
+       </TABLE>
       </form>
-<!--          
-<p><a href="#" onclick="document.UserLogin.<%out.print(InterfaceKey.HASHMAP_KEY_ACTION);%>.value='<%out.print(UserAccountInterfaceKey.ACTION_FORGOT_PASSWORD);%>';UserLogin.submit();">Forgot your password? </a></p>
--->
-<p><a href="<%out.print(formAction);%>" >Forgot your password? </a></p>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- Page End -->
-
-
-<div class="clear"></div>
-
-
-<!-- Footer -->
-
+    </center>
 <div id="footer-login">
 
 <p>&copy; Egyptian Company for Mobile Services (ECMS), all rights reserved. SDS developed by <a href="http://www.sandcti.com/" target="_blank">SAND S.A.E.</a></p>
 
 </div>
-
-<!-- Footer End -->
-
   </body>
 </html>

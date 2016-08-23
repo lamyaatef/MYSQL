@@ -184,7 +184,7 @@ alert("Warning:you are using a large resolution(800x600) Site is best viewed wit
                 <label>Password:</label>
                 <input type="password" name="<%out.print(UserAccountInterfaceKey.CONTROL_TEXT_NAME_USER_PASSWORD);%>" value="">                
               
-                 <button onclick="checkbeforSubmit();" type="submit" id="submit">Login</button>
+                 <button onclick="checkbeforSubmit();" type="submit" id="submit" >Login</button>
 
 
       </form>
