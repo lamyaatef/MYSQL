@@ -1001,8 +1001,8 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 
 					ArrayList<HSSFRow> rows = new ArrayList<HSSFRow>();
                                         ArrayList<ArrayList<HSSFCell>> cells=new ArrayList<ArrayList<HSSFCell>>();
-					//42 //45
-                                        for(int i=1; i<=9;i++){
+					//42 //45 //was 9
+                                        for(int i=1; i<=16;i++){
                                         ArrayList<HSSFCell> cell = new ArrayList<HSSFCell>();
                                             cells.add(cell);
                                         }
@@ -1012,8 +1012,8 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                         for (int i=0;i<=HistoryResults.size();i++){
 
                                             rows.add(worksheet.createRow(i));
-                                             //42
-                                            for(int cellno=0;cellno<9;cellno++){
+                                             //42 //9
+                                            for(int cellno=0;cellno<16;cellno++){
                                                 
                                                 cells.get(cellno).add(rows.get(i).createCell((short) cellno));
                                             }
@@ -1039,6 +1039,22 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                       cells.get(header).get(0).setCellValue("Payment Level Name");
                                       header++;
                                       cells.get(header).get(0).setCellValue("Status");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("SalesRegion");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Governerate");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("ImDistrict");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Area");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("SupervisorName");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("FRepName");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Teamleader");
+                                      
+                                      /*SalesRegion	Governerate	ImDistrict	Area	SupervisorName	FRepName Teamleader*/
                                       
             try {
                 Connection con = Utility.getConnection();
@@ -1065,6 +1081,21 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                 cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getDCM_PAYMENT_LEVEL());
                                 j++;
                                 cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getFILE_STATUS());
+                                /*SalesRegion	Governerate	ImDistrict	Area	SupervisorName	FRepName Teamleader*/
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getRegionName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getGovernName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getDistrictName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getAreaName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getSupervisor());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getSalesrep());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getTeamleader());
                              }
               con.close();
  } catch (SQLException ex) {

@@ -23,6 +23,15 @@ public class PaymentHistoryFileModel {
             private String  FILE_MONTH;
             private String  FILE_STATUS ;
             private String USERNAME;
+            private String regionName;
+            private String governName;
+            private String cityName;
+            private String districtName;
+            private String areaName;
+            private String Supervisor;
+            private String Teamleader;
+            private String Salesrep;
+            
 
     /**
      * @return the HISTORY_FILE_ID
@@ -48,9 +57,17 @@ public PaymentHistoryFileModel(ResultSet res)
                     DCM_CHANNEL_NAME =  res.getString("CHANNEL_NAME");
                     DCM_PAYMENT_LEVEL =  res.getString("DCM_PAYMENT_LEVEL_NAME");
                     FILE_STATUS= res.getString("STATUS_NAME");
-                    
-		    DCM_ID = res.getString("DCM_ID");
+                    DCM_ID = res.getString("DCM_ID");
                     USER_ID = res.getString("USER_ID");
+                    
+                    regionName = res.getString("region_name");
+                    governName = res.getString("govern_name");
+                    cityName = res.getString("city_name");
+                    districtName = res.getString("district_name");
+                    areaName = res.getString("area_name");
+                    Supervisor = res.getString("Supervisor_Name");
+                    Teamleader = res.getString("Teamleader_Name");
+                    Salesrep = res.getString("Salesrep_Name");
                 }
 	      catch(Exception e)
 	      {
@@ -209,6 +226,118 @@ public PaymentHistoryFileModel(ResultSet res)
      */
     public void setUSERNAME(String USERNAME) {
         this.USERNAME = USERNAME;
+    }
+
+    /**
+     * @return the regionName
+     */
+    public String getRegionName() {
+        return regionName;
+    }
+
+    /**
+     * @param regionName the regionName to set
+     */
+    public void setRegionName(String regionName) {
+        this.regionName = regionName;
+    }
+
+    /**
+     * @return the governName
+     */
+    public String getGovernName() {
+        return governName;
+    }
+
+    /**
+     * @param governName the governName to set
+     */
+    public void setGovernName(String governName) {
+        this.governName = governName;
+    }
+
+    /**
+     * @return the cityName
+     */
+    public String getCityName() {
+        return cityName;
+    }
+
+    /**
+     * @param cityName the cityName to set
+     */
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    /**
+     * @return the districtName
+     */
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    /**
+     * @param districtName the districtName to set
+     */
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
+    }
+
+    /**
+     * @return the Supervisor
+     */
+    public String getSupervisor() {
+        return Supervisor;
+    }
+
+    /**
+     * @param Supervisor the Supervisor to set
+     */
+    public void setSupervisor(String Supervisor) {
+        this.Supervisor = Supervisor;
+    }
+
+    /**
+     * @return the Teamleader
+     */
+    public String getTeamleader() {
+        return Teamleader;
+    }
+
+    /**
+     * @param Teamleader the Teamleader to set
+     */
+    public void setTeamleader(String Teamleader) {
+        this.Teamleader = Teamleader;
+    }
+
+    /**
+     * @return the Salesrep
+     */
+    public String getSalesrep() {
+        return Salesrep;
+    }
+
+    /**
+     * @param Salesrep the Salesrep to set
+     */
+    public void setSalesrep(String Salesrep) {
+        this.Salesrep = Salesrep;
+    }
+
+    /**
+     * @return the areaName
+     */
+    public String getAreaName() {
+        return areaName;
+    }
+
+    /**
+     * @param areaName the areaName to set
+     */
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
     
 }

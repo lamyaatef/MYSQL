@@ -69,6 +69,7 @@ import com.mobinil.sds.core.system.request.model.ChannelModel;
 import com.mobinil.sds.core.system.sa.history.dao.PaymentLevelHistoryDao;
 import com.mobinil.sds.core.system.sa.product.dao.*;
 import com.mobinil.sds.core.system.sa.importdata.dao.*;
+import com.mobinil.sds.core.system.sa.monthList.dao.MonthOfTheListDao;
 import com.mobinil.sds.core.system.scm.dao.PoiWriteExcelFile;
 import com.mobinil.sds.core.system.scm.model.POSSearchExcelModel;
 
@@ -156,10 +157,12 @@ public class AdministratorHandler
   static final int SAVE_PAYMENT_LEVEL_HISTORY = 49;
   
   static final int DELETE_NOMAD_FILE = 50;
+  static final int LIST_PAYMENT_LEVEL_HISTORY = 51;
+  static final int LIST_PAYMENT_LEVEL_HISTORY_FILES = 52;
   static final int DELETE_HISTORY_FILE = 53;
   static final int EXPORT_PAYMENT_LEVEL_HISTORY = 54;
-  static final int LIST_PAYMENT_LEVEL_HISTORY = 51;
-  static final int LIST_PAYMENT_LEVEL_HISTORY_FILES = 52; 
+  static final int SAVE_LIST_MONTH = 55; 
+  static final int SAVE_LIST = 56; 
   
   /**
    * handle method:
@@ -388,6 +391,10 @@ public class AdministratorHandler
       {
         actionType = SAVE_PAYMENT_LEVEL_HISTORY;
       }
+      else if(action.compareTo(AdministrationInterfaceKey.ACTION_SAVE_LIST)==0)
+      {
+        actionType = SAVE_LIST;
+      }
       else if(action.compareTo(AdministrationInterfaceKey.ACTION_DELETE_NOMAD_FILE)==0)
       {
         actionType = DELETE_NOMAD_FILE;
@@ -409,6 +416,11 @@ public class AdministratorHandler
       {
         actionType = LIST_PAYMENT_LEVEL_HISTORY_FILES;
       }
+      else if(action.compareTo(AdministrationInterfaceKey.ACTION_SAVE_LIST_MONTH)==0)
+      {
+        actionType = SAVE_LIST_MONTH;
+      }
+      
       //////////////////////////////////////////////////////////////////////////
       switch (actionType) 
       {
@@ -420,6 +432,15 @@ public class AdministratorHandler
                 
               dataHashMap.put(InterfaceKey.HASHMAP_KEY_LIST_COLLECTION, PaymentLevelHistoryDao.getHistoryFileMonthYeatByUserId(strUserID));
         break;
+            
+            
+            case SAVE_LIST_MONTH:
+              
+            // split by __ =>> YEAR_MONTH
+                System.out.println("in action SAVE_LIST_MONTH");
+              dataHashMap.put(InterfaceKey.HASHMAP_KEY_LIST_COLLECTION, MonthOfTheListDao.getHistoryFileMonthYeatByUserId(strUserID));
+        break;
+            
 
             
         case LIST_PAYMENT_LEVEL_HISTORY_FILES:
@@ -1002,7 +1023,7 @@ case SHOW_NOMAD_FILE_LIST:
         ///////////////////////////////////////////////// payment level history /////////////
         case SAVE_PAYMENT_LEVEL_HISTORY:
         {
-            System.out.println("SAVE ");
+            System.out.println("SAVE Payment History");
             String month = (String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_SELECT_MONTH);
             String year = (String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_INPUT_YEAR);
             String userID = (String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
@@ -1033,8 +1054,39 @@ case SHOW_NOMAD_FILE_LIST:
           //  dataHashMap.put(InterfaceKey.HASHMAP_KEY_ADDITIONAL_COLLECTION,dcmDto);
         }
         break;
-            /////////////////////////////////////////////////
-       
+            //////////////////////// Month of the List /////////////////////////
+       case SAVE_LIST:
+        {
+            System.out.println("SAVE Month of the List");
+            String month = (String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_SELECT_MONTH);
+            String year = (String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_INPUT_YEAR);
+            String list = (String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_SELECT_LIST);
+            String userID = (String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+            String listId = "";
+            
+            dataHashMap.put(AdministrationInterfaceKey.CONTROL_SELECT_MONTH ,month);
+            dataHashMap.put(AdministrationInterfaceKey.CONTROL_INPUT_YEAR ,year);
+            dataHashMap.put(AdministrationInterfaceKey.CONTROL_SELECT_LIST ,list);
+
+            Utility.logger.debug("month " + month);
+            Utility.logger.debug("year " + year);
+            Utility.logger.debug("list " + list);
+            System.out.println("month , year , userId, list : "+month+"  "+year+"  "+userID+"  "+list);
+            boolean exists = MonthOfTheListDao.checkHistoryFile(month, year, userID);
+            System.out.println("exists ? : "+exists);
+            if (!exists)
+            {
+                MonthOfTheListDao.insertHistoryFile(month, year, userID,list);
+                listId = MonthOfTheListDao.getHistoryFileId(month, year, userID);    
+                System.out.println("list file id : "+listId);
+                MonthOfTheListDao.insertHistoryFileDetail(listId,list);
+            }
+            listId = MonthOfTheListDao.getHistoryFileId(month, year, userID);
+            dataHashMap.put(AdministrationInterfaceKey.TEXT_LIST_OF_THE_MONTH_ID ,listId);
+            dataHashMap.put(AdministrationInterfaceKey.TEXT_LIST_OF_THE_MONTH_ID_EXISTS ,exists);
+         
+        }
+        break;
             /////////////////////////////////////////////
         case SEARCH_SCRATCH_CARD:
         {

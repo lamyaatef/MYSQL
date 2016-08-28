@@ -41,6 +41,10 @@ public static final String CACH_OBJ_MODULE_LIST = "cach_obj_module_list";
   public static final String ACTION_UPDATE_REVENUE = "update_revenue_screen";
   public static final String ACTION_SHOW_PAYMENT_LEVEL_HISTORY ="show_payment_level_history";
   public static final String ACTION_SAVE_PAYMENT_LEVEL_HISTORY ="save_payment_level_history";
+  
+  public static final String ACTION_SAVE_LIST_MONTH ="save_list_of_the_month";
+  public static final String ACTION_SAVE_LIST ="save_list";
+  
   public static final String ACTION_EXPORT_PAYMENT_LEVEL_HISTORY ="export_history_process";
   public static final String ACTION_SHOW_HISTORY_FILE ="show_history";
   public static final String ACTION_DELETE_HISTORY_FILE = "delete_history_file";
@@ -68,6 +72,7 @@ public static final String CACH_OBJ_MODULE_LIST = "cach_obj_module_list";
   public static final String ACTION_DELETE_NOMAD_FILE = "delete_nomad_file";
   public static final String VECTOR_FILES = "vector_files";
   public static final String TEXT_NOMAD_FILE_NAME = "nomad_file_name";
+  
   
   public static final String ACTION_RUN_LINUX_COMMAND_INPUT = "run_linux_command_input";
   public static final String ACTION_RUN_LINUX_COMMAND_OUTPUT = "run_linux_command_output";
@@ -119,7 +124,7 @@ public static final String CACH_OBJ_MODULE_LIST = "cach_obj_module_list";
 
   public static final String CONTROL_TEXT_NAME_CHANNEL_NAME ="channel_name";
   public static final String CONTROL_TEXT_NAME_PAYMENT_LEVEL_NAME ="payment_level_name";
-  
+  public static final String CONTROL_SELECT_LIST = "list_name";
   public static final String LINUX_COMMAND_RESULT = "linux_command_result";
   
   
@@ -154,7 +159,9 @@ public static final String CACH_OBJ_MODULE_LIST = "cach_obj_module_list";
   public static final String CONTROL_DATA_IMPORT_OPERATION="control_data_import_operation";
   public static final String TEXT_NOMAD_DATA_TABLE_NAME = "GEN_DCM_NOMAD";
   public static final String TEXT_PAY_LEVEL_HISTORY_ID = "history_id";
+  public static final String TEXT_LIST_OF_THE_MONTH_ID = "list_id";
   public static final String TEXT_PAY_LEVEL_HISTORY_ID_EXISTS = "history_id_exists";
+  public static final String TEXT_LIST_OF_THE_MONTH_ID_EXISTS = "list_id_exists";
 
   public static final String QUERY_STRING_TABLES = "TABLE_ID";
   public static final String QUERY_STRING_OPERATION = "operation";
