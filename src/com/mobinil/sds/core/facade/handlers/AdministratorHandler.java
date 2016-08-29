@@ -1057,7 +1057,7 @@ case SHOW_NOMAD_FILE_LIST:
             //////////////////////// Month of the List /////////////////////////
        case SAVE_LIST:
         {
-            System.out.println("SAVE Month of the List");
+            System.out.println("SAVE THE LIST");
             String month = (String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_SELECT_MONTH);
             String year = (String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_INPUT_YEAR);
             String list = (String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_SELECT_LIST);
@@ -1072,16 +1072,17 @@ case SHOW_NOMAD_FILE_LIST:
             Utility.logger.debug("year " + year);
             Utility.logger.debug("list " + list);
             System.out.println("month , year , userId, list : "+month+"  "+year+"  "+userID+"  "+list);
-            boolean exists = MonthOfTheListDao.checkHistoryFile(month, year, userID);
-            System.out.println("exists ? : "+exists);
+            boolean exists = MonthOfTheListDao.checkHistoryFile(month, year, userID,list);
+            System.out.println("FILE EXISTS ? : "+exists);
             if (!exists)
             {
                 MonthOfTheListDao.insertHistoryFile(month, year, userID,list);
-                listId = MonthOfTheListDao.getHistoryFileId(month, year, userID);    
-                System.out.println("list file id : "+listId);
+                listId = MonthOfTheListDao.getHistoryFileId(month, year, userID,list);    
+                System.out.println("list file id (1): "+listId);
                 MonthOfTheListDao.insertHistoryFileDetail(listId,list);
             }
-            listId = MonthOfTheListDao.getHistoryFileId(month, year, userID);
+            listId = MonthOfTheListDao.getHistoryFileId(month, year, userID,list);
+            System.out.println("list file id (2): "+listId);
             dataHashMap.put(AdministrationInterfaceKey.TEXT_LIST_OF_THE_MONTH_ID ,listId);
             dataHashMap.put(AdministrationInterfaceKey.TEXT_LIST_OF_THE_MONTH_ID_EXISTS ,exists);
          

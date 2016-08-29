@@ -5,38 +5,38 @@
  */
 package com.mobinil.sds.core.system.sa.monthList.model;
 
-import java.sql.Date;
 import java.sql.ResultSet;
+import java.util.Date;
 
 /**
  *
  * @author sand
  */
 public class MonthOfTheListModel {
-    private String userId;
-    private String statusId;
-    private int month;
-    private int year;
-    private String historyFileId;
-    private Date timestamp;
-    private String listName;
+    
+    private String HISTORY_FILE_ID;
+    private String USER_ID;
+    private Date TIMESTAMP;
+    private String STATUS_ID;
+    private int MONTH;
+    private int YEAR;
+    private String LIST_NAME;
 
     /**
-     * @return the userId
+     * @return the HISTORY_FILE_ID
      */
     
-    
-        public MonthOfTheListModel(ResultSet rs) {
+     public MonthOfTheListModel(ResultSet rs) {
         try
         {
          
-                this.month = rs.getInt("MONTH");
-                this.year = rs.getInt("year");
-                this.userId = rs.getString("user_id");
-                this.statusId = rs.getString("status_id");
-                this.historyFileId = rs.getString("history_file_id");
-                this.timestamp = rs.getDate("timestamp");
-                this.listName = rs.getString("list_name");
+                this.HISTORY_FILE_ID = rs.getString("HISTORY_FILE_ID");
+                this.USER_ID = rs.getString("USER_ID");
+                this.TIMESTAMP = rs.getDate("TIMESTAMP");
+                this.STATUS_ID = rs.getString("STATUS_ID");
+                this.MONTH = rs.getInt("MONTH");
+                this.YEAR = rs.getInt("YEAR");
+                this.LIST_NAME = rs.getString("LIST_NAME");
             
         }catch(Exception e){e.printStackTrace();}
     }
@@ -44,100 +44,99 @@ public class MonthOfTheListModel {
     public MonthOfTheListModel()
     {}
 
-    
-    public String getUserId() {
-        return userId;
+    public String getHISTORY_FILE_ID() {
+        return HISTORY_FILE_ID;
     }
 
     /**
-     * @param userId the userId to set
+     * @param HISTORY_FILE_ID the HISTORY_FILE_ID to set
      */
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setHISTORY_FILE_ID(String HISTORY_FILE_ID) {
+        this.HISTORY_FILE_ID = HISTORY_FILE_ID;
     }
 
     /**
-     * @return the statusId
+     * @return the USER_ID
      */
-    public String getStatusId() {
-        return statusId;
+    public String getUSER_ID() {
+        return USER_ID;
     }
 
     /**
-     * @param statusId the statusId to set
+     * @param USER_ID the USER_ID to set
      */
-    public void setStatusId(String statusId) {
-        this.statusId = statusId;
+    public void setUSER_ID(String USER_ID) {
+        this.USER_ID = USER_ID;
     }
 
     /**
-     * @return the month
+     * @return the TIMESTAMP
      */
-    public int getMonth() {
-        return month;
+    public Date getTIMESTAMP() {
+        return TIMESTAMP;
     }
 
     /**
-     * @param month the month to set
+     * @param TIMESTAMP the TIMESTAMP to set
      */
-    public void setMonth(int month) {
-        this.month = month;
+    public void setTIMESTAMP(Date TIMESTAMP) {
+        this.TIMESTAMP = TIMESTAMP;
     }
 
     /**
-     * @return the year
+     * @return the STATUS_ID
      */
-    public int getYear() {
-        return year;
+    public String getSTATUS_ID() {
+        return STATUS_ID;
     }
 
     /**
-     * @param year the year to set
+     * @param STATUS_ID the STATUS_ID to set
      */
-    public void setYear(int year) {
-        this.year = year;
+    public void setSTATUS_ID(String STATUS_ID) {
+        this.STATUS_ID = STATUS_ID;
     }
 
     /**
-     * @return the historyFileId
+     * @return the MONTH
      */
-    public String getHistoryFileId() {
-        return historyFileId;
+    public int getMONTH() {
+        return MONTH;
     }
 
     /**
-     * @param historyFileId the historyFileId to set
+     * @param MONTH the MONTH to set
      */
-    public void setHistoryFileId(String historyFileId) {
-        this.historyFileId = historyFileId;
+    public void setMONTH(int MONTH) {
+        this.MONTH = MONTH;
     }
 
     /**
-     * @return the timestamp
+     * @return the YEAR
      */
-    public Date getTimestamp() {
-        return timestamp;
+    public int getYEAR() {
+        return YEAR;
     }
 
     /**
-     * @param timestamp the timestamp to set
+     * @param YEAR the YEAR to set
      */
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setYEAR(int YEAR) {
+        this.YEAR = YEAR;
     }
 
     /**
-     * @return the listName
+     * @return the LIST_NAME
      */
-    public String getListName() {
-        return listName;
+    public String getLIST_NAME() {
+        return LIST_NAME;
     }
 
     /**
-     * @param listName the listName to set
+     * @param LIST_NAME the LIST_NAME to set
      */
-    public void setListName(String listName) {
-        this.listName = listName;
+    public void setLIST_NAME(String LIST_NAME) {
+        this.LIST_NAME = LIST_NAME;
     }
     
 }
