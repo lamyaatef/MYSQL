@@ -60,6 +60,7 @@ import java.util.*;
 
 import com.mobinil.sds.core.system.cr.sheet.dao.*;
 import com.mobinil.sds.core.system.dataMigration.model.PaymentLevelModel;
+import com.mobinil.sds.core.system.monthListFile.dao.MonthListFileDAO;
 import com.mobinil.sds.core.system.tango.dao.TangoFileDAO;
 import com.mobinil.sds.core.system.nomad.dao.NomadFileDAO;
 import com.mobinil.sds.core.system.nomad.dao.NomadLabelDao;
@@ -162,7 +163,10 @@ public class AdministratorHandler
   static final int DELETE_HISTORY_FILE = 53;
   static final int EXPORT_PAYMENT_LEVEL_HISTORY = 54;
   static final int SAVE_LIST_MONTH = 55; 
-  static final int SAVE_LIST = 56; 
+  static final int SAVE_LIST = 56;
+  static final int SHOW_MONTH_LIST_FILES=57;
+  static final int DELETE_MONTH_LIST_FILE = 58;
+  static final int EXPORT_MONTH_LIST_FILE = 59;
   
   /**
    * handle method:
@@ -416,6 +420,10 @@ public class AdministratorHandler
       {
         actionType = LIST_PAYMENT_LEVEL_HISTORY_FILES;
       }
+      else if(action.compareTo(AdministrationInterfaceKey.ACTION_SHOW_LIST_OF_THE_MONTH)==0)
+      {
+        actionType = SHOW_MONTH_LIST_FILES;
+      }
       else if(action.compareTo(AdministrationInterfaceKey.ACTION_SAVE_LIST_MONTH)==0)
       {
         actionType = SAVE_LIST_MONTH;
@@ -453,6 +461,19 @@ public class AdministratorHandler
               
                    }
             break;
+            
+            
+            case SHOW_MONTH_LIST_FILES:
+            {
+                    System.out.println("in SHOW_MONTH_LIST_FILES");
+                    strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+                    dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,strUserID);
+                    Vector files =MonthListFileDAO.getallFiles(con,strUserID);
+	            dataHashMap.put(AdministrationInterfaceKey.VECTOR_FILES,files);
+              
+                   }
+            break;
+            
             
 case SHOW_NOMAD_FILE_LIST:
 		 {
@@ -1294,6 +1315,32 @@ case SHOW_NOMAD_FILE_LIST:
             String  strStatus =(String) paramHashMap.get("statusStr");
             PaymentHistoryFileDAO.delHistoryFileById(con, fieldId);
         }
+        
+        case EXPORT_MONTH_LIST_FILE:
+          {
+             // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
+            System.out.println("%%% EXPORT_MONTH_LIST_FILE action");
+              String Slach = System.getProperty("file.separator");
+              System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
+              String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
+              String  fieldId =(String) paramHashMap.get("fieldId");
+              System.out.println("file id value "+paramHashMap.get("fieldId"));
+              Vector files =PaymentHistoryFileDAO.getallHistoryFiles(con,fieldId);
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForHistory(/*dataVec*/files, baseDirectory);
+              dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
+          }
+          break;  
+            
+            case DELETE_MONTH_LIST_FILE:
+        {
+            System.out.println("%%% DELETE_MONTH_LIST_FILE action");
+            dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,strUserID);
+            String  fieldId =(String) paramHashMap.get("fieldId");
+	    System.out.println("FILE ID ISSSSSSSSSSSS"+fieldId);
+            String  strStatus =(String) paramHashMap.get("statusStr");
+            MonthListFileDAO.delHistoryFileById(con, fieldId);
+        }
+        
         break;
             
         case SHOW_NOMAD_FILE_IMPORT_SCREEN:
