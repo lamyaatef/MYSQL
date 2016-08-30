@@ -407,6 +407,10 @@ public class AdministratorHandler
       {
         actionType = DELETE_HISTORY_FILE;
       }
+      else if(action.compareTo(AdministrationInterfaceKey.ACTION_DELETE_MONTH_LIST_FILE)==0)
+      {
+        actionType = DELETE_MONTH_LIST_FILE;
+      }
       else if(action.compareTo(AdministrationInterfaceKey.ACTION_EXPORT_PAYMENT_LEVEL_HISTORY)==0)
       {
         actionType = EXPORT_PAYMENT_LEVEL_HISTORY;
