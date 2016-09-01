@@ -166,8 +166,9 @@
                 }
                 function loadDeleteField(id,status)
                 {
-
-                    AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction%>';
+              
+               
+    AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction%>';
                     document.AUTHform.fieldId.value=id;
                     document.AUTHform.statusStr.value=status;
                     AUTHform.submit();
