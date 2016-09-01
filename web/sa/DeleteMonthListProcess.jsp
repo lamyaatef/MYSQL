@@ -26,20 +26,9 @@
         <title>JSP Page</title>
     </head>
     <body>
-       <%
-         HashMap dataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
-    String Slach = System.getProperty("file.separator");
-    String fileName = (String) dataHashMap.get(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK);
-String filePath = request.getRealPath("/scm/upload")+Slach+fileName;
+     
 
-    
-dataHashMap.put(InterfaceKey.EXPORT_FILE_PATH, fileName==null ? "" : (String) dataHashMap.get(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK));
-dataHashMap.put(InterfaceKey.MODULE_SUB_PATH, "scm"+Slach+"upload"+Slach);
-session.setAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT, dataHashMap);
-
-        %>
-
-<form action="com.mobinil.sds.web.controller.UploadingFileServlet" name="GenerateSheet" id="GenerateSheet" method="post">
+<form  name="GenerateSheet" id="GenerateSheet" method="post">
     <center>
         <br><br><br><br><br><br><br><br><br><br><br><br><br>
     <input id="bckButton" name="bckButton" class='button' type='button' value='Back' onclick="back();"/>
@@ -49,16 +38,12 @@ session.setAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT, dataHashMap);
     <script>
         function back ()
         {
-            document.GenerateSheet.action="com.mobinil.sds.web.controller.WebControllerServlet?";
-            document.GenerateSheet.action=document.GenerateSheet.action+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='+'<%=AdministrationInterfaceKey.ACTION_SHOW_HISTORY_FILE%>';
+            
+            document.GenerateSheet.action="com.mobinil.sds.web.controller.WebControllerServlet?"+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='+'<%=AdministrationInterfaceKey.ACTION_SHOW_LIST_OF_THE_MONTH%>';
                                                                         
             document.GenerateSheet.submit();
             
         }
     </script>
-    <script>
-        document.GenerateSheet.submit();
-        
-
-    </script>
+  
 </html>

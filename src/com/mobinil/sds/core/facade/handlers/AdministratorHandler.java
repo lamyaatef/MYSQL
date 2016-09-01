@@ -432,7 +432,10 @@ public class AdministratorHandler
       {
         actionType = SAVE_LIST_MONTH;
       }
-      
+      else if(action.compareTo(AdministrationInterfaceKey.ACTION_EXPORT_LIST_OF_THE_MONTH)==0)
+      {
+        actionType = EXPORT_MONTH_LIST_FILE;
+      }
       //////////////////////////////////////////////////////////////////////////
       switch (actionType) 
       {
@@ -1316,7 +1319,7 @@ case SHOW_NOMAD_FILE_LIST:
             dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,strUserID);
             String  fieldId =(String) paramHashMap.get("fieldId");
 	    System.out.println("FILE ID ISSSSSSSSSSSS"+fieldId);
-            String  strStatus =(String) paramHashMap.get("statusStr");
+            //String  strStatus =(String) paramHashMap.get("statusStr");
             PaymentHistoryFileDAO.delHistoryFileById(con, fieldId);
         }
         
@@ -1329,8 +1332,8 @@ case SHOW_NOMAD_FILE_LIST:
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
               String  fieldId =(String) paramHashMap.get("fieldId");
               System.out.println("file id value "+paramHashMap.get("fieldId"));
-              Vector files =PaymentHistoryFileDAO.getallHistoryFiles(con,fieldId);
-              String excelLink = PoiWriteExcelFile.exportExcelSheetForHistory(/*dataVec*/files, baseDirectory);
+              Vector files =MonthListFileDAO.getallHistoryFiles(con,fieldId);
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForMonthList(/*dataVec*/files, baseDirectory);
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
           }
           break;  
@@ -1340,9 +1343,10 @@ case SHOW_NOMAD_FILE_LIST:
             System.out.println("%%% DELETE_MONTH_LIST_FILE action");
             dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,strUserID);
             String  fieldId =(String) paramHashMap.get("fieldId");
-	    System.out.println("FILE ID ISSSSSSSSSSSS"+fieldId);
-            String  strStatus =(String) paramHashMap.get("statusStr");
+	    System.out.println("FILE ID IS"+fieldId);
+            //String  strStatus =(String) paramHashMap.get("statusStr");
             MonthListFileDAO.delHistoryFileById(con, fieldId);
+            System.out.println("FINISHED DELETING..");
         }
         
         break;

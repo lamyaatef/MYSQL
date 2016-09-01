@@ -31,7 +31,7 @@ public class MonthOfTheListModel {
         {
          
                 this.HISTORY_FILE_ID = rs.getString("HISTORY_FILE_ID");
-                this.USER_ID = rs.getString("USER_ID");
+                this.USER_ID = rs.getString("person_full_name"); //change var later to username
                 this.TIMESTAMP = rs.getDate("TIMESTAMP");
                 this.STATUS_ID = rs.getString("STATUS_ID");
                 this.MONTH = rs.getInt("MONTH");

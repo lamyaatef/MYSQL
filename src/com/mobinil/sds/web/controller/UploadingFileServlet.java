@@ -57,7 +57,7 @@ dataHashMap.put(InterfaceKey.MODULE_SUB_PATH, "/cam/camMemosFiles/generated PDF 
 		HashMap dataHashMap = (HashMap) session.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
 		String file_name = (String) dataHashMap.get(InterfaceKey.EXPORT_FILE_PATH); // complete file path
 		String module_subPath = (String) dataHashMap.get(InterfaceKey.MODULE_SUB_PATH); // complete file path
-
+                System.out.println("File Name in Servlet "+file_name);
 		String fileType = file_name.substring(file_name.indexOf(".") + 1,file_name.length());
 		String file_path = request.getRealPath(module_subPath + file_name);
                 if (fileType.trim().equalsIgnoreCase("txt")) {
@@ -81,17 +81,23 @@ dataHashMap.put(InterfaceKey.MODULE_SUB_PATH, "/cam/camMemosFiles/generated PDF 
 			InputStream isStream = null;
 			ServletOutputStream sosStream = null;
 			File file = new File(file_path);
-			isStream = new FileInputStream(file);
-			sosStream = response.getOutputStream();
-			int ibit = 256; 
-			while ((ibit) >= 0) { 
-				 ibit = isStream.read();
-				 sosStream.write(ibit); 
-				 }			 
-			 sosStream.flush();
-			 sosStream.close();
-			 isStream.close();
-		} catch (Exception e) {
+                         
+                            isStream = new FileInputStream(file);
+                            sosStream = response.getOutputStream();
+                            int ibit = 256; 
+                            while ((ibit) >= 0) { 
+                                     ibit = isStream.read();
+                                     sosStream.write(ibit); 
+                                     }			 
+                             sosStream.flush();
+                             sosStream.close();
+                             isStream.close();
+                 
+                        
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+                catch (IOException e) {
 			e.printStackTrace();
 		}
 		session.removeAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);

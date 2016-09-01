@@ -1,4 +1,5 @@
 
+<%@page import="com.mobinil.sds.core.system.sa.monthList.model.MonthOfTheListModel"%>
 <%@page import="com.mobinil.sds.core.system.paymentFileHistory.model.PaymentFileModel"%>
 <%@page import="com.mobinil.sds.web.interfaces.scm.SCMInterfaceKey"%>
 <%@page import="com.mobinil.sds.core.system.paymentHistory.model.PaymentHistoryFileModel"%>
@@ -89,9 +90,9 @@
                     String FileId = "";
                     String UserName="";
                     String POSCode = "";
-                    String FileTimestamp = "";
-                    String Month="";
-                    String Year="";
+                    Date FileTimestamp = new Date();
+                    int Month=-1;
+                    int Year=-1;
                     String List="";
                     String ChannelName = "";
                     String PayLevelName = "";
@@ -103,14 +104,14 @@
                     if (files !=null)
                     {
                     for (int i = 0; i < files.size(); i++) {
-                        MonthListFileModel model = (MonthListFileModel) files.get(i);
+                        MonthOfTheListModel model = (MonthOfTheListModel) files.get(i);
                         FileId = model.getHISTORY_FILE_ID();
-                        UserName = model.getUSERNAME();
-                        Month = model.getFILE_MONTH();
-                        Year = model.getFILE_YEAR();
+                        UserName = model.getUSER_ID();
+                        Month = model.getMONTH();
+                        Year = model.getYEAR();
                         List = model.getLIST_NAME();
-                        FileTimestamp = model.getFILE_TIMESTAMP();
-                        Status = model.getSTATUS_NAME();
+                        FileTimestamp = model.getTIMESTAMP();
+                        Status = model.getSTATUS_ID();
                 %>
                 <TR class=TableTextNote>
                     <td width="20%" nowrap align=middle><%=FileId%></td>

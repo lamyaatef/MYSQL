@@ -6,7 +6,7 @@
 
 
 <%@page import="com.mobinil.sds.web.interfaces.sa.AdministrationInterfaceKey"%>
-<%@page import="java.sql.Blob"%>
+
 <%@page import="com.mobinil.sds.core.system.scm.dto.STKDistRequestViewerDTO"%>
 
 
@@ -27,16 +27,16 @@
     </head>
     <body>
        <%
-         HashMap dataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
+        HashMap dataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
     String Slach = System.getProperty("file.separator");
+    
     String fileName = (String) dataHashMap.get(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK);
 String filePath = request.getRealPath("/scm/upload")+Slach+fileName;
 
-    
-dataHashMap.put(InterfaceKey.EXPORT_FILE_PATH, fileName);
+dataHashMap.put(InterfaceKey.EXPORT_FILE_PATH, fileName==null ? "" : (String) dataHashMap.get(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK));
 dataHashMap.put(InterfaceKey.MODULE_SUB_PATH, "scm"+Slach+"upload"+Slach);
 session.setAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT, dataHashMap);
-
+System.out.println("JSP Export Result");
         %>
 
 <form action="com.mobinil.sds.web.controller.UploadingFileServlet" name="GenerateSheet" id="GenerateSheet" method="post">
@@ -56,6 +56,7 @@ session.setAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT, dataHashMap);
             
         }
     </script>
+            
     <script>
         document.GenerateSheet.submit();
         
