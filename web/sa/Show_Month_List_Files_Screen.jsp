@@ -29,7 +29,7 @@
         <LINK REL=STYLESHEET TYPE="text/css" HREF="../resources/css/Template1.css">      
     </head>
     <body>
-        <form  name='AUTHform' id='AUTHform' action='' method='post'>  
+        <form  name='AUTHform' id='AUTHform'  method='post'>  
             
             <%
 
@@ -48,9 +48,9 @@
                 //String hidden_action=(String) objDataHashMap.get(AuthResInterfaceKey.HIDDEN_ACTION);
                 //System.out.println("action issssss"+hidden_action);
 
-                String nextAction = "";
-                nextAction = AdministrationInterfaceKey.ACTION_DELETE_MONTH_LIST_FILE;
-
+                
+                String nextAction66 = AdministrationInterfaceKey.ACTION_DELETE_MONTH_LIST_FILE;
+                System.out.println("ACTION .. "+nextAction66);
                 String nextAction1 = "";
                 nextAction1 = AuthResInterfaceKey.ACTION_VIEW_STATISTICS;
 
@@ -126,15 +126,16 @@
                     <TD width="10%" noWrap align=middle>
                         <%
 
-                            if (Status.equalsIgnoreCase("Deleted")) {
+                            /*if (Status.equalsIgnoreCase("Deleted")) {
                                 out.println("<INPUT class=button type=button  disabled  value= \"Delete\"  name =\"Delete \" > ");
 
                             } else {
                                 out.println("<INPUT class=button type=button    value= \"Delete\"  name =\"Delete \"onclick=\""
                                         + "loadDeleteField(" + model.getHISTORY_FILE_ID()+ ",'" + Status + "');\">");
-                            }
+                            }*/
                             
-                            
+                            out.println("<INPUT class=button type=button    value= \"Delete\"  name =\"Delete \"onclick=\""
+                                        + "loadDeleteField(" + model.getHISTORY_FILE_ID()+ ",'" + Status + "');\">");
                           
                         %>
                     </TD>
@@ -173,11 +174,17 @@
                 }
                 function loadDeleteField(id,status)
                 {
-
-                    AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction%>';
+                    alert("action "+'<%=nextAction66%>');
+                    /*document.AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction66%>';
+                    
                     document.AUTHform.fieldId.value=id;
                     document.AUTHform.statusStr.value=status;
-                    AUTHform.submit();
+                    AUTHform.submit();*/
+                    document.AUTHform.action="com.mobinil.sds.web.controller.WebControllerServlet?"+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='+'<%=AdministrationInterfaceKey.ACTION_DELETE_MONTH_LIST_FILE%>';
+                    document.AUTHform.fieldId.value=id;
+                    document.AUTHform.statusStr.value=status;                                                  
+                    document.AUTHform.submit();
+            
           
                 }
                 function loadExportField(id,status,base)
