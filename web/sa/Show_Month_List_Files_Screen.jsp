@@ -106,7 +106,8 @@
                     for (int i = 0; i < files.size(); i++) {
                         MonthOfTheListModel model = (MonthOfTheListModel) files.get(i);
                         FileId = model.getHISTORY_FILE_ID();
-                        UserName = model.getUSER_ID();
+                        //UserName = model.getUSER_ID();
+                        UserName = model.getUSERNAME();
                         Month = model.getMONTH();
                         Year = model.getYEAR();
                         List = model.getLIST_NAME();

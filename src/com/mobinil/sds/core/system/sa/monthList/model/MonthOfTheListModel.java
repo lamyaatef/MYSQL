@@ -16,6 +16,7 @@ public class MonthOfTheListModel {
     
     private String HISTORY_FILE_ID;
     private String USER_ID;
+    private String USERNAME;
     private Date TIMESTAMP;
     private String STATUS_ID;
     private int MONTH;
@@ -31,9 +32,10 @@ public class MonthOfTheListModel {
         {
          
                 this.HISTORY_FILE_ID = rs.getString("HISTORY_FILE_ID");
-                this.USER_ID = rs.getString("person_full_name"); //change var later to username
+                this.USERNAME = rs.getString("person_full_name"); 
+                this.USER_ID = rs.getString("USER_ID");
                 this.TIMESTAMP = rs.getDate("TIMESTAMP");
-                this.STATUS_ID = rs.getString("STATUS_ID");
+                this.STATUS_ID = rs.getString("STATUS_NAME");
                 this.MONTH = rs.getInt("MONTH");
                 this.YEAR = rs.getInt("YEAR");
                 this.LIST_NAME = rs.getString("LIST_NAME");
@@ -137,6 +139,20 @@ public class MonthOfTheListModel {
      */
     public void setLIST_NAME(String LIST_NAME) {
         this.LIST_NAME = LIST_NAME;
+    }
+
+    /**
+     * @return the USERNAME
+     */
+    public String getUSERNAME() {
+        return USERNAME;
+    }
+
+    /**
+     * @param USERNAME the USERNAME to set
+     */
+    public void setUSERNAME(String USERNAME) {
+        this.USERNAME = USERNAME;
     }
     
 }

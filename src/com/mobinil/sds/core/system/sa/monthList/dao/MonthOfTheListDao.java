@@ -103,7 +103,7 @@ public class MonthOfTheListDao {
         {
           Connection con = Utility.getConnection();
           Statement stat = con.createStatement();
-          String sql = "select * from gen_dcm_month_list where user_id = '"+userId+"'  order by history_file_id desc ";
+          String sql = "select gen_dcm_month_list.*,dcm_month_list_file_status.status_name,gen_person.person_full_name from dcm_month_list_file_status,gen_person , gen_dcm_month_list where gen_dcm_month_list.user_id = gen_person.person_id and gen_dcm_month_list.status_id = dcm_month_list_file_status.status_id and user_id = '"+userId+"'  order by history_file_id desc ";
           ResultSet res = stat.executeQuery(sql);
           
           while(res.next())

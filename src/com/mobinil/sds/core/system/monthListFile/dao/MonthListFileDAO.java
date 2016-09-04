@@ -151,7 +151,7 @@ public class MonthListFileDAO {
 "  gen_dcm_month_list.user_id,\n" +
 "  gen_dcm_month_list.timestamp,\n" +
 "  gen_dcm_month_list.month,\n" +
-"  gen_dcm_month_list.year,gen_dcm_month_list.LIST_NAME,gen_dcm_month_list.status_id,\n" +
+"  gen_dcm_month_list.year,gen_dcm_month_list.LIST_NAME,\n" +
 "  gen_person.person_full_name,\n" +
 "  dcm_month_list_file_status.status_name\n" +
 "FROM gen_dcm_month_list,\n" +
