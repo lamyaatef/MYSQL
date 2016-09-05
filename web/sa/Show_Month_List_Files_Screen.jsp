@@ -167,19 +167,16 @@
             <script type="text/javascript">
                 function loadField(id,status)
                 {
-                    AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction1%>';
+                    //document.AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction1%>';
+                    document.AUTHform.action="com.mobinil.sds.web.controller.WebControllerServlet?"+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='+'<%=AuthResInterfaceKey.ACTION_VIEW_STATISTICS%>';                
                     document.AUTHform.fieldId.value=id;
                     document.AUTHform.statusStr.value=status;
-                    AUTHform.submit();
+                    document.AUTHform.submit();
                 }
                 function loadDeleteField(id,status)
                 {
-                    alert("action "+'<%=nextAction66%>');
-                    /*document.AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction66%>';
                     
-                    document.AUTHform.fieldId.value=id;
-                    document.AUTHform.statusStr.value=status;
-                    AUTHform.submit();*/
+                    //document.AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction66%>';
                     document.AUTHform.action="com.mobinil.sds.web.controller.WebControllerServlet?"+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='+'<%=AdministrationInterfaceKey.ACTION_DELETE_MONTH_LIST_FILE%>';
                     document.AUTHform.fieldId.value=id;
                     document.AUTHform.statusStr.value=status;                                                  
@@ -190,11 +187,12 @@
                 function loadExportField(id,status,base)
                 {
 
-                    AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction2%>';
+                    //document.AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction2%>';
+                    document.AUTHform.action="com.mobinil.sds.web.controller.WebControllerServlet?"+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='+'<%=AdministrationInterfaceKey.ACTION_EXPORT_LIST_OF_THE_MONTH%>';                
                     document.AUTHform.fieldId.value=id;
                     document.AUTHform.statusStr.value=status;
                     document.AUTHform.baseDirectory.value=base;
-                    AUTHform.submit();
+                    document.AUTHform.submit();
           
                 }
             </script>
