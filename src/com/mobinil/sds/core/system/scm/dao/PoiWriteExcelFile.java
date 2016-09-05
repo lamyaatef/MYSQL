@@ -5,6 +5,7 @@ import com.mobinil.sds.core.system.commission.model.RatedFileError;
 import com.mobinil.sds.core.system.monthListFile.model.MonthListFileModel;
 import com.mobinil.sds.core.system.paymentHistory.model.PaymentHistoryFileModel;
 import com.mobinil.sds.core.system.regionReport.model.RegionPOSReportModel;
+import com.mobinil.sds.core.system.sa.crosstabLists.model.CrosstabListsModel;
 import com.mobinil.sds.core.system.scm.model.CaseModel;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -1127,7 +1128,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
         int imonth = dateNow.getMonth() + 1;
         int iyear = dateNow.getYear() + 1900;
         String strdate = (new StringBuffer("[")).append(dateNow.getDate()).append("-").append(imonth).append("-").append(iyear).append("]-").append(dateNow.getHours()).append(".").append(dateNow.getMinutes()).append(".").append(dateNow.getSeconds()).append("_").toString();
-        String fileName = strdate+"history_file_report.xls";
+        String fileName = strdate+"month_list_file_report.xls";
        FileOutputStream fileOut;
         try {
             fileOut = new FileOutputStream(directionFile + Slach + fileName);
@@ -1259,6 +1260,128 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 
   }
   
+  public static String exportExcelSheetForCrosstabLists(Vector<CrosstabListsModel> HistoryResults,String directionFile)
+  {
+      java.util.Date dateNow = new java.util.Date();
+        int imonth = dateNow.getMonth() + 1;
+        int iyear = dateNow.getYear() + 1900;
+        String strdate = (new StringBuffer("[")).append(dateNow.getDate()).append("-").append(imonth).append("-").append(iyear).append("]-").append(dateNow.getHours()).append(".").append(dateNow.getMinutes()).append(".").append(dateNow.getSeconds()).append("_").toString();
+        String fileName = strdate+"crosstab_file_report.xls";
+       FileOutputStream fileOut;
+        try {
+            fileOut = new FileOutputStream(directionFile + Slach + fileName);
+
+					HSSFWorkbook workbook = new HSSFWorkbook();
+					HSSFSheet worksheet = workbook.createSheet("POS Worksheet");
+
+					ArrayList<HSSFRow> rows = new ArrayList<HSSFRow>();
+                                        ArrayList<ArrayList<HSSFCell>> cells=new ArrayList<ArrayList<HSSFCell>>();
+					//42 //45 //was 9
+                                        for(int i=1; i<=13;i++){
+                                        ArrayList<HSSFCell> cell = new ArrayList<HSSFCell>();
+                                            cells.add(cell);
+                                        }
+
+                                       
+
+                                        for (int i=0;i<=HistoryResults.size();i++){
+
+                                            rows.add(worksheet.createRow(i));
+                                             //42 //9
+                                            for(int cellno=0;cellno<13;cellno++){
+                                                
+                                                cells.get(cellno).add(rows.get(i).createCell((short) cellno));
+                                            }
+
+                                        }
+
+
+                                      int header=0;
+                                      cells.get(header).get(0).setCellValue("POS Code");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("POS Name");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("List Name");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Month");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Year");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("List Area Name");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("List Region Name");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("List Govern Name");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("List City Name");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("List District Name");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Supervisor Name");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Salesrep Name");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Teamleader Name");
+                                      
+                                      /*SalesRegion	Governerate	ImDistrict	Area	SupervisorName	FRepName Teamleader*/
+                                      
+            try {
+                Connection con = Utility.getConnection();
+
+
+                             for(int i=1;i<=HistoryResults.size();i++)
+                             {
+                                 CrosstabListsModel ss = HistoryResults.get(i-1);
+                                int j=0;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getDcmCode());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getDcmName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getListName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getMonth());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getYear());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getAreaName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getRegionName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getGovernName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getCityName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getDistrictName());
+                                /*SalesRegion	Governerate	ImDistrict	Area	SupervisorName	FRepName Teamleader*/
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getSupervisorName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getSalesrepName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(HistoryResults.get(i-1).getTeamleaderName());
+                                
+                             }
+              con.close();
+ } catch (SQLException ex) {
+                Logger.getLogger(PoiWriteExcelFile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                                        workbook.write(fileOut);
+					fileOut.flush();
+					fileOut.close();
+					return fileName;
+
+                                } catch (FileNotFoundException e)
+				{
+					e.printStackTrace();
+					return "";
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+					return "";
+				}
+
+
+  }
   
   
   

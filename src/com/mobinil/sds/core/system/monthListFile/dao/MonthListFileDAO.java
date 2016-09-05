@@ -6,6 +6,7 @@
 package com.mobinil.sds.core.system.monthListFile.dao;
 
 import com.mobinil.sds.core.system.monthListFile.model.MonthListFileModel;
+import com.mobinil.sds.core.system.sa.crosstabLists.model.CrosstabListsModel;
 import com.mobinil.sds.core.system.sa.monthList.model.MonthOfTheListModel;
 import com.mobinil.sds.core.utilities.DBUtil;
 import java.sql.Connection;
@@ -18,6 +19,62 @@ import java.util.Vector;
  * @author sand
  */
 public class MonthListFileDAO {
+    
+    
+    
+    public static Vector getCrosstabLists(Connection con, String posCode) {
+        Vector vec = new Vector();
+        System.out.println("getCrosstabLists ");
+        try {
+            Statement stat = con.createStatement();
+            stat.setFetchSize(0);
+            String strSql = "SELECT gen_dcm_month_list_detail.dcm_code,\n" +
+"  gen_dcm.dcm_name ,\n" +
+"  gen_dcm_month_list.list_name,\n" +
+"  gen_dcm_month_list.month,\n" +
+"  gen_dcm_month_list.year,\n" +
+"  dcm_pos_detail.pos_area_id,\n" +
+"  dcm_region.region_name as area_name,\n" +
+"  vw_supervisor_assignment.region_name as supervisor_region_name,\n" +
+"  vw_supervisor_assignment.gov_region_name as supervisor_govern_name,\n" +
+"  vw_supervisor_assignment.city_region_name as supervisor_city_name,\n" +
+"  vw_sales_rep_assignment.district_region_name as salesrep_district_name,\n" +
+"  vw_sales_rep_assignment.salesrep_name as Salesrep_Name,\n" +
+"  vw_supervisor_assignment.supervisor_name as Supervisor_Name,\n" +
+"  vw_teamleader_assignment.teamleader_name as Teamleader_Name\n" +
+"FROM \n" +
+"  dcm_region,\n" +
+"  dcm_pos_detail,\n" +
+"  vw_supervisor_assignment,\n" +
+"  vw_sales_rep_assignment,\n" +
+"  vw_teamleader_assignment,\n" +
+"  gen_dcm,\n" +
+"  gen_dcm_month_list,\n" +
+"  gen_dcm_month_list_detail\n" +
+"WHERE gen_dcm.dcm_code                 = gen_dcm_month_list_detail.dcm_code\n" +
+"AND gen_dcm.dcm_code                   = dcm_pos_detail.pos_code\n" +
+"AND gen_dcm_month_list.history_file_id   = gen_dcm_month_list_detail.history_file_id\n" +
+"AND dcm_pos_detail.pos_area_id                   = dcm_region.region_id\n" +
+"AND gen_dcm_month_list_detail.dcm_code ='"+posCode+"'\n" +
+"AND dcm_region.parent_REGION_ID                  = vw_sales_rep_assignment.SALESREP_DISTRICT_ID(+)  \n" +
+"AND vw_sales_rep_assignment.SALESREP_DISTRICT_ID = vw_supervisor_assignment.DISTRICT_REGION_ID(+)\n" +
+"AND vw_sales_rep_assignment.SALESREP_DISTRICT_ID = vw_teamleader_assignment.DISTRICT_REGION_ID(+)\n" +
+"order by list_name";
+                    
+            System.out.println("getCrosstabLists query "+ strSql);
+            ResultSet res = stat.executeQuery(strSql);
+            while (res.next()) {
+                vec.add(new CrosstabListsModel(res));
+                }
+            res.close();
+            stat.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return vec;
+    }
     
     public static Vector getallHistoryFiles(Connection con, String fileId) {
         Vector vec = new Vector();

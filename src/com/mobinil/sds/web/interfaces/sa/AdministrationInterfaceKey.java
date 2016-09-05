@@ -41,7 +41,7 @@ public static final String CACH_OBJ_MODULE_LIST = "cach_obj_module_list";
   public static final String ACTION_UPDATE_REVENUE = "update_revenue_screen";
   public static final String ACTION_SHOW_PAYMENT_LEVEL_HISTORY ="show_payment_level_history";
   public static final String ACTION_SAVE_PAYMENT_LEVEL_HISTORY ="save_payment_level_history";
-  
+  public static final String ACTION_EXPORT_LISTS_CROSSTAB ="export_lists_crosstab";
   public static final String ACTION_SAVE_LIST_MONTH ="save_list_of_the_month";
   public static final String ACTION_SAVE_LIST ="save_list";
   
@@ -52,6 +52,7 @@ public static final String CACH_OBJ_MODULE_LIST = "cach_obj_module_list";
   
   public static final String ACTION_EXPORT_LIST_OF_THE_MONTH ="export_month_list_process";
   public static final String ACTION_SHOW_LIST_OF_THE_MONTH ="show_month_list_files";
+  public static final String ACTION_SHOW_CROSSTAB ="show_crosstab";
   public static final String ACTION_DELETE_MONTH_LIST_FILE = "delete_month_list_file";
   
   
@@ -137,6 +138,7 @@ public static final String CACH_OBJ_MODULE_LIST = "cach_obj_module_list";
 
   public static final String CONTROL_SELECT_MONTH ="control_select_month";
   public static final String CONTROL_INPUT_YEAR = "control_input_year";  
+  public static final String CONTROL_INPUT_POS_CODE = "control_input_pos_code";  
   public static final String CONTROL_INPUT_AMOUNT="AMOUNT_INPUT";
   public static final String CONTROL_INPUT_AMOUNT_DB_VALUE="AMOUNT_INPUT_DB";
   public static final String CONTROL_INPUT_DCM_ID ="dcm_id_input";

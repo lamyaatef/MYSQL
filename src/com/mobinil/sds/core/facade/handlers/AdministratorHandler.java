@@ -167,6 +167,7 @@ public class AdministratorHandler
   static final int SHOW_MONTH_LIST_FILES=57;
   static final int DELETE_MONTH_LIST_FILE = 58;
   static final int EXPORT_MONTH_LIST_FILE = 59;
+  static final int EXPORT_LISTS_CROSSTAB = 60;
   
   /**
    * handle method:
@@ -435,6 +436,10 @@ public class AdministratorHandler
       else if(action.compareTo(AdministrationInterfaceKey.ACTION_EXPORT_LIST_OF_THE_MONTH)==0)
       {
         actionType = EXPORT_MONTH_LIST_FILE;
+      }
+      else if(action.compareTo(AdministrationInterfaceKey.ACTION_EXPORT_LISTS_CROSSTAB)==0)
+      {
+        actionType = EXPORT_LISTS_CROSSTAB;
       }
       //////////////////////////////////////////////////////////////////////////
       switch (actionType) 
@@ -1337,6 +1342,22 @@ case SHOW_NOMAD_FILE_LIST:
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
           }
           break;  
+            
+            case EXPORT_LISTS_CROSSTAB:
+          {
+             // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
+            System.out.println("%%% EXPORT_LISTS_CROSSTAB action");
+              String Slach = System.getProperty("file.separator");
+              System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
+              String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
+              String  posCode =(String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_INPUT_POS_CODE);
+              //System.out.println("file id value "+paramHashMap.get("fieldId"));
+              Vector files =MonthListFileDAO.getCrosstabLists(con,posCode);
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForCrosstabLists(/*dataVec*/files, baseDirectory);
+              dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
+          }
+          break;  
+            
             
             case DELETE_MONTH_LIST_FILE:
         {
