@@ -50,15 +50,15 @@ public CrosstabListsModel(ResultSet res)
                     regionName =  res.getString("supervisor_region_name");
                     governName= res.getString("supervisor_govern_name");
                     cityName = res.getString("supervisor_city_name");
-                    districtName = res.getString("salesrep_district_name");
+                    districtName = res.getString("supervisor_district_name");
                     
                     regionName = res.getString("supervisor_region_name");
                     governName = res.getString("supervisor_govern_name");
                     cityName = res.getString("supervisor_city_name");
-                    districtName = res.getString("salesrep_district_name");
+                    districtName = res.getString("supervisor_district_name");
                     salesrepName = res.getString("salesrep_name");
-                    supervisorName = res.getString("supervisor_Name");
-                    teamleaderName = res.getString("teamleader_Name");
+                    supervisorName = res.getString("supervisor_name");
+                    teamleaderName = res.getString("teamleader_name");
                     
                 }
 	      catch(Exception e)

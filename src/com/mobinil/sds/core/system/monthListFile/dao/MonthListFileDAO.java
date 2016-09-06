@@ -33,12 +33,14 @@ public class MonthListFileDAO {
 "  gen_dcm_month_list.list_name,\n" +
 "  gen_dcm_month_list.month,\n" +
 "  gen_dcm_month_list.year,\n" +
+"  dcm_pos_detail.pos_address,\n" +
 "  dcm_pos_detail.pos_area_id,\n" +
 "  dcm_region.region_name as area_name,\n" +
 "  vw_supervisor_assignment.region_name as supervisor_region_name,\n" +
 "  vw_supervisor_assignment.gov_region_name as supervisor_govern_name,\n" +
 "  vw_supervisor_assignment.city_region_name as supervisor_city_name,\n" +
-"  vw_sales_rep_assignment.district_region_name as salesrep_district_name,\n" +
+"  vw_supervisor_assignment.city_region_name as supervisor_district_name,\n" +
+"  --vw_sales_rep_assignment.district_region_name as salesrep_district_name,\n" +
 "  vw_sales_rep_assignment.salesrep_name as Salesrep_Name,\n" +
 "  vw_supervisor_assignment.supervisor_name as Supervisor_Name,\n" +
 "  vw_teamleader_assignment.teamleader_name as Teamleader_Name\n" +
@@ -56,9 +58,9 @@ public class MonthListFileDAO {
 "AND gen_dcm_month_list.history_file_id   = gen_dcm_month_list_detail.history_file_id\n" +
 "AND dcm_pos_detail.pos_area_id                   = dcm_region.region_id\n" +
 "AND gen_dcm_month_list_detail.dcm_code ='"+posCode+"'\n" +
-"AND dcm_region.parent_REGION_ID                  = vw_sales_rep_assignment.SALESREP_DISTRICT_ID(+)  \n" +
-"AND vw_sales_rep_assignment.SALESREP_DISTRICT_ID = vw_supervisor_assignment.DISTRICT_REGION_ID(+)\n" +
-"AND vw_sales_rep_assignment.SALESREP_DISTRICT_ID = vw_teamleader_assignment.DISTRICT_REGION_ID(+)\n" +
+"AND dcm_region.parent_REGION_ID  = vw_supervisor_assignment.DISTRICT_REGION_ID\n" +
+"AND vw_supervisor_assignment.DISTRICT_REGION_ID = vw_sales_rep_assignment.SALESREP_DISTRICT_ID(+)\n" +
+"AND vw_sales_rep_assignment.SALESREP_DISTRICT_ID = vw_teamleader_assignment.DISTRICT_REGION_ID(+) \n" +
 "order by list_name";
                     
             System.out.println("getCrosstabLists query "+ strSql);
