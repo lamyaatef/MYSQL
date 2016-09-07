@@ -129,11 +129,13 @@ public class NomadImporter {
                                 fieldUpdatedOn = tempLine.split("\t"); // \t
                             if(fieldUpdatedOn!=null)
                             {
+                                
                                 for(int i=0;i< fieldUpdatedOn.length;i++)
                                 {
                               //      System.out.println("LOOP fieldUpdatedOn[i] : "+fieldUpdatedOn[i]);
                                     //System.out.println("updated on = "+ UPDATED_ON);
                                    // System.out.println("selleer user name ="+ SELLER_USERNAME);
+                                    System.out.println("FIELD : --- "+fieldUpdatedOn[i]);
                                     if (fieldUpdatedOn[i].compareToIgnoreCase(UPDATED_ON)==0)
                                     { 
                                         updateOn = i;
@@ -157,10 +159,10 @@ public class NomadImporter {
 
                        // System.out.println("line issss " + line);
                         if (count > 1) {//!=0
-                           /// System.out.println("count > 1");
+                            System.out.println("count > 1");
                             String fields = line;
                             String v1 = fields;
-                            //System.out.println("V1 : "+v1);
+                            System.out.println("V1 : "+v1);
                             String[] lineFields = null;
                             
                             if (v1.contains(","))
@@ -174,22 +176,30 @@ public class NomadImporter {
                            // System.out.println("lineFields.length "+lineFields.length+" updated on index : "+updateOn);
                            if(lineFields!=null)
                            {
+                              System.out.println("LINE  %%%% "+lineFields);
                             if (lineFields.length <10 )
                             {
                               //  System.out.println("continue....");
                                 continue;
-                            } 
+                            }
+                            for(int i=0; i< lineFields.length ;i++)
+                            {
+                                System.out.println("lineFields[i] "+lineFields[i]);
+                                if (lineFields[i].contains("+AC0-"))
+                                    lineFields[i] = lineFields[i].replace("+AC0-", "-");
+                            }
                             //System.out.println("fileds "+v1+" line fields at date index: "+lineFields[updateOn]);
                             if (v1 == null) 
                                 v1 = "";
                             
                             String updatedDate = lineFields[updateOn];
+                            System.out.println("updated before trimming : "+updatedDate);
                             updatedDate = updatedDate.substring(0, updatedDate.indexOf(" "));
-                            //System.out.println("the date in updated on is as String trimmed: "+updatedDate);
-                            DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-                            //System.out.println("the date coming is as String: "+fileDate);
-
-                            if (updatedDate.compareTo(fileDate)==0)       
+                            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(updatedDate);
+                            String updatedDate2 = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                            System.out.println("Update : "+updatedDate2+" VS>> File Date : "+fileDate);
+                            
+                            if (updatedDate2.compareTo(fileDate)==0)       
                                 NomadFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx/*,fileDate,updateOn*/);
                            }  
                             
@@ -198,6 +208,7 @@ public class NomadImporter {
 
                     }
                     this.numberOfRowsInserted = NomadFileDAO.getNomadDataRecords(con, stat, fileID);
+                    System.out.println("rows %%%% "+this.numberOfRowsInserted);
 
                 } catch (Exception e) {
                     e.printStackTrace();
