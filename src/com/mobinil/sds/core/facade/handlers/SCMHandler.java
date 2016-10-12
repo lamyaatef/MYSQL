@@ -1439,7 +1439,7 @@ public class SCMHandler {
 //                    if (userLevelTypeId.equalsIgnoreCase("3")) {
 //                        userRegionId = (String) paramHashMap.get(SCMInterfaceKey.AREA_ID);
 //                    }
-                    if (supervisorId.compareTo("")!=0)
+                    if (supervisorId!=null && supervisorId.compareTo("")!=0)
                     {
                         //repSuper = RepManagementDAO.getRepSupervisor(con, dcmUserId, supervisorId);
                         //System.out.println("REP SUPER$$$ "+repSuper);
@@ -1451,7 +1451,7 @@ public class SCMHandler {
                                 repSuper = RepManagementDAO.getRepSupervisor(con, dcmUserId, supervisorId);
                             }
                     }
-                    if (teamleaderId.compareTo("")!=0)
+                    if (teamleaderId!=null && teamleaderId.compareTo("")!=0)
                     {
                         //repTeamlead = RepManagementDAO.getRepTeamleader(con, dcmUserId, teamleaderId);
                         if (!RepManagementDAO.checkIfRepTeamleader(con, dcmUserId, teamleaderId)/*repTeamlead==null*/)

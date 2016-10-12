@@ -172,9 +172,8 @@
         <title>New/Edit POS Group </title>
         <script src="../resources/js/jquery-1.11.3.js"></script>
         <script>
-         
   
-            function submitForm()
+            function submitForm(isSalesAgent)
             {
                 //console.log("msg ",document.<%=formName%>.<%=SCMInterfaceKey.REGION_ID%>.value);
                 userName=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_FULL_NAME%>.value;
@@ -182,9 +181,14 @@
                 userEmail=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_EMAIL%>.value;
                 userMobile=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_MOBILE%>.value;
                 userLevelTypeId=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_LEVEL_TYPE_ID%>.value;
-                document.<%=formName%>.<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>.value;
+             if(isSalesAgent)
+             {
+                 document.<%=formName%>.<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>.value;
                 document.<%=formName%>.<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>.value;
-                reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            }
+               
+    reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                   
                 if(userName==""){
                     alert("Please enter full name.");
                     return;
@@ -210,6 +214,7 @@
                     return;
                 }
                 if(userLevelTypeId=="4"){
+                    
                     var regionId=document.<%=formName%>.<%=SCMInterfaceKey.REGION_ID%>.value;
                     if(regionId==""){
                         alert('You must choose region for the supervisor.');
@@ -376,7 +381,7 @@
                 <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_ACTION%>" value="0">
                 <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_USER_ID%>" value="<%=userId%>">
                 <input type="hidden" id ="<%=SCMInterfaceKey.DCM_USER_ID%>" name="<%=SCMInterfaceKey.DCM_USER_ID%>" value="<%=dcmUserId%>">
-                <input type="hidden" name="<%=SCMInterfaceKey.PERSON_ID%>"  value="<%=dcmUserUserId%>">
+                <input type="hidden" id ="<%=SCMInterfaceKey.PERSON_ID%>" name="<%=SCMInterfaceKey.PERSON_ID%>"  value="<%=dcmUserId%>">
                 
                 
                 
@@ -474,7 +479,7 @@
                     <%
                                 if (userLevelTypeId == null || userLevelTypeId.trim().equals("") || userLevelTypeId.equalsIgnoreCase("4") || userLevelTypeId.equalsIgnoreCase("5") ) {
                                 } else  {
-                                    System.out.println("ESLE");
+                                    System.out.println("ESLEsssssssss");
 
                     %>
 
@@ -567,7 +572,7 @@
                     <tr class=TableTextNote>
                         <td>Supervisors</td>
                         <td>
-                            <select id="selectSuper" name="<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>" onchange="">
+                            <select id="selectSuper" name="<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>" >
 
                                 <%
                                     System.out.println("rep supervisors jsp count ******  : " + repSupervisors.size());
@@ -577,7 +582,7 @@
                                             RepSupervisorModel repSuper = (RepSupervisorModel) repSupervisors.get(i);
                                             System.out.println("rep supervisor " + ((RepSupervisorModel) repSupervisors.get(i)).getRepId());
                                 %>
-                                <option value = "<%=repSuper.getSupId()%>"><%=repSuper.getSupName()%></option>
+                                <option value ="<%=repSuper.getSupId()%>" ><%=repSuper.getSupName()%></option>
                                 <%}
                                 } else {
                                 %>
@@ -608,7 +613,7 @@
                     <tr class=TableTextNote>
                         <td>Team Leaders</td>
                         <td>
-                           <select name="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" onchange="">
+                           <select id="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" onchange="" value="">
                                 
                                 <%
                                    System.out.println("rep teamleaders jsp******  : "+repTeamleaders);
@@ -687,10 +692,16 @@
                             
                             <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm();">&nbsp;
                             <%
-                            }else{
+                            }else if (userLevelTypeId == null || userLevelTypeId.trim().equals("") || userLevelTypeId.equalsIgnoreCase("4") || userLevelTypeId.equalsIgnoreCase("5") ){
                             %>
                             <div style="display:none">
-                             <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm();">
+                             <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm(false);">
+                            </div>
+                            <%
+                            } else {
+                            %>
+                            <div style="display:none">
+                             <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm(true);">
                             </div>
                             <%
                             }
