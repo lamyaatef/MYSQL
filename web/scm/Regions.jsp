@@ -35,20 +35,25 @@
     int regionid = (request.getParameter("regionid")==null || request.getParameter("regionid").compareTo("")==0) ? -1 : Integer.parseInt(request.getParameter("regionid"));
     int managerid2 = (request.getParameter("managerid2")==null || request.getParameter("managerid2").compareTo("")==0) ? -1 : Integer.parseInt(request.getParameter("managerid2"));
     int userLevelId = (request.getParameter("userLevel")==null || request.getParameter("userLevel").compareTo("")==0) ? -1 : Integer.parseInt(request.getParameter("userLevel"));
+    int supervisor=-1;
+    int teamleader=-1;
+    int salesrep=-1;
     String type = request.getParameter("type");
     String levelsArr = request.getParameter("arraySent");
     
     String[] levels = null; //user type levels
-    if (levelsArr!=null && levelsArr.compareTo("")!=0)
+    if(levelsArr.contains("[") || levelsArr.contains("]"))
     {
-        levelsArr = levelsArr.replace("[", "");
-        levelsArr = levelsArr.replace("]", "");
-        levels = levelsArr.split(",");
-        for(int i=0;i<levels.length;i++)
+        if (levelsArr!=null && levelsArr.compareTo("")!=0)
         {
-            System.out.println("LEVEL ["+i+"] : "+levels[i]);
+            levelsArr = levelsArr.replace("[", "");
+            levelsArr = levelsArr.replace("]", "");
+            levels = levelsArr.split(",");
+            for(int i=0;i<levels.length;i++)
+            {
+                System.out.println("LEVEL ["+i+"] : "+levels[i]);
+            }
         }
-    }
     
   
    System.out.println("LEVELS : "+levelsArr);
@@ -57,10 +62,27 @@
     System.out.println("USERLEVEL ID : "+userLevelId);
     System.out.println("TYPE OF REGION: "+type);
    
-    int supervisor = (levels == null || levels[0]==null || levels[0].compareTo("")==0) ? -1: Integer.parseInt(levels[0]);
-    int teamleader = (levels==null || levels[1]==null || levels[1].compareTo("")==0) ? -1: Integer.parseInt(levels[1]);
-    int salesrep = (levels == null || levels[2]==null || levels[2].compareTo("")==0) ? -1: Integer.parseInt(levels[2]);
-  
+    supervisor = (levels == null || levels[0]==null || levels[0].compareTo("")==0) ? -1: Integer.parseInt(levels[0]);
+    teamleader = (levels==null || levels[1]==null || levels[1].compareTo("")==0) ? -1: Integer.parseInt(levels[1]);
+    salesrep = (levels == null || levels[2]==null || levels[2].compareTo("")==0) ? -1: Integer.parseInt(levels[2]);
+    }
+    else
+    {
+        int userLevel = Integer.parseInt(levelsArr);
+        switch(userLevel)
+        {
+            case 4:
+                supervisor = 4;
+                break;
+            case 5: 
+                teamleader = 5;
+                break;
+            case 6:
+                salesrep = 6;
+                break;
+        }
+        
+    }
     HashMap dataHashMap = new HashMap(100);
     //lamya
     boolean disabled = true;

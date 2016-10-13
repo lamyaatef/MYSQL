@@ -1344,7 +1344,12 @@ public class SCMHandler {
                     String userId = (String) paramHashMap.get(SCMInterfaceKey.PERSON_ID);
                      //String userId = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
                     String supervisorId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_SUP_ID);
+                    if (supervisorId==null || supervisorId.compareTo("")==0 )
+                        supervisorId = userId;
                     String teamleaderId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID);
+                    if (teamleaderId==null || teamleaderId.compareTo("")==0 )
+                        teamleaderId = userId;
+                    
                     System.out.println("Add IDs - rep/user id "+userId+" supervisor id "+supervisorId+" teamleader id "+teamleaderId);
 
                     Vector<RepSupervisorModel> repSupervisors = new Vector();
@@ -1413,6 +1418,8 @@ public class SCMHandler {
 
                 break;
 
+                    
+                    
                 case action_update_rep_sup: {
                     
                     /////////////////////////////////////////////////////////
@@ -1435,7 +1442,7 @@ public class SCMHandler {
                     String dcmUserId = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
                     String supervisorId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_SUP_ID);
                     String teamleaderId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID);
-                    System.out.println("MY SUPERVISOR "+supervisorId+" MY REGION ID "+userRegionId+" MY TEAMLEADER "+teamleaderId);
+                    System.out.println("DCM USER ID "+dcmUserId+" MY SUPERVISOR "+supervisorId+" MY REGION ID "+userRegionId+" MY TEAMLEADER "+teamleaderId);
 //                    if (userLevelTypeId.equalsIgnoreCase("3")) {
 //                        userRegionId = (String) paramHashMap.get(SCMInterfaceKey.AREA_ID);
 //                    }
@@ -1462,7 +1469,16 @@ public class SCMHandler {
                             }
                     }
                     
-                    
+                    if((supervisorId==null || supervisorId.compareTo("")==0) && (teamleaderId!=null || teamleaderId.compareTo("")!=0))
+                    {
+                        supervisorId=dcmUserId;
+                        RepSupDAO.assignTeamleaderToSupervisor(con, teamleaderId, dcmUserId);
+                    }
+                    if((teamleaderId==null || teamleaderId.compareTo("")==0) && (supervisorId!=null || supervisorId.compareTo("")!=0))
+                    {
+                        supervisorId=dcmUserId;
+                        RepSupDAO.assignTeamleaderToSupervisor(con, dcmUserId, supervisorId);
+                    }
                     //////////////////////////////////////////////
                             supervisors=RepSupDAO.getRegionSupervisors(con, userRegionId);
                             teamleaders=RepSupDAO.getRegionTeamleaders(con, userRegionId);
@@ -1551,6 +1567,8 @@ public class SCMHandler {
                 case action_new_rep_sup: {
                     System.out.println("action_new_rep_sup");
                     String personId=(String)paramHashMap.get(SCMInterfaceKey.PERSON_ID);
+                    String systemUserId=(String)paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
+                    System.out.println("LOADING ADD person id "+personId);
                     if(RepManagementDAO.checkIfUserAlreadyCreated(con, personId)){
                         dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE, "Invalid, This user already created before.");
 
@@ -1562,14 +1580,15 @@ public class SCMHandler {
 
                         DCMUserModel dcmUser = new DCMUserModel();
                         dcmUser.setUserId(personId);
-
+                        dcmUser.setDcmUserId(systemUserId);
 
                         DCMUserDetailModel dcmUserDetatil = new DCMUserDetailModel();
                         dcmUserDetatil.setUserFullName(personName);
                         dcmUserDetatil.setUserAddress(personAddress);
                         dcmUserDetatil.setUserEmail(personEmail);
 
-
+                        dataHashMap.put(SCMInterfaceKey.PERSON_ID,personId);
+                        dataHashMap.put(SCMInterfaceKey.DCM_USER_ID,systemUserId);
                         dataHashMap.put(SCMInterfaceKey.DCM_USER_MODEL,dcmUser);
                         dataHashMap.put(SCMInterfaceKey.DCM_USER_DETAIL_MODEL,dcmUserDetatil);
 
@@ -1607,7 +1626,9 @@ public class SCMHandler {
                             
                             districtID = dcmUser.getRegionId();
                             regionId=RepSupDAO.getDistrictRegionId(con, districtID);
-                            
+                            if (regionId=="" || regionId==null)
+                                regionId = districtID;
+                            System.out.println("REGION ID : "+regionId+" DISTRICT ID : "+districtID);
                             dataHashMap.put(SCMInterfaceKey.DCM_USER_MODEL, dcmUser);
 
                             dataHashMap.put(SCMInterfaceKey.DCM_USER_DETAIL_MODEL, dcmUserDetail);

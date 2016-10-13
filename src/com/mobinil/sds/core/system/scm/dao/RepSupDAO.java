@@ -78,6 +78,16 @@ public class RepSupDAO {
         sqlStatement="INSERT INTO SCM_REP_TEAMLEADERS VALUES("+repId+","+teamleadId+",sysdate,"+userId+")";
         DBUtil.executeSQL(sqlStatement, con);
     }
+    
+    
+    public static void assignTeamleaderToSupervisor(Connection con,String teamleaderId,String supervisorId){
+        String sqlStatement;
+        sqlStatement="update dcm_user set manager_dcm_user_id='"+supervisorId+"' where dcm_user_id='"+teamleaderId+"' and user_level_type_id=5";
+        System.out.println("UPDATE QUERY : "+sqlStatement);
+        DBUtil.executeSQL(sqlStatement, con);
+    }
+    
+     
 
     public static void unassignRepFromSupervisor(Connection con,String repId,String supId){
         String sqlStatement;

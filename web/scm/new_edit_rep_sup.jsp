@@ -18,6 +18,12 @@
         import="java.util.*"
         %>
 <%
+    
+    String appName = request.getContextPath();
+
+String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.ACTION_REGIONS; 
             //DECLERTION FOR PAGE DATA
             HashMap dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
             DCMUserModel dcmUser = (DCMUserModel) dataHashMap.get(SCMInterfaceKey.DCM_USER_MODEL);
@@ -48,7 +54,7 @@
 
             //BASIC DATA
             Connection con = Utility.getConnection();
-            String appName = request.getContextPath();
+            appName = request.getContextPath();
             String formName = "repOrSupNewEditForm";
             String userId = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
             String confMessage = (String) dataHashMap.get(SCMInterfaceKey.CONFIRMATION_MESSAGE);
@@ -101,6 +107,7 @@
 
             if (dcmUserId == null || dcmUserId.trim().equals("") ) {
                 //NEW
+                System.out.println("USER USER ID "+dcmUserUserId);
                 pageHeader = "Add New Rep/Supervisor";
                 buttonValue = "Add";
                 buttonAction = SCMInterfaceKey.ACTION_ADD_NEW_REP_SUP;
@@ -161,6 +168,9 @@
         }
 
 
+            
+            
+            
 
 %>
 <html>
@@ -172,16 +182,93 @@
         <title>New/Edit POS Group </title>
         <script src="../resources/js/jquery-1.11.3.js"></script>
         <script>
+            $(document).ready( function(){ 
+$("#<%=SCMInterfaceKey.REGION_ID%>").change(function(){
+  
+  var regionid= $("#<%=SCMInterfaceKey.REGION_ID%>").val(); //value id of Option selected in the Select object
+ // console.log("value id of option selected in Select object is : ",regionid);
+ var supervisorHidden=$("#supervisorHidden").val();
+    if(supervisorHidden== "true")
+    {
+        console.log("inside if true ",supervisorHidden);
+    $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    datatype: "JSON",
+    data : {regionid:regionid,type:"<%=SCMInterfaceKey.REGION_ID%>",arraySent:"4"},
+    success: function(data, textStatus, jqXHR)
+    {
+        
+      
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>").append($("<option/>").text("--"));
+      
+        
+      
+    
+
+      $.each(data.map.teams, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+          //  console.log("data teamleaders ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>").append(option);
+});
+
+},
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+}
+else {
+console.log("inside if false ",supervisorHidden);
+ $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    datatype: "JSON",
+    data : {regionid:regionid,type:"<%=SCMInterfaceKey.REGION_ID%>",arraySent:"5"},
+    success: function(data, textStatus, jqXHR)
+    {
+        
+      
+        $("#selectSuper").empty();
+        $("#selectSuper").append($("<option/>").text("--"));
+      
+        
+      
+    
+
+      $.each(data.map.teams, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+          //  console.log("data teamleaders ",option);
+            $("#selectSuper").append(option);
+});
+
+},
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+
+}
+});
+});
   
             function submitForm(isSalesAgent)
             {
-                //console.log("msg ",document.<%=formName%>.<%=SCMInterfaceKey.REGION_ID%>.value);
+                
+                console.log("is salesrep ",isSalesAgent);
                 userName=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_FULL_NAME%>.value;
                 userAddress=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ADDRESS%>.value;
                 userEmail=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_EMAIL%>.value;
                 userMobile=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_MOBILE%>.value;
                 userLevelTypeId=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_LEVEL_TYPE_ID%>.value;
-             if(isSalesAgent)
+             if(isSalesAgent=="true")
              {
                  document.<%=formName%>.<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>.value;
                 document.<%=formName%>.<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>.value;
@@ -213,7 +300,7 @@
                     alert("Please choose level type.");
                     return;
                 }
-                if(userLevelTypeId=="4"){
+                if(userLevelTypeId=="4" || userLevelTypeId=="5"){
                     
                     var regionId=document.<%=formName%>.<%=SCMInterfaceKey.REGION_ID%>.value;
                     if(regionId==""){
@@ -381,7 +468,7 @@
                 <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_ACTION%>" value="0">
                 <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_USER_ID%>" value="<%=userId%>">
                 <input type="hidden" id ="<%=SCMInterfaceKey.DCM_USER_ID%>" name="<%=SCMInterfaceKey.DCM_USER_ID%>" value="<%=dcmUserId%>">
-                <input type="hidden" id ="<%=SCMInterfaceKey.PERSON_ID%>" name="<%=SCMInterfaceKey.PERSON_ID%>"  value="<%=dcmUserId%>">
+                <input type="hidden" id ="<%=SCMInterfaceKey.PERSON_ID%>" name="<%=SCMInterfaceKey.PERSON_ID%>"  value="<%=dcmUserUserId%>">
                 
                 
                 
@@ -446,7 +533,7 @@
                     <tr class=TableTextNote>
                         <td>Region</td>
                         <td>
-                            <select name="<%=SCMInterfaceKey.REGION_ID%>" 
+                            <select id="<%=SCMInterfaceKey.REGION_ID%>" name="<%=SCMInterfaceKey.REGION_ID%>" 
                                     <%
                                                 if (userLevelTypeId != null && !userLevelTypeId.trim().equals("") && userLevelTypeId.equals("3")) {
                                                     out.print("onchange=\"getRegion(1);\"");
@@ -477,8 +564,101 @@
                     </tr>
 
                     <%
-                                if (userLevelTypeId == null || userLevelTypeId.trim().equals("") || userLevelTypeId.equalsIgnoreCase("4") || userLevelTypeId.equalsIgnoreCase("5") ) {
-                                } else  {
+                                if (userLevelTypeId == null || userLevelTypeId.trim().equals("") /*|| userLevelTypeId.equalsIgnoreCase("4") || userLevelTypeId.equalsIgnoreCase("5")*/ ) {
+                                } 
+                                else if (userLevelTypeId.equalsIgnoreCase("4")) { 
+                                    %>
+                                    <tr class=TableTextNote>
+                                        <input type="hidden" id ="supervisorHidden" name="supervisorHidden"  value="true">
+                        <td>Team Leaders</td>
+                        <td>
+                           <select id="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" onchange="" value="">
+                                
+                                <%
+                                   System.out.println("rep teamleaders jsp******  : "+repTeamleaders);
+                                    if(repTeamleaders!=null && repTeamleaders.size()!=0)
+                                    {
+                                        for (int i = 0; i < repTeamleaders.size(); i++)
+                                        {
+                                            RepTeamleaderModel repTeamlead = (RepTeamleaderModel) repTeamleaders.get(i);
+                                             System.out.println("rep teamleader "+((RepTeamleaderModel) repTeamleaders.get(i)).getRepId());
+                                            %>
+                                            <option value = "<%=repTeamlead.getTeamleadId()%>"><%=repTeamlead.getTeamleadName()%></option>
+                                        <%}
+                                    }
+                                    else{
+                                    %>
+                                    <option value="">-----</option>
+                                     <%
+                                    }
+                                    System.out.println("Region TEAMLEADERS : "+regionTeamleaders.size());
+                                    if (regionTeamleaders != null && regionTeamleaders.size() != 0) {
+                                        for (int i = 0; i < regionTeamleaders.size(); i++) {
+                                            DCMUserModel regionTeamlead = (DCMUserModel) regionTeamleaders.get(i);
+                                            System.out.println("IDS for teamleader: " + teamleadId + " " + regionTeamlead.getDcmUserId());
+                                              if (/*teamleadId != null && */teamleadId.compareTo(regionTeamlead.getDcmUserId()) != 0) {
+                                %>
+                                <option value="<%=regionTeamlead.getDcmUserId()%>"
+                                  <%
+                                  System.out.println("regionTeamlead.getDcmUserId() and teamleadId : "+regionTeamlead.getDcmUserId()+"  "+teamleadId);
+                                           
+                                            
+                                  %>
+                                 ><%=regionTeamlead.getUserFullName()%></option>
+                                <%
+                                 }
+                                      }
+                                    }
+                                %>
+                            </select>
+                        </td>
+                    </tr>
+                    <%       } else if (userLevelTypeId.equalsIgnoreCase("5")) { 
+                                    %>
+                                   
+                    <tr class=TableTextNote>
+                        <input type="hidden" id ="supervisorHidden" name="supervisorHidden"  value="false">
+                        <td>Supervisors</td>
+                        <td>
+                            <select id="selectSuper" name="<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>" >
+
+                                <%
+                                    System.out.println("rep supervisors jsp count ******  : " + repSupervisors.size());
+
+                                    if (repSupervisors != null && repSupervisors.size() != 0) {
+                                        for (int i = 0; i < repSupervisors.size(); i++) {
+                                            RepSupervisorModel repSuper = (RepSupervisorModel) repSupervisors.get(i);
+                                            System.out.println("rep supervisor " + ((RepSupervisorModel) repSupervisors.get(i)).getRepId());
+                                %>
+                                <option value ="<%=repSuper.getSupId()%>" ><%=repSuper.getSupName()%></option>
+                                <%}
+                                } else {
+                                %>
+                                <option value="">-----</option>
+                                <%
+                                    }
+                                    System.out.println("region supervisors jsp count ******  : " + regionSupervisors.size());
+                                    if (regionSupervisors != null && regionSupervisors.size() != 0) {
+                                        for (int i = 0; i < regionSupervisors.size(); i++) {
+                                            DCMUserModel regionSuper = (DCMUserModel) regionSupervisors.get(i);
+                                            System.out.println("IDS: " + supId + " " + regionSuper.getDcmUserId());
+                                            if (/*supId != null && */supId.compareTo(regionSuper.getDcmUserId()) != 0) {
+                                %>
+                                <option value="<%=regionSuper.getDcmUserId()%>"
+                                        <%
+                                            System.out.println("regionSuper.getDcmUserId() and supId : " + regionSuper.getDcmUserId() + "  " + supId);
+
+                                        %>
+                                        ><%=regionSuper.getUserFullName()%></option>
+                                <%
+                                            }
+                                        }
+                                    }
+                                %>
+                            </select>
+                        </td>
+                    </tr>
+                                <% } else  {
                                     System.out.println("ESLEsssssssss");
 
                     %>
@@ -681,8 +861,9 @@
 
                         </td>
                     </tr>--%>
-                    <%}
-            }
+                    <%           
+                    }
+                    }
                     %>
                     <tr>
                         <td colspan="2" align="center">
@@ -690,20 +871,20 @@
                             if(confMessage==null ||(confMessage!=null && !confMessage.equalsIgnoreCase("Invalid, This user already created before."))){
                             %>
                             
-                            <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm();">&nbsp;
+                            <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm('empty');">&nbsp;
                             <%
-                            }else if (userLevelTypeId == null || userLevelTypeId.trim().equals("") || userLevelTypeId.equalsIgnoreCase("4") || userLevelTypeId.equalsIgnoreCase("5") ){
+                            }else if (userLevelTypeId != null || !userLevelTypeId.trim().equals("") || userLevelTypeId.equalsIgnoreCase("4") || userLevelTypeId.equalsIgnoreCase("5") ){
                             %>
                             <div style="display:none">
-                             <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm(false);">
+                             <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm('false');">
                             </div>
                             <%
                             } else {
                             %>
                             <div style="display:none">
-                             <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm(true);">
+                             <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm('true');">
                             </div>
-                            <%
+                            <% 
                             }
                             %>
 

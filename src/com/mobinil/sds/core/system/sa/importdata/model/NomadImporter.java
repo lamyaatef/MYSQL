@@ -195,11 +195,11 @@ public class NomadImporter {
                             String updatedDate = lineFields[updateOn];
                             System.out.println("updated before trimming : "+updatedDate);
                             updatedDate = updatedDate.substring(0, updatedDate.indexOf(" "));
-                            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(updatedDate);
-                            String updatedDate2 = new SimpleDateFormat("yyyy-MM-dd").format(date);
-                            System.out.println("Update : "+updatedDate2+" VS>> File Date : "+fileDate);
-                            
-                            if (updatedDate2.compareTo(fileDate)==0)       
+                            //Date date = new SimpleDateFormat("yyyy-MM-dd").parse(updatedDate);
+                            //String updatedDate2 = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                            //System.out.println("Update : "+updatedDate2+" VS>> File Date : "+fileDate);
+                            // updatedDate2
+                            if (updatedDate.compareTo(fileDate)==0)       
                                 NomadFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx/*,fileDate,updateOn*/);
                            }  
                             
