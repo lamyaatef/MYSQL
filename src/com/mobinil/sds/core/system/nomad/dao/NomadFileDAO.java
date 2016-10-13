@@ -165,7 +165,7 @@ public class NomadFileDAO{
     
     
     public static void insertNomadData(Connection con, Statement stat,String[] lineFields,Long fileID, int sellerIndex,int statusIndex/*, String fileDate, int updatedIndex*/) throws ParseException {
-      //  System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
+        System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
         
         
@@ -214,6 +214,7 @@ public class NomadFileDAO{
             stat.execute(strSql);
 
         } catch (Exception e) {
+            System.out.println("EEEE "+e);
                      System.out.println("SQL is " + strSql);
             e.printStackTrace();
         }

@@ -199,7 +199,9 @@ public class NomadImporter {
                             //String updatedDate2 = new SimpleDateFormat("yyyy-MM-dd").format(date);
                             //System.out.println("Update : "+updatedDate2+" VS>> File Date : "+fileDate);
                             // updatedDate2
-                            if (updatedDate.compareTo(fileDate)==0)       
+                            DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+                            if (updatedDate.compareTo(fileDate)==0)    
+                                System.out.println("go INSERT : ");
                                 NomadFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx/*,fileDate,updateOn*/);
                            }  
                             
