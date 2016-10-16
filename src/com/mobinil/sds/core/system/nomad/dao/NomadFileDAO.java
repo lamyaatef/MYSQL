@@ -156,8 +156,10 @@ public class NomadFileDAO{
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     dateFormat.setLenient(false);
     try {
+        System.out.println("in date "+inDate);
       dateFormat.parse(inDate.trim());
     } catch (ParseException pe) {
+        System.out.println("FALSE");
       return false;
     }
     return true;
@@ -192,8 +194,12 @@ public class NomadFileDAO{
             if (i!=sellerIndex)
             //check if String is a Date HH24.MI.SSXFF 
             {
+                System.out.println("not SELLLER "+lineFields[i]);
                 if(isValidDate(lineFields[i]))
+                {
+                    System.out.println("is DATE");
                     concatFields += "to_date('"+lineFields[i]+"', 'YYYY-MM-DD HH24:MI:SS')"+",";
+                }
             
             
                 else concatFields += "'"+lineFields[i]+"'"+",";

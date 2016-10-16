@@ -1344,11 +1344,11 @@ public class SCMHandler {
                     String userId = (String) paramHashMap.get(SCMInterfaceKey.PERSON_ID);
                      //String userId = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
                     String supervisorId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_SUP_ID);
-                    if (supervisorId==null || supervisorId.compareTo("")==0 )
-                        supervisorId = userId;
+                    /*if (supervisorId==null || supervisorId.compareTo("")==0 )
+                        supervisorId = userId;*/
                     String teamleaderId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID);
-                    if (teamleaderId==null || teamleaderId.compareTo("")==0 )
-                        teamleaderId = userId;
+                    /*if (teamleaderId==null || teamleaderId.compareTo("")==0 )
+                        teamleaderId = userId;*/
                     
                     System.out.println("Add IDs - rep/user id "+userId+" supervisor id "+supervisorId+" teamleader id "+teamleaderId);
 
@@ -1386,7 +1386,7 @@ public class SCMHandler {
                     dcmUserDetatil.setUserEmail(userEmail);
                     dcmUserDetatil.setUserMobile(userMobile);
 
-                    if (supervisorId.compareTo("")!=0)
+                    if (supervisorId!=null && supervisorId.compareTo("")!=0 && supervisorId.compareTo("--")!=0)
                     {
                         //repSuper = RepManagementDAO.getRepSupervisor(con, userId, supervisorId);
                         if (!RepManagementDAO.checkIfRepSupervisor(con, userId, supervisorId)/*repSuper==null*/)
@@ -1397,7 +1397,7 @@ public class SCMHandler {
                             }
                         
                     }
-                    if (teamleaderId.compareTo("")!=0)
+                    if (teamleaderId!=null && teamleaderId.compareTo("")!=0 && teamleaderId.compareTo("--")!=0)
                     {
                         //repTeamlead = RepManagementDAO.getRepTeamleader(con, userId, teamleaderId);
                         if (!RepManagementDAO.checkIfRepTeamleader(con, userId, teamleaderId)/*repTeamlead==null*/)
