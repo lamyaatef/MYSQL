@@ -197,7 +197,7 @@ public class NomadFileDAO{
                 System.out.println("not SELLLER "+lineFields[i]);
                 if(isValidDate(lineFields[i]))
                 {
-                    System.out.println("is DATE");
+                    System.out.println("is DATE TRUE");
                     concatFields += "to_date('"+lineFields[i]+"', 'YYYY-MM-DD HH24:MI:SS')"+",";
                 }
             
