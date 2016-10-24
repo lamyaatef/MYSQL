@@ -156,26 +156,25 @@ public class NomadFileDAO{
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     dateFormat.setLenient(false);
     try {
-        System.out.println("in date "+inDate);
+        //System.out.println("in date "+inDate);
       dateFormat.parse(inDate.trim());
     } catch (ParseException pe) {
-        System.out.println("FALSE");
+        //System.out.println("FALSE");
       return false;
     }
     return true;
   }
     
     
-    public static void insertNomadData(Connection con, Statement stat,String[] lineFields,Long fileID, int sellerIndex,int statusIndex/*, String fileDate, int updatedIndex*/) throws ParseException {
-        System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
+    public static void insertNomadData(Connection con, Statement stat,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
+        //System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
-        
-        
+        String strSql = "";
+        System.out.println("go to record no. "+count);
                             
-        
+        try {
         for (int i=0; i<lineFields.length;i++)
         {
-            
             if (i==sellerIndex) 
             {
                 if(lineFields[i].contains("M"))
@@ -184,6 +183,7 @@ public class NomadFileDAO{
                 
                 else concatFields += "'"+lineFields[i]+"'"+",";
             }
+            // if not VALID, return
             if (i==statusIndex) 
             {
                 //if(lineFields[i].compareToIgnoreCase("INVALID")==0 || lineFields[i].compareToIgnoreCase("CREATING")==0 || lineFields[i].compareToIgnoreCase("CREATED")==0 || lineFields[i].compareToIgnoreCase("PROGRESS")==0 || lineFields[i].compareToIgnoreCase("UPLOADING")==0 || lineFields[i].compareToIgnoreCase("VALID_PENDING_VERIFICATION")==0)
@@ -194,34 +194,36 @@ public class NomadFileDAO{
             if (i!=sellerIndex)
             //check if String is a Date HH24.MI.SSXFF 
             {
-                System.out.println("not SELLLER "+lineFields[i]);
+                
                 if(isValidDate(lineFields[i]))
                 {
-                    System.out.println("is DATE TRUE");
+                    //System.out.println("is DATE TRUE");
                     concatFields += "to_date('"+lineFields[i]+"', 'YYYY-MM-DD HH24:MI:SS')"+",";
                 }
             
             
                 else concatFields += "'"+lineFields[i]+"'"+",";
             }
+           
         }
-        //System.out.println("after for loop");
+        
         concatFields = concatFields.substring(0, concatFields.length()-1);
             
-        //System.out.println("fields concatenated : "+concatFields);
         
-        String strSql = "";
-        try {
+        
+        System.out.println("Line text : "+concatFields);
+        
             /*Contract Number	Type	Source	MSISDN	SIM number	Id number	Seller Username	Seller	Sales channel	Channel type	Shop Username	Shop	Received on	Update on	Updated By	Status	Comment	Reject cause	Line type	Bucket
 */
              strSql = "insert into gen_dcm_nomad ( GEN_DCM_NOMAD_FILE_ID, CONTRACT_NUMBER, TYPE, SOURCE ,MSISDN, SIM_NUMBER, ID_NUMBER, SELLER_USERNAME, SELLER, SALES_CHANNEL,CHANNEL_TYPE,SHOP_USERNAME,SHOP,RECEIVED_ON, UPDATE_ON, UPDATED_BY, STATUS, comment_text,REJECT_CAUSE,LINE_TYPE,BUCKET) values ("+fileID+","+concatFields+")";
-             System.out.println("ACTUAL Insert NOMAD : "+strSql);
-  
+             //System.out.println("ACTUAL Insert NOMAD : "+strSql);
             stat.execute(strSql);
+            System.out.println("query "+strSql);
+            System.out.println("............INSERTED........"+count);
 
         } catch (Exception e) {
-            System.out.println("EEEE "+e);
-                     System.out.println("SQL is " + strSql);
+            
+                     System.out.println("............NOT INSERTED........"+count+" "+"EXCEPTION in " + strSql);
             e.printStackTrace();
         }
         

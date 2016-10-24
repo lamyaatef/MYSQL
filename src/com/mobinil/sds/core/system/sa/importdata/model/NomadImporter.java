@@ -135,7 +135,7 @@ public class NomadImporter {
                               //      System.out.println("LOOP fieldUpdatedOn[i] : "+fieldUpdatedOn[i]);
                                     //System.out.println("updated on = "+ UPDATED_ON);
                                    // System.out.println("selleer user name ="+ SELLER_USERNAME);
-                                    System.out.println("FIELD : --- "+fieldUpdatedOn[i]);
+                                    //System.out.println("FIELD : --- "+fieldUpdatedOn[i]);
                                     if (fieldUpdatedOn[i].compareToIgnoreCase(UPDATED_ON)==0)
                                     { 
                                         updateOn = i;
@@ -159,10 +159,11 @@ public class NomadImporter {
 
                        // System.out.println("line issss " + line);
                         if (count > 1) {//!=0
-                            System.out.println("count > 1");
+                            System.out.println("^^^^^^^^^^^^^^^^^^^\n");
+                            //System.out.println("count > 1");
                             String fields = line;
                             String v1 = fields;
-                            System.out.println("V1 : "+v1);
+                            //System.out.println("V1 : "+v1);
                             String[] lineFields = null;
                             
                             if (v1.contains(","))
@@ -176,7 +177,7 @@ public class NomadImporter {
                            // System.out.println("lineFields.length "+lineFields.length+" updated on index : "+updateOn);
                            if(lineFields!=null)
                            {
-                              System.out.println("LINE  %%%% "+lineFields);
+                              //System.out.println("LINE  %%%% "+lineFields);
                             if (lineFields.length <10 )
                             {
                               //  System.out.println("continue....");
@@ -184,7 +185,7 @@ public class NomadImporter {
                             }
                             for(int i=0; i< lineFields.length ;i++)
                             {
-                                System.out.println("lineFields[i] "+lineFields[i]);
+                                //System.out.println("lineFields[i] "+lineFields[i]);
                                 if (lineFields[i].contains("+AC0-"))
                                     lineFields[i] = lineFields[i].replace("+AC0-", "-");
                             }
@@ -193,16 +194,23 @@ public class NomadImporter {
                                 v1 = "";
                             
                             String updatedDate = lineFields[updateOn];
-                            System.out.println("updated before trimming : "+updatedDate);
+                            //System.out.println("updated before trimming : "+updatedDate);
                             updatedDate = updatedDate.substring(0, updatedDate.indexOf(" "));
-                            //Date date = new SimpleDateFormat("yyyy-MM-dd").parse(updatedDate);
+                            
+
+//Date date = new SimpleDateFormat("yyyy-MM-dd").parse(updatedDate);
                             //String updatedDate2 = new SimpleDateFormat("yyyy-MM-dd").format(date);
                             //System.out.println("Update : "+updatedDate2+" VS>> File Date : "+fileDate);
                             // updatedDate2
                             DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-                            if (updatedDate.compareTo(fileDate)==0)    
-                                System.out.println("go INSERT : ");
-                                NomadFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx/*,fileDate,updateOn*/);
+
+                            
+                            if (updatedDate.compareTo(fileDate)==0)
+                            {
+                                
+                                NomadFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx,count/*,fileDate,updateOn*/);
+                                System.out.println("^^^^^^^^^^end^^^^^^^^^");
+                            }
                            }  
                             
                         }

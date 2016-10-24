@@ -102,7 +102,7 @@ public class RepManagementDAO {
             +"		DCM_USER.DCM_USER_ID=DCM_USER_DETAIL.USER_ID AND "
             +"		DCM_USER.USER_LEVEL_TYPE_ID=DCM_USER_LEVEL_TYPE.USER_LEVEL_TYPE_ID AND "
             +"		DCM_USER.USER_STATUS_TYPE_ID=1 AND DCM_USER.REGION_ID=DCM_REGION.REGION_ID "
-            +"		AND DCM_USER.USER_LEVEL_TYPE_ID IN(3,4) "
+            +"		AND DCM_USER.USER_LEVEL_TYPE_ID IN(3,4,5) "
             +"	) x"
             +" "+sqlSearch +"   "
             +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY ROWNUM ";

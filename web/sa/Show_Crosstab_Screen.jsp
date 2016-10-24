@@ -74,9 +74,15 @@ Export Lists for POS Code
     out.println("<input class=button type=\"button\" name=\"View\" value=\"   Export   \" ");
     /*out.print(" onclick=\"if (checkBeforeView(document.SheetRevenue."+AdministrationInterfaceKey.CONTROL_INPUT_YEAR+")){ if (checkMonthInYear()==true){ document.SheetRevenue."+InterfaceKey.HASHMAP_KEY_ACTION+".value='"+
     AdministrationInterfaceKey.ACTION_EXPORT_LISTS_CROSSTAB+"'; document.SheetRevenue.submit();} } else alert('Please Enter A Valid Year');\">");*/
+    
+    
 
-    out.print(" onclick=\"{ document.SheetRevenue."+InterfaceKey.HASHMAP_KEY_ACTION+".value='"+
-    AdministrationInterfaceKey.ACTION_EXPORT_LISTS_CROSSTAB+"'; document.SheetRevenue.submit();} \">");
+    out.print(" onclick=\"if (checkBeforeSubmit(document.SheetRevenue."+AdministrationInterfaceKey.CONTROL_INPUT_POS_CODE+")==true){document.SheetRevenue."+InterfaceKey.HASHMAP_KEY_ACTION+".value='"+
+    AdministrationInterfaceKey.ACTION_EXPORT_LISTS_CROSSTAB+"'; document.SheetRevenue.submit();} else alert('Please Enter A Valid POS Code');\">");
+
+    
+    /*out.print(" onclick=\"{ document.SheetRevenue."+InterfaceKey.HASHMAP_KEY_ACTION+".value='"+
+    AdministrationInterfaceKey.ACTION_EXPORT_LISTS_CROSSTAB+"'; document.SheetRevenue.submit();} \">");*/
     
     
     out.println("</center>");    
@@ -171,6 +177,23 @@ function IsNumeric(sText)
 
 
 <script>
+    function checkBeforeSubmit(code)
+{
+  //  alert("checkBeforeView");
+ var codeValue  =code.value;
+ if (codeValue!='' && codeValue.length>=4)
+ {
+    // alert("checkBeforeView TRUE");
+            return true;
+ } 
+ else {
+  //   alert("checkBeforeView FALSE");
+     return false;
+ } 
+}
+    
+    
+    
 function checkBeforeView(year)
 {
   //  alert("checkBeforeView");
