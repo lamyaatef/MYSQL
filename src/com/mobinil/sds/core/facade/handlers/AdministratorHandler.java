@@ -1326,6 +1326,14 @@ case SHOW_NOMAD_FILE_LIST:
 	    System.out.println("FILE ID ISSSSSSSSSSSS"+fieldId);
             //String  strStatus =(String) paramHashMap.get("statusStr");
             PaymentHistoryFileDAO.delHistoryFileById(con, fieldId);
+            
+            
+            
+             System.out.println("in LIST_PAYMENT_LEVEL_HISTORY_FILES");
+                    strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+                    dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,strUserID);
+                    Vector files =PaymentHistoryFileDAO.getallFiles(con,strUserID);
+	            dataHashMap.put(AdministrationInterfaceKey.VECTOR_FILES,files);
         }
         
         case EXPORT_MONTH_LIST_FILE:
@@ -1368,6 +1376,14 @@ case SHOW_NOMAD_FILE_LIST:
             //String  strStatus =(String) paramHashMap.get("statusStr");
             MonthListFileDAO.delHistoryFileById(con, fieldId);
             System.out.println("FINISHED DELETING..");
+            
+            
+            System.out.println("in SHOW_MONTH_LIST_FILES");
+                    strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+                    dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,strUserID);
+                    Vector files =MonthListFileDAO.getallFiles(con,strUserID);
+	            dataHashMap.put(AdministrationInterfaceKey.VECTOR_FILES,files);
+            
         }
         
         break;

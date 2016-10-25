@@ -29,6 +29,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
     <LINK REL=STYLESHEET TYPE="text/css" HREF="<%out.print(appName);%>/resources/css/Template1.css">
       <SCRIPT language=JavaScript src="../resources/js/FormCheck.js" type=text/javascript></SCRIPT>
+      <script src="../resources/js/jquery-1.11.3.js"></script>
 <title>
 Save List of the Month
 </title>
@@ -149,7 +150,7 @@ Save List of the Month
     out.println("<center>");
     out.println("<input class=button type=\"button\" name=\"View\" value=\"   Save   \" ");
     out.print(" onclick=\"if (checkBeforeView(document.SheetRevenue."+AdministrationInterfaceKey.CONTROL_INPUT_YEAR+")){ if (checkMonthInYear()==true){ document.SheetRevenue."+InterfaceKey.HASHMAP_KEY_ACTION+".value='"+
-    AdministrationInterfaceKey.ACTION_SAVE_LIST+"'; document.SheetRevenue.submit();} } else alert('Please Enter A Valid Year');\">");
+    AdministrationInterfaceKey.ACTION_SAVE_LIST+"'; document.SheetRevenue.submit();} } else alert('Please Enter A Valid Year');this.disabled=true;\">");
 
     
     
@@ -182,6 +183,7 @@ Save List of the Month
 
 
 <script>
+
   function checkMonthInYear(){
   //    alert("checkMonthInYear");
   var bool = true;    
