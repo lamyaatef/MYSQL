@@ -49,7 +49,7 @@
         Vector<PaymentModel> DataVec = (Vector<PaymentModel>) dataHashMap.get(PaymentInterfaceKey.VECTOR_SEARCH_CLOSED_PAYMENT);
 
 
-
+String appName = request.getContextPath();
 
     %>
 
@@ -58,6 +58,7 @@
     <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <LINK REL="STYLESHEET" TYPE="text/css" HREF="<%out.print(appName);%>/resources/css/Template1.css">
     <script>
         function searchClosedPayment()
         {

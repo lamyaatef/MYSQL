@@ -114,7 +114,7 @@ Save Payment Level History
     out.println("<center>");
     out.println("<input class=button id=\"View\" type=\"button\" name=\"View\" value=\"   Save   \" ");
     out.print(" onclick=\"if (checkBeforeView(document.SheetRevenue."+AdministrationInterfaceKey.CONTROL_INPUT_YEAR+")){ if (checkMonthInYear()==true){ document.SheetRevenue."+InterfaceKey.HASHMAP_KEY_ACTION+".value='"+
-    AdministrationInterfaceKey.ACTION_SAVE_PAYMENT_LEVEL_HISTORY+"'; document.SheetRevenue.submit();} } else alert('Please Enter A Valid Year'); this.disabled=true;\">");
+    AdministrationInterfaceKey.ACTION_SAVE_PAYMENT_LEVEL_HISTORY+"'; document.SheetRevenue.submit();} } else alert('Please Enter A Valid Year'); this.disabled=true;alert('Please Wait');\">");
 
     
     

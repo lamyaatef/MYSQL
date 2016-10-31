@@ -51,7 +51,7 @@
                     document.UploadFile.attach_id.value='<%=attach_seq%>';
                     document.UploadFile.submit();
                 }
-             
+             this.disabled=true;
             }
             var num=1;
             var file_path="";

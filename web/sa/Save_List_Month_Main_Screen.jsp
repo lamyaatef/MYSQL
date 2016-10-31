@@ -150,7 +150,7 @@ Save List of the Month
     out.println("<center>");
     out.println("<input class=button type=\"button\" name=\"View\" value=\"   Save   \" ");
     out.print(" onclick=\"if (checkBeforeView(document.SheetRevenue."+AdministrationInterfaceKey.CONTROL_INPUT_YEAR+")){ if (checkMonthInYear()==true){ document.SheetRevenue."+InterfaceKey.HASHMAP_KEY_ACTION+".value='"+
-    AdministrationInterfaceKey.ACTION_SAVE_LIST+"'; document.SheetRevenue.submit();} } else alert('Please Enter A Valid Year');this.disabled=true;\">");
+    AdministrationInterfaceKey.ACTION_SAVE_LIST+"'; document.SheetRevenue.submit();} } else alert('Please Enter A Valid Year');this.disabled=true; alert('Please Wait');\">");
 
     
     

@@ -15,6 +15,7 @@
 <%
             HashMap dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
             Vector<RepSupervisorModel> supervisorReps=new Vector();
+            Vector<RepTeamleaderModel> repTeamleaders=new Vector();
             DCMUserDetailModel supDetails=new DCMUserDetailModel();
             String appName = request.getContextPath();
             String formName = "supDetailsForm";
@@ -22,7 +23,7 @@
             supervisorReps=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_SUP_REPS);
             supDetails=(DCMUserDetailModel)dataHashMap.get(SCMInterfaceKey.REP_SUP_DETAILS);
             String confMessage=(String)dataHashMap.get(SCMInterfaceKey.CONFIRMATION_MESSAGE);
-
+            repTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REP_TEAMLEADS);
 
 
 %>
@@ -52,6 +53,12 @@
 
             }
 
+            function showTeamleadDetail(dcmUserId,userLevelTypeId){
+                        document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ID%>.value=dcmUserId;
+                        document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
+                        document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_TEAMLEAD_DETAIL%>";
+                        document.<%=formName%>.submit();
+            }
             function showRepDetail(dcmUserId,userLevelTypeId){
                         document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ID%>.value=dcmUserId;
                         document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
@@ -63,6 +70,22 @@
                 document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_UNASSIGN_REP_TO_SUPERVISOR%>";
                 document.<%=formName%>.submit();
             }
+            function submitToAssignTeamleader(){
+                if(<%=repTeamleaders==null?0:repTeamleaders.size()%><2){
+                    document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_REP_TEAMLEAD_ASSIGN%>";
+                    document.<%=formName%>.submit();
+                }
+                else{
+                    alert("Rep already has 2 teamleaders.");
+                }
+
+            }
+            function unAssignTeamlead(teamleadId){
+               document.<%=formName%>.<%=SCMInterfaceKey.TEAMLEAD_ID%>.value=teamleadId;
+               document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_UNASSIGN_REP_FROM_TEAMLEAD%>";
+               document.<%=formName%>.submit();
+            }
+
 
        </script>
     </head>
@@ -85,6 +108,7 @@
                 <input type="hidden" name="<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>" value="<%=supDetails.getUserLevelTypeId()%>">
                 <input type="hidden" name="<%=SCMInterfaceKey.REGION_ID%>" value="<%=supDetails.getRegionId()%>">
                 <input type="hidden" name="<%=SCMInterfaceKey.REP_ID%>" value="-1">
+                <input type="hidden" name="<%=SCMInterfaceKey.TEAMLEAD_ID%>" value="-1">
                 <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="50%" border=1>
 
 
@@ -140,8 +164,48 @@
                             </font>
                         </td>
                     </tr>
+                    
+                    <tr class=TableTextNote>
+                        <td align="left">Team Leader</td>
+                        <td align="left">
+                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px">
+
+
+                                    <%
+                                    if(repTeamleaders!=null&&repTeamleaders.size()!=0){
+                                        for(int i=0;i<repTeamleaders.size();i++){
+                                           RepTeamleaderModel repTeamleader=new RepTeamleaderModel();
+                                            repTeamleader=(RepTeamleaderModel)repTeamleaders.get(i);
+                                    %>
+                                    <b>-</b>&nbsp;<a href="javascript:showTeamleadDetail(<%=repTeamleader.getTeamleadId()%>,5);"><%=repTeamleader.getTeamleadName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignTeamlead(<%=repTeamleader.getTeamleadId()%>);">Unassign</a></font><br>
+
+                                    <%
+                                    }
+                                        %>
+
+
+                                        
+                                    <%
+                                    }else{
+                                        %>
+                                        
+                                        <b>No Team Leaders Assigned.</b>
+
+                                    <%
+                                        }
+                                        %>
+
+
+                            </font>
+                        </td>
+                    </tr>
                     <tr>
-                        <td colspan="2" align="center"><input type="button" name="submitButton" class="button" value="Assign Rep" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="SubmitToAssignRep();">&nbsp;<input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="doBack();"></td>
+                        
+                        <td colspan="2" align="center">
+                            <input type="button" name="submitButton" class="button" value="Assign to Teamleader" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitToAssignTeamleader();">
+                            &nbsp;
+                            <input type="button" name="submitButton" class="button" value="Assign Rep" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="SubmitToAssignRep();">
+                            &nbsp;<input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="doBack();"></td>
                     </tr>
                 </table>
 

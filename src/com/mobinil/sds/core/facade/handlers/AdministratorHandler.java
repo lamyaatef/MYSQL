@@ -1335,7 +1335,7 @@ case SHOW_NOMAD_FILE_LIST:
                     Vector files =PaymentHistoryFileDAO.getallFiles(con,strUserID);
 	            dataHashMap.put(AdministrationInterfaceKey.VECTOR_FILES,files);
         }
-        
+        break;
         case EXPORT_MONTH_LIST_FILE:
           {
              // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);

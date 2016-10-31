@@ -106,6 +106,7 @@ public class RepManagementDAO {
             +"	) x"
             +" "+sqlSearch +"   "
             +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY ROWNUM ";
+        System.out.println("Search Rep Query : "+sqlStatement);
         dcmUser= DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class, "fillForRepManagementSearch", con);
 
         return dcmUser;

@@ -137,7 +137,7 @@ public class PaymentHistoryFileDAO {
     
     public static Vector getallFiles(Connection con, String userId) {
         Vector vec = new Vector();
-        System.out.println("getallFiles ");
+        System.out.println("getallFiles Payment History");
         try {
             Statement stat = con.createStatement();
             stat.setFetchSize(0);
