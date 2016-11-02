@@ -14,12 +14,15 @@
         %>
 <%
             HashMap dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
-            Vector<RepTeamleaderModel> teamleaderReps=new Vector();
+            Vector<TeamleaderRepsModel> teamleaderReps=new Vector();
+            Vector<TeamleaderSupervisorsModel> teamleaderSupers=new Vector();
             DCMUserDetailModel teamleadDetails=new DCMUserDetailModel();
             String appName = request.getContextPath();
             String formName = "teamleadDetailsForm";
             String userId = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
             teamleaderReps=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_TEAMLEAD_REPS);
+            teamleaderSupers=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_TEAMLEAD_SUPERVISORS);
+            System.out.println("jsp: teamleaderSupers "+teamleaderSupers.size());
             teamleadDetails=(DCMUserDetailModel)dataHashMap.get(SCMInterfaceKey.REP_TEAMLEAD_DETAILS);
             String confMessage=(String)dataHashMap.get(SCMInterfaceKey.CONFIRMATION_MESSAGE);
 
@@ -45,6 +48,14 @@
             document.<%=formName%>.submit();
 
             }
+            
+            
+            function SubmitToAssignSup(){
+
+            document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_TEAMLEADER_SUPERVISOR_ASSIGN%>";
+            document.<%=formName%>.submit();
+
+            }
 
             function doBack(){
             document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_REP_MANAGEMENT%>";
@@ -57,6 +68,18 @@
                         document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
                         document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_REP_DETAIL%>";
                         document.<%=formName%>.submit();
+            }
+            function showSupDetail(dcmUserId,userLevelTypeId){
+                        document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ID%>.value=dcmUserId;
+                        document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
+                        document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_SUP_DETAIL%>";
+                        document.<%=formName%>.submit();
+            }
+            //to be done now: change to unassign sup from teamlead
+            function unAssignSup(supId){
+                document.<%=formName%>.<%=SCMInterfaceKey.SUP_ID%>.value=supId;
+                document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_UNASSIGN_SUP_FROM_TEAMLEAD%>";
+                document.<%=formName%>.submit();
             }
             function unAssignRep(repId){
                 document.<%=formName%>.<%=SCMInterfaceKey.REP_ID%>.value=repId;
@@ -85,6 +108,7 @@
                 <input type="hidden" name="<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>" value="<%=teamleadDetails.getUserLevelTypeId()%>">
                 <input type="hidden" name="<%=SCMInterfaceKey.REGION_ID%>" value="<%=teamleadDetails.getRegionId()%>">
                 <input type="hidden" name="<%=SCMInterfaceKey.REP_ID%>" value="-1">
+                <input type="hidden" name="<%=SCMInterfaceKey.SUP_ID%>" value="-1">
                 <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="50%" border=1>
 
 
@@ -120,12 +144,14 @@
 
                                 <ul>
                                     <%
+                                    
                                     if(teamleaderReps!=null&&teamleaderReps.size()!=0){
+                                        
                                         for(int i=0;i<teamleaderReps.size();i++){
-                                           RepTeamleaderModel repTeamleader=new RepTeamleaderModel();
-                                            repTeamleader=(RepTeamleaderModel)teamleaderReps.get(i);
+                                           TeamleaderRepsModel repTeamleader=new TeamleaderRepsModel();
+                                            repTeamleader=(TeamleaderRepsModel)teamleaderReps.get(i);
                                     %>
-                                    <li><a href="javascript:showRepDetail(<%=repTeamleader.getRepId()%>,3);"><%=repTeamleader.getTeamleadName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignRep(<%=repTeamleader.getRepId()%>);">Unassign</a></font></li>
+                                    <li><a href="javascript:showRepDetail(<%=repTeamleader.getRepId()%>,3);"><%=repTeamleader.getRepName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignRep(<%=repTeamleader.getRepId()%>);">Unassign</a></font></li>
                                     <%
                                     }
                                         %>
@@ -140,8 +166,46 @@
                             </font>
                         </td>
                     </tr>
+                    
+                    <tr class=TableTextNote>
+                        <td align="left">Supervisor</td>
+                        <td align="left">
+                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px">
+
+                                <ul>
+                                    <%
+                                    
+                                    if(teamleaderSupers!=null&&teamleaderSupers.size()!=0){
+                                        
+                                        for(int i=0;i<teamleaderSupers.size();i++){
+                                           TeamleaderSupervisorsModel teamleadSupervisor=new TeamleaderSupervisorsModel();
+                                            teamleadSupervisor=(TeamleaderSupervisorsModel)teamleaderSupers.get(i);
+                                    
+                                    %>
+                                    <li><a href="javascript:showSupDetail(<%=teamleadSupervisor.getSupId()%>,4);"><%=teamleadSupervisor.getSupName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignSup(<%=teamleadSupervisor.getSupId()%>);">Unassign</a></font></li>
+                                    <%
+                                    }
+                                        %>
+                                </ul>
+                                    <%
+                                    }else{
+                                        out.print("No Supervisor Assigned.");
+                                        }
+                                    %>
+
+
+                            </font>
+                        </td>
+                    </tr>
+                   
+                    
                     <tr>
-                        <td colspan="2" align="center"><input type="button" name="submitButton" class="button" value="Assign Rep" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="SubmitToAssignRep();">&nbsp;<input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="doBack();"></td>
+                        <td colspan="2" align="center">
+                            <input type="button" name="submitButton" class="button" value="Assign Rep" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="SubmitToAssignRep();">
+                            &nbsp;
+                            <input type="button" name="submitButton" class="button" value="Assign Supervisor" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="SubmitToAssignSup();">
+                            &nbsp;
+                            <input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="doBack();"></td>
                     </tr>
                 </table>
 

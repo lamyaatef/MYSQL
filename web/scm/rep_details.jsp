@@ -228,7 +228,7 @@
                                     }else{
                                         %>
                                         
-                                        <b>No Supervisors Assigned.</b>
+                                        <b>No Supervisor Assigned.</b>
 
                                     <%
                                         }
@@ -262,7 +262,7 @@
                                     }else{
                                         %>
                                         
-                                        <b>No Team Leaders Assigned.</b>
+                                        <b>No Team Leader Assigned.</b>
 
                                     <%
                                         }
@@ -285,9 +285,9 @@
 --%>
                     <tr>
                         <td colspan="2" align="center">
-                            <input type="button" name="submitButton" class="button" value="Assign to Teamleader" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitToAssignTeamleader();">
+                            <input type="button" name="submitButton" class="button" value="Assign Teamleader" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitToAssignTeamleader();">
                             &nbsp;
-                            <input type="button" name="submitButton" class="button" value="Assign to Supervisor" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitToAssignSupervisor();">
+                            <input type="button" name="submitButton" class="button" value="Assign Supervisor" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitToAssignSupervisor();">
                             &nbsp;
                             <input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="doBack();">
                         </td>

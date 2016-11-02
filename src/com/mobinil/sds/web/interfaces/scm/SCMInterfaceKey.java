@@ -128,6 +128,7 @@ public class SCMInterfaceKey {
     public static final String ACTION_VIEW_REP_DETAIL = "view_rep_detail";
     public static final String ACTION_VIEW_SUP_DETAIL = "view_sup_detail";
     public static final String ACTION_VIEW_TEAMLEAD_DETAIL = "view_teamlead_detail";
+    
     public static final String VECTOR_ALL_REP_SUPERVISORS = "rep_supervisors";
     public static final String VECTOR_ALL_REP_TEAMLEADS = "rep_teamleaders";
     public static final String REP_POS_GROUP = "rep_pos_group";
@@ -157,6 +158,7 @@ public class SCMInterfaceKey {
     public static final String ACTION_ASSIGN_REP_TO_SUP = "assign_rep_to_sup";
     public static final String ACTION_ASSIGN_REP_TO_TEAMLEAD = "assign_rep_to_teamlead";
     public static final String ACTION_UNASSIGN_REP_FROM_SUP = "unassign_rep_from_sup";
+    public static final String ACTION_UNASSIGN_SUP_FROM_TEAMLEAD = "unassign_sup_from_teamlead";
    //public static final String ACTION_UNASSIGN_REP_FROM_TEAM = "unassign_rep_from_teamlead";
     public static final String ACTION_UNASSIGN_REP_FROM_TEAMLEAD = "unassign_rep_from_teamlead";
     public static final String VECTOR_ALL_REGION_SUPERVISORS = "vector_all_region_supervisors";
@@ -166,14 +168,25 @@ public class SCMInterfaceKey {
     public static final String SUP_ID = "sup_id";
     public static final String TEAMLEAD_ID = "teamlead_id";
     public static final String VECTOR_ALL_SUP_REPS = "vector_all_sup_reps";
+    public static final String VECTOR_ALL_SUP_TEAMLEADERS = "vector_all_sup_teamleaders";
+    
+    public static final String VECTOR_SUP_REPS = "vector_sup_reps";
+    public static final String VECTOR_SUP_TEAMLEADERS = "vector_sup_teamleaders";
+    
     public static final String VECTOR_ALL_TEAMLEAD_REPS = "vector_all_teamlead_reps";
+    public static final String VECTOR_ALL_TEAMLEAD_SUPERVISORS = "vector_all_teamlead_supervisors";
     public static final String VECTOR_ALL_REGION_REPS = "vector_all_region_reps";
     public static final String ACTION_ASSIGN_REP_TO_SUPERVISOR = "assign_rep_to_supervisor";
+    public static final String ACTION_ASSIGN_TEAMLEAD_TO_SUPERVISOR = "assign_teamleader_to_supervisor";
     public static final String ACTION_ASSIGN_REP_TO_TEAMLEADER = "assign_rep_to_teamleader";
+    public static final String ACTION_ASSIGN_SUP_TO_TEAMLEADER = "assign_sup_to_teamleader";
     public static final String ACTION_SUPERVISOR_REP_ASSIGN = "supervisor_rep_assign";
+    public static final String ACTION_SUPERVISOR_TEAMLEAD_ASSIGN = "supervisor_teamlead_assign";
     public static final String ACTION_TEAMLEADER_REP_ASSIGN = "teamleader_rep_assign";
+    public static final String ACTION_TEAMLEADER_SUPERVISOR_ASSIGN = "teamleader_supervisor_assign";
     public static final String REP_ID = "rep_id";
     public static final String ACTION_UNASSIGN_REP_TO_SUPERVISOR = "unassign_rep_to_supervisor";
+    public static final String ACTION_UNASSIGN_TEAMLEAD_TO_SUPERVISOR = "unassign_teamleader_to_supervisor";
     public static final String ACTION_UNASSIGN_REP_TO_TEAMLEADER = "unassign_rep_to_teamleader";
     //Rep-Sup Relation --End
 //Paging --Start

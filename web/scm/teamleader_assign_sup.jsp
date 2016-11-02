@@ -16,11 +16,13 @@
             String appName = request.getContextPath();
             String formName = "repAssignTeamleaderForm";
             String userId = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
-            Vector<DCMUserModel> reps=new Vector();
+            //Vector<DCMUserModel> reps=new Vector();
+            Vector<DCMUserModel> supervisors=new Vector();
 
             String teamleadId=(String)dataHashMap.get(SCMInterfaceKey.DCM_USER_ID);
             String userLevelTypeId=(String)dataHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
-            reps=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_REPS);
+            //reps=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_REPS);
+            supervisors=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS);
             String regionId=(String)dataHashMap.get(SCMInterfaceKey.REGION_ID);
             String confMessage=(String)dataHashMap.get(SCMInterfaceKey.CONFIRMATION_MESSAGE);
 
@@ -39,13 +41,13 @@
         <script language="JavaScript">
 
             function submitAssignForm(){
-                supId=document.<%=formName%>.<%=SCMInterfaceKey.REP_ID%>.value
+                supId=document.<%=formName%>.<%=SCMInterfaceKey.SUP_ID%>.value;
 
             if(supId==""){
-                alert("Please, choose rep.")
+                alert("Please, choose supervisor.")
                 return;
             }
-            document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_ASSIGN_REP_TO_TEAMLEADER%>";
+            document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_ASSIGN_SUP_TO_TEAMLEADER%>";
             document.<%=formName%>.submit();
 
             }
@@ -62,7 +64,7 @@
     <div align="center">
             <br>
             <br>
-            <h2>Assign Rep to Team Leader</h2>
+            <h2>Assign Supervisor to Team Leader</h2>
             <br>
             <br>
 
@@ -78,19 +80,19 @@
                 <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="40%" border="1">
 
                     <tr class=TableTextNote>
-                        <td align=center>Rep</td>
+                        <td align=center>Supervisor</td>
                     </tr>
 
                     <tr class="TableTextNote">
                         <td align="center">
-                             <select name="<%=SCMInterfaceKey.REP_ID%>">
+                             <select name="<%=SCMInterfaceKey.SUP_ID%>">
                                 <option value="">-----</option>
                             <%
-                                        if(reps!=null && reps.size()!=0){
-                                        for (int i = 0; i < reps.size(); i++) {
-                                            DCMUserModel rep= (DCMUserModel) reps.get(i);
+                                        if(supervisors!=null && supervisors.size()!=0){
+                                        for (int i = 0; i < supervisors.size(); i++) {
+                                            DCMUserModel sup= (DCMUserModel) supervisors.get(i);
                             %>
-                            <option value="<%=rep.getDcmUserId()%>"><%=rep.getUserFullName()%></option>
+                            <option value="<%=sup.getDcmUserId()%>"><%=sup.getUserFullName()%></option>
                             <%
                                         }
                                         }
@@ -99,7 +101,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="center" ><input type="button" class="button" value="Assign Rep" onclick="submitAssignForm();">&nbsp;<input type="button" class="button" value="Back" onclick="doBack();"></td>
+                        <td align="center" ><input type="button" class="button" value="Assign Supervisor" onclick="submitAssignForm();">&nbsp;<input type="button" class="button" value="Back" onclick="doBack();"></td>
                     </tr>
                 </table>
             </form>

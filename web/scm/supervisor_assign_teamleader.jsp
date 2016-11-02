@@ -14,13 +14,13 @@
 <%
             HashMap dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
             String appName = request.getContextPath();
-            String formName = "repAssignTeamleaderForm";
+            String formName = "repAssignSupervisorForm";
             String userId = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
-            Vector<DCMUserModel> reps=new Vector();
+            Vector<DCMUserModel> teamleaders=new Vector();
 
-            String teamleadId=(String)dataHashMap.get(SCMInterfaceKey.DCM_USER_ID);
+            String supId=(String)dataHashMap.get(SCMInterfaceKey.DCM_USER_ID);
             String userLevelTypeId=(String)dataHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
-            reps=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_REPS);
+            teamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_TEAMLEADERS);
             String regionId=(String)dataHashMap.get(SCMInterfaceKey.REGION_ID);
             String confMessage=(String)dataHashMap.get(SCMInterfaceKey.CONFIRMATION_MESSAGE);
 
@@ -34,24 +34,24 @@
         <LINK REL=STYLESHEET TYPE="text/css" HREF="<%=appName%>/resources/css/Template1.css">
         <SCRIPT language=JavaScript src="<%=appName%>/resources/js/validation.js" type="text/javascript"></SCRIPT>
 
-        <title>Teamleader Details</title>
+        <title>Teamlead Details</title>
 
         <script language="JavaScript">
 
             function submitAssignForm(){
-                supId=document.<%=formName%>.<%=SCMInterfaceKey.REP_ID%>.value
+                supId=document.<%=formName%>.<%=SCMInterfaceKey.TEAMLEAD_ID%>.value
 
             if(supId==""){
-                alert("Please, choose rep.")
+                alert("Please, choose teamleader.")
                 return;
             }
-            document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_ASSIGN_REP_TO_TEAMLEADER%>";
+            document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_ASSIGN_TEAMLEAD_TO_SUPERVISOR%>";
             document.<%=formName%>.submit();
 
             }
 
             function doBack(){
-            document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_TEAMLEAD_DETAIL%>";
+            document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_SUP_DETAIL%>";
             document.<%=formName%>.submit();
 
             }
@@ -62,7 +62,7 @@
     <div align="center">
             <br>
             <br>
-            <h2>Assign Rep to Team Leader</h2>
+            <h2>Assign Rep to Teamleader</h2>
             <br>
             <br>
 
@@ -70,7 +70,7 @@
 
             <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_ACTION%>" value="0">
             <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_USER_ID%>" value="<%=userId%>">
-            <input type="hidden" name="<%=SCMInterfaceKey.DCM_USER_ID%>" value="<%=teamleadId%>">
+            <input type="hidden" name="<%=SCMInterfaceKey.DCM_USER_ID%>" value="<%=supId%>">
             <input type="hidden" name="<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>" value="<%=userLevelTypeId%>">
             <input type="hidden" name="<%=SCMInterfaceKey.REGION_ID%>" value="<%=regionId%>">
 
@@ -78,17 +78,17 @@
                 <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="40%" border="1">
 
                     <tr class=TableTextNote>
-                        <td align=center>Rep</td>
+                        <td align=center>Teamleader</td>
                     </tr>
 
                     <tr class="TableTextNote">
                         <td align="center">
-                             <select name="<%=SCMInterfaceKey.REP_ID%>">
+                             <select name="<%=SCMInterfaceKey.TEAMLEAD_ID%>">
                                 <option value="">-----</option>
                             <%
-                                        if(reps!=null && reps.size()!=0){
-                                        for (int i = 0; i < reps.size(); i++) {
-                                            DCMUserModel rep= (DCMUserModel) reps.get(i);
+                                        if(teamleaders!=null && teamleaders.size()!=0){
+                                        for (int i = 0; i < teamleaders.size(); i++) {
+                                            DCMUserModel rep= (DCMUserModel) teamleaders.get(i);
                             %>
                             <option value="<%=rep.getDcmUserId()%>"><%=rep.getUserFullName()%></option>
                             <%
@@ -99,7 +99,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="center" ><input type="button" class="button" value="Assign Rep" onclick="submitAssignForm();">&nbsp;<input type="button" class="button" value="Back" onclick="doBack();"></td>
+                        <td align="center" ><input type="button" class="button" value="Assign Teamleader" onclick="submitAssignForm();">&nbsp;<input type="button" class="button" value="Back" onclick="doBack();"></td>
                     </tr>
                 </table>
             </form>

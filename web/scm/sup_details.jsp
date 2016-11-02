@@ -14,13 +14,15 @@
         %>
 <%
             HashMap dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
-            Vector<RepSupervisorModel> supervisorReps=new Vector();
+            Vector<SupervisorRepsModel> supervisorReps=new Vector();
+            Vector<SupervisorTeamleadersModel> supervisorTeamleaders=new Vector();
             Vector<RepTeamleaderModel> repTeamleaders=new Vector();
             DCMUserDetailModel supDetails=new DCMUserDetailModel();
             String appName = request.getContextPath();
             String formName = "supDetailsForm";
             String userId = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
-            supervisorReps=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_SUP_REPS);
+            supervisorReps=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_SUP_REPS);
+            supervisorTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_SUP_TEAMLEADERS);
             supDetails=(DCMUserDetailModel)dataHashMap.get(SCMInterfaceKey.REP_SUP_DETAILS);
             String confMessage=(String)dataHashMap.get(SCMInterfaceKey.CONFIRMATION_MESSAGE);
             repTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REP_TEAMLEADS);
@@ -36,13 +38,19 @@
         <LINK REL=STYLESHEET TYPE="text/css" HREF="<%=appName%>/resources/css/Template1.css">
         <SCRIPT language=JavaScript src="<%=appName%>/resources/js/validation.js" type="text/javascript"></SCRIPT>
 
-        <title>Rep Details</title>
+        <title>Supervisor Details</title>
 
         <script language="JavaScript">
 
             function SubmitToAssignRep(){
 
             document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_SUPERVISOR_REP_ASSIGN%>";
+            document.<%=formName%>.submit();
+
+            }
+            function SubmitToAssignTeamlead(){
+
+            document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_SUPERVISOR_TEAMLEAD_ASSIGN%>";
             document.<%=formName%>.submit();
 
             }
@@ -146,10 +154,10 @@
                                     <%
                                     if(supervisorReps!=null&&supervisorReps.size()!=0){
                                         for(int i=0;i<supervisorReps.size();i++){
-                                           RepSupervisorModel repSupervisor=new RepSupervisorModel();
-                                            repSupervisor=(RepSupervisorModel)supervisorReps.get(i);
+                                           SupervisorRepsModel supervisorRep=new SupervisorRepsModel();
+                                            supervisorRep=(SupervisorRepsModel)supervisorReps.get(i);
                                     %>
-                                    <li><a href="javascript:showRepDetail(<%=repSupervisor.getRepId()%>,3);"><%=repSupervisor.getSupName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignRep(<%=repSupervisor.getRepId()%>);">Unassign</a></font></li>
+                                    <li><a href="javascript:showRepDetail(<%=supervisorRep.getRepId()%>,3);"><%=supervisorRep.getRepName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignRep(<%=supervisorRep.getRepId()%>);">Unassign</a></font></li>
                                     <%
                                     }
                                         %>
@@ -166,18 +174,18 @@
                     </tr>
                     
                     <tr class=TableTextNote>
-                        <td align="left">Team Leader</td>
+                        <td align="left">Team Leaders</td>
                         <td align="left">
                             <font style="font-size: 11px;font-family: tahoma;line-height: 15px">
 
 
                                     <%
-                                    if(repTeamleaders!=null&&repTeamleaders.size()!=0){
-                                        for(int i=0;i<repTeamleaders.size();i++){
-                                           RepTeamleaderModel repTeamleader=new RepTeamleaderModel();
-                                            repTeamleader=(RepTeamleaderModel)repTeamleaders.get(i);
+                                    if(supervisorTeamleaders!=null&&supervisorTeamleaders.size()!=0){
+                                        for(int i=0;i<supervisorTeamleaders.size();i++){
+                                           SupervisorTeamleadersModel supervisorTeamlead=new SupervisorTeamleadersModel();
+                                            supervisorTeamlead=(SupervisorTeamleadersModel)supervisorTeamleaders.get(i);
                                     %>
-                                    <b>-</b>&nbsp;<a href="javascript:showTeamleadDetail(<%=repTeamleader.getTeamleadId()%>,5);"><%=repTeamleader.getTeamleadName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignTeamlead(<%=repTeamleader.getTeamleadId()%>);">Unassign</a></font><br>
+                                    <b>-</b>&nbsp;<a href="javascript:showTeamleadDetail(<%=supervisorTeamlead.getTeamleadId()%>,5);"><%=supervisorTeamlead.getTeamleadName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignTeamlead(<%=supervisorTeamlead.getTeamleadId()%>);">Unassign</a></font><br>
 
                                     <%
                                     }
@@ -202,7 +210,7 @@
                     <tr>
                         
                         <td colspan="2" align="center">
-                            <input type="button" name="submitButton" class="button" value="Assign to Teamleader" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitToAssignTeamleader();">
+                            <input type="button" name="submitButton" class="button" value="Assign Teamleader" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="SubmitToAssignTeamlead();">
                             &nbsp;
                             <input type="button" name="submitButton" class="button" value="Assign Rep" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="SubmitToAssignRep();">
                             &nbsp;<input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="doBack();"></td>
