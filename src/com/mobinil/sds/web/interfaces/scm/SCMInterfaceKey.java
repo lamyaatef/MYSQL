@@ -79,6 +79,9 @@ public class SCMInterfaceKey {
     public static final String CONFIRMATION_MESSAGE = "confir_message";
     public static final String ACTION_ADD_NEW_POS_GROUP = "add_new_pos_group";
     public static final String ACTION_UPDATE_POS_GROUP = "update_pos_group";
+    public static final String ACTION_EXPORT_SALESREPS ="export_salesreps";
+    public static final String ACTION_EXPORT_SUPERVISORS ="export_supervisors";
+    public static final String ACTION_EXPORT_TEAMLEADERS="export_teamleaders";
     //POS Group Add/Edit --End
     //POS Group Assign/Unassign --Start
     public static final String VECTOR_GROUP_ASSIGNED_POS = "vector_group_assigned_pos";

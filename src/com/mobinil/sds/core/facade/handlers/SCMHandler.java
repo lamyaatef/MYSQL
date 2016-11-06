@@ -135,6 +135,9 @@ public class SCMHandler {
     public static final int action_teamleader_sup_assign=94;
     public static final int action_assign_sup_to_teamleader=95;
     public static final int action_unassign_sup_from_teamlead=96;
+    public static final int action_export_salesreps = 97;
+    public static final int action_export_supervisors = 98;
+    public static final int action_export_teamleaders = 99;
     //Rep Management --End
 
     public static HashMap handle(String action, HashMap paramHashMap, java.sql.Connection con) {
@@ -208,6 +211,18 @@ public class SCMHandler {
             if (action.equals(SCMInterfaceKey.ACTION_IMPORT_IQRAR_RECIEVING)) {
 
                 actionType = action_import_iqrar_recieving;
+            }
+            if (action.equals(SCMInterfaceKey.ACTION_EXPORT_SALESREPS)) {
+
+                actionType = action_export_salesreps;
+            }
+            if (action.equals(SCMInterfaceKey.ACTION_EXPORT_SUPERVISORS)) {
+
+                actionType = action_export_supervisors;
+            }
+            if (action.equals(SCMInterfaceKey.ACTION_EXPORT_TEAMLEADERS)) {
+
+                actionType = action_export_teamleaders;
             }
             if (action.equals(SCMInterfaceKey.ACTION_IMPORT_SINGLE_IQRAR_RECIEVING)) {
 
@@ -2594,6 +2609,29 @@ public class SCMHandler {
                 }
 
                 break;
+                    
+                 case action_export_salesreps:
+          {
+             // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
+            
+              String Slach = System.getProperty("file.separator");
+              System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
+              String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
+              String entityName = (String) paramHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_NAME);
+              String entityLevel = (String) paramHashMap.get(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME);
+              System.out.println("entityName "+entityName+ " entityLevel "+entityLevel);
+              System.out.println("baseDirectory "+baseDirectory);
+              Vector files =RegionPOSReportDAO.getregionPOSData(con,entityName,entityLevel);
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForRegionPOSData(/*dataVec*/files, baseDirectory);
+              dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
+          }
+          break;     
+                    
+                    
+                    
+                    
+                    
+                    
             case active_stk_distributer_excel:{
             loadDistForActivation(con, dataHashMap);
             }

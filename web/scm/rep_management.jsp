@@ -13,6 +13,8 @@
         %>
 <%
             HashMap dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
+            String Slach = System.getProperty("file.separator");
+    String base = request.getRealPath(Slach + "scm" + Slach + "upload" + Slach);
             Vector<RegionModel> regions=new Vector();
             Vector<DCMUserModel> searchResults=new Vector();
             Vector<DCMUserLevelTypeModel> repLevels=new Vector();
@@ -41,11 +43,17 @@
         <LINK REL=STYLESHEET TYPE="text/css" HREF="<%=appName%>/resources/css/Template1.css">
         <SCRIPT language=JavaScript src="<%=appName%>/resources/js/validation.js" type="text/javascript"></SCRIPT>
         <SCRIPT language=JavaScript src="<%=appName%>/resources/js/sorttable.js" type="text/javascript"></SCRIPT>
-
+<script src="../resources/js/jquery-1.11.3.js"></script>
         <title>Rep Management</title>
 
         <script language="JavaScript">
-
+    
+            $( document ).ready(function() {
+           
+                if($('#selectType').val()== "")
+                    $('#export_row').hide();
+            
+});
             function submitEditForm(dcmUserId){
             document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ID%>.value=dcmUserId;
             document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_EDIT_REP_SUP%>";
@@ -81,6 +89,32 @@
                 else
                 return;
             }
+            function exportData(base)
+            {
+                var userType = document.getElementById("selectType").value;
+                if(userType=='3')
+                    document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_SALESREPS);%>'
+                if(userType=='4')
+                    document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_SUPERVISORS);%>'
+                if(userType=='5')
+                    document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_TEAMLEADERS);%>'
+                
+                document.DCMform.baseDirectory.value=base;
+                document.DCMform.submit();
+            }
+            
+            function change() {
+            var export_but = document.getElementById("export_but");
+                var export_row = document.getElementById("export_row");
+                $('#export_row').show();
+                   /* export_but.style.display = "block";
+                    export_row.style.display = "block";
+                    export_but.style.visibility = 'visible';   
+                    export_row.style.visibility = 'visible';   */
+                document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_SEARCH_REP%>";
+            document.<%=formName%>.submit();
+            }
+            
 
             function viewDetail(dcmUserId,userLevelTypeId){
                         document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ID%>.value=dcmUserId;
@@ -114,6 +148,7 @@
 
 
                 <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1">
+                        
                     <tr class=TableTextNote>
                         <td nowrap align=center >Name</td>
                         <td colspan="4" align="center"><input type="text" name="<%=SCMInterfaceKey.SEARCH_NAME%>" value="<%=searchName%>"></td>
@@ -145,7 +180,7 @@
 
                         <td nowrap align=center >Level</td>
                         <td align="center">
-                    <select name="<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>">
+                            <select id="selectType" name="<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>" onchange="change()" >
                         <option value="">-----</option>
                     <%
                                 if(repLevels!=null&&repLevels.size()!=0){
@@ -169,8 +204,20 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4" align="center"><input type="button" class="button" value="Search" onclick="submitSearchForm();">&nbsp;<input type="button" class="button" value="Add New" onclick="submitAddNewForm();"></td>
+                        <td colspan="4" align="center">
+                            <input type="button" class="button" value="Search" onclick="submitSearchForm();">
+                            &nbsp;
+                            <input type="button" class="button" value="Add New" onclick="submitAddNewForm();">
+                        </td>
+                        
                     </tr>
+                    <tr   id="export_row">        
+                    <td colspan="6" align="center">
+                       <input align="middle"  id="export_but" type="button"  class="button" name="Export"  value="Export" onclick="exportData('<%=base%>');">
+                         
+                    </td>
+                    </tr>
+                    
                 </table>
 
 
@@ -189,6 +236,8 @@
         <br>
          
                 <table class="sortable" style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1">
+                    
+                        
                     <tr>
                         <td class=TableHeader nowrap align=center >Name</td>
                         <td  class=TableHeader nowrap align=center>Region</td>

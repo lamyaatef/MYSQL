@@ -109,7 +109,7 @@ public class RepManagementDAO {
             +"		AND DCM_USER.USER_LEVEL_TYPE_ID IN(3,4,5) "
             +"	) x"
             +" "+sqlSearch +"   "
-            +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY ROWNUM ";
+            +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";//ROWNUM
         System.out.println("Search Rep Query : "+sqlStatement);
         dcmUser= DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class, "fillForRepManagementSearch", con);
 
@@ -478,11 +478,13 @@ public class RepManagementDAO {
                             +" SELECT USER_ID FROM DCM_USER WHERE USER_STATUS_TYPE_ID <>3 AND USER_ID IS NOT NULL)";
         if(personName!=null&& !personName.trim().equalsIgnoreCase("")){
            sqlStatement+=" AND  LOWER(GP.PERSON_FULL_NAME) LIKE ?";
-           personName="%"+personName.toLowerCase()+"%";
+           personName="%"+personName.toLowerCase()+"% ";
+           
            persons=DBUtil.executePreparedSqlQueryMultiValue(sqlStatement, PersonModel.class, con,new Object[]{personName});
         }
         else{
-           persons=DBUtil.executeSqlQueryMultiValue(sqlStatement, PersonModel.class, con);
+           sqlStatement+="order by LOWER(GP.PERSON_FULL_NAME)";
+            persons=DBUtil.executeSqlQueryMultiValue(sqlStatement, PersonModel.class, con);
         }
 
         return persons;
