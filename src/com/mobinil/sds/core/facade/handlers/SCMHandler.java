@@ -141,6 +141,7 @@ public class SCMHandler {
     //Rep Management --End
 
     public static HashMap handle(String action, HashMap paramHashMap, java.sql.Connection con) {
+        System.out.println("handle action "+action);
         int actionType = 0;
         HashMap dataHashMap = new HashMap(100);
         String strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
@@ -2613,16 +2614,12 @@ public class SCMHandler {
                  case action_export_salesreps:
           {
              // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
-            
+            System.out.println("Action -- action_export_salesreps");
               String Slach = System.getProperty("file.separator");
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
-              String entityName = (String) paramHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_NAME);
-              String entityLevel = (String) paramHashMap.get(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME);
-              System.out.println("entityName "+entityName+ " entityLevel "+entityLevel);
-              System.out.println("baseDirectory "+baseDirectory);
-              Vector files =RegionPOSReportDAO.getregionPOSData(con,entityName,entityLevel);
-              String excelLink = PoiWriteExcelFile.exportExcelSheetForRegionPOSData(/*dataVec*/files, baseDirectory);
+              Vector files =RepManagementDAO.getAllRepsData(con);
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForAllRepsData(/*dataVec*/files, baseDirectory);
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
           }
           break;     

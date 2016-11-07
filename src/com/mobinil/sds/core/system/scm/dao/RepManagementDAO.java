@@ -9,9 +9,11 @@ import com.mobinil.sds.core.system.dcm.region.model.RegionModel;
 import com.mobinil.sds.core.system.scm.model.DCMUserDetailModel;
 import com.mobinil.sds.core.system.dcm.user.model.DCMUserModel;
 import com.mobinil.sds.core.system.gn.dcm.model.DCMModel;
+import com.mobinil.sds.core.system.regionReport.model.RegionPOSReportModel;
 import com.mobinil.sds.core.system.sa.persons.model.PersonModel;
 import com.mobinil.sds.core.system.scm.model.DCMUserLevelTypeModel;
 import com.mobinil.sds.core.system.scm.model.POSGroupModel;
+import com.mobinil.sds.core.system.scm.model.RepExcelModel;
 import com.mobinil.sds.core.system.scm.model.RepPOSGroupModel;
 import com.mobinil.sds.core.system.scm.model.RepSupervisorModel;
 import com.mobinil.sds.core.system.scm.model.RepTeamleaderModel;
@@ -21,6 +23,8 @@ import com.mobinil.sds.core.system.scm.model.TeamleaderRepsModel;
 import com.mobinil.sds.core.system.scm.model.TeamleaderSupervisorsModel;
 import com.mobinil.sds.core.utilities.DBUtil;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Vector;
 
 /**
@@ -116,6 +120,51 @@ public class RepManagementDAO {
         return dcmUser;
     }
 
+    
+    public static Vector getAllRepsData(Connection con) {
+        
+        Vector vec = new Vector();
+        System.out.println("getAllRepsData ");
+        
+              
+        try {
+            Statement stat = con.createStatement();
+            String strSql1 = "select * from myReps";
+            String strSql2 = "select * from myNullReps";
+            String strSql3 = "select * from myNotExistReps";
+            
+            ResultSet res1 = stat.executeQuery(strSql1);
+            while (res1.next()) {
+               
+                vec.add(new RepExcelModel(res1,true));
+                }
+            res1.close();
+            
+            ResultSet res2 = stat.executeQuery(strSql2);
+            while (res2.next()) {
+               
+                vec.add(new RepExcelModel(res2,false));
+                }
+            res2.close();
+            
+            ResultSet res3 = stat.executeQuery(strSql3);
+            while (res3.next()) {
+               
+                vec.add(new RepExcelModel(res3,false));
+                }
+            res3.close();
+     
+     
+            stat.close();
+           // con.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return vec;
+    }
+    
     public static String getAllRepsAndSupPageCount(Connection con,String name,Integer regionId,Integer levelTypeId){
         String sqlStatement;
         String sqlStringSearch="";

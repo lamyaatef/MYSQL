@@ -92,15 +92,17 @@
             function exportData(base)
             {
                 var userType = document.getElementById("selectType").value;
-                if(userType=='3')
-                    document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_SALESREPS);%>'
-                if(userType=='4')
-                    document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_SUPERVISORS);%>'
-                if(userType=='5')
-                    document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_TEAMLEADERS);%>'
                 
-                document.DCMform.baseDirectory.value=base;
-                document.DCMform.submit();
+                if(userType=='3')
+                    document.repManagement.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_SALESREPS);%>'
+                if(userType=='4')
+                    document.<%=formName%>.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_SUPERVISORS);%>'
+                if(userType=='5')
+                    document.<%=formName%>.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_TEAMLEADERS);%>'
+               
+               
+                document.repManagement.baseDirectory.value=base;
+                document.repManagement.submit();
             }
             
             function change() {
@@ -139,7 +141,7 @@
             <br>
 
             <form action="<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet" name="<%=formName%>" method="post">
-
+            <input type="hidden" name="baseDirectory" id="baseDirectory" value=""/>
             <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_ACTION%>" value="0">
             <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_USER_ID%>" value="<%=userId%>">
             <input type="hidden" name="<%=SCMInterfaceKey.DCM_USER_ID%>" value="-1">
