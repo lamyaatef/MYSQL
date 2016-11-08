@@ -17,8 +17,10 @@ import com.mobinil.sds.core.system.scm.model.RepExcelModel;
 import com.mobinil.sds.core.system.scm.model.RepPOSGroupModel;
 import com.mobinil.sds.core.system.scm.model.RepSupervisorModel;
 import com.mobinil.sds.core.system.scm.model.RepTeamleaderModel;
+import com.mobinil.sds.core.system.scm.model.SupervisorExcelModel;
 import com.mobinil.sds.core.system.scm.model.SupervisorRepsModel;
 import com.mobinil.sds.core.system.scm.model.SupervisorTeamleadersModel;
+import com.mobinil.sds.core.system.scm.model.TeamleaderExcelModel;
 import com.mobinil.sds.core.system.scm.model.TeamleaderRepsModel;
 import com.mobinil.sds.core.system.scm.model.TeamleaderSupervisorsModel;
 import com.mobinil.sds.core.utilities.DBUtil;
@@ -155,6 +157,60 @@ public class RepManagementDAO {
             res3.close();
      
      
+            stat.close();
+           // con.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return vec;
+    }
+    
+    public static Vector getAllSupervisorsData(Connection con) {
+        
+        Vector vec = new Vector();
+        System.out.println("getAllSupervisorsData ");
+        
+              
+        try {
+            Statement stat = con.createStatement();
+            String strSql1 = "select * from mySupervisors";
+            
+            
+            ResultSet res1 = stat.executeQuery(strSql1);
+            while (res1.next()) {
+               
+                vec.add(new SupervisorExcelModel(res1,true));
+                }
+            res1.close();
+            
+            stat.close();
+           // con.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return vec;
+    }
+    public static Vector getAllTeamleadersData(Connection con) {
+        
+        Vector vec = new Vector();
+        System.out.println("getAllTeamleadersData ");
+        
+              
+        try {
+            Statement stat = con.createStatement();
+            String strSql1 = "select * from myTeamleaders";
+            
+            ResultSet res1 = stat.executeQuery(strSql1);
+            while (res1.next()) {
+               
+                vec.add(new TeamleaderExcelModel(res1,true));
+                }
+            res1.close();
+            
             stat.close();
            // con.close();
             

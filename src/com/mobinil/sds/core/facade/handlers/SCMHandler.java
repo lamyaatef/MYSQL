@@ -2611,7 +2611,7 @@ public class SCMHandler {
 
                 break;
                     
-                 case action_export_salesreps:
+         case action_export_salesreps:
           {
              // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
             System.out.println("Action -- action_export_salesreps");
@@ -2623,6 +2623,31 @@ public class SCMHandler {
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
           }
           break;     
+                     
+         case action_export_supervisors:
+          {
+             // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
+            System.out.println("Action -- action_export_supervisors");
+              String Slach = System.getProperty("file.separator");
+              System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
+              String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
+              Vector files =RepManagementDAO.getAllSupervisorsData(con);
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForAllSupervisorsData(/*dataVec*/files, baseDirectory);
+              dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
+          }
+          break;   
+        case action_export_teamleaders:
+          {
+             // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
+            System.out.println("Action -- action_export_teamleaders");
+              String Slach = System.getProperty("file.separator");
+              System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
+              String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
+              Vector files =RepManagementDAO.getAllTeamleadersData(con);
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForAllTeamleadersData(/*dataVec*/files, baseDirectory);
+              dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
+          }
+          break;   
                     
                     
                     

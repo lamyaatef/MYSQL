@@ -29,6 +29,8 @@ import com.mobinil.sds.core.system.scm.model.POSSearchExcelModel;
 import com.mobinil.sds.core.system.scm.model.POSStatusCase;
 import com.mobinil.sds.core.system.scm.model.RepExcelModel;
 import com.mobinil.sds.core.system.scm.model.STKStatusCase;
+import com.mobinil.sds.core.system.scm.model.SupervisorExcelModel;
+import com.mobinil.sds.core.system.scm.model.TeamleaderExcelModel;
 import com.mobinil.sds.core.utilities.DBUtil;
 import com.mobinil.sds.core.utilities.Utility;
 import java.io.File;
@@ -1636,7 +1638,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 					ArrayList<HSSFRow> rows = new ArrayList<HSSFRow>();
                                         ArrayList<ArrayList<HSSFCell>> cells=new ArrayList<ArrayList<HSSFCell>>();
 					//42 //45
-                                        for(int i=1; i<=15;i++){
+                                        for(int i=1; i<=12;i++){
                                         ArrayList<HSSFCell> cell = new ArrayList<HSSFCell>();
                                             cells.add(cell);
                                         }
@@ -1647,7 +1649,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 
                                             rows.add(worksheet.createRow(i));
                                              //42
-                                            for(int cellno=0;cellno<15;cellno++){
+                                            for(int cellno=0;cellno<12;cellno++){
                                                 
                                                 cells.get(cellno).add(rows.get(i).createCell((short) cellno));
                                             }
@@ -1736,7 +1738,177 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 
   }
   
+  public static String exportExcelSheetForAllSupervisorsData(Vector<SupervisorExcelModel> SupervisorResults,String directionFile)
+  {
+      System.out.println("exportExcelSheetForAllSupervisorsData");
+      java.util.Date dateNow = new java.util.Date();
+        int imonth = dateNow.getMonth() + 1;
+        int iyear = dateNow.getYear() + 1900;
+        String strdate = (new StringBuffer("[")).append(dateNow.getDate()).append("-").append(imonth).append("-").append(iyear).append("]-").append(dateNow.getHours()).append(".").append(dateNow.getMinutes()).append(".").append(dateNow.getSeconds()).append("_").toString();
+        String fileName = strdate+"all_supervisors_file_report.xls";
+       FileOutputStream fileOut;
+        try {
+            fileOut = new FileOutputStream(directionFile + Slach + fileName);
+
+					HSSFWorkbook workbook = new HSSFWorkbook();
+					HSSFSheet worksheet = workbook.createSheet("POS Worksheet");
+
+					ArrayList<HSSFRow> rows = new ArrayList<HSSFRow>();
+                                        ArrayList<ArrayList<HSSFCell>> cells=new ArrayList<ArrayList<HSSFCell>>();
+					//42 //45
+                                        for(int i=1; i<=4;i++){
+                                        ArrayList<HSSFCell> cell = new ArrayList<HSSFCell>();
+                                            cells.add(cell);
+                                        }
+
+                                       
+
+                                        for (int i=0;i<=SupervisorResults.size();i++){
+
+                                            rows.add(worksheet.createRow(i));
+                                             //42
+                                            for(int cellno=0;cellno<4;cellno++){
+                                                
+                                                cells.get(cellno).add(rows.get(i).createCell((short) cellno));
+                                            }
+
+                                        }
+
+
+                                      int header=0;
+                                      cells.get(header).get(0).setCellValue("Supervisor Name");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Supervisor Email");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Supervisor Mobile");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Supervisor Address");
+                                      
+                                      
+            try {
+                Connection con = Utility.getConnection();
+
+
+                             for(int i=1;i<=SupervisorResults.size();i++)
+                             {
+                                 SupervisorExcelModel ss = SupervisorResults.get(i-1);
+                                int j=0;
+                                cells.get(j).get(i).setCellValue(SupervisorResults.get(i-1).getSupervisorName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(SupervisorResults.get(i-1).getSupervisorEmail());
+                                j++;
+                                cells.get(j).get(i).setCellValue(SupervisorResults.get(i-1).getSupervisorMobile());
+                                j++;
+                                cells.get(j).get(i).setCellValue(SupervisorResults.get(i-1).getSupervisorAddress());
+                                
+                             }
+              con.close();
+ } catch (SQLException ex) {
+                Logger.getLogger(PoiWriteExcelFile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                                        workbook.write(fileOut);
+					fileOut.flush();
+					fileOut.close();
+					return fileName;
+
+                                } catch (FileNotFoundException e)
+				{
+					e.printStackTrace();
+					return "";
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+					return "";
+				}
+
+
+  }
   
+  public static String exportExcelSheetForAllTeamleadersData(Vector<TeamleaderExcelModel> TeamleaderResults,String directionFile)
+  {
+      System.out.println("exportExcelSheetForAllTeamleadersData");
+      java.util.Date dateNow = new java.util.Date();
+        int imonth = dateNow.getMonth() + 1;
+        int iyear = dateNow.getYear() + 1900;
+        String strdate = (new StringBuffer("[")).append(dateNow.getDate()).append("-").append(imonth).append("-").append(iyear).append("]-").append(dateNow.getHours()).append(".").append(dateNow.getMinutes()).append(".").append(dateNow.getSeconds()).append("_").toString();
+        String fileName = strdate+"all_teamleaders_file_report.xls";
+       FileOutputStream fileOut;
+        try {
+            fileOut = new FileOutputStream(directionFile + Slach + fileName);
+
+					HSSFWorkbook workbook = new HSSFWorkbook();
+					HSSFSheet worksheet = workbook.createSheet("POS Worksheet");
+
+					ArrayList<HSSFRow> rows = new ArrayList<HSSFRow>();
+                                        ArrayList<ArrayList<HSSFCell>> cells=new ArrayList<ArrayList<HSSFCell>>();
+					//42 //45
+                                        for(int i=1; i<=4;i++){
+                                        ArrayList<HSSFCell> cell = new ArrayList<HSSFCell>();
+                                            cells.add(cell);
+                                        }
+
+                                       
+
+                                        for (int i=0;i<=TeamleaderResults.size();i++){
+
+                                            rows.add(worksheet.createRow(i));
+                                             //42
+                                            for(int cellno=0;cellno<4;cellno++){
+                                                
+                                                cells.get(cellno).add(rows.get(i).createCell((short) cellno));
+                                            }
+
+                                        }
+
+
+                                      int header=0;
+                                      cells.get(header).get(0).setCellValue("TeamLeader Name");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("TeamLeader Email");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("TeamLeader Mobile");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("TeamLeader Address");
+                                      
+                                      
+            try {
+                Connection con = Utility.getConnection();
+
+
+                             for(int i=1;i<=TeamleaderResults.size();i++)
+                             {
+                                 TeamleaderExcelModel ss = TeamleaderResults.get(i-1);
+                                int j=0;
+                                cells.get(j).get(i).setCellValue(TeamleaderResults.get(i-1).getTeamleaderName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(TeamleaderResults.get(i-1).getTeamleaderEmail());
+                                j++;
+                                cells.get(j).get(i).setCellValue(TeamleaderResults.get(i-1).getTeamleaderMobile());
+                                j++;
+                                cells.get(j).get(i).setCellValue(TeamleaderResults.get(i-1).getTeamleaderAddress());
+                                
+                             }
+              con.close();
+ } catch (SQLException ex) {
+                Logger.getLogger(PoiWriteExcelFile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                                        workbook.write(fileOut);
+					fileOut.flush();
+					fileOut.close();
+					return fileName;
+
+                                } catch (FileNotFoundException e)
+				{
+					e.printStackTrace();
+					return "";
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+					return "";
+				}
+
+
+  }
   
   
   

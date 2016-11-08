@@ -215,7 +215,7 @@
                     </tr>
                     <tr   id="export_row">        
                     <td colspan="6" align="center">
-                       <input align="middle"  id="export_but" type="button"  class="button" name="Export"  value="Export" onclick="exportData('<%=base%>');">
+                       <input align="middle"  id="export_but" type="button"  class="button" name="Export"  value="Export List" onclick="exportData('<%=base%>');">
                          
                     </td>
                     </tr>

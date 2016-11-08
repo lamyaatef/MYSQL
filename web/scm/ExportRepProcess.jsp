@@ -51,7 +51,7 @@ session.setAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT, dataHashMap);
         function back ()
         {
             document.GenerateSheet.action="com.mobinil.sds.web.controller.WebControllerServlet?";
-            document.GenerateSheet.action=document.GenerateSheet.action+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='+'<%=DCMInterfaceKey.ACTION_DCM_REGIONAL_MANAGEMENT_TREE%>';
+            document.GenerateSheet.action=document.GenerateSheet.action+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='+'<%=SCMInterfaceKey.ACTION_VIEW_REP_MANAGEMENT%>';
                                                                         
             document.GenerateSheet.submit();
             
