@@ -328,3 +328,31 @@ h2 {
     font-family: Helvetica, sans-serif !important;
 }
 
+.sds-links {
+	width: 30%;
+	background: #cccccc;
+	border: 1px solid #666666;
+	padding: 10px 0;
+	display: block;
+        margin: auto;
+        text-decoration: none;
+	color: #333;
+	text-align: center;
+	font-size: 100%;
+	font-family: 'HelvNeue75', Arial, Helvetica, sans-serif;
+	-webkit-transition: .5s;
+	-moz-transition: .5s;
+	-o-transition: .5s;
+	transition: .5s;
+}
+
+.sds-links:hover {
+	background: #ff6600;
+	color: #fff;
+	-webkit-transition: .5s;
+	-moz-transition: .5s;
+	-o-transition: .5s;
+	transition: .5s;
+}
+
+

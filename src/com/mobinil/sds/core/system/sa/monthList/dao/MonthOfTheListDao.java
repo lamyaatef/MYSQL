@@ -75,7 +75,7 @@ public class MonthOfTheListDao {
         {
           Connection con = Utility.getConnection();
           Statement stat = con.createStatement();
-          String sql = "select * from gen_dcm_month_list where user_id = '"+userId+"' and year ='"+year+"' and month='"+month+"' and list_name = '"+list+"' ";
+          String sql = "select * from gen_dcm_month_list where user_id!='null' and user_id = '"+userId+"' and year ='"+year+"' and month='"+month+"' and list_name = '"+list+"' ";
           System.out.println("check month list sql : "+sql);
           ResultSet res = stat.executeQuery(sql);
           if(res.next())

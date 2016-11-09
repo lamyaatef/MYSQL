@@ -13,21 +13,30 @@
     <head>
          <%
         String appName = request.getContextPath();
+        String user_id = request.getSession().getValue(InterfaceKey.HASHMAP_KEY_USER_ID).toString();
+        System.out.println("User Id "+user_id);
     %>
         <title>Save and Show Lists</title>
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
             <LINK REL=STYLESHEET TYPE="text/css" HREF="../resources/css/Template1.css">
+            
             <SCRIPT language=JavaScript src="<%=appName%>/resources/js/validation.js" type="text/javascript"></SCRIPT>
         <SCRIPT language=JavaScript src="<%=appName%>/resources/js/sorttable.js" type="text/javascript"></SCRIPT>
      <script language=javascript type='text/javascript'>
-        function goToLink()
+        function goToLink(actionName)
         {
-            /*document.GenerateSheet.action="com.mobinil.sds.web.controller.WebControllerServlet?";
-            document.GenerateSheet.action=document.GenerateSheet.action+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='+'<%=AdministrationInterfaceKey.ACTION_SAVE_PAYMENT_LEVEL_HISTORY%>';*/
-    alert("hi");        
-    document.GenerateSheet.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(AdministrationInterfaceKey.ACTION_SAVE_PAYMENT_LEVEL_HISTORY);%>'                                                            
-    alert(document.GenerateSheet.action.value);        
-    document.GenerateSheet.submit();
+            if(actionName=="save_payment")
+                document.GenerateSheet.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(AdministrationInterfaceKey.ACTION_SHOW_PAYMENT_LEVEL_HISTORY);%>';                                                            
+            if(actionName=="show_payment")
+                document.GenerateSheet.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(AdministrationInterfaceKey.ACTION_SHOW_HISTORY_FILE);%>';                                                            
+            if(actionName=="save_list_month")
+                document.GenerateSheet.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(AdministrationInterfaceKey.ACTION_SAVE_LIST_MONTH);%>' ;                                                           
+            if(actionName=="show_list_month")
+                document.GenerateSheet.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(AdministrationInterfaceKey.ACTION_SHOW_LIST_OF_THE_MONTH);%>'  ;                                                          
+            if(actionName=="show_pos")
+                document.GenerateSheet.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(AdministrationInterfaceKey.ACTION_SHOW_CROSSTAB);%>'  ;                                                          
+            
+            document.GenerateSheet.submit();
             
         }
     </script>
@@ -35,44 +44,41 @@
    
    
     <body>
-        <h1 style="color:blue;">Lists</h1>
+        <br>
+        <br>
+        <div align="center">
+        <h2>Lists</h2></div>
+        <br>
+        <br>
+
         <form action="" name="GenerateSheet" id="GenerateSheet" method="post">
     <center>
         
-    
-    <a href="#" onclick="goToLink();">Save Payment Level</a>
+      &nbsp;
+        &nbsp;
+        <br>
+    <a class="sds-links" href="#" onclick="goToLink('save_payment');">Save Payment Level</a>
         &nbsp;
         &nbsp;
         <br>
-        <a href="#" onclick="goToLink();" >Show Payment Level Filessssss</a>
+        <a class="sds-links" href="#" onclick="goToLink('show_payment');">Show Payment Level File</a>
+        &nbsp;
+        &nbsp;
+        <br>
+        <a class="sds-links" href="#" onclick="goToLink('save_list_month');">Save List of the Month</a>
+        &nbsp;
+        &nbsp;
+        <br>
+        <a class="sds-links" href="#" onclick="goToLink('show_list_month');">Show List of the Month Files</a>
+        &nbsp;
+        &nbsp;
+        <br>
+        <a class="sds-links" href="#" onclick="goToLink('show_pos');">Show POS Code Files</a>
         &nbsp;
         &nbsp;
         <br>
     </center>
     </form>
-        <a href="">Save Payment Level</a>
-        &nbsp;
-        &nbsp;
-        <br>
-        <a href="../sa/Save_Payment_Level_History.jsp">Show Payment Level Files</a>
-        &nbsp;
-        &nbsp;
-        <br>
-        <a href="">Save List of the Month</a>
-        &nbsp;
-        &nbsp;
-        <br>
-        <a href="">Show List of the Month Files</a>
-        &nbsp;
-        &nbsp;
-        <br>
-        <a href="">Save for a POS Code</a>
-        &nbsp;
-        &nbsp;
-        <br>
-        <a href="">Show POS Code Files</a>
-        &nbsp;
-        &nbsp;
-        <br>
+        
     </body>
 </html>

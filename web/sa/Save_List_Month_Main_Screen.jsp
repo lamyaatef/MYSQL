@@ -33,17 +33,20 @@
 <title>
 Save List of the Month
 </title>
-<h2>
-Save List of the Month
-</h2>
+
 </head>
 <body>
 
-
+<br>
+        <br>
+        <div align="center">
+        <h2>Save List of the Month</h2></div>
+        <br>
+        <br>
 <center>
 <%
    HashMap dataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
-   String userID = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+   String userID = request.getSession().getValue(InterfaceKey.HASHMAP_KEY_USER_ID).toString();//(String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);//
    String monthsYears = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_LIST_COLLECTION);
    //Hashtable revenueTable = (Hashtable) dataHashMap.get(InterfaceKey.HASHMAP_KEY_COLLECTION);
    //DCMDto dcmDto = (DCMDto) dataHashMap.get(InterfaceKey.HASHMAP_KEY_ADDITIONAL_COLLECTION);
@@ -150,7 +153,7 @@ Save List of the Month
     out.println("<center>");
     out.println("<input class=button type=\"button\" name=\"View\" value=\"   Save   \" ");
     out.print(" onclick=\"if (checkBeforeView(document.SheetRevenue."+AdministrationInterfaceKey.CONTROL_INPUT_YEAR+")){ if (checkMonthInYear()==true){ document.SheetRevenue."+InterfaceKey.HASHMAP_KEY_ACTION+".value='"+
-    AdministrationInterfaceKey.ACTION_SAVE_LIST+"'; document.SheetRevenue.submit();} } else alert('Please Enter A Valid Year');this.disabled=true; alert('Please Wait');\">");
+    AdministrationInterfaceKey.ACTION_SAVE_LIST+"'; document.SheetRevenue.submit();/*this.disabled=true;*/ alert('Please Wait');} } else alert('Please Enter A Valid Year');\">");
 
     
     
@@ -212,8 +215,9 @@ Save List of the Month
       
         bool = true;
             }
+             else bool=false;
         }
-   
+        
    // alert(year);
 //  console.log(year +"=>" + month);
  

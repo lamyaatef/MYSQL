@@ -84,10 +84,10 @@ public class MonthListFileDAO {
         try {
             Statement stat = con.createStatement();
             stat.setFetchSize(0);
-            String strSql = "SELECT \n" +
+            String strSql = "SELECT distinct gen_dcm_month_list_detail.dcm_code, \n" +
 "gen_dcm_month_list.history_file_id,\n" +
 "gen_dcm_month_list.list_name , \n "+
-"gen_dcm_month_list_detail.dcm_code,gen_dcm_month_list.user_id,\n" +
+"gen_dcm_month_list.user_id,\n" +
 "gen_dcm_month_list_detail.dcm_id,\n" +
 "gen_person.person_full_name,\n" +
 "dcm_month_list_file_status.status_name,\n" +
@@ -135,7 +135,7 @@ public class MonthListFileDAO {
 "AND vw_sales_rep_assignment.SALESREP_DISTRICT_ID = vw_teamleader_assignment.DISTRICT_REGION_ID\n" +
 "\n" +
 "AND gen_dcm_month_list.history_file_id = '"+fileId+"' \n" +
-"order by gen_dcm_month_list.TIMESTAMP desc";
+"order by gen_dcm_month_list.TIMESTAMP desc \n";
                     /*"SELECT gen_dcm_payment_level_history.history_file_id,\n" +
 "  dcm_payment_level_hist_detail.dcm_code,gen_dcm_payment_level_history.user_id,\n" +
 "dcm_payment_level_hist_detail.dcm_id,\n" +
@@ -216,7 +216,7 @@ public class MonthListFileDAO {
 "FROM gen_dcm_month_list,\n" +
 "  gen_person,\n" +
 "  dcm_month_list_file_status\n" +
-"WHERE gen_dcm_month_list.user_id = gen_person.person_id\n" +
+"WHERE gen_dcm_month_list.user_id !='null' AND gen_dcm_month_list.user_id = gen_person.person_id\n" +
 "AND gen_dcm_month_list.status_id = dcm_month_list_file_status.status_id order by gen_dcm_month_list.TIMESTAMP desc";
             System.out.println("get MONTH LIST query "+ strSql);
             ResultSet res = stat.executeQuery(strSql);

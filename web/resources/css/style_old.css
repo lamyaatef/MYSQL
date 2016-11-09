@@ -313,29 +313,4 @@ ul, li {
 	background: #ffffff;
 }
 
-.sds-links {
-	width: 100%;
-	background: #cccccc;
-	border: 1px solid #666666;
-	padding: 10px 0;
-	display: block;
-	color: #333;
-	text-align: center;
-	font-size: 120%;
-	font-family: 'HelvNeue75', Arial, Helvetica, sans-serif;
-	-webkit-transition: .5s;
-	-moz-transition: .5s;
-	-o-transition: .5s;
-	transition: .5s;
-}
-
-.sds-links:hover {
-	background: #ff6600;
-	color: #fff;
-	-webkit-transition: .5s;
-	-moz-transition: .5s;
-	-o-transition: .5s;
-	transition: .5s;
-}
-
 

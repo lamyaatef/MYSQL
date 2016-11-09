@@ -186,7 +186,7 @@ public class AdministratorHandler
     int actionType = 0;
     HashMap dataHashMap = new HashMap(100);
     String strUserID = (String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
-    if(strUserID != null && strUserID.compareTo("") != 0)
+    if(strUserID != null && strUserID.compareTo("") != 0 && strUserID.compareTo("null") != 0)
     {
       dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, strUserID);           
     }
@@ -457,7 +457,8 @@ public class AdministratorHandler
             case SAVE_LIST_MONTH:
               
             // split by __ =>> YEAR_MONTH
-                System.out.println("in action SAVE_LIST_MONTH");
+                //strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+                System.out.println("in action SAVE_LIST_MONTH "+strUserID);
               dataHashMap.put(InterfaceKey.HASHMAP_KEY_LIST_COLLECTION, MonthOfTheListDao.getHistoryFileMonthYeatByUserId(strUserID));
         break;
             
@@ -1069,7 +1070,7 @@ case SHOW_NOMAD_FILE_LIST:
             Utility.logger.debug("year " + year);
             System.out.println("month , year , userId : "+month+"  "+year+"  "+userID);
             boolean exists = PaymentLevelHistoryDao.checkHistoryFile(month, year, userID);
-            System.out.println("exists : "+exists);
+            System.out.println("PAYMENT LEVEL HISTORY FILE EXISTS : "+exists);
             if (!exists)
             {
                 PaymentLevelHistoryDao.insertHistoryFile(month, year, userID);
@@ -1106,7 +1107,7 @@ case SHOW_NOMAD_FILE_LIST:
             Utility.logger.debug("list " + list);
             System.out.println("month , year , userId, list : "+month+"  "+year+"  "+userID+"  "+list);
             boolean exists = MonthOfTheListDao.checkHistoryFile(month, year, userID,list);
-            System.out.println("FILE EXISTS ? : "+exists);
+            System.out.println("MONTH LIST FILE EXISTS ? : "+exists);
             if (!exists)
             {
                 MonthOfTheListDao.insertHistoryFile(month, year, userID,list);

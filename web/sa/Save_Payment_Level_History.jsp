@@ -25,25 +25,30 @@
 <%@ page contentType="text/html;charset=windows-1252"%>
 <%    String appName = request.getContextPath();%>
 <html>
+    
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
     <LINK REL=STYLESHEET TYPE="text/css" HREF="<%out.print(appName);%>/resources/css/Template1.css">
       <SCRIPT language=JavaScript src="../resources/js/FormCheck.js" type=text/javascript></SCRIPT>
       <script src="../resources/js/jquery-1.11.3.js"></script>
-<title>
+    
+    <title>
 Save Payment Level History
 </title>
-<h2>
-Save Payment Level History
-</h2>
 </head>
-<body>
 
+<body>
+  <br>
+        <br>
+        <div align="center">
+        <h2>Save Payment Level History</h2></div>
+        <br>
+        <br>
 
 <center>
 <%
    HashMap dataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
-   String userID = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+   String userID = request.getSession().getValue(InterfaceKey.HASHMAP_KEY_USER_ID).toString();//(String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
    String monthsYears = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_LIST_COLLECTION);
    //Hashtable revenueTable = (Hashtable) dataHashMap.get(InterfaceKey.HASHMAP_KEY_COLLECTION);
    //DCMDto dcmDto = (DCMDto) dataHashMap.get(InterfaceKey.HASHMAP_KEY_ADDITIONAL_COLLECTION);
@@ -114,7 +119,7 @@ Save Payment Level History
     out.println("<center>");
     out.println("<input class=button id=\"View\" type=\"button\" name=\"View\" value=\"   Save   \" ");
     out.print(" onclick=\"if (checkBeforeView(document.SheetRevenue."+AdministrationInterfaceKey.CONTROL_INPUT_YEAR+")){ if (checkMonthInYear()==true){ document.SheetRevenue."+InterfaceKey.HASHMAP_KEY_ACTION+".value='"+
-    AdministrationInterfaceKey.ACTION_SAVE_PAYMENT_LEVEL_HISTORY+"'; document.SheetRevenue.submit();} } else alert('Please Enter A Valid Year'); this.disabled=true;alert('Please Wait');\">");
+    AdministrationInterfaceKey.ACTION_SAVE_PAYMENT_LEVEL_HISTORY+"'; document.SheetRevenue.submit();/*this.disabled=true;*/alert('Please Wait');} } else alert('Please Enter A Valid Year'); \">");
 
     
     
@@ -182,7 +187,9 @@ Save Payment Level History
       
         bool = true;
             }
+             else bool=false;
         }
+       
    
    // alert(year);
 //  console.log(year +"=>" + month);

@@ -32,7 +32,7 @@ public class PaymentLevelHistoryDao {
         {
           Connection con = Utility.getConnection();
           Statement stat = con.createStatement();
-          String sql = "select * from GEN_DCM_PAYMENT_LEVEL_HISTORY where user_id = '"+userId+"' and year ='"+year+"' and month='"+month+"'";
+          String sql = "select * from GEN_DCM_PAYMENT_LEVEL_HISTORY where user_id!='null' and user_id = '"+userId+"' and year ='"+year+"' and month='"+month+"'";
           System.out.println("check history file sql : "+sql);
           ResultSet res = stat.executeQuery(sql);
           if(res.next())

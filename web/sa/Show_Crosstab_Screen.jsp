@@ -32,12 +32,15 @@
 <title>
 Export Lists for POS Code
 </title>
-<h2>
-Export Lists for POS Code
-</h2>
+
 </head>
 <body>
-
+<br>
+        <br>
+        <div align="center">
+        <h2>Export Lists for POS Code</h2></div>
+        <br>
+        <br>
 
 <center>
 <%

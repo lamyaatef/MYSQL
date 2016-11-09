@@ -31,6 +31,7 @@
             
             <%
 
+                 String appName = request.getContextPath();
                 HashMap objDataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
                 String Slach = System.getProperty("file.separator");
                 String ip = request.getLocalAddr();
@@ -162,15 +163,17 @@
                     AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction1%>';
                     document.AUTHform.fieldId.value=id;
                     document.AUTHform.statusStr.value=status;
+                    document.AUTHform.action = '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(AuthResInterfaceKey.ACTION_VIEW_STATISTICS);%>'                                
                     AUTHform.submit();
                 }
                 function loadDeleteField(id,status)
                 {
               
                
-    AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction%>';
+                    AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction%>';
                     document.AUTHform.fieldId.value=id;
                     document.AUTHform.statusStr.value=status;
+                    document.AUTHform.action = '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(AdministrationInterfaceKey.ACTION_DELETE_HISTORY_FILE);%>'                
                     AUTHform.submit();
           
                 }
@@ -178,9 +181,11 @@
                 {
 
                     AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction2%>';
+                    //alert(AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction2%>'.valueOf().toString());
                     document.AUTHform.fieldId.value=id;
                     document.AUTHform.statusStr.value=status;
                     document.AUTHform.baseDirectory.value=base;
+                    document.AUTHform.action = '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(AdministrationInterfaceKey.ACTION_EXPORT_PAYMENT_LEVEL_HISTORY);%>'
                     AUTHform.submit();
           
                 }

@@ -25,9 +25,9 @@ public class PaymentHistoryFileDAO {
         try {
             Statement stat = con.createStatement();
             stat.setFetchSize(0);
-            String strSql = "SELECT \n" +
-"gen_dcm_payment_level_history.history_file_id,\n" +
-"dcm_payment_level_hist_detail.dcm_code,gen_dcm_payment_level_history.user_id,\n" +
+            String strSql = "SELECT distinct \n" +
+"dcm_payment_level_hist_detail.dcm_code,gen_dcm_payment_level_history.history_file_id,\n" +
+"gen_dcm_payment_level_history.user_id,\n" +
 "dcm_payment_level_hist_detail.dcm_id,\n" +
 "gen_person.person_full_name,\n" +
 "DCM_PAY_HISTORY_FILE_STATUS.status_name,\n" +
@@ -151,7 +151,7 @@ public class PaymentHistoryFileDAO {
 "FROM gen_dcm_payment_level_history,\n" +
 "  gen_person,\n" +
 "  DCM_PAY_HISTORY_FILE_STATUS\n" +
-"WHERE gen_dcm_payment_level_history.user_id = gen_person.person_id\n" +
+"WHERE gen_dcm_payment_level_history.user_id !='null' AND gen_dcm_payment_level_history.user_id = gen_person.person_id\n" +
 "AND gen_dcm_payment_level_history.status_id = DCM_PAY_HISTORY_FILE_STATUS.status_id order by gen_dcm_payment_level_history.TIMESTAMP desc";
             System.out.println("get history query "+ strSql);
             ResultSet res = stat.executeQuery(strSql);
