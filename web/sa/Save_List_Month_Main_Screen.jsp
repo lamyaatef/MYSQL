@@ -47,6 +47,7 @@ Save List of the Month
 <%
    HashMap dataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
    String userID = request.getSession().getValue(InterfaceKey.HASHMAP_KEY_USER_ID).toString();//(String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);//
+   dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, userID);
    String monthsYears = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_LIST_COLLECTION);
    //Hashtable revenueTable = (Hashtable) dataHashMap.get(InterfaceKey.HASHMAP_KEY_COLLECTION);
    //DCMDto dcmDto = (DCMDto) dataHashMap.get(InterfaceKey.HASHMAP_KEY_ADDITIONAL_COLLECTION);

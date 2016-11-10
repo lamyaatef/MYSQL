@@ -60,10 +60,10 @@ public PaymentHistoryFileModel(ResultSet res)
                     DCM_ID = res.getString("DCM_ID");
                     USER_ID = res.getString("USER_ID");
                     
-                    regionName = res.getString("region_name");
-                    governName = res.getString("govern_name");
-                    cityName = res.getString("city_name");
-                    districtName = res.getString("district_name");
+                    regionName = "";//res.getString("region_name");
+                    governName = "";//res.getString("govern_name");
+                    cityName = "";//res.getString("city_name");
+                    districtName =  res.getString("district_name");
                     areaName = res.getString("area_name");
                     Supervisor = res.getString("Supervisor_Name");
                     Teamleader = res.getString("Teamleader_Name");

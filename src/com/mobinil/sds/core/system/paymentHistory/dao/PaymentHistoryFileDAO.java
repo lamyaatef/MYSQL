@@ -21,104 +21,61 @@ public class PaymentHistoryFileDAO {
     
     public static Vector getallHistoryFiles(Connection con, String fileId) {
         Vector vec = new Vector();
-        System.out.println("getallHistoryFiles ");
+        System.out.println("getallHistoryFiles...");
         try {
             Statement stat = con.createStatement();
             stat.setFetchSize(0);
-            String strSql = "SELECT distinct \n" +
-"dcm_payment_level_hist_detail.dcm_code,gen_dcm_payment_level_history.history_file_id,\n" +
-"gen_dcm_payment_level_history.user_id,\n" +
-"dcm_payment_level_hist_detail.dcm_id,\n" +
-"gen_person.person_full_name,\n" +
-"DCM_PAY_HISTORY_FILE_STATUS.status_name,\n" +
-"gen_dcm_payment_level_history.TIMESTAMP,\n" +
-"gen_dcm_payment_level_history.month,\n" +
-"gen_dcm_payment_level_history.year,\n" +
-"gen_channel.channel_name,\n" +
-"gen_dcm_payment_level.dcm_payment_level_name,\n" +
+            String strSql = "SELECT  \n" +
+"dcm_payment_level_hist_detail.dcm_code as pos_code,\n" +
+"dcm_payment_level_hist_detail.history_file_id,\n" +
+" gen_dcm_payment_level_history.user_id,\n" +
+" dcm_payment_level_hist_detail.dcm_id as pos_id,\n" +
+" gen_dcm_payment_level_history.TIMESTAMP,\n" +
+" gen_dcm_payment_level_history.month,\n" +
+" gen_dcm_payment_level_history.year,\n" +
+" gen_channel.channel_name,\n" +
+" gen_dcm_payment_level.dcm_payment_level_name,\n" +
+" DCM_PAY_HISTORY_FILE_STATUS.status_name,\n" +
+" dcm_pos_detail.pos_area_id,\n" +
+" gen_person.person_full_name,\n" +
+" dcm_region.region_name as area_name,\n" +
+" vw_sales_rep_assignment.district_region_name as district_name,\n" +
 "\n" +
-"dcm_pos_detail.pos_area_id,\n" +
-"  dcm_region.region_name as area_name,\n" +
-"  vw_supervisor_assignment.region_name,\n" +
-"  vw_supervisor_assignment.gov_region_name as govern_name,\n" +
-"  vw_supervisor_assignment.city_region_name as city_name,\n" +
-"  vw_sales_rep_assignment.district_region_name as district_name,\n" +
-"vw_sales_rep_assignment.salesrep_name as Salesrep_Name,\n" +
-"  vw_supervisor_assignment.supervisor_name as Supervisor_Name,\n" +
-"  vw_teamleader_assignment.teamleader_name as Teamleader_Name\n" +
-"\n" +
+" vw_sales_rep_assignment.salesrep_name as Salesrep_Name,\n" +
+" vw_sales_rep_assignment.salesrep_id,\n" +
+" vw_salesrep_manager_assign.teamleader_name as Teamleader_Name,\n" +
+" vw_salesrep_manager_assign.team_id,\n" +
+" vw_salesrep_manager_assign.supervisor_name as Supervisor_Name,\n" +
+" vw_salesrep_manager_assign.sup_id\n" +
 "FROM \n" +
+"\n" +
+" gen_person ,\n" +
 "gen_dcm_payment_level,\n" +
-"gen_person ,\n" +
 "dcm_payment_level_hist_detail,\n" +
 "gen_dcm_payment_level_history,\n" +
-"gen_channel,\n" +
-"DCM_PAY_HISTORY_FILE_STATUS,\n" +
-"\n" +
-"\n" +
-"dcm_pos_detail,\n" +
-"dcm_region,\n" +
-"vw_supervisor_assignment,\n" +
-"vw_teamleader_assignment,\n" +
-"vw_sales_rep_assignment\n" +
-"\n" +
-"WHERE dcm_payment_level_hist_detail.history_file_id    = gen_dcm_payment_level_history.history_file_id\n" +
-"AND dcm_payment_level_hist_detail.channel_id           = gen_channel.channel_id\n" +
-"AND dcm_payment_level_hist_detail.dcm_payment_level_id = gen_dcm_payment_level.dcm_payment_level_id\n" +
-"AND gen_dcm_payment_level_history.status_id            =DCM_PAY_HISTORY_FILE_STATUS.status_id\n" +
-"AND gen_dcm_payment_level_history.user_id              = gen_person.person_id \n" +
-"\n" +
-"AND dcm_payment_level_hist_detail.dcm_code = dcm_pos_detail.pos_code\n" +
-"AND dcm_pos_detail.pos_area_id                   = dcm_region.region_id\n" +
-"AND dcm_region.parent_REGION_ID                  = vw_sales_rep_assignment.SALESREP_DISTRICT_ID  \n" +
-"AND vw_sales_rep_assignment.SALESREP_DISTRICT_ID = vw_supervisor_assignment.DISTRICT_REGION_ID\n" +
-"AND vw_sales_rep_assignment.SALESREP_DISTRICT_ID = vw_teamleader_assignment.DISTRICT_REGION_ID\n" +
-"\n" +
-"AND gen_dcm_payment_level_history.history_file_id = '"+fileId+"' \n" +
-"order by gen_dcm_payment_level_history.TIMESTAMP desc";
-                    /*"SELECT gen_dcm_payment_level_history.history_file_id,\n" +
-"  dcm_payment_level_hist_detail.dcm_code,gen_dcm_payment_level_history.user_id,\n" +
-"dcm_payment_level_hist_detail.dcm_id,\n" +
-"  gen_person.person_full_name,\n" +
-"  DCM_PAY_HISTORY_FILE_STATUS.status_name,\n" +
-"  gen_dcm_payment_level_history.TIMESTAMP,\n" +
-"  gen_dcm_payment_level_history.month,\n" +
-"  gen_dcm_payment_level_history.year,\n" +
-"  gen_channel.channel_name,\n" +
-"  gen_dcm_payment_level.dcm_payment_level_name\n "
-                    + " dcm_pos_detail.pos_area_id,\n" +
-"  dcm_region.region_name as area_name,\n" +
-"  vw_supervisor_assignment.region_name,\n" +
-"  vw_supervisor_assignment.gov_region_name as govern_name,\n" +
-"  vw_supervisor_assignment.city_region_name as city_name,\n" +
-"  vw_sales_rep_assignment.district_region_name as district_name,\n" +
-"vw_sales_rep_assignment.salesrep_name as Salesrep_Name,\n" +
-"  vw_supervisor_assignment.supervisor_name as Supervisor_Name,\n" +
-"  vw_teamleader_assignment.teamleader_name as Teamleader_Name \n" +
-" FROM \n" +
-"  gen_dcm_payment_level,\n" +
-"  gen_person ,\n" +
-"  dcm_payment_level_hist_detail,\n" +
-"  gen_dcm_payment_level_history,\n" +
-"  gen_channel,\n" +
-"  DCM_PAY_HISTORY_FILE_STATUS\n "
-                    + "dcm_pos_detail,\n" +
+" gen_channel,\n" +
+" DCM_PAY_HISTORY_FILE_STATUS,\n" +
+" dcm_pos_detail,\n" +
 " dcm_region,\n" +
-"vw_supervisor_assignment,\n" +
-"vw_teamleader_assignment,\n" +
-"vw_sales_rep_assignment \n " +
+" vw_sales_rep_assignment,\n" +
+" vw_salesrep_manager_assign\n" +
+"\n" +
+"\n" +
 "WHERE dcm_payment_level_hist_detail.history_file_id    = gen_dcm_payment_level_history.history_file_id\n" +
 "AND dcm_payment_level_hist_detail.channel_id           = gen_channel.channel_id\n" +
 "AND dcm_payment_level_hist_detail.dcm_payment_level_id = gen_dcm_payment_level.dcm_payment_level_id\n" +
 "AND gen_dcm_payment_level_history.status_id            =DCM_PAY_HISTORY_FILE_STATUS.status_id\n" +
-"AND gen_dcm_payment_level_history.user_id              = gen_person.person_id "
-                    + "AND dcm_payment_level_hist_detail.dcm_code = dcm_pos_detail.pos_code\n" +
+"AND dcm_pos_detail.pos_code = dcm_payment_level_hist_detail.dcm_code\n" +
+"AND gen_dcm_payment_level_history.user_id              = gen_person.person_id \n" +
+"AND dcm_pos_detail.flage is null\n" +
 "AND dcm_pos_detail.pos_area_id                   = dcm_region.region_id\n" +
-"AND dcm_region.parent_REGION_ID                  = vw_sales_rep_assignment.SALESREP_DISTRICT_ID  \n" +
-"AND vw_sales_rep_assignment.SALESREP_DISTRICT_ID = vw_supervisor_assignment.DISTRICT_REGION_ID\n" +
-"AND vw_sales_rep_assignment.SALESREP_DISTRICT_ID = vw_teamleader_assignment.DISTRICT_REGION_ID"
-                    + "AND gen_dcm_payment_level_history.history_file_id = '"+fileId+"' order by gen_dcm_payment_level_history.TIMESTAMP desc";*/
-            System.out.println("get history query "+ strSql);
+"AND vw_sales_rep_assignment.SALESREP_DISTRICT_ID = dcm_region.parent_region_id\n" +
+"AND dcm_region.region_level_type_id = 5\n" +
+"AND vw_salesrep_manager_assign.dcm_user_id = vw_sales_rep_assignment.salesrep_id\n" +
+"AND gen_dcm_payment_level_history.history_file_id = '"+fileId+"' \n" +
+"order by dcm_payment_level_hist_detail.dcm_code";
+                 
+            System.out.println("export history query "+ strSql);
             ResultSet res = stat.executeQuery(strSql);
             while (res.next()) {
                 System.out.println("in result hist ");

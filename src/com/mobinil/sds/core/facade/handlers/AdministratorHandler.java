@@ -78,6 +78,7 @@ import com.mobinil.sds.core.utilities.CachEngine;
 import com.mobinil.sds.web.interfaces.ar.AuthResInterfaceKey;
 import com.mobinil.sds.web.interfaces.scm.SCMInterfaceKey;
 import java.util.logging.Level;
+import javax.servlet.http.HttpServletRequest;
 public class AdministratorHandler  
 {
   //////////////////Static ints used to switch on the actions.//////////////////
@@ -189,6 +190,10 @@ public class AdministratorHandler
     if(strUserID != null && strUserID.compareTo("") != 0 && strUserID.compareTo("null") != 0)
     {
       dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, strUserID);           
+    }
+    else {
+        HttpServletRequest request = (HttpServletRequest)paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET);
+        strUserID = request.getSession().getValue(InterfaceKey.HASHMAP_KEY_USER_ID).toString();    
     }
     try
     {
@@ -449,7 +454,7 @@ public class AdministratorHandler
         case LIST_PAYMENT_LEVEL_HISTORY:
               
             // split by __ =>> YEAR_MONTH
-                
+                System.out.println("in action LIST_PAYMENT_LEVEL_HISTORY "+strUserID);
               dataHashMap.put(InterfaceKey.HASHMAP_KEY_LIST_COLLECTION, PaymentLevelHistoryDao.getHistoryFileMonthYeatByUserId(strUserID));
         break;
             

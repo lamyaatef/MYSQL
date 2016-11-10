@@ -131,9 +131,9 @@ public class RepManagementDAO {
               
         try {
             Statement stat = con.createStatement();
-            String strSql1 = "select * from myReps";
-            String strSql2 = "select * from myNullReps";
-            String strSql3 = "select * from myNotExistReps";
+            String strSql1 = "select * from vw_salesrep_manager_assign";
+            String strSql2 = "select * from vw_salesrep_manager_notexist";
+            
             
             ResultSet res1 = stat.executeQuery(strSql1);
             while (res1.next()) {
@@ -148,13 +148,7 @@ public class RepManagementDAO {
                 vec.add(new RepExcelModel(res2,false));
                 }
             res2.close();
-            
-            ResultSet res3 = stat.executeQuery(strSql3);
-            while (res3.next()) {
-               
-                vec.add(new RepExcelModel(res3,false));
-                }
-            res3.close();
+ 
      
      
             stat.close();

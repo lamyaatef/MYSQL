@@ -104,6 +104,7 @@ public class PaymentLevelHistoryDao {
           Connection con = Utility.getConnection();
           Statement stat = con.createStatement();
           String sql = "select * from GEN_DCM_PAYMENT_LEVEL_HISTORY where user_id = '"+userId+"'  order by history_file_id desc ";
+          System.out.println(" SQL << "+sql);
           ResultSet res = stat.executeQuery(sql);
           
           while(res.next())
