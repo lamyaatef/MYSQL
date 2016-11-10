@@ -50,14 +50,14 @@ public PaymentHistoryFileModel(ResultSet res)
 	  
 		    HISTORY_FILE_ID = res.getString("HISTORY_FILE_ID");
                     USERNAME= res.getString("PERSON_FULL_NAME");
-                    DCM_CODE = res.getString("DCM_CODE");
+                    DCM_CODE = res.getString("POS_CODE");
                     FILE_TIMESTAMP = res.getString("TIMESTAMP");
                     FILE_MONTH = res.getString("MONTH");
                     FILE_YEAR = res.getString("YEAR");
                     DCM_CHANNEL_NAME =  res.getString("CHANNEL_NAME");
                     DCM_PAYMENT_LEVEL =  res.getString("DCM_PAYMENT_LEVEL_NAME");
                     FILE_STATUS= res.getString("STATUS_NAME");
-                    DCM_ID = res.getString("DCM_ID");
+                    DCM_ID = res.getString("POS_ID");
                     USER_ID = res.getString("USER_ID");
                     
                     regionName = "";//res.getString("region_name");
