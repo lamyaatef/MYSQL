@@ -12,25 +12,25 @@ import java.sql.ResultSet;
  * @author sand
  */
 public class PaymentHistoryFileModel {
-            private String  HISTORY_FILE_ID;
-	    private String  USER_ID ;
-	    private String  FILE_TIMESTAMP ;
-	    private String  DCM_CHANNEL_NAME ;
-	    private String  DCM_PAYMENT_LEVEL ;
-	    private String  DCM_CODE ;
-            private String  DCM_ID ;
-            private String  FILE_YEAR ;
-            private String  FILE_MONTH;
-            private String  FILE_STATUS ;
-            private String USERNAME;
-            private String regionName;
-            private String governName;
-            private String cityName;
-            private String districtName;
-            private String areaName;
-            private String Supervisor;
-            private String Teamleader;
-            private String Salesrep;
+            private String  HISTORY_FILE_ID="";
+	    private String  USER_ID ="";
+	    private String  FILE_TIMESTAMP="" ;
+	    private String  DCM_CHANNEL_NAME ="";
+	    private String  DCM_PAYMENT_LEVEL="" ;
+	    private String  DCM_CODE ="";
+            private String  DCM_ID ="";
+            private String  FILE_YEAR ="";
+            private String  FILE_MONTH="";
+            private String  FILE_STATUS ="";
+            private String USERNAME="";
+            private String regionName="";
+            private String governName="";
+            private String cityName="";
+            private String districtName="";
+            private String areaName="";
+            private String Supervisor="";
+            private String Teamleader="";
+            private String Salesrep="";
             
 
     /**
@@ -60,7 +60,7 @@ public PaymentHistoryFileModel(ResultSet res)
                     DCM_ID = res.getString("POS_ID");
                     USER_ID = res.getString("USER_ID");
                     
-                    regionName = "";//res.getString("region_name");
+                    regionName = res.getString("region_name");
                     governName = "";//res.getString("govern_name");
                     cityName = "";//res.getString("city_name");
                     districtName =  res.getString("district_name");
