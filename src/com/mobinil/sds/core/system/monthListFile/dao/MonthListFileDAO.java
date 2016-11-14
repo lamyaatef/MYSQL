@@ -57,7 +57,7 @@ public class MonthListFileDAO {
 "AND gen_dcm.dcm_code                   = dcm_pos_detail.pos_code\n" +
 "AND gen_dcm_month_list.history_file_id   = gen_dcm_month_list_detail.history_file_id\n" +
 "AND dcm_pos_detail.pos_area_id                   = dcm_region.region_id\n" +
-"AND gen_dcm_month_list_detail.dcm_code ='3078.001'\n" +
+"AND gen_dcm_month_list_detail.dcm_code ='"+posCode+"'\n" +
 " AND dcm_region.parent_REGION_ID  = vw_supervisor_assignment.DISTRICT_REGION_ID\n" +
 "\n" +
 " \n" +
