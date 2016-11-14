@@ -12,20 +12,20 @@ import java.sql.ResultSet;
  * @author sand
  */
 public class CrosstabListsModel {
-    private String dcmCode;
-    private String dcmName;
-    private String listName;
-    private String month;
-    private String year;
-    private String posAreaId;
-    private String areaName;
-    private String regionName;
-    private String governName;
-    private String cityName;
-    private String districtName;
-    private String salesrepName;
-    private String supervisorName;
-    private String teamleaderName;
+    private String dcmCode="";
+    private String dcmName="";
+    private String listName="";
+    private String month="";
+    private String year="";
+    private String posAreaId="";
+    private String areaName="";
+    private String regionName="";
+    private String governName="";
+    private String cityName="";
+    private String districtName="";
+    private String salesrepName="";
+    private String supervisorName="";
+    private String teamleaderName="";
 
     /**
      * @return the dcmCode
@@ -52,13 +52,9 @@ public CrosstabListsModel(ResultSet res)
                     cityName = res.getString("supervisor_city_name");
                     districtName = res.getString("supervisor_district_name");
                     
-                    regionName = res.getString("supervisor_region_name");
-                    governName = res.getString("supervisor_govern_name");
-                    cityName = res.getString("supervisor_city_name");
-                    districtName = res.getString("supervisor_district_name");
-                    salesrepName = res.getString("salesrep_name");
+                    //salesrepName = res.getString("salesrep_name");
                     supervisorName = res.getString("supervisor_name");
-                    teamleaderName = res.getString("teamleader_name");
+                    //teamleaderName = res.getString("teamleader_name");
                     
                 }
 	      catch(Exception e)

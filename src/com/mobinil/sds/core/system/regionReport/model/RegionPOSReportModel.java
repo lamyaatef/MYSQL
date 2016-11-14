@@ -104,10 +104,10 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     IdNumber= res.getString("pos_owner_id_number");
                     IdType= res.getString("pos_owner_id_type_id");
                     region= res.getString("supervisor_region_name");//region_id , supervisor_region_id
-                    //city= res.getString("supervisor_city_name");//POS_CITY_ID , supervisor_city_id
+                    city= res.getString("supervisor_city_name");//POS_CITY_ID , supervisor_city_id
                     //disctrict= res.getString("salesrep_district_name");//POS_DISTRICT_ID, salesrep_district_id
                     disctrict= res.getString("district_name");//POS_DISTRICT_ID, salesrep_district_id                    
-                    //governorate= res.getString("supervisor_govern_name");//POS_GOVERNRATE , supervisor_govern_id
+                    governorate= res.getString("supervisor_govern_name");//POS_GOVERNRATE , supervisor_govern_id
                     districtCodeId= res.getString("DISTRICT_CODE");
                     areaCode= res.getString("POS_AREA_ID");//salesrep_area_id,res.getString("area_code");
                     area= res.getString("area_name");//salesrep_area_name,POS_AREA_ID
@@ -121,6 +121,8 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                     //regionSupervisor= res.getString("Supervisor_Name");//supervisorName;
                     //regionTeamleader= res.getString("Teamleader_Name");//teamleaderName;
                     salesRep= res.getString("Salesrep_Name");//sales_rep_name
+                    regionSupervisor = res.getString("supervisor_name");
+                    //regionTeamleader         = res.getString("supervisor_name");
                     stkDialNumber= res.getString("StkDialNo");
                     stkStatus= res.getString("stk_status");
                     stkActivationDate= res.getString("stkActvDt");

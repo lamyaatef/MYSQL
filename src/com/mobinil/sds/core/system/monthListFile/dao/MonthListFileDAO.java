@@ -29,6 +29,40 @@ public class MonthListFileDAO {
             Statement stat = con.createStatement();
             stat.setFetchSize(0);
             String strSql = "SELECT gen_dcm_month_list_detail.dcm_code,\n" +
+"   gen_dcm.dcm_name ,\n" +
+"   gen_dcm_month_list.list_name,\n" +
+"   gen_dcm_month_list.month,\n" +
+"   gen_dcm_month_list.year,\n" +
+"   dcm_pos_detail.pos_address,\n" +
+"   dcm_pos_detail.pos_area_id,\n" +
+"   dcm_region.region_name as area_name,\n" +
+"   \n" +
+"   vw_supervisor_assignment.region_name as supervisor_region_name,\n" +
+"   vw_supervisor_assignment.gov_region_name as supervisor_govern_name,\n" +
+"   vw_supervisor_assignment.city_region_name as supervisor_city_name,\n" +
+"   vw_supervisor_assignment.district_region_name as supervisor_district_name,\n" +
+"   vw_supervisor_assignment.supervisor_name as supervisor_name,\n" +
+" vw_supervisor_assignment.sup_id\n" +
+" FROM \n" +
+"   dcm_region,\n" +
+"   dcm_pos_detail,\n" +
+"   vw_supervisor_assignment,\n" +
+"   gen_dcm,\n" +
+"  gen_dcm_month_list,\n" +
+"  gen_dcm_month_list_detail\n" +
+"  \n" +
+"  \n" +
+"  \n" +
+"WHERE gen_dcm.dcm_code                 = gen_dcm_month_list_detail.dcm_code\n" +
+"AND gen_dcm.dcm_code                   = dcm_pos_detail.pos_code\n" +
+"AND gen_dcm_month_list.history_file_id   = gen_dcm_month_list_detail.history_file_id\n" +
+"AND dcm_pos_detail.pos_area_id                   = dcm_region.region_id\n" +
+"AND gen_dcm_month_list_detail.dcm_code ='3078.001'\n" +
+" AND dcm_region.parent_REGION_ID  = vw_supervisor_assignment.DISTRICT_REGION_ID\n" +
+"\n" +
+" \n" +
+" order by list_name";
+            /*"SELECT gen_dcm_month_list_detail.dcm_code,\n" +
 "  gen_dcm.dcm_name ,\n" +
 "  gen_dcm_month_list.list_name,\n" +
 "  gen_dcm_month_list.month,\n" +
@@ -61,7 +95,7 @@ public class MonthListFileDAO {
 "AND dcm_region.parent_REGION_ID  = vw_supervisor_assignment.DISTRICT_REGION_ID\n" +
 "AND vw_supervisor_assignment.DISTRICT_REGION_ID = vw_sales_rep_assignment.SALESREP_DISTRICT_ID(+)\n" +
 "AND vw_sales_rep_assignment.SALESREP_DISTRICT_ID = vw_teamleader_assignment.DISTRICT_REGION_ID(+) \n" +
-"order by list_name";
+"order by list_name";*/
                     
             System.out.println("getCrosstabLists query "+ strSql);
             ResultSet res = stat.executeQuery(strSql);
