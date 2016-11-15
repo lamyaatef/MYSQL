@@ -28,40 +28,37 @@ public class MonthListFileDAO {
         try {
             Statement stat = con.createStatement();
             stat.setFetchSize(0);
-            String strSql = "SELECT gen_dcm_month_list_detail.dcm_code,\n" +
-"   gen_dcm.dcm_name ,\n" +
-"   gen_dcm_month_list.list_name,\n" +
-"   gen_dcm_month_list.month,\n" +
-"   gen_dcm_month_list.year,\n" +
-"   dcm_pos_detail.pos_address,\n" +
-"   dcm_pos_detail.pos_area_id,\n" +
-"   dcm_region.region_name as area_name,\n" +
-"   \n" +
-"   vw_supervisor_assignment.region_name as supervisor_region_name,\n" +
-"   vw_supervisor_assignment.gov_region_name as supervisor_govern_name,\n" +
-"   vw_supervisor_assignment.city_region_name as supervisor_city_name,\n" +
-"   vw_supervisor_assignment.district_region_name as supervisor_district_name,\n" +
-"   vw_supervisor_assignment.supervisor_name as supervisor_name,\n" +
-" vw_supervisor_assignment.sup_id\n" +
-" FROM \n" +
-"   dcm_region,\n" +
-"   dcm_pos_detail,\n" +
-"   vw_supervisor_assignment,\n" +
-"   gen_dcm,\n" +
-"  gen_dcm_month_list,\n" +
-"  gen_dcm_month_list_detail\n" +
-"  \n" +
-"  \n" +
-"  \n" +
-"WHERE gen_dcm.dcm_code                 = gen_dcm_month_list_detail.dcm_code\n" +
-"AND gen_dcm.dcm_code                   = dcm_pos_detail.pos_code\n" +
-"AND gen_dcm_month_list.history_file_id   = gen_dcm_month_list_detail.history_file_id\n" +
-"AND dcm_pos_detail.pos_area_id                   = dcm_region.region_id\n" +
-"AND gen_dcm_month_list_detail.dcm_code ='"+posCode+"'\n" +
-" AND dcm_region.parent_REGION_ID  = vw_supervisor_assignment.DISTRICT_REGION_ID\n" +
-"\n" +
-" \n" +
-" order by list_name";
+            String strSql = "SELECT \n" +
+"    vw_supervisor_assignment.sup_id,\n" +
+"    gen_dcm_month_list.list_name,\n" +
+"    gen_dcm_month_list.month,\n" +
+"    gen_dcm_month_list.year,\n" +
+"    gen_dcm_month_list_detail.dcm_code,\n" +
+"    dcm_region.region_id,\n" +
+"    vw_supervisor_assignment.DISTRICT_REGION_ID,\n" +
+"    dcm_region.parent_REGION_ID,\n" +
+"    dcm_pos_detail.pos_area_id,\n" +
+"    dcm_region.region_name AS area_name,\n" +
+"    gen_dcm.dcm_name ,\n" +
+"    dcm_pos_detail.pos_address,\n" +
+"    vw_supervisor_assignment.region_name          AS supervisor_region_name,\n" +
+"    vw_supervisor_assignment.gov_region_name      AS supervisor_govern_name,\n" +
+"    vw_supervisor_assignment.city_region_name     AS supervisor_city_name,\n" +
+"    vw_supervisor_assignment.district_region_name AS supervisor_district_name,\n" +
+"    vw_supervisor_assignment.supervisor_name      AS supervisor_name\n" +
+"  FROM dcm_region,\n" +
+"    dcm_pos_detail,\n" +
+"    vw_supervisor_assignment,\n" +
+"    gen_dcm,\n" +
+"    gen_dcm_month_list,\n" +
+"    gen_dcm_month_list_detail\n" +
+"  WHERE gen_dcm.dcm_code                 = gen_dcm_month_list_detail.dcm_code\n" +
+"  AND gen_dcm_month_list.history_file_id = gen_dcm_month_list_detail.history_file_id\n" +
+"  AND gen_dcm.dcm_code                   = dcm_pos_detail.pos_code\n" +
+"  AND dcm_pos_detail.pos_area_id         = dcm_region.region_id\n" +
+"  AND dcm_region.parent_REGION_ID        = vw_supervisor_assignment.DISTRICT_REGION_ID\n" +
+"  AND gen_dcm_month_list_detail.dcm_code ='"+posCode+"'\n" +
+"  ORDER BY sup_id DESC";
             /*"SELECT gen_dcm_month_list_detail.dcm_code,\n" +
 "  gen_dcm.dcm_name ,\n" +
 "  gen_dcm_month_list.list_name,\n" +

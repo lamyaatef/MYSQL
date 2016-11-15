@@ -129,7 +129,7 @@ String Slach = System.getProperty("file.separator");
                 <td align = "center" >Delete Region</td>
                 <td align = "center" >View Parents</td>
                 <td align = "center" >View Childs</td>
-                <td align = "center" >Export</td>
+                <td align = "center" >Export Region</td>
                 <% Integer childnum = 0;
                     if (childnum.parseInt(regions.get(0).getRegionLevelTypeId()) == max) {
                 %>
