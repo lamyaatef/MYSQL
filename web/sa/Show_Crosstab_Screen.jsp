@@ -1,3 +1,4 @@
+<%@page import="com.mobinil.sds.web.interfaces.scm.SCMInterfaceKey"%>
 <%@page import="com.mobinil.sds.core.system.sa.history.model.PayLevelHistroyModel"%>
 <%@ page import ="javax.servlet.*" 
          import="javax.servlet.http.*"
@@ -88,6 +89,9 @@ Export Lists for POS Code
     AdministrationInterfaceKey.ACTION_EXPORT_LISTS_CROSSTAB+"'; document.SheetRevenue.submit();} \">");*/
     
     
+    out.println("<input class=button id=\"Bck\" type=\"button\" name=\"Bck\" value=\"   Back   \" ");
+    out.print(" onclick=\"back();\">");
+    
     out.println("</center>");    
     out.println("<br><br>");
     
@@ -111,6 +115,15 @@ Export Lists for POS Code
 
 
 <script>
+    
+     function back ()
+        {
+            /*document.SheetRevenue.action="com.mobinil.sds.web.controller.WebControllerServlet?";
+            document.SheetRevenue.action=document.SheetRevenue.action+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='+'<%=SCMInterfaceKey.ACTION_SHOW_SAVE_LISTS%>';*/
+            document.SheetRevenue.action = '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_SHOW_SAVE_LISTS);%>';                                                           
+            document.SheetRevenue.submit();
+            
+        }
   function checkMonthInYear(){
   //    alert("checkMonthInYear");
   var bool = true;    

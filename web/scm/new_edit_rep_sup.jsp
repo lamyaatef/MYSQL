@@ -188,14 +188,47 @@ $("#<%=SCMInterfaceKey.REGION_ID%>").change(function(){
   var regionid= $("#<%=SCMInterfaceKey.REGION_ID%>").val(); //value id of Option selected in the Select object
  // console.log("value id of option selected in Select object is : ",regionid);
  var supervisorHidden=$("#supervisorHidden").val();
-    if(supervisorHidden== "true")
+    if(supervisorHidden== "false")
     {
-        console.log("inside if true ",supervisorHidden);
+        console.log("inside if supervisor is NOT hidden ",supervisorHidden);
     $.ajax({
     url : "<%out.print(formAction);%>",
     type: "POST",
     datatype: "JSON",
     data : {regionid:regionid,type:"<%=SCMInterfaceKey.REGION_ID%>",arraySent:"4"},
+    success: function(data, textStatus, jqXHR)
+    {
+        
+      
+        $("#selectSuper").empty();
+        $("#selectSuper").append($("<option/>").text("--"));
+      
+        
+      
+    
+
+      $.each(data.map.users, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+          //  console.log("data teamleaders ",option);
+            $("#selectSuper").append(option);
+});
+
+},
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+}
+else {
+console.log("inside if supervisor hidden ",supervisorHidden);
+ $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    datatype: "JSON",
+    data : {regionid:regionid,type:"<%=SCMInterfaceKey.REGION_ID%>",arraySent:"5"},
     success: function(data, textStatus, jqXHR)
     {
         
@@ -213,39 +246,6 @@ $("#<%=SCMInterfaceKey.REGION_ID%>").change(function(){
  
           //  console.log("data teamleaders ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>").append(option);
-});
-
-},
-    error: function (jqXHR, textStatus, errorThrown)
-    {
- 
-    }
-});
-}
-else {
-console.log("inside if false ",supervisorHidden);
- $.ajax({
-    url : "<%out.print(formAction);%>",
-    type: "POST",
-    datatype: "JSON",
-    data : {regionid:regionid,type:"<%=SCMInterfaceKey.REGION_ID%>",arraySent:"5"},
-    success: function(data, textStatus, jqXHR)
-    {
-        
-      
-        $("#selectSuper").empty();
-        $("#selectSuper").append($("<option/>").text("--"));
-      
-        
-      
-    
-
-      $.each(data.map.teams, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
- 
-          //  console.log("data teamleaders ",option);
-            $("#selectSuper").append(option);
 });
 
 },

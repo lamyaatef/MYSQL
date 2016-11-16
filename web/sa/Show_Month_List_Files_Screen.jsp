@@ -86,7 +86,7 @@
 
                 </TR>
                 <%
-
+                    String appName = request.getContextPath();
                     String FileId = "";
                     String UserName="";
                     String POSCode = "";
@@ -165,6 +165,14 @@
 
             </table>
             <script type="text/javascript">
+        function back ()
+        {
+            /*document.SheetRevenue.action="com.mobinil.sds.web.controller.WebControllerServlet?";
+            document.SheetRevenue.action=document.SheetRevenue.action+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='+'<%=SCMInterfaceKey.ACTION_SHOW_SAVE_LISTS%>';*/
+            document.AUTHform.action = '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_SHOW_SAVE_LISTS);%>';                                                           
+            document.AUTHform.submit();
+            
+        }
                 function loadField(id,status)
                 {
                     //document.AUTHform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value='<%=nextAction1%>';
@@ -196,6 +204,9 @@
           
                 }
             </script>
+                      <center>
+    <input id="bckButton" name="bckButton" class='button' type='button' value='Back' onclick="back();"/>
+    </center>
         </form>
 
     </body>

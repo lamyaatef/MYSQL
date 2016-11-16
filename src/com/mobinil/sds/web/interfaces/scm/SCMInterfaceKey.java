@@ -51,6 +51,7 @@ public class SCMInterfaceKey {
     public static final String DISTRIBUTER_SHEET = "distrib_sheet";
     public static final String BASE_DIR = "basedir";
     public static final String ACTION_STK_REQUEST_EXCEL = "request_excel";
+    public static final String ACTION_SHOW_SAVE_LISTS = "action_list";
     public static final String QUERY_POS_CBILL_TABLE = "44";
     public static final String ACTION_IMPORT_IQRAR_RECIEVING = "import_iqrar_recieving";
     public static final String ACTION_IMPORT_SINGLE_IQRAR_RECIEVING = "import_single_iqrar_recieving";

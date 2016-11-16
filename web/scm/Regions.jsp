@@ -156,6 +156,7 @@
     map.put("teams", leads);
     map.put("sales",reps);
     map.put("superChildren", superChildren);
+    
   JSONObject js = new JSONObject();
   js.put("map", map);
   response.setContentType("text/x-json;charset=UTF-8");           
@@ -204,10 +205,12 @@
         {
             System.out.println("IN DRAW supervisors: "+idd);
             Vector <UserDataModel> supervisors= RequestDao.getUserDataList(con, idd,/*4*/userLevel);
+            System.out.println("SUPERVISORS/TEAMLEADERS "+supervisors);
             if (supervisors != null && !supervisors.isEmpty()) {
                 //  out.println("<option value=''>--</option>");
-
+            
                 for (UserDataModel userDataModel : supervisors) {
+                    System.out.println("SUPERVISOR/TEAMLEADER -- "+userDataModel.getUserId());     
                     // out.println("<option value=" + userDataModel.getUserDetailId()+">"+userDataModel.getUserFullName()+"</option>");
                     //supervisor.put(userDataModel.getUserDetailId(), userDataModel.getUserFullName());
                     supervisor.put(userDataModel.getDcmUserId(), userDataModel.getUserFullName());
