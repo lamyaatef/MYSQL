@@ -25,6 +25,10 @@
             regions=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGIONS);
             repLevels=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_REP_LEVEL_TYPES);
             searchResults=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_REP_SEARCH_RESULTS);
+            request.setAttribute("search_vector", searchResults);
+            request.setAttribute("search_vector2", "search_vector2");
+            request.getSession().setAttribute("search_vector", searchResults);
+            dataHashMap.put(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET,request);
             System.out.println("SEARCH RESULTS IN JSP : "+searchResults);
             String userLevelTypeId=(String)dataHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
             String regionId=(String)dataHashMap.get(SCMInterfaceKey.REGION_ID);

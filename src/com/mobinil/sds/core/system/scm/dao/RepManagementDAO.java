@@ -161,6 +161,47 @@ public class RepManagementDAO {
         return vec;
     }
     
+    public static Vector getAllRepsSearchData(Connection con,Vector<DCMUserModel> RepResults) {
+        
+     
+        System.out.println("getAllRepsSearchData ");
+        Vector vec = new Vector();
+        
+              
+        try {
+            Statement stat = con.createStatement();
+            for (int i=0;i<=RepResults.size();i++) {
+               
+                DCMUserModel rep = RepResults.get(i);
+                String strSql1 = "select * from vw_salesrep_manager_assign dcm_user_id = '"+rep.getUserId()+"' ";
+                String strSql2 = "select * from vw_salesrep_manager_notexist dcm_user_id = '"+rep.getUserId()+"' ";
+                ResultSet res1 = stat.executeQuery(strSql1);
+                if (res1.next()) {
+
+                    vec.add(new RepExcelModel(res1,true));
+                    }
+                res1.close();
+
+                ResultSet res2 = stat.executeQuery(strSql2);
+                if (res2.next()) {
+
+                    vec.add(new RepExcelModel(res2,false));
+                    }
+                res2.close();
+                }
+            
+           
+            stat.close();
+           // con.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return vec;
+    }
+    
+    
     public static Vector getAllSupervisorsData(Connection con) {
         
         Vector vec = new Vector();

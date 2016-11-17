@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.util.Date;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -2614,14 +2615,26 @@ public class SCMHandler {
          case action_export_salesreps:
           {
              // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
-            //System.out.println("Action -- action_export_salesreps - check Vector: "+((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)));
-              
+            //System.out.println("Action -- action_export_salesreps - check Vector: "+();
+                    //.getAttribute("search_vector2"));
+            Vector searchResults =(Vector)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_vector"));
+            System.out.println("VECTOR "+searchResults.size());
+            Vector files = new Vector();
+            
             String Slach = System.getProperty("file.separator");
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
-              //Vector results = (Vector) paramHashMap.get(SCMInterfaceKey.VECTOR_REP_SEARCH_RESULTS);
-              //System.out.println("Action -- action_export_salesreps - check Vector: "+results);
-              Vector files =RepManagementDAO.getAllRepsData(con);
+              if(searchResults!=null && !searchResults.isEmpty())
+              {
+                  System.out.println("EXPORT - Search");
+                  files =RepManagementDAO.getAllRepsSearchData(con, searchResults);
+              }
+              else 
+              {
+                  System.out.println("EXPORT - Data");
+                  files =RepManagementDAO.getAllRepsData(con);
+              }
+              
               String excelLink = PoiWriteExcelFile.exportExcelSheetForAllRepsData(/*dataVec*/files, baseDirectory);
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
           }
