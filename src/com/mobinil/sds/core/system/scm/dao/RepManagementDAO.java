@@ -131,8 +131,8 @@ public class RepManagementDAO {
               
         try {
             Statement stat = con.createStatement();
-            String strSql1 = "select * from vw_salesrep_manager_assign";
-            String strSql2 = "select * from vw_salesrep_manager_notexist";
+            String strSql1 = "select * from vw_salesrep_manager_assign order by rep_name";
+            String strSql2 = "select * from vw_salesrep_manager_notexist order by rep_name";
             
             
             ResultSet res1 = stat.executeQuery(strSql1);
@@ -169,7 +169,7 @@ public class RepManagementDAO {
               
         try {
             Statement stat = con.createStatement();
-            String strSql1 = "select * from mySupervisors";
+            String strSql1 = "select * from mySupervisors order by supervisor_name";
             
             
             ResultSet res1 = stat.executeQuery(strSql1);
@@ -196,7 +196,7 @@ public class RepManagementDAO {
               
         try {
             Statement stat = con.createStatement();
-            String strSql1 = "select * from myTeamleaders";
+            String strSql1 = "select * from myTeamleaders order by teamleader_name";
             
             ResultSet res1 = stat.executeQuery(strSql1);
             while (res1.next()) {

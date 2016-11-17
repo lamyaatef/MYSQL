@@ -1691,29 +1691,29 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                              {
                                  RepExcelModel ss = RepResults.get(i-1);
                                 int j=0;
-                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getRepName());
+                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getRepName().compareTo("null")==0 ? "" : RepResults.get(i-1).getRepName());
                                 j++;
-                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getRepEmail());
+                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getRepEmail().compareTo("null")==0 ? "" : RepResults.get(i-1).getRepEmail());
                                 j++;
-                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getRepMobile());
+                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getRepMobile().compareTo("null")==0 ? "" : RepResults.get(i-1).getRepMobile());
                                 j++;
-                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getRepAddress());
+                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getRepAddress().compareTo("null")==0 ? "" : RepResults.get(i-1).getRepAddress());
                                 j++;
-                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getTeamleaderName());
+                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getTeamleaderName().compareTo("null")==0 ? "" : RepResults.get(i-1).getTeamleaderName());
                                 j++;
-                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getTeamleaderEmail());
+                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getTeamleaderEmail().compareTo("null")==0 ? "" : RepResults.get(i-1).getTeamleaderEmail());
                                 j++;
-                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getTeamleaderMobile());
+                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getTeamleaderMobile().compareTo("null")==0 ? "" : RepResults.get(i-1).getTeamleaderMobile());
                                 j++;
-                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getTeamleaderAddress());
+                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getTeamleaderAddress().compareTo("null")==0 ? "" : RepResults.get(i-1).getTeamleaderAddress());
                                 j++;
-                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getSupervisorName());
+                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getSupervisorName().compareTo("null")==0 ? "" : RepResults.get(i-1).getSupervisorName());
                                 j++;
-                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getSupervisorEmail());
+                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getSupervisorEmail().compareTo("null")==0 ? "" : RepResults.get(i-1).getSupervisorEmail());
                                 j++;
-                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getSupervisorMobile());
+                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getSupervisorMobile().compareTo("null")==0 ? "" : RepResults.get(i-1).getSupervisorMobile());
                                 j++;
-                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getSupervisorAddress());
+                                cells.get(j).get(i).setCellValue(RepResults.get(i-1).getSupervisorAddress().compareTo("null")==0 ? "" : RepResults.get(i-1).getSupervisorAddress());
                                 
                              }
               con.close();
@@ -1793,13 +1793,13 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                              {
                                  SupervisorExcelModel ss = SupervisorResults.get(i-1);
                                 int j=0;
-                                cells.get(j).get(i).setCellValue(SupervisorResults.get(i-1).getSupervisorName());
+                                cells.get(j).get(i).setCellValue(SupervisorResults.get(i-1).getSupervisorName().compareTo("null")==0 ? "" : SupervisorResults.get(i-1).getSupervisorName());
                                 j++;
-                                cells.get(j).get(i).setCellValue(SupervisorResults.get(i-1).getSupervisorEmail());
+                                cells.get(j).get(i).setCellValue(SupervisorResults.get(i-1).getSupervisorEmail().compareTo("null")==0 ? "" : SupervisorResults.get(i-1).getSupervisorEmail());
                                 j++;
-                                cells.get(j).get(i).setCellValue(SupervisorResults.get(i-1).getSupervisorMobile());
+                                cells.get(j).get(i).setCellValue(SupervisorResults.get(i-1).getSupervisorMobile().compareTo("null")==0 ? "" : SupervisorResults.get(i-1).getSupervisorMobile());
                                 j++;
-                                cells.get(j).get(i).setCellValue(SupervisorResults.get(i-1).getSupervisorAddress());
+                                cells.get(j).get(i).setCellValue(SupervisorResults.get(i-1).getSupervisorAddress().compareTo("null")==0 ? "" : SupervisorResults.get(i-1).getSupervisorAddress());
                                 
                              }
               con.close();
@@ -1879,13 +1879,13 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                              {
                                  TeamleaderExcelModel ss = TeamleaderResults.get(i-1);
                                 int j=0;
-                                cells.get(j).get(i).setCellValue(TeamleaderResults.get(i-1).getTeamleaderName());
+                                cells.get(j).get(i).setCellValue(TeamleaderResults.get(i-1).getTeamleaderName().compareTo("null")==0 ? "" : TeamleaderResults.get(i-1).getTeamleaderName());
                                 j++;
-                                cells.get(j).get(i).setCellValue(TeamleaderResults.get(i-1).getTeamleaderEmail());
+                                cells.get(j).get(i).setCellValue(TeamleaderResults.get(i-1).getTeamleaderEmail().compareTo("null")==0 ? "" : TeamleaderResults.get(i-1).getTeamleaderEmail());
                                 j++;
-                                cells.get(j).get(i).setCellValue(TeamleaderResults.get(i-1).getTeamleaderMobile());
+                                cells.get(j).get(i).setCellValue(TeamleaderResults.get(i-1).getTeamleaderMobile().compareTo("null")==0 ? "" : TeamleaderResults.get(i-1).getTeamleaderMobile());
                                 j++;
-                                cells.get(j).get(i).setCellValue(TeamleaderResults.get(i-1).getTeamleaderAddress());
+                                cells.get(j).get(i).setCellValue(TeamleaderResults.get(i-1).getTeamleaderAddress().compareTo("null")==0 ? "" : TeamleaderResults.get(i-1).getTeamleaderAddress());
                                 
                              }
               con.close();

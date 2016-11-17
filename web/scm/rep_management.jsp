@@ -25,6 +25,7 @@
             regions=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGIONS);
             repLevels=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_REP_LEVEL_TYPES);
             searchResults=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_REP_SEARCH_RESULTS);
+            System.out.println("SEARCH RESULTS IN JSP : "+searchResults);
             String userLevelTypeId=(String)dataHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
             String regionId=(String)dataHashMap.get(SCMInterfaceKey.REGION_ID);
             String searchName=(String)dataHashMap.get(SCMInterfaceKey.SEARCH_NAME);
@@ -89,7 +90,7 @@
                 else
                 return;
             }
-            function exportData(base)
+            function exportData(base,results)
             {
                 var userType = document.getElementById("selectType").value;
                 
@@ -102,8 +103,15 @@
                
                
                 document.repManagement.baseDirectory.value=base;
+                document.repManagement.SearchResults.value=results;
+                console.log("Results ",results);
                 document.repManagement.submit();
             }
+            /*function exportUsers(results)
+            {
+                document.repManagement.SearchResults.value=results;
+                document.repManagement.submit();
+            }*/
             
             function change() {
             var export_but = document.getElementById("export_but");
@@ -129,6 +137,7 @@
                             document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_TEAMLEAD_DETAIL%>";
                         document.<%=formName%>.submit();
             }
+            
 
        </script>
     </head>
@@ -146,7 +155,7 @@
             <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_USER_ID%>" value="<%=userId%>">
             <input type="hidden" name="<%=SCMInterfaceKey.DCM_USER_ID%>" value="-1">
             <input type="hidden" name="<%=SCMInterfaceKey.DCM_USER_LEVEL_TYPE_ID%>">
-            
+            <input type="hidden" id="SearchResults" name="<%=SCMInterfaceKey.VECTOR_REP_SEARCH_RESULTS%>" value="">
 
 
                 <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1">
@@ -215,7 +224,7 @@
                     </tr>
                     <tr   id="export_row">        
                     <td colspan="6" align="center">
-                       <input align="middle"  id="export_but" type="button"  class="button" name="Export"  value="Export List" onclick="exportData('<%=base%>');">
+                       <input align="middle"  id="export_but" type="button"  class="button" name="Export"  value="Export List" onclick="exportData('<%=base%>','<%=searchResults%>');">
                          
                     </td>
                     </tr>
