@@ -187,13 +187,19 @@ public class AdministratorHandler
     int actionType = 0;
     HashMap dataHashMap = new HashMap(100);
     String strUserID = (String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+    String str2 = (String)paramHashMap.get("USER_ID");
+    System.out.println("struserid >> "+strUserID+" str2 >> "+str2);
+    System.out.println("USER ID >>>> "+strUserID);
     if(strUserID != null && strUserID.compareTo("") != 0 && strUserID.compareTo("null") != 0)
     {
       dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, strUserID);           
     }
     else {
-        HttpServletRequest request = (HttpServletRequest)paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET);
+       /*HttpServletRequest request = (HttpServletRequest)paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET);
         strUserID = request.getSession().getValue(InterfaceKey.HASHMAP_KEY_USER_ID).toString();    
+        System.out.println("USER ID NOW from session >> "+strUserID);*/
+        strUserID = str2;
+        System.out.println("USER ID NOW from another param >> "+strUserID);
     }
     try
     {
@@ -473,6 +479,7 @@ public class AdministratorHandler
             {
                     System.out.println("in LIST_PAYMENT_LEVEL_HISTORY_FILES");
                     strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+                    System.out.println("user id in action LIST_PAYMENT_LEVEL_HISTORY_FILES >> "+strUserID);
                     dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,strUserID);
                     Vector files =PaymentHistoryFileDAO.getallFiles(con,strUserID);
 	            dataHashMap.put(AdministrationInterfaceKey.VECTOR_FILES,files);

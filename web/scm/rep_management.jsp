@@ -25,14 +25,20 @@
             regions=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGIONS);
             repLevels=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_REP_LEVEL_TYPES);
             searchResults=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_REP_SEARCH_RESULTS);
+           
             request.setAttribute("search_vector", searchResults);
-            request.setAttribute("search_vector2", "search_vector2");
             request.getSession().setAttribute("search_vector", searchResults);
+            
             dataHashMap.put(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET,request);
             System.out.println("SEARCH RESULTS IN JSP : "+searchResults);
             String userLevelTypeId=(String)dataHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
             String regionId=(String)dataHashMap.get(SCMInterfaceKey.REGION_ID);
             String searchName=(String)dataHashMap.get(SCMInterfaceKey.SEARCH_NAME);
+            System.out.println("Name JSP -> "+searchName);
+            
+            request.setAttribute("search_name", searchName);
+            request.getSession().setAttribute("search_name", searchName);
+            
             userLevelTypeId=userLevelTypeId==null?"":userLevelTypeId;
             regionId=regionId==null?"":regionId;
             searchName=searchName==null?"":searchName;
@@ -97,6 +103,7 @@
             function exportData(base,results)
             {
                 var userType = document.getElementById("selectType").value;
+                var regionSelected = document.getElementById("region_select").value;
                 
                 if(userType=='3')
                     document.repManagement.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_SALESREPS);%>'
@@ -108,6 +115,7 @@
                
                 document.repManagement.baseDirectory.value=base;
                 document.repManagement.SearchResults.value=results;
+                document.repManagement.region_select.value=regionSelected;
                 console.log("Results ",results);
                 document.repManagement.submit();
             }
@@ -117,16 +125,22 @@
                 document.repManagement.submit();
             }*/
             
-            function change() {
+            function change(noResults) {
             var export_but = document.getElementById("export_but");
                 var export_row = document.getElementById("export_row");
+            if(noResults=="false")                
+            {
                 $('#export_row').show();
+                document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_SEARCH_REP%>";
+                document.<%=formName%>.submit();
+            }
+            if(noResults=="true")        
+                $('#export_row').hide();
                    /* export_but.style.display = "block";
                     export_row.style.display = "block";
                     export_but.style.visibility = 'visible';   
                     export_row.style.visibility = 'visible';   */
-                document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_SEARCH_REP%>";
-            document.<%=formName%>.submit();
+               
             }
             
 
@@ -171,7 +185,7 @@
                     <tr class=TableTextNote>
                         <td align=center >Region</td>
                         <td align="center">
-                    <select name="<%=SCMInterfaceKey.REGION_ID%>">
+                    <select id ="region_select" name="<%=SCMInterfaceKey.REGION_ID%>">
                         <option value="">-----</option>
                     <%
                                 if(regions!=null&&regions.size()!=0){
@@ -195,7 +209,7 @@
 
                         <td nowrap align=center >Level</td>
                         <td align="center">
-                            <select id="selectType" name="<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>" onchange="change()" >
+                            <select id="selectType" name="<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>" onchange="change('false')" >
                         <option value="">-----</option>
                     <%
                                 if(repLevels!=null&&repLevels.size()!=0){
@@ -238,9 +252,12 @@
 
         <%
        if(searchResults!=null){
+           //hide the export list button
 
            if(searchResults.size()==0){
-
+%>
+<script type="text/javascript"> change("true"); </script>
+<%
               out.print("<font style='font-size: 11px;font-family: tahoma;line-height: 15px'>No Results based on your Search Criteria.</font>");
 
                }else{

@@ -1620,7 +1620,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 
   }
   
-  public static String exportExcelSheetForAllRepsData(Vector<RepExcelModel> RepResults,String directionFile)
+  public static String exportExcelSheetForAllRepsData(Vector<RepExcelModel> RepResults,String directionFile, boolean isSearch)
   {
       System.out.println("exportExcelSheetForAllRepsData");
       java.util.Date dateNow = new java.util.Date();
@@ -1628,6 +1628,10 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
         int iyear = dateNow.getYear() + 1900;
         String strdate = (new StringBuffer("[")).append(dateNow.getDate()).append("-").append(imonth).append("-").append(iyear).append("]-").append(dateNow.getHours()).append(".").append(dateNow.getMinutes()).append(".").append(dateNow.getSeconds()).append("_").toString();
         String fileName = strdate+"all_reps_file_report.xls";
+        if (isSearch)
+            fileName = strdate+"search_reps_file_report.xls";
+        
+        
        FileOutputStream fileOut;
         try {
             fileOut = new FileOutputStream(directionFile + Slach + fileName);
@@ -1738,7 +1742,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 
   }
   
-  public static String exportExcelSheetForAllSupervisorsData(Vector<SupervisorExcelModel> SupervisorResults,String directionFile)
+  public static String exportExcelSheetForAllSupervisorsData(Vector<SupervisorExcelModel> SupervisorResults,String directionFile, boolean isSearch)
   {
       System.out.println("exportExcelSheetForAllSupervisorsData");
       java.util.Date dateNow = new java.util.Date();
@@ -1746,6 +1750,9 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
         int iyear = dateNow.getYear() + 1900;
         String strdate = (new StringBuffer("[")).append(dateNow.getDate()).append("-").append(imonth).append("-").append(iyear).append("]-").append(dateNow.getHours()).append(".").append(dateNow.getMinutes()).append(".").append(dateNow.getSeconds()).append("_").toString();
         String fileName = strdate+"all_supervisors_file_report.xls";
+        if(isSearch)
+            fileName = strdate+"search_supervisors_file_report.xls";
+        
        FileOutputStream fileOut;
         try {
             fileOut = new FileOutputStream(directionFile + Slach + fileName);
@@ -1824,7 +1831,10 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 
   }
   
-  public static String exportExcelSheetForAllTeamleadersData(Vector<TeamleaderExcelModel> TeamleaderResults,String directionFile)
+  
+  
+  
+  public static String exportExcelSheetForAllTeamleadersData(Vector<TeamleaderExcelModel> TeamleaderResults,String directionFile, boolean isSearch)
   {
       System.out.println("exportExcelSheetForAllTeamleadersData");
       java.util.Date dateNow = new java.util.Date();
@@ -1832,6 +1842,9 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
         int iyear = dateNow.getYear() + 1900;
         String strdate = (new StringBuffer("[")).append(dateNow.getDate()).append("-").append(imonth).append("-").append(iyear).append("]-").append(dateNow.getHours()).append(".").append(dateNow.getMinutes()).append(".").append(dateNow.getSeconds()).append("_").toString();
         String fileName = strdate+"all_teamleaders_file_report.xls";
+        if(isSearch)
+            fileName = strdate+"search_teamleaders_file_report.xls";
+        
        FileOutputStream fileOut;
         try {
             fileOut = new FileOutputStream(directionFile + Slach + fileName);

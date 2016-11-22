@@ -36,6 +36,8 @@
                 HashMap objDataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
                 String Slach = System.getProperty("file.separator");
                 String ip = request.getLocalAddr();
+                String userID = (String)objDataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+                System.out.println("USER ID JSP >> "+userID);
                 Vector files = (Vector) objDataHashMap.get(AdministrationInterfaceKey.VECTOR_FILES);
                 out.println("<input type=\"hidden\" name=\"" + InterfaceKey.HASHMAP_KEY_ACTION + "\""
                         + " value=\"" + "\">");

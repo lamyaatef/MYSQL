@@ -170,11 +170,15 @@ public class RepManagementDAO {
               
         try {
             Statement stat = con.createStatement();
-            for (int i=0;i<=RepResults.size();i++) {
+            System.out.println("RepResults.size() "+RepResults.size());
+            for (int i=0;i<RepResults.size();i++) {
                
+                System.out.println("RepResults.get(i) "+RepResults.get(i).getDcmUserId());
                 DCMUserModel rep = RepResults.get(i);
-                String strSql1 = "select * from vw_salesrep_manager_assign dcm_user_id = '"+rep.getUserId()+"' ";
-                String strSql2 = "select * from vw_salesrep_manager_notexist dcm_user_id = '"+rep.getUserId()+"' ";
+                String strSql1 = "select * from vw_salesrep_manager_assign where dcm_user_id = '"+rep.getDcmUserId()+"' ";
+                String strSql2 = "select * from vw_salesrep_manager_notexist where dcm_user_id = '"+rep.getDcmUserId()+"' ";
+                System.out.println(strSql1);
+                System.out.println(strSql2);
                 ResultSet res1 = stat.executeQuery(strSql1);
                 if (res1.next()) {
 
@@ -200,6 +204,85 @@ public class RepManagementDAO {
         
         return vec;
     }
+    
+    public static Vector getAllSupervisorsSearchData(Connection con,Vector<DCMUserModel> SupervisorResults) {
+        
+     
+        System.out.println("getAllSupervisorsSearchData ");
+        Vector vec = new Vector();
+        
+              
+        try {
+            Statement stat = con.createStatement();
+            System.out.println("SupervisorResults.size() "+SupervisorResults.size());
+            for (int i=0;i<SupervisorResults.size();i++) {
+               
+                System.out.println("RepResults.get(i) "+SupervisorResults.get(i).getDcmUserId());
+                DCMUserModel supervisor = SupervisorResults.get(i);
+                String strSql1 = "select * from mySupervisors where sup_id = '"+supervisor.getDcmUserId()+"' ";
+                
+                System.out.println(strSql1);
+
+                ResultSet res1 = stat.executeQuery(strSql1);
+                if (res1.next()) {
+
+                    vec.add(new SupervisorExcelModel(res1, true));
+                    }
+                res1.close();
+
+                }
+            
+           
+            stat.close();
+           // con.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return vec;
+    }
+    
+    
+    
+    public static Vector getAllTeamleadersSearchData(Connection con,Vector<DCMUserModel> TeamleaderResults) {
+        
+     
+        System.out.println("getAllTeamleadersSearchData ");
+        Vector vec = new Vector();
+        
+              
+        try {
+            Statement stat = con.createStatement();
+            System.out.println("RepResults.size() "+TeamleaderResults.size());
+            for (int i=0;i<TeamleaderResults.size();i++) {
+               
+                System.out.println("TeamleaderResults.get(i) "+TeamleaderResults.get(i).getDcmUserId());
+                DCMUserModel teamleader = TeamleaderResults.get(i);
+                String strSql1 = "select * from myTeamleaders where team_id = '"+teamleader.getDcmUserId()+"' ";
+                
+                System.out.println(strSql1);
+
+                ResultSet res1 = stat.executeQuery(strSql1);
+                if (res1.next()) {
+
+                    vec.add(new TeamleaderExcelModel(res1, true));
+                    }
+                res1.close();
+
+                }
+            
+           
+            stat.close();
+           // con.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return vec;
+    }
+    
     
     
     public static Vector getAllSupervisorsData(Connection con) {

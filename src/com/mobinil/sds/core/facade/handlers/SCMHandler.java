@@ -2614,28 +2614,31 @@ public class SCMHandler {
                     
          case action_export_salesreps:
           {
-             // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
-            //System.out.println("Action -- action_export_salesreps - check Vector: "+();
-                    //.getAttribute("search_vector2"));
             Vector searchResults =(Vector)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_vector"));
-            System.out.println("VECTOR "+searchResults.size());
+            String searchName =(String)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_name"));
+            String regionSelected = (String) paramHashMap.get("region_select");
+            System.out.println("name = "+searchName+" region = "+regionSelected);
             Vector files = new Vector();
+            boolean isSearch=false;
             
             String Slach = System.getProperty("file.separator");
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
-              if(searchResults!=null && !searchResults.isEmpty())
-              {
-                  System.out.println("EXPORT - Search");
-                  files =RepManagementDAO.getAllRepsSearchData(con, searchResults);
-              }
-              else 
+              
+              if(searchName.compareTo("")==0 && regionSelected==null)
               {
                   System.out.println("EXPORT - Data");
                   files =RepManagementDAO.getAllRepsData(con);
+                  
+              }
+              else 
+              {
+                  System.out.println("ELSE : EXPORT - Search");
+                  files =RepManagementDAO.getAllRepsSearchData(con, searchResults);
+                  isSearch = true;
               }
               
-              String excelLink = PoiWriteExcelFile.exportExcelSheetForAllRepsData(/*dataVec*/files, baseDirectory);
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForAllRepsData(/*dataVec*/files, baseDirectory,isSearch);
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
           }
           break;     
@@ -2643,12 +2646,31 @@ public class SCMHandler {
          case action_export_supervisors:
           {
              // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
-            System.out.println("Action -- action_export_supervisors");
+            Vector searchResults =(Vector)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_vector"));
+            String searchName =(String)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_name"));
+            String regionSelected = (String) paramHashMap.get("region_select");
+            System.out.println("name = "+searchName+" region = "+regionSelected);
+            Vector files = new Vector();  
+            boolean isSearch=false;
+            
               String Slach = System.getProperty("file.separator");
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
-              Vector files =RepManagementDAO.getAllSupervisorsData(con);
-              String excelLink = PoiWriteExcelFile.exportExcelSheetForAllSupervisorsData(/*dataVec*/files, baseDirectory);
+              if(searchName.compareTo("")==0 && regionSelected==null)
+              {
+                  System.out.println("EXPORT - Data");
+                  files =RepManagementDAO.getAllSupervisorsData(con);
+                  
+              }
+              else 
+              {
+                  System.out.println("EXPORT - Search");
+                  files =RepManagementDAO.getAllSupervisorsSearchData(con, searchResults);
+                  isSearch = true;
+              }
+              
+              
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForAllSupervisorsData(/*dataVec*/files, baseDirectory, isSearch);
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
           }
           break;   
@@ -2659,8 +2681,30 @@ public class SCMHandler {
               String Slach = System.getProperty("file.separator");
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
-              Vector files =RepManagementDAO.getAllTeamleadersData(con);
-              String excelLink = PoiWriteExcelFile.exportExcelSheetForAllTeamleadersData(/*dataVec*/files, baseDirectory);
+              Vector searchResults =(Vector)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_vector"));
+            String searchName =(String)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_name"));
+            String regionSelected = (String) paramHashMap.get("region_select");
+            System.out.println("name = "+searchName+" region = "+regionSelected);
+            Vector files = new Vector();  
+            boolean isSearch = false;
+            
+            if(searchName.compareTo("")==0 && regionSelected==null)
+              {
+                  System.out.println("EXPORT - Data");
+                  files =RepManagementDAO.getAllTeamleadersData(con);
+                  
+              }
+              else 
+              {
+                  System.out.println("EXPORT - Search");
+                  files =RepManagementDAO.getAllTeamleadersSearchData(con, searchResults);
+                  isSearch = true;
+              }
+              
+            
+            
+              
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForAllTeamleadersData(/*dataVec*/files, baseDirectory,isSearch);
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
           }
           break;   
