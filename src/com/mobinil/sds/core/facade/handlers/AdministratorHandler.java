@@ -478,12 +478,13 @@ public class AdministratorHandler
         case LIST_PAYMENT_LEVEL_HISTORY_FILES:
             {
                     System.out.println("in LIST_PAYMENT_LEVEL_HISTORY_FILES");
-                    strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+                    //strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+                    //String strUserID2 = (String) paramHashMap.get("USER_ID");
                     System.out.println("user id in action LIST_PAYMENT_LEVEL_HISTORY_FILES >> "+strUserID);
                     dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,strUserID);
                     Vector files =PaymentHistoryFileDAO.getallFiles(con,strUserID);
 	            dataHashMap.put(AdministrationInterfaceKey.VECTOR_FILES,files);
-              
+                    dataHashMap.put("USER_ID",strUserID);
                    }
             break;
             
@@ -491,11 +492,12 @@ public class AdministratorHandler
             case SHOW_MONTH_LIST_FILES:
             {
                     System.out.println("in SHOW_MONTH_LIST_FILES");
-                    strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+                    //strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
                     dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,strUserID);
+                    System.out.println("user id in action SHOW_MONTH_LIST_FILES >> "+strUserID);
                     Vector files =MonthListFileDAO.getallFiles(con,strUserID);
 	            dataHashMap.put(AdministrationInterfaceKey.VECTOR_FILES,files);
-              
+                    dataHashMap.put("USER_ID",strUserID);
                    }
             break;
             

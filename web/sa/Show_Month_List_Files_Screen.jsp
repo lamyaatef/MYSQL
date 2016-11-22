@@ -34,6 +34,8 @@
             <%
 
                 HashMap objDataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
+                    String str2 = (String)objDataHashMap.get("USER_ID");
+                    System.out.println("str2 month list jsp >>"+str2);
                 String Slach = System.getProperty("file.separator");
                 String ip = request.getLocalAddr();
                 String userID = (String)objDataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
@@ -41,9 +43,15 @@
                 Vector files = (Vector) objDataHashMap.get(AdministrationInterfaceKey.VECTOR_FILES);
                 out.println("<input type=\"hidden\" name=\"" + InterfaceKey.HASHMAP_KEY_ACTION + "\""
                         + " value=\"" + "\">");
-                out.println("<input type=\"hidden\" name=\"" + InterfaceKey.HASHMAP_KEY_USER_ID + "\""
-                        + " value=\"" + request.getSession().getValue(InterfaceKey.HASHMAP_KEY_USER_ID) + "\">");
+                /*out.println("<input type=\"hidden\" name=\"" + InterfaceKey.HASHMAP_KEY_USER_ID + "\""
+                        + " value=\"" + request.getSession().getValue(InterfaceKey.HASHMAP_KEY_USER_ID) + "\">");*/
 
+                
+                out.println("<input type=\"hidden\" name=\"" + InterfaceKey.HASHMAP_KEY_USER_ID + "\""
+                        + " value=\"" + str2 + "\">");
+                
+                
+                
                 out.println("<input type=\"hidden\" name=fieldId id=fieldId value=\"" + "\">");
                 out.println("<input type=\"hidden\" name=statusStr id=statusStr value=\"" + "\">");
                 out.println("<input type=\"hidden\" name=baseDirectory id=baseDirectory value=\"" + "\">");    
