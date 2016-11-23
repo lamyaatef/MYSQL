@@ -34,12 +34,40 @@
             <%
 
                 HashMap objDataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
-                    String str2 = (String)objDataHashMap.get("USER_ID");
-                    System.out.println("str2 month list jsp >>"+str2);
                 String Slach = System.getProperty("file.separator");
                 String ip = request.getLocalAddr();
-                String userID = (String)objDataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
-                System.out.println("USER ID JSP >> "+userID);
+                
+                
+                String userID = "";
+   String str1 = (String)objDataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+   String str2 = (String)objDataHashMap.get("USER_ID");
+   String str3 = (String) request.getSession().getAttribute(InterfaceKey.HASHMAP_KEY_USER_ID);
+   
+   System.out.println("in Show Month List JSP : HASHMAP_KEY_USER_ID "+str1+" and USER_ID "+str2+" session HASHMAP_KEY_USER_ID "+str3);
+   
+   if(str1==null)
+   {
+       if(str2==null)
+       {
+           if(str3==null)
+           {
+               userID = "";
+           }
+           else
+               userID = str3;
+       }
+       else
+           userID = str2;
+   }
+   else
+       userID = str1;
+       
+   System.out.println("user id in month list jsp is Finally : "+userID);
+   objDataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, userID);
+                
+                
+                
+                
                 Vector files = (Vector) objDataHashMap.get(AdministrationInterfaceKey.VECTOR_FILES);
                 out.println("<input type=\"hidden\" name=\"" + InterfaceKey.HASHMAP_KEY_ACTION + "\""
                         + " value=\"" + "\">");
@@ -48,7 +76,7 @@
 
                 
                 out.println("<input type=\"hidden\" name=\"" + InterfaceKey.HASHMAP_KEY_USER_ID + "\""
-                        + " value=\"" + str2 + "\">");
+                        + " value=\"" + userID + "\">");
                 
                 
                 

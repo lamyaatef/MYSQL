@@ -31,7 +31,7 @@
     <LINK REL=STYLESHEET TYPE="text/css" HREF="<%out.print(appName);%>/resources/css/Template1.css">
       <SCRIPT language=JavaScript src="../resources/js/FormCheck.js" type=text/javascript></SCRIPT>
 <title>
-Export All Lists for POS Code
+Export List for POS Code
 </title>
 
 </head>
@@ -39,7 +39,7 @@ Export All Lists for POS Code
 <br>
         <br>
         <div align="center">
-        <h2>Export All Lists for POS Code</h2></div>
+        <h2>Export List for POS Code</h2></div>
         <br>
         <br>
 
@@ -78,7 +78,23 @@ Export All Lists for POS Code
    String base = request.getRealPath(Slach + "scm" + Slach + "upload" + Slach);
    
    
-  
+   
+   String monthsYears = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_LIST_COLLECTION);
+   //Hashtable revenueTable = (Hashtable) dataHashMap.get(InterfaceKey.HASHMAP_KEY_COLLECTION);
+   //DCMDto dcmDto = (DCMDto) dataHashMap.get(InterfaceKey.HASHMAP_KEY_ADDITIONAL_COLLECTION);
+   
+   String month =(String) dataHashMap.get(AdministrationInterfaceKey.CONTROL_SELECT_MONTH);
+   String year = (String) dataHashMap.get(AdministrationInterfaceKey.CONTROL_INPUT_YEAR);
+   String list = (String) dataHashMap.get(AdministrationInterfaceKey.CONTROL_SELECT_LIST);
+
+   if (list==null)
+       list = "";
+   if (year==null)
+   year="";
+   if (month==null)
+   month="";
+   else
+   month=(Integer.parseInt(month)-1)+"";
    
    
    
@@ -90,7 +106,9 @@ Export All Lists for POS Code
 
    out.println("<input type=\"hidden\" name=\""+InterfaceKey.HASHMAP_KEY_USER_ID+"\" "+
                   "value="+userID+">");
-
+   
+   out.println("<input type=\"hidden\" id=\""+InterfaceKey.HASHMAP_KEY_LIST_COLLECTION+"\" name=\""+InterfaceKey.HASHMAP_KEY_LIST_COLLECTION+"\" "+
+                  "value="+monthsYears+">");
 
    out.println("<input type=\"hidden\" name=baseDirectory id=baseDirectory value=\"" +base+ "\">");    
     out.println("<TABLE style=\"BORDER-COLLAPSE: collapse\" cellSpacing=2 cellPadding=1 width=\"50%\" border=1>");
@@ -108,6 +126,71 @@ Export All Lists for POS Code
     out.println("</TD>");    
     out.println("</TR>");                
     
+    
+    out.println("<TR>");
+    out.println("<td class=TableHeader nowrap align=center>");
+    out.println("Month");
+    out.println("</TD>");        
+    out.println("<td nowrap align=left>");
+    out.println(" <select id=\""+AdministrationInterfaceKey.CONTROL_SELECT_MONTH+"\" name=\""+AdministrationInterfaceKey.CONTROL_SELECT_MONTH+"\" size=\"1\">");
+    out.println("<option value=1>JANUARY</option>");
+    out.println("<option value=2>FEBRUARY</option>");
+    out.println("<option value=3>MARCH</option>");
+    out.println("<option value=4>APRIL</option>");
+    out.println("<option value=5>MAY</option>");
+    out.println("<option value=6>JUNE</option>");
+    out.println("<option value=7>JULY</option>");
+    out.println("<option value=8>AUGUST</option>");
+    out.println("<option value=9>SEPTEMBER</option>");
+    out.println("<option value=10>OCTOBER</option>");
+    out.println("<option value=11>NOVEMBER</option>");
+    out.println("<option value=12>DECEMBER</option>");        
+    out.println("</select>");
+    if (month.compareTo("")!=0)
+    {
+      out.println("<script>document.SheetRevenue."+AdministrationInterfaceKey.CONTROL_SELECT_MONTH+".options["+month+"].selected=true;" + "</script>");
+    }
+    out.println("</TD>");
+    out.println("</TR>"); 
+    
+    
+    out.println("<TR>");
+    out.println("<td class=TableHeader nowrap align=center>");
+    out.println("List");
+    out.println("</TD>");        
+    out.println("<td nowrap align=left>");
+    out.println(" <select id=\""+AdministrationInterfaceKey.CONTROL_SELECT_LIST+"\" name=\""+AdministrationInterfaceKey.CONTROL_SELECT_LIST+"\" size=\"1\">");
+    out.println("<option value='EX'>Exclusive (EX)</option>");
+    out.println("<option value='QC'>Quality Club (QC)</option>");
+    out.println("<option value='L1'>Level One (L1)</option>");
+    out.println("</select>");
+    if (list.compareTo("")!=0)
+    {
+      out.println("<script>document.SheetRevenue."+AdministrationInterfaceKey.CONTROL_SELECT_LIST+".options["+list+"].selected=true;" + "</script>");
+    }
+    out.println("</TD>");
+    out.println("</TR>");    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    out.println("<TR>");
+    out.println("<td class=TableHeader nowrap align=center>");
+    out.println("Year");
+    out.println("</TD>");
+    out.println("<TD>");
+    %>
+    <input type="text" id="TheYear" name="<%out.print(AdministrationInterfaceKey.CONTROL_INPUT_YEAR);%>" value="<%out.print(year);%>"  >
+    <% 
+    
+    //out.println("<input type=\"text\" name=\""+AdministrationInterfaceKey.CONTROL_INPUT_YEAR+"\" value="+year+"  >");
+    out.println("</TD>");    
+    out.println("</TR>");                
     
     
     
@@ -133,7 +216,7 @@ Export All Lists for POS Code
     
 
     out.print(" onclick=\"if (checkBeforeSubmit(document.SheetRevenue."+AdministrationInterfaceKey.CONTROL_INPUT_POS_CODE+")==true){document.SheetRevenue."+InterfaceKey.HASHMAP_KEY_ACTION+".value='"+
-    AdministrationInterfaceKey.ACTION_EXPORT_LISTS_CROSSTAB+"'; document.SheetRevenue.submit();} else alert('Please Enter A Valid POS Code');\">");
+    AdministrationInterfaceKey.ACTION_EXPORT_LISTS_CROSSTAB_MONTH_LIST+"'; document.SheetRevenue.submit();} else alert('Please Enter A Valid POS Code');\">");
 
     
     /*out.print(" onclick=\"{ document.SheetRevenue."+InterfaceKey.HASHMAP_KEY_ACTION+".value='"+

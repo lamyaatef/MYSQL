@@ -109,6 +109,63 @@ public class MonthListFileDAO {
         return vec;
     }
     
+    
+    public static Vector getCrosstabForMonthAndList(Connection con, String posCode, String month,String year,String list,String userID) {
+        Vector vec = new Vector();
+        System.out.println("getCrosstabForMonthAndList ");
+        try {
+            Statement stat = con.createStatement();
+            stat.setFetchSize(0);
+            String strSql = "SELECT \n" +
+"    vw_supervisor_assignment.sup_id,\n" +
+"    gen_dcm_month_list.list_name,\n" +
+"    gen_dcm_month_list.month,\n" +
+"    gen_dcm_month_list.year,\n" +
+"    gen_dcm_month_list_detail.dcm_code,\n" +
+"    dcm_region.region_id,\n" +
+"    vw_supervisor_assignment.DISTRICT_REGION_ID,\n" +
+"    dcm_region.parent_REGION_ID,\n" +
+"    dcm_pos_detail.pos_area_id,\n" +
+"    dcm_region.region_name AS area_name,\n" +
+"    gen_dcm.dcm_name ,\n" +
+"    dcm_pos_detail.pos_address,\n" +
+"    vw_supervisor_assignment.region_name          AS supervisor_region_name,\n" +
+"    vw_supervisor_assignment.gov_region_name      AS supervisor_govern_name,\n" +
+"    vw_supervisor_assignment.city_region_name     AS supervisor_city_name,\n" +
+"    vw_supervisor_assignment.district_region_name AS supervisor_district_name,\n" +
+"    vw_supervisor_assignment.supervisor_name      AS supervisor_name\n" +
+"  FROM dcm_region,\n" +
+"    dcm_pos_detail,\n" +
+"    vw_supervisor_assignment,\n" +
+"    gen_dcm,\n" +
+"    gen_dcm_month_list,\n" +
+"    gen_dcm_month_list_detail\n" +
+"  WHERE gen_dcm.dcm_code                 = gen_dcm_month_list_detail.dcm_code\n" +
+"  AND gen_dcm_month_list.history_file_id = gen_dcm_month_list_detail.history_file_id\n" +
+"  AND gen_dcm.dcm_code                   = dcm_pos_detail.pos_code\n" +
+"  AND dcm_pos_detail.pos_area_id         = dcm_region.region_id\n" +
+"  AND dcm_region.parent_REGION_ID        = vw_supervisor_assignment.DISTRICT_REGION_ID\n" +
+"  AND gen_dcm_month_list_detail.dcm_code ='"+posCode+"'\n" +
+"  AND gen_dcm_month_list.month ='"+month+"'\n" +
+"  AND gen_dcm_month_list.month ='"+year+"'\n" +
+"  AND gen_dcm_month_list.list_name ='"+list+"'\n" +
+"  ORDER BY list_name DESC";
+                    
+            System.out.println("getCrosstabForMonthAndList query "+ strSql);
+            ResultSet res = stat.executeQuery(strSql);
+            while (res.next()) {
+                vec.add(new CrosstabListsModel(res));
+                }
+            res.close();
+            stat.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return vec;
+    }
+    
     public static Vector getallHistoryFiles(Connection con, String fileId) {
         Vector vec = new Vector();
         System.out.println("getallHistoryFiles MONTH LIST ");

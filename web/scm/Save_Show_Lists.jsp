@@ -4,6 +4,7 @@
     Author     : sand
 --%>
 
+<%@page import="java.util.HashMap"%>
 <%@page import="com.mobinil.sds.web.interfaces.sa.AdministrationInterfaceKey"%>
 <%@page import="com.mobinil.sds.web.interfaces.scm.SCMInterfaceKey"%>
 <%@page import="com.mobinil.sds.web.interfaces.InterfaceKey"%>
@@ -12,9 +13,11 @@
 <html>
     <head>
          <%
+        HashMap dataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
         String appName = request.getContextPath();
         String user_id = request.getSession().getValue(InterfaceKey.HASHMAP_KEY_USER_ID).toString();
-        System.out.println("User Id "+user_id);
+        System.out.println("User Id in Save&Show List "+user_id);
+        dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, user_id);
     %>
         <title>Save and Show Lists</title>
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
@@ -35,6 +38,11 @@
                 document.GenerateSheet.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(AdministrationInterfaceKey.ACTION_SHOW_LIST_OF_THE_MONTH);%>'  ;                                                          
             if(actionName=="show_pos")
                 document.GenerateSheet.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(AdministrationInterfaceKey.ACTION_SHOW_CROSSTAB);%>'  ;                                                          
+            if(actionName=="show_pos_list")
+                document.GenerateSheet.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(AdministrationInterfaceKey.ACTION_SHOW_CROSSTAB_LIST);%>'  ;                                                          
+            
+            
+            
             
             document.GenerateSheet.submit();
             
@@ -74,6 +82,10 @@
         &nbsp;
         <br>
         <a class="sds-links" href="#" onclick="goToLink('show_pos');">Show POS Code Files</a>
+        &nbsp;
+        &nbsp;
+        <br>
+        <a class="sds-links" href="#" onclick="goToLink('show_pos_list');">Show POS Code List Files</a>
         &nbsp;
         &nbsp;
         <br>
