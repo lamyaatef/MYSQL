@@ -112,6 +112,9 @@ public class MonthListFileDAO {
     
     public static Vector getCrosstabForMonthAndList(Connection con, String posCode, String month,String year,String list,String userID) {
         Vector vec = new Vector();
+        String yearCondition ="";
+        if(year.compareTo("")!=0)
+            yearCondition = "AND gen_dcm_month_list.year ='"+year+"'";
         System.out.println("getCrosstabForMonthAndList ");
         try {
             Statement stat = con.createStatement();
@@ -146,8 +149,9 @@ public class MonthListFileDAO {
 "  AND dcm_pos_detail.pos_area_id         = dcm_region.region_id\n" +
 "  AND dcm_region.parent_REGION_ID        = vw_supervisor_assignment.DISTRICT_REGION_ID\n" +
 "  AND gen_dcm_month_list_detail.dcm_code ='"+posCode+"'\n" +
-"  AND gen_dcm_month_list.month ='"+month+"'\n" +
-"  AND gen_dcm_month_list.month ='"+year+"'\n" +
+"  AND gen_dcm_month_list.month ='"+month+"' \n" +
+//"  AND gen_dcm_month_list.year ='"+year+"'\n" +
+                    yearCondition+"\n"+
 "  AND gen_dcm_month_list.list_name ='"+list+"'\n" +
 "  ORDER BY list_name DESC";
                     

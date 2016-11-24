@@ -185,6 +185,7 @@ public class AdministratorHandler
 
   public static HashMap handle(String action, HashMap paramHashMap,java.sql.Connection con)
   {
+      System.out.println("in ADMINHANDLER");
     int actionType = 0;
     HashMap dataHashMap = new HashMap(100);
     String strUserID = (String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
