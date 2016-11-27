@@ -1328,6 +1328,11 @@ case SHOW_NOMAD_FILE_LIST:
           {
              // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
             System.out.println("%%% export history file action");
+            
+            String returnedUserId = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+            System.out.println("RETURNED ID : "+returnedUserId);
+            dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,returnedUserId);
+            
               String Slach = System.getProperty("file.separator");
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
@@ -1336,6 +1341,7 @@ case SHOW_NOMAD_FILE_LIST:
               Vector files =PaymentHistoryFileDAO.getallHistoryFiles(con,fieldId);
               String excelLink = PoiWriteExcelFile.exportExcelSheetForHistory(/*dataVec*/files, baseDirectory);
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
+              
           }
           break;  
             
@@ -1361,6 +1367,12 @@ case SHOW_NOMAD_FILE_LIST:
           {
              // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
             System.out.println("%%% EXPORT_MONTH_LIST_FILE action");
+            
+            String returnedUserId = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+            System.out.println("RETURNED ID : "+returnedUserId);
+            dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,returnedUserId);
+            
+            
               String Slach = System.getProperty("file.separator");
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
@@ -1376,6 +1388,12 @@ case SHOW_NOMAD_FILE_LIST:
           {
              // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
             System.out.println("%%% EXPORT_LISTS_CROSSTAB action");
+            
+            String returnedUserId = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+            System.out.println("RETURNED ID : "+returnedUserId);
+            dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,returnedUserId);
+            
+            
               String Slach = System.getProperty("file.separator");
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
@@ -1393,6 +1411,12 @@ case SHOW_NOMAD_FILE_LIST:
           {
              // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
             System.out.println("%%% EXPORT_LISTS_CROSSTAB_MONTH_LIST action");
+            
+            String returnedUserId = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+            System.out.println("RETURNED ID : "+returnedUserId);
+            dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,returnedUserId);
+            
+            
               String Slach = System.getProperty("file.separator");
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION

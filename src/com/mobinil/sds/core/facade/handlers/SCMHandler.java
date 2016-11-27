@@ -139,6 +139,7 @@ public class SCMHandler {
     public static final int action_export_salesreps = 97;
     public static final int action_export_supervisors = 98;
     public static final int action_export_teamleaders = 99;
+    public static final int ACTION_SHOW_SAVE_LISTS = 100;
     //Rep Management --End
 
     public static HashMap handle(String action, HashMap paramHashMap, java.sql.Connection con) {
@@ -567,10 +568,19 @@ public class SCMHandler {
             }       if (action.equals(SCMInterfaceKey.ACTION_UPLOAD_PAYMENT_LIST_PROCESS)) {
                 actionType =  ACTION_UPLOAD_PAYMENT_LIST_PROCESS;
             }
-              
+            if (action.equals(SCMInterfaceKey.ACTION_SHOW_SAVE_LISTS)) {
+                actionType =  ACTION_SHOW_SAVE_LISTS;
+            }
+                
 
             switch (actionType) {
-                
+                case ACTION_SHOW_SAVE_LISTS:
+                {
+                    String returnedUserId = (String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+                    System.out.println("ACTION_SHOW_SAVE_LISTS - RETURNED ID : "+returnedUserId);
+                    dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, returnedUserId);
+                }
+                break;
                 case ACTION_PROCESS_UPLOAD_APPROVED_MEMO:
                 {
                                 

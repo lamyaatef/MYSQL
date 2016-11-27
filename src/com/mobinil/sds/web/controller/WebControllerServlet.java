@@ -237,15 +237,14 @@ public class WebControllerServlet extends HttpServlet {
                     if (!basicActions.contains(strAction)) {
                         userID = (String) currentSession.getAttribute(InterfaceKey.HASHMAP_KEY_USER_ID);
                         System.out.println("WEB CONTROLLER USER ID FROM PARAM "+objParameterHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID)+" AND USER ID FROM SESSION "+userID);
-                        if (userID == null /*&& objParameterHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID)==null*/) {
-                            userID = (String)objParameterHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
-                            System.out.println("inside if userID==null .. userID is "+userID);
+                        if (userID == null && objParameterHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID)==null) {
                             strAction = UserAccountInterfaceKey.ACTION_REDIRECT_TO_LOGIN_PAGE;
                             System.out.println("The Action name is "
                                     + strAction);
-
                             clearSession(currentSession);
                         } else {
+                            userID = (String)objParameterHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+                            System.out.println("inside if userID != null .. userID is "+userID);
                             validateSecurity(strAction, userID, currentSession, newConnection);
                         }
                     }
