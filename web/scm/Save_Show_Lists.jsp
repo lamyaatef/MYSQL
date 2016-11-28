@@ -15,9 +15,41 @@
          <%
         HashMap dataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
         String appName = request.getContextPath();
-        String user_id = request.getSession().getValue(InterfaceKey.HASHMAP_KEY_USER_ID).toString();
+        String userID = "";
+   System.out.println("/////////Save&Show JSP////////");
+   String str1 = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+   System.out.println("str1//////// "+str1);
+   String str2 = (String)dataHashMap.get("USER_ID");
+   System.out.println("str2//////// "+str2);
+   String str3="";
+   if(request.getSession()!=null)
+        str3 = (String) request.getSession().getAttribute(InterfaceKey.HASHMAP_KEY_USER_ID);
+   System.out.println("str3//////// "+str3);
+   System.out.println("in Save&Show JSP : HASHMAP_KEY_USER_ID "+str1+" and USER_ID "+str2+" session HASHMAP_KEY_USER_ID "+str3);
+   
+   if(str1==null)
+   {
+       if(str2==null)
+       {
+           if(str3==null || str3.compareTo("")==0)
+           {
+               userID = "";
+           }
+           else
+               userID = str3;
+       }
+       else
+           userID = str2;
+   }
+   else
+       userID = str1;
+       
+   System.out.println("user id in Save&Show jsp is Finally : "+userID);
+   dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, userID);
+   
+        /*String user_id = request.getSession().getValue(InterfaceKey.HASHMAP_KEY_USER_ID).toString();
         System.out.println("User Id in Save&Show List "+user_id);
-        dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, user_id);
+        dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, user_id);*/
     %>
         <title>Save and Show Lists</title>
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
@@ -61,7 +93,7 @@
 
         <form action="" name="GenerateSheet" id="GenerateSheet" method="post">
     <center>
-        
+        <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_USER_ID%>" value="<%=userID%>">
       &nbsp;
         &nbsp;
         <br>
