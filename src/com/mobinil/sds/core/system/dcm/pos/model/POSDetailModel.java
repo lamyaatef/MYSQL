@@ -60,6 +60,7 @@ public class POSDetailModel
     private String paymentMethod;
     private String paymentLevel;
     private String posLevel;
+    private String posStatus;
     private boolean isL1;
     private boolean isQC;
     private boolean isEX;
@@ -71,6 +72,7 @@ public class POSDetailModel
     private String supervisorName;
     private String teamleaderName;
     private String salesrepName;
+    
     /**
      * @return the posName
      */
@@ -930,6 +932,20 @@ public POSDetailModel(Connection con , ResultSet rs)
      */
     public void setSalesrepName(String salesrepName) {
         this.salesrepName = salesrepName;
+    }
+
+    /**
+     * @return the posStatus
+     */
+    public String getPosStatus() {
+        return posStatus;
+    }
+
+    /**
+     * @param posStatus the posStatus to set
+     */
+    public void setPosStatus(String posStatus) {
+        this.posStatus = posStatus;
     }
 
 }

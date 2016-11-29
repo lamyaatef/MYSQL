@@ -337,6 +337,31 @@ public class RequestDao {
 
         return levelList;
     }
+    
+    
+    public static Vector getStatusList(Connection con) throws Exception {
+        Statement stmt = con.createStatement();
+        String sqlString = "select * from gen_dcm_status ORDER BY DCM_STATUS_NAME ASC";
+        Utility.logger.debug(sqlString);
+        ResultSet rs = stmt.executeQuery(sqlString);
+        rs = stmt.executeQuery(sqlString);
+        StatusModel statusModel = null;
+        Vector statusList = new Vector();
+
+        while (rs.next()) {
+            statusModel = new StatusModel();
+            statusModel.setStatusId(rs.getInt("DCM_STATUS_ID"));
+            statusModel.setStatusName(rs.getString("DCM_STATUS_NAME"));
+            statusModel.setStatusDesc(rs.getString("DCM_STATUS_DESC"));
+
+            statusList.add(statusModel);
+        }
+
+        stmt.close();
+        rs.close();
+
+        return statusList;
+    }
 
     public static Vector getCityList(Connection con) throws Exception {
         Statement stmt = con.createStatement();
@@ -3691,6 +3716,19 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
                 + "AND GEN_DCM.DCM_ID=DCM_POS_DETAIL.POS_ID "
                 + "AND DCM_POS_DETAIL.POS_DETAIL_ID=" + POSDetailId;
         String POSPaymentName = DBUtil.executeQuerySingleValueString(query, "DCM_LEVEL_ID");
+
+        return POSPaymentName;
+
+
+    }
+    
+    
+    
+    public static String getStatusIDForPOS(String POSDetailId) {
+        String query = "SELECT GEN_DCM.DCM_STATUS_ID FROM GEN_DCM_STATUS,DCM_POS_DETAIL,GEN_DCM  WHERE DCM_POS_DETAIL.FLAGE IS NULL AND GEN_DCM.DCM_STATUS_ID=GEN_DCM_STATUS.DCM_STATUS_ID  "
+                + "AND GEN_DCM.DCM_ID=DCM_POS_DETAIL.POS_ID "
+                + "AND DCM_POS_DETAIL.POS_DETAIL_ID=" + POSDetailId;
+        String POSPaymentName = DBUtil.executeQuerySingleValueString(query, "DCM_STATUS_ID");
 
         return POSPaymentName;
 

@@ -63,6 +63,7 @@ public class PosModel
     private boolean isNomad;
     private String taxValue;
     private long mobicashNum;
+    private int statusId;
     //lamya
     
     /**
@@ -738,6 +739,20 @@ public class PosModel
      */
     public void setMobicashNum(long mobicashNum) {
         this.mobicashNum = mobicashNum;
+    }
+
+    /**
+     * @return the statusId
+     */
+    public int getStatusId() {
+        return statusId;
+    }
+
+    /**
+     * @param statusId the statusId to set
+     */
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
     }
 
     /**

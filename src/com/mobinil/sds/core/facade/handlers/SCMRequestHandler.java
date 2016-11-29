@@ -1084,6 +1084,7 @@ public class SCMRequestHandler {
                     dataHashMap.put(SCMInterfaceKey.CHANNEL_VECTOR, RequestDao.getChannelList(con));
                     dataHashMap.put(SCMInterfaceKey.LEVEL_VECTOR, RequestDao.getLevelList(con));
                     dataHashMap.put(SCMInterfaceKey.PAYMENT_LEVEL_VECTOR, RequestDao.getPaymentList(con));
+                    dataHashMap.put(SCMInterfaceKey.POS_STATUS_VECTOR, RequestDao.getStatusList(con));
                     dataHashMap.put(SCMInterfaceKey.VECTOR_ID_TYPE, IDTypeVector);
                     dataHashMap.put(SCMInterfaceKey.VECTOR_REGIONS, regions);
                     dataHashMap.put(SCMInterfaceKey.DOC_VECTOR, RequestDao.getDocList(con));
@@ -1117,6 +1118,7 @@ public class SCMRequestHandler {
                     dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_POS_LEVEL, "");
                     dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_PAYMENT_LEVEL, "");
                     dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_PAYMENT_METHOD, "");
+                    dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_POS_STATUS, "");
                     loadListsPosManagement(con, dataHashMap, paramHashMap, false);
                 }
                 break;
@@ -1719,6 +1721,7 @@ public class SCMRequestHandler {
                     posMobicashNum = (RequestDao.getMobicashNum(DCM_CODE)==null || RequestDao.getMobicashNum(DCM_CODE).compareTo("")==0) ? 0 : Long.parseLong(RequestDao.getMobicashNum(DCM_CODE));
                     String channel = RequestDao.getchannelIDForPOS(posDetailId);
                     String POSLevel = RequestDao.getLevelIDForPOS(posDetailId);
+                    String POSStatus = RequestDao.getStatusIDForPOS(posDetailId);
                     String PaymentLevel = RequestDao.getPaymentLevelIDForPOS(posDetailId);
                     String PaymentMethod = RequestDao.getPaymentMethodIDForPOS(posDetailId);
                     String posCodeValue =(String) paramHashMap.get("pos_code");
@@ -1841,10 +1844,12 @@ public class SCMRequestHandler {
                     dataHashMap.put(SCMInterfaceKey.REP_KIT_Alert, "");
                     dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_POS_CHANNEL, channel);
                     dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_POS_LEVEL, POSLevel);
+                    dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_POS_STATUS, POSStatus);
                     dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_PAYMENT_LEVEL, PaymentLevel);
                     dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_PAYMENT_METHOD, PaymentMethod);
                     dataHashMap.put(SCMInterfaceKey.CHANNEL_VECTOR, RequestDao.getChannelList(con));
                     dataHashMap.put(SCMInterfaceKey.LEVEL_VECTOR, RequestDao.getLevelList(con));
+                    dataHashMap.put(SCMInterfaceKey.STATUS_VECTOR, RequestDao.getStatusList(con));
                     dataHashMap.put("CONTROL_REGION_PARENT_ID", posGeneralData.getPosDetailModel().getPosRegionID() + "-" + posGeneralData.getGovernateId() + "-" + posGeneralData.getCityId() + "-" + posGeneralData.getDistrictId() + "-" + posGeneralData.getAreaId());
                     dataHashMap.put(SCMInterfaceKey.CHILD_REGIONS_HM, RequestDao.getChildRegionsListHM(con, ((String) dataHashMap.get("CONTROL_REGION_PARENT_ID"))));
 
@@ -1949,6 +1954,7 @@ public class SCMRequestHandler {
                     
                     
                     String levelId = (String) paramHashMap.get(SCMInterfaceKey.LEVEL_FOR_POS);
+                    String statusId = (String) paramHashMap.get(SCMInterfaceKey.STATUS_FOR_POS);
                     String Payment = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_PAYMENT_LEVEL);
                     String PaymentM = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_PAYMENT_METHOD);
                     System.out.println("inside edit store payment method is : "+PaymentM);
@@ -2081,6 +2087,13 @@ public class SCMRequestHandler {
                         posModel.setLevelId(Integer.parseInt(levelId));
                     else
                         posModel.setLevelId(0);
+                    
+                    
+                    
+                    if (statusId != null && !statusId.equals("empty") && !statusId.equals("") && !statusId.equals("--")) 
+                        posModel.setStatusId(Integer.parseInt(statusId));
+                    else
+                        posModel.setStatusId(0);
                         
                         
                     if (proposedDocId != null && !proposedDocId.equals("--") && !proposedDocId.equals("empty") && !proposedDocId.equals("")) 
@@ -2123,6 +2136,7 @@ public class SCMRequestHandler {
                     posModel.getPosDetailModel().setPosArabicName(posArabicName);
                     posModel.getPosDetailModel().setPosArabicAddress(posArabicAddress);
                     posModel.getPosDetailModel().setPosLevel(levelId);
+                    posModel.getPosDetailModel().setPosStatus(statusId);
                     posModel.getPosDetailModel().setPaymentLevel(Payment);
                     posModel.getPosDetailModel().setPaymentMethod(PaymentM);
                     
@@ -2473,6 +2487,7 @@ public class SCMRequestHandler {
                     System.out.println("value " + paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_NAME));
                     System.out.println("class name " + paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_NAME).getClass().getName());
 
+                   // String posStatusId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_STATUS);
                     String posDataName = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_NAME);
                     String posDataCode = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_CODE);
                     String posDataRegion = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_REGION);

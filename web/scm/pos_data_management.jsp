@@ -96,10 +96,12 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     Vector channelVec = (Vector) dataHashMap.get(SCMInterfaceKey.CHANNEL_VECTOR);
     Vector levelVec = (Vector) dataHashMap.get(SCMInterfaceKey.LEVEL_VECTOR);
     Vector PaymentLevelVec = (Vector) dataHashMap.get(SCMInterfaceKey.PAYMENT_LEVEL_VECTOR);
+    Vector posStatusVec = (Vector) dataHashMap.get(SCMInterfaceKey.POS_STATUS_VECTOR);
     String posName = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_NAME);
     String level = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_LEVEL);
     String channel = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_CHANNEL);
     String payment = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_PAYMENT_LEVEL);
+    String status = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_STATUS);
     String Slach = System.getProperty("file.separator");
 
     if (posName == null) {
@@ -128,6 +130,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     HashMap<String, String> dcmStatus = (HashMap<String, String>) dataHashMap.get(SCMInterfaceKey.HASHMAP_GEN_DCM);
     HashMap<String, String> stkStatus = (HashMap<String, String>) dataHashMap.get(SCMInterfaceKey.HASHMAP_STK_STATUS);
     HashMap<String, String> paymentStatus = (HashMap<String, String>) dataHashMap.get(SCMInterfaceKey.HASHMAP_CAM_PAY_STATUS);
+    HashMap<String, String> posStatus = (HashMap<String, String>) dataHashMap.get(SCMInterfaceKey.HASHMAP_CAM_POS_STATUS);
 %>
 
 <%!
@@ -340,6 +343,23 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                             <% drawSelectRegions(out, (Vector<PlaceDataModel>) regions, SCMInterfaceKey.CONTROL_TEXT_POS_AREA, area, 5/*,disabled*/);%>
                             
                         </td>
+                        <%--
+                        <td>POS Status</td>
+                        <td align="left">
+                            <select name="<%= SCMInterfaceKey.CONTROL_TEXT_POS_STATUS%>" id="<%= SCMInterfaceKey.CONTROL_TEXT_POS_STATUS%>">
+                                <option value="" >--</option>
+                                <%
+                                    for (int i = 0; i < posStatusVec.size(); i++) {
+                                        StatusModel statusModel = (StatusModel) posStatusVec.get(i);
+                                %>
+                                <option value="<%=statusModel.getStatusId()%>" <%=(payment.compareTo(statusModel.getStatusId()+ "") == 0 ? "selected" : "")%>><%=statusModel.getStatusName()%></option>                       
+                                <%}%>
+
+                            </select>
+                        </td>
+                        --%>
+                        
+                        
                     </tr>
                     <tr class=TableTextNote>
                         <td>English Address</td>

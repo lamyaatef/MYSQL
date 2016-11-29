@@ -109,11 +109,18 @@
             String channel = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_CHANNEL);
             Vector channelVec = (Vector) dataHashMap.get(SCMInterfaceKey.CHANNEL_VECTOR);
             Vector levelVec = (Vector) dataHashMap.get(SCMInterfaceKey.LEVEL_VECTOR);
+            
+            
+            Vector statusVec = (Vector) dataHashMap.get(SCMInterfaceKey.STATUS_VECTOR);
+            
             String alert = (String) dataHashMap.get(SCMInterfaceKey.REP_KIT_Alert);
             Vector regions = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_REGIONS);
             Vector IDTypeVector = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_ID_TYPE);
 
             String level = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_LEVEL);
+            
+            String status = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_STATUS);
+            
             String Payment = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_PAYMENT_LEVEL);
             System.out.println("inside jsp before getting payment method");
             String PaymentMethod = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_PAYMENT_METHOD);
@@ -221,14 +228,44 @@
             out.println("</tr>");
             out.println("</tr>");
 
+            
+            
+            
+            
             out.println("<TR>");
-            out.println("      <TD class=TableTextNote width='40%'>POS Code</TD>");
+            out.println("      <TD class=TableTextNote width='40%'>POS Status</TD>");%>
+    <td>
+        <input type="hidden" name="<%=SCMInterfaceKey.CONTROL_TEXT_POS_STATUS%>" value="<%=status%>" >
+        <select name="<%= SCMInterfaceKey.STATUS_FOR_POS%>" id="<%= SCMInterfaceKey.STATUS_FOR_POS%>"  >
+            <option value="" >--</option>
+            <%
+                for (int i = 0; i < statusVec.size(); i++) {
+                    StatusModel statusModel = (StatusModel) statusVec.get(i);
+                    if (status != null && status.compareTo(statusModel.getStatusId()+ "") == 0) {
+                       /* if (statusModel.getStatusName().equalsIgnoreCase("pos")) {
+                            isPos = true;
+                        }*/
 
-            out.println("      <TD><input type='text' disabled value='" + posData.getPosDetailModel().getPOSCode() + "' name='" + SCMInterfaceKey.TEXT_POSCODE + "'></TD>");
-            out.println("      <TD><input type='hidden' value='" + posData.getPosDetailModel().getPOSCode() + "' name='" + SCMInterfaceKey.CONTROL_TEXT_POS_CODE + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_CODE + "'></TD>");
-            out.println("</tr>");
-
-
+            %>
+            <option value="<%=statusModel.getStatusId()%>" selected><%=statusModel.getStatusName()%></option>
+            <%
+            } else {
+            %>
+            <option value="<%=statusModel.getStatusId()%>" ><%=statusModel.getStatusName()%></option>
+            <%
+                    }
+                }
+            %>
+        </select>
+    </td>
+    <%
+        //  out.println("<TD><input type='text' name="+SCMInterfaceKey.TEXT_POSLEVEL+"  value=\""+level+"\" disabled>");
+        //  out.println("<TD><input type='hidden' name="+SCMInterfaceKey.CONTROL_TEXT_POS_LEVEL+" id="+SCMInterfaceKey.CONTROL_TEXT_POS_LEVEL+" value=\""+level+"\">");
+        //  out.println("</TD>");
+        out.println("</TR>");
+            
+            
+            
 
 
             out.println("<TR class=TableTextNote>");
@@ -1261,6 +1298,22 @@
         }
 
     }
+
+
+
+    function similarStatus()
+    {
+        if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_STATUS%>.value") == "")
+        {
+            alert("Please Enter POS Status ..");
+        }
+        else
+        {
+            document.formDataView.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%= SCMInterfaceKey.ACTION_POS_DATA_SIMILAR_STATUS%>';
+            formDataView.submit();
+        }
+    }
+
 
     function similarName()
     {

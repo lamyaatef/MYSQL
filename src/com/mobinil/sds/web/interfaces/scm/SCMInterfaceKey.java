@@ -218,6 +218,7 @@ public class SCMInterfaceKey {
     public static final String ACTION_POS_DATA_ENTRY = "action_pos_data_entry";
     public static final String CONTROL_HIDDEN_POS_SUPER_ADMIN_FLAG = "hidden_pos_super_admin_flag";
     public static final String CONTROL_TEXT_POS_NAME = "pos_name";
+    public static final String CONTROL_TEXT_POS_STATUS = "pos_status";
     public static final String CONTROL_TEXT_ARABIC_POS_NAME = "pos_arabic_name";
     public static final String CONTROL_TEXT_POS_EMAIL = "pos_email";
     public static final String CONTROL_TEXT_POS_ADDRESS = "pos_address";
@@ -258,7 +259,7 @@ public class SCMInterfaceKey {
     public static final String CONTROL_TEXT_POS_CODE = "pos_code";
     public static final String ACTION_SEARCH_POS = "search_pos";
     public static final String ACTION_USER_SEARCH_POS = "search_user_pos";
-    public static final String CONTROL_TEXT_POS_STATUS = "pos_status";
+    
     public static final String CONTROL_TEXT_POS_PHONE = "pos_phone";
     public static final String VECTOR_POS_RESULT = "vector_pos_result";
     public static final String VECTOR_PLACE_TYPE = "vector_place_type";
@@ -429,10 +430,12 @@ public class SCMInterfaceKey {
     public static final String TEAMLEADER_VECTOR = "teamleader_list";
     public static final String SALESREP_VECTOR = "salesrep_list";
     public static final String LEVEL_VECTOR = "level_list";
+    public static final String STATUS_VECTOR = "status_list";
     public static final String DOC_VECTOR = "DOC_list";
     public static final String RATE_VECTOR = "rate_list";
     public static final String ACTION_SAVE_POS_DATA_ENTRY = "action_save_pos_data_entry";
     public static final String ACTION_POS_DATA_SIMILAR_NAME = "action_pos_data_similar_name";
+    public static final String ACTION_POS_DATA_SIMILAR_STATUS = "action_pos_data_similar_status";
     public static final String ACTION_POS_DATA_SIMILAR_CITY = "action_pos_data_similar_city";
     public static final String ACTION_POS_DATA_SIMILAR_AREA = "action_pos_data_similar_area";
     public static final String REP_KIT_TABLE_TITLE = "table_title";
@@ -488,6 +491,7 @@ public class SCMInterfaceKey {
     public static final String CALIDUS_ZIP_FILES_VECTOR = "calidus_zip_files_vector";
     public static final String PAYMENT_LEVEL_VECTOR = "payment_level_vector";
     public static final String CONTROL_TEXT_PAYMENT_LEVEL = "control_text_payment_level";
+    
     public static final String CONTROL_TEXT_PAYMENT_METHOD = "control_text_payment_method";
     
     public static final String CONTROL_TEXT_CALIDUS_ZIP_FILE = "CONTROL_TEXT_CALIDUS_ZIP_FILE";
@@ -526,6 +530,7 @@ public class SCMInterfaceKey {
     public static final String EXPORT_EXCEL_IN_STOCK_STK = "export_excel_in_stock_stk";
     public static final String STOCK_REMAINING_VECTOR = "stock_remaining_vector";
     public static final String LEVEL_FOR_POS = "level_for_pos";
+    public static final String STATUS_FOR_POS = "status_for_pos";
     public static final String CHANNEL_FOR_POS = "channel_for_pos";
     public static final String PAYMENT_FOR_POS = "payment_for_pos";
     public static final String VECTOR_BARCODE_REQUESTS = "vector_barcode_requests";
@@ -547,6 +552,7 @@ public class SCMInterfaceKey {
     public static final String HASHMAP_GEN_DCM = "hashmap_gen_dcm";
     public static final String HASHMAP_STK_STATUS = "hashmap_stk_status";
     public static final String HASHMAP_CAM_PAY_STATUS = "hashmap_cam_pay_status";
+    public static final String HASHMAP_CAM_POS_STATUS = "hashmap_cam_pos_status";
     public static final String CONTROL_TEXT_INPUT_ENTRY_DATE = "control_text_input_entry_date";
     public static final String CONTROL_TEXT_INPUT_ENGLISH_ADDRESS = "control_text_input_english_address";
     public static final String CONTROL_TEXT_INPUT_POS_PHONE = "control_text_input_pos_phone";

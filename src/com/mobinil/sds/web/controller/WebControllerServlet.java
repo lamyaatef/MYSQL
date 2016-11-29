@@ -242,9 +242,14 @@ public class WebControllerServlet extends HttpServlet {
                             System.out.println("The Action name is "
                                     + strAction);
                             clearSession(currentSession);
-                        } else {
+                        } else if(userID == null){
                             userID = (String)objParameterHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
-                            System.out.println("inside if userID != null .. userID is "+userID);
+                            System.out.println("inside if userID != null from hashmap .. userID is "+userID);
+                            validateSecurity(strAction, userID, currentSession, newConnection);
+                        }
+                        else if(objParameterHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID)==null){
+                            userID = (String) currentSession.getAttribute(InterfaceKey.HASHMAP_KEY_USER_ID);
+                            System.out.println("inside if userID != null from session .. userID is "+userID);
                             validateSecurity(strAction, userID, currentSession, newConnection);
                         }
                     }
