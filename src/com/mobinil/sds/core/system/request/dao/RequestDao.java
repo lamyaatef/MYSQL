@@ -840,6 +840,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
             
             //lamya
             String posName = posModel.getPosDetailModel().getPosName();
+            String posStatus = posModel.getPosDetailModel().getPosStatus();
             String posCode = posModel.getPosDetailModel().getPOSCode();
             String posEmail = posModel.getPosDetailModel().getPosEmail();
             String posAddress = posModel.getPosDetailModel().getPosAddress();
@@ -853,7 +854,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
             String city = Integer.toString(posModel.getCityId());
             String district = Integer.toString(posModel.getDistrictId());
 
-            String update = "UPDATE GEN_DCM SET MOBICASH_NUMBER= "+mobicashNum+" ,PAYMENT_TYPE_METHOD_ID = '"+payMethod+"' , DCM_NAME='" + posName + "' ,DCM_CITY_ID='" + city + "',DCM_DISTRICT_ID='" + district + "' ,DCM_EMAIL= '" + posEmail + "' , DCM_PAYMENT_LEVEL_ID= '" + posPayment + "' , DCM_ADDRESS='" + posAddress + "' ,CHANNEL_ID='" + posChannel + "',DCM_LEVEL_ID= '" + posLevel + "' , REPORT_TO_CALIDUS ='"+reportToCalidus+"', IS_DIRTY = '1' ,IS_EXCLUSIVE = '"+isEX+"', IS_LEVEL_ONE = '"+isL1+"' , IS_QUALITY_CLUB = '"+isQC+"', HAS_SIGN = '"+hasSign+"', IS_MOBICASH = '"+isMobicash+"', IS_NOMAD = '"+isNomad+"' WHERE DCM_ID= " + genDcmId;
+            String update = "UPDATE GEN_DCM SET DCM_STATUS_ID = "+posStatus+" , MOBICASH_NUMBER= "+mobicashNum+" ,PAYMENT_TYPE_METHOD_ID = '"+payMethod+"' , DCM_NAME='" + posName + "' ,DCM_CITY_ID='" + city + "',DCM_DISTRICT_ID='" + district + "' ,DCM_EMAIL= '" + posEmail + "' , DCM_PAYMENT_LEVEL_ID= '" + posPayment + "' , DCM_ADDRESS='" + posAddress + "' ,CHANNEL_ID='" + posChannel + "',DCM_LEVEL_ID= '" + posLevel + "' , REPORT_TO_CALIDUS ='"+reportToCalidus+"', IS_DIRTY = '1' ,IS_EXCLUSIVE = '"+isEX+"', IS_LEVEL_ONE = '"+isL1+"' , IS_QUALITY_CLUB = '"+isQC+"', HAS_SIGN = '"+hasSign+"', IS_MOBICASH = '"+isMobicash+"', IS_NOMAD = '"+isNomad+"' WHERE DCM_ID= " + genDcmId;
 
             System.out.print(update);
             stmt.execute(update);
@@ -3697,7 +3698,12 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
         String mobicashNum = DBUtil.executeQuerySingleValueString(query, "mobicash_number");
         return mobicashNum;
     }
-    
+    public static String getDCMStatus(String dcmCode) {
+        String query = "select gen_dcm_status.dcm_status_name from gen_dcm,gen_dcm_status where gen_dcm.dcm_code='"+dcmCode+"'and gen_dcm.dcm_status_id = gen_dcm_status.dcm_status_id";
+
+        String mobicashNum = DBUtil.executeQuerySingleValueString(query, "dcm_status_name");
+        return mobicashNum;
+    }
 
     public static String getLevelNameForPOS(String POSDetailId) {
         String query = "SELECT DCM_LEVEL_NAME FROM GEN_DCM_LEVEL,DCM_POS_DETAIL,GEN_DCM  WHERE GEN_DCM.DCM_LEVEL_ID=GEN_DCM_LEVEL.DCM_LEVEL_ID  "

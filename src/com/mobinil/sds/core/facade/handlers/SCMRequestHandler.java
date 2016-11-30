@@ -87,7 +87,7 @@ public class SCMRequestHandler {
     public static final int action_show_update_pos_letter_code = 39;
     
    
-    private static PosModel setPOSDataPOSDetail(PosModel posGeneralData, POSDetailModel posDetailModel, String posDetailId, Connection con)
+    private static PosModel setPOSDataPOSDetail(/*PosModel posGeneralData,*/ /*POSDetailModel posDetailModel,*/ String posDetailId, Connection con)
     {
         
                     /////////////////////////////////
@@ -98,42 +98,49 @@ public class SCMRequestHandler {
                     String myEX = "";
                     String myNomad = "";
                     String myMobicash = "";
+                    POSDetailModel posDetailModel = new POSDetailModel();
+                    PosModel posGeneralData = new PosModel();
                     try
                     {
                         ResultSet rs = RequestDao.getFlagsByPosDetailId(con, posDetailId);
                         System.out.println("rs "+rs);
                         if (rs.next())
                         {
+                            System.out.println("insde RS...");
+                            posDetailModel = new POSDetailModel();
+                            posGeneralData = new PosModel();
                             myCalidus = rs.getString("report_to_calidus");
+                            System.out.println("after calidus : "+myCalidus);
                             mySign = rs.getString("has_sign");
                             myQC = rs.getString("is_quality_club");
                             myL1 = rs.getString("is_level_one");
                             myEX = rs.getString("is_exclusive");
                             myNomad = rs.getString("is_nomad");
                             myMobicash = rs.getString("is_mobicash");
+                            if (myCalidus!=null && myCalidus.equals("1"))
+                                {posGeneralData.setReportToCalidus(true);posDetailModel.setReportToCalidus(true);}
+
+                            if (myEX!=null && myEX.equals("1"))
+                                {posGeneralData.setIsEX(true);posDetailModel.setIsEX(true);}
+                            if (myL1!=null && myL1.equals("1"))
+                                {posGeneralData.setIsL1(true);posDetailModel.setIsL1(true);}
+                            if (myMobicash!=null && myMobicash.equals("1"))
+                                {posGeneralData.setIsMobicash(true);posDetailModel.setIsMobicash(true);}
+                            if (myNomad!=null && myNomad.equals("1"))
+                                {posGeneralData.setIsNomad(true);posDetailModel.setIsNomad(true);}
+                            if (myQC!=null && myQC.equals("1"))
+                                {posGeneralData.setIsQC(true);posDetailModel.setIsQC(true);}
+                            if (mySign!=null && mySign.equals("1"))
+                                {posGeneralData.setIsSignSet(true);posDetailModel.setIsSignSet(true);}
+                            //new 
+                            posGeneralData.setPosDetailModel(posDetailModel);
+                            System.out.println("SET POS : "+posGeneralData.getPosDetailModel());
                             
                         }
-                        if (myCalidus.equals("1"))
-                        {posGeneralData.setReportToCalidus(true);posDetailModel.setReportToCalidus(true);}
-
-                        if (myEX.equals("1"))
-                        {posGeneralData.setIsEX(true);posDetailModel.setIsEX(true);}
-                        if (myL1.equals("1"))
-                        {posGeneralData.setIsL1(true);posDetailModel.setIsL1(true);}
-                        if (myMobicash.equals("1"))
-                        {posGeneralData.setIsMobicash(true);posDetailModel.setIsMobicash(true);}
-                        if (myNomad.equals("1"))
-                        {posGeneralData.setIsNomad(true);posDetailModel.setIsNomad(true);}
-                        if (myQC.equals("1"))
-                        {posGeneralData.setIsQC(true);posDetailModel.setIsQC(true);}
-                        if (mySign.equals("1"))
-                        {posGeneralData.setIsSignSet(true);posDetailModel.setIsSignSet(true);}
-                        //new 
-                        posGeneralData.setPosDetailModel(posDetailModel);
                         
                         // new - end
                     }
-                    catch (Exception e){}
+                    catch (Exception e){System.out.println("EXCEPTION : "+e);}
                         ///////////////////////////////////////
 
                     return posGeneralData;
@@ -1282,16 +1289,18 @@ public class SCMRequestHandler {
                     //ADD KEY FOR GETTING DATA FOR TEAMLEADER AND ANOTHER FOR SALESREP...DO THE SAME IN JSP KEYS
                     String DCM_CODE = RequestDao.getDCMCodeForPOS(posDetailId);
                     String mobiCashStr = RequestDao.getMobicashNum(DCM_CODE);
+                    String posStatus = RequestDao.getDCMStatus(DCM_CODE);
                     long posMobicashNum = (mobiCashStr==null || mobiCashStr.compareTo("")==0) ? 0 : Long.parseLong(mobiCashStr);
                     Vector POSPhones = new Vector();
                     Vector OwnerPhones = new Vector();
                     Vector ManagerPhones = new Vector();
                     String payMethod = "";
                     String payLevel = "";
-                    setPOSDataPOSDetail(posGeneralData, posDetailModel, posDetailId, con);
+                    posGeneralData = setPOSDataPOSDetail(/*posGeneralData*//*, posDetailModel*/ posDetailId, con);
                     
                     
                     posGeneralData.setMobicashNum(posMobicashNum);
+                    posGeneralData.setStatusName(posStatus);
                     posDetailModel.setMobicashNum(posMobicashNum);
                     
 
@@ -1726,8 +1735,11 @@ public class SCMRequestHandler {
                     String PaymentMethod = RequestDao.getPaymentMethodIDForPOS(posDetailId);
                     String posCodeValue =(String) paramHashMap.get("pos_code");
                     
+                    System.out.println("pos detail id : "+posDetailId+" and pos code : "+posCodeValue);
+                    
                     /////////////////////////////////
-                    posGeneralData = setPOSDataPOSDetail(posGeneralData, posDetailModel, posDetailId, con);
+                    posGeneralData = setPOSDataPOSDetail(/*posGeneralData*//*, posDetailModel*/ posDetailId, con);
+                    System.out.println("NULLLLLLLLLLLLLLLL7777 "+posGeneralData.getPosDetailModel());
                     posGeneralData.setPaymentLevel(PaymentLevel);
                     posGeneralData.setMobicashNum(posMobicashNum);
                     posGeneralData.setPaymentMethod(PaymentMethod);

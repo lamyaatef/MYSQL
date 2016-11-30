@@ -64,6 +64,7 @@ public class PosModel
     private String taxValue;
     private long mobicashNum;
     private int statusId;
+    private String statusName;
     //lamya
     
     /**
@@ -753,6 +754,20 @@ public class PosModel
      */
     public void setStatusId(int statusId) {
         this.statusId = statusId;
+    }
+
+    /**
+     * @return the statusName
+     */
+    public String getStatusName() {
+        return statusName;
+    }
+
+    /**
+     * @param statusName the statusName to set
+     */
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 
     /**

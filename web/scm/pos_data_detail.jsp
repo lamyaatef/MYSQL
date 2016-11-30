@@ -101,6 +101,24 @@ String appName = request.getContextPath();
       out.println("</TD>");
       out.println("</tr>");
       
+      
+      
+      
+      
+      out.println("<TR class=TableTextNote>");
+      out.println("      <TD colspan=2>");
+      out.println("      <table border=0 align='center' width='100%'>");
+      out.println("<TR class=TableTextNote>");
+
+
+      out.println("<TD class=TableTextNote width='40%'>POS Status</TD>");
+      if(posData.getStatusName() !=null)
+          out.println("<TD class=TableTextNote>" + posData.getStatusName());
+      out.println("</TD>");
+      out.println("</tr>");
+      
+      
+      
       ////lamya checkboxes 
       out.println("<TD class=TableTextNote> POS is Exclusive </TD>");
       if(posData.isIsEX()==true)

@@ -216,6 +216,20 @@
             out.println("<input class='button' type='button' value=Similars  onclick=similarName(); />");
             out.println("</TD>");
             out.println("</tr>");
+            
+            
+            
+            
+            
+             out.println("<TR>");
+            out.println("      <TD class=TableTextNote width='40%'>POS Code</TD>");
+            out.println("      <TD><input type='text' disabled value='" + posData.getPosDetailModel().getPOSCode() + "' name='" + SCMInterfaceKey.TEXT_POSCODE + "'></TD>");
+            out.println("      <TD><input type='hidden' value='" + posData.getPosDetailModel().getPOSCode() + "' name='" + SCMInterfaceKey.CONTROL_TEXT_POS_CODE + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_CODE + "'></TD>");
+            out.println("</tr>");
+
+            
+            
+            
 
             out.println("<TD class=TableTextNote width='40%'>POS Arabic Name</TD>");
             if (posData.getPosDetailModel().getPosArabicName() != null) {
@@ -1359,26 +1373,28 @@
     function saveForm()
     {
        
-      //  console.log("inside save form");
-        
+   
         var flag = 0;
         // var posCode = document.getElementById('<%=SCMInterfaceKey.CONTROL_TEXT_POS_CODE%>').value;
         // alert(posCode);
         // var indicator = posCode.indexof('.001');
-
+ 
         var docLoc = trimAll(document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DOC_LOC%>.value);
-        document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DOC_LOC%>.value = docLoc;
-        if( docLoc == "")
+ 
+    document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DOC_LOC%>.value = docLoc;
+ 
+    if( docLoc == "")
         {
             flag = 1;
             alert("Please Enter Document Location ..");
         }
-        else if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_NAME%>.value") == "")
+ 
+         if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_NAME%>.value") == "")
         {
             flag = 1;
             alert("Please Enter POS Name ..");
         }
-        else if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_CODE%>.value") == "")
+         if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_CODE%>.value") == "")
         {
             flag = 1;
             alert("Please Enter POS code ..");
@@ -1393,27 +1409,32 @@
         // flag = 1;
         // alert("POS Code Must Contais .001  ...");
         // }
-        else if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_ADDRESS%>.value") == "")
+        
+         if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_ADDRESS%>.value") == "")
         {
             flag = 1;
             alert("Please Enter Address ..");
         }
-        else if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_REGION%>.value") == "0")
+        
+         if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_REGION%>.value") == "0")
         {
             flag = 1;
             alert("Please Enter Region ..");
         }
-        else if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>.value") == "0" || eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>.value") == "")
+        
+         if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>.value") == "0" || eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>.value") == "")
         {
             flag = 1;
             alert("Please Enter Governrate ..");
         }
-        else if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>.value") == "0" || eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>.value") == "")
+        
+         if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>.value") == "0" || eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>.value") == "")
         {
             flag = 1;
             alert("Please Enter City ..");
         }
-        else if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_LEVEL%>.value") == "3")
+        
+         if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_LEVEL%>.value") == "3")
         {
             if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>.value") == "0" || eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>.value") == "")
             {
@@ -1426,28 +1447,29 @@
                 alert("Please Enter Area ..");
             }
         }
+        
         if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_NAME%>.value") == "")
         {
             flag = 1;
             alert("Please Enter Owner Name ..");
         }
-        else if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_ID_NUMBER_HIDDEN%>.value") == "")
+         if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_ID_NUMBER_HIDDEN%>.value") == "")
         {
             flag = 1;
             alert("Please Enter Owner ID Number ..");
         }
-        else if(isNaN(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_ID_NUMBER_HIDDEN%>.value")))
+         if(isNaN(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_ID_NUMBER_HIDDEN%>.value")))
         {
             flag = 1;
             alert("Owner ID Number Accepts Numbers Only ...");
         }
-        else if(checkInternationalPhone(eval("document.formDataView.owner_phones__R0__C1.value"))==false)
+         if(checkInternationalPhone(eval("document.formDataView.owner_phones__R0__C1.value"))==false)
         {
             flag = 1;
             alert("Owner Phone Number Accepts Numbers Only ...");
         }
   
-        else if(isNaN(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_MANAGER_ID_NUMBER%>.value")))
+         if(isNaN(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_MANAGER_ID_NUMBER%>.value")))
         {
             flag = 1;
             alert("Manager ID Number Accepts Numbers Only ...");
@@ -1457,23 +1479,23 @@
             flag = 1;
             alert("Manager Phone Number Accepts Numbers Only ...");
         }
-        else if(checkInternationalPhone(document.formDataView.phones__R0__C1.value)==false){
+         if(checkInternationalPhone(document.formDataView.phones__R0__C1.value)==false){
             alert("Please POS Phone Must Be Numric.");
             return;
         }
     
-        else if(checkInternationalPhone(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DEMO%>.value"))==false)
+         if(checkInternationalPhone(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DEMO%>.value"))==false)
         {
             flag = 1;
             alert("Demo Line Accepts Numbers Only ...");
         }
   
-        else if(eval("document.formDataView.phones__R0__C1.value") == "")
+         if(eval("document.formDataView.phones__R0__C1.value") == "")
         {
             flag = 1;
             alert("Please Enter POS Phone..");
         }
-        else if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_EMAIL%>.value") != "" /*|| eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_EMAIL%>.value") != ""*/)
+         if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_EMAIL%>.value") != "" /*|| eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_EMAIL%>.value") != ""*/)
         {
             var str = document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_EMAIL%>.value;
             var at="@"
@@ -1533,7 +1555,7 @@
         }
 
   
-        else if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value") != "")
+         if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value") != "")
         {
             if(checkInternationalPhone(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value"))==false)
             {
@@ -1542,7 +1564,7 @@
             }
 
         }
-        else if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value") != "")
+         if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value") != "")
         {
             if(checkInternationalPhone(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value"))==false)
             {
@@ -1552,10 +1574,10 @@
          
         }
 
-
+        
         if(flag != 1)
         {
-          //  console.log("aaaa");
+          
             
             document.formDataView.phones__R0__C1.value=trimPhone(document.formDataView.phones__R0__C1.value);
             document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value=trimPhone(document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value);
@@ -1563,9 +1585,7 @@
             document.formDataView.owner_phones__R0__C1.value=trimPhone(document.formDataView.owner_phones__R0__C1.value);
             document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_MOBILE%>.value=trimPhone(document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_MOBILE%>.value);
             document.formDataView.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%= SCMInterfaceKey.ACTION_POS_DATA_EDIT_STORE%>';
-          //  document.formDataView.
-            
-        //    console.log("formAction ","<%out.print(formAction);%>");
+        
             $("#formDataView").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction);%>");
             document.formDataView.submit();
         }
