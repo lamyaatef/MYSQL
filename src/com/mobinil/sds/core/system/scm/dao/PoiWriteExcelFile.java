@@ -717,8 +717,8 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 
 					ArrayList<HSSFRow> rows = new ArrayList<HSSFRow>();
                                         ArrayList<ArrayList<HSSFCell>> cells=new ArrayList<ArrayList<HSSFCell>>();
-					//42
-                                        for(int i=1; i<=45;i++){
+					//45
+                                        for(int i=1; i<=46;i++){
                                         ArrayList<HSSFCell> cell = new ArrayList<HSSFCell>();
                                             cells.add(cell);
                                         }
@@ -728,8 +728,8 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                         for (int i=0;i<=POSSearchResults.size();i++){
 
                                             rows.add(worksheet.createRow((short) i));
-                                             //42
-                                            for(int cellno=0;cellno<45;cellno++){
+                                             //45
+                                            for(int cellno=0;cellno<46;cellno++){
                                                 
                                                 cells.get(cellno).add(rows.get(i).createCell((short) cellno));
                                             }
@@ -743,6 +743,8 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                       cells.get(header).get(0).setCellValue("POS Id");
                                       header++;
                                       cells.get(header).get(0).setCellValue("POS Code");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("POS Status");
                                       header++;
                                       cells.get(header).get(0).setCellValue("POS English Name");
                                       header++;
@@ -839,6 +841,10 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                 j++;
                                 cells.get(j).get(i).setCellValue(POSSearchResults.get(i-1).getPosCode());
                                 j++;
+                                
+                                cells.get(j).get(i).setCellValue(POSSearchResults.get(i-1).getPosStatus());
+                                j++;
+                                
                                 cells.get(j).get(i).setCellValue(POSSearchResults.get(i-1).getPosEnglishName());
                                 j++;
                                 cells.get(j).get(i).setCellValue(POSSearchResults.get(i-1).getPosArabicName());

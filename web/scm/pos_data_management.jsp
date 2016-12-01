@@ -376,10 +376,12 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                         <td align="left">
                             <input type="text" value="<%=docLocation%>" name="<%= SCMInterfaceKey.CONTROL_TEXT_INPUT_DOC_LOCATION%>" id="<%= SCMInterfaceKey.CONTROL_TEXT_INPUT_DOC_LOCATION%>">
                         </td>
+                        
                         <td>POS Status</td>
                         <td align="left">
                             <%drawSelectCompo(out, dcmStatus, SCMInterfaceKey.CONTROL_SELECT_POS_STATUS, dcmStatusId);%>
                         </td>
+                        
                     </tr>
                     <tr class=TableTextNote>
                         <td>Owner Name</td>

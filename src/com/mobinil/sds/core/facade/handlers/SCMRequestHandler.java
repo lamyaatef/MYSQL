@@ -2499,7 +2499,7 @@ public class SCMRequestHandler {
                     System.out.println("value " + paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_NAME));
                     System.out.println("class name " + paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_NAME).getClass().getName());
 
-                   // String posStatusId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_STATUS);
+                    //String posStatusId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_STATUS);
                     String posDataName = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_NAME);
                     String posDataCode = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_CODE);
                     String posDataRegion = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_REGION);
@@ -2532,6 +2532,7 @@ public class SCMRequestHandler {
                     supervisorDetailId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_SUPERVISOR_NAME);
                     teamleaderDetailId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_ID);
                     salesrepDetailId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_SALESREP_ID);
+                    
                     
                     
                     

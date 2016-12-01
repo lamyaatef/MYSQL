@@ -2743,7 +2743,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
 
     }
 
-    public static Vector searchPosDataExcel(Connection con, String posDataOwnerIdType, String posDataDocNum, String posDataManagerName, String posDataStkNum, String posDataManagerIdType, String posDataProposedDoc, String posDataManagerIdNum, String posDataName, String posDataCode, String posDataRegion, String posDataGover, String posDataDistrict, String posDataArea, String posDataCity, String posDataOwnerName, String posDataOwnerIdNum, String level, String payment, String channel, String posStatusId, String stkStatusId, String paymentStatusId, String posPhone, String englishAdress, String strSurvDate, String docLocation, String supervisorId,String supervisorName, String teamleaderId, String teamleaderName, String salesrepId, String salesrepName) throws SQLException {
+    public static Vector searchPosDataExcel(Connection con,String posDataOwnerIdType, String posDataDocNum, String posDataManagerName, String posDataStkNum, String posDataManagerIdType, String posDataProposedDoc, String posDataManagerIdNum, String posDataName, String posDataCode, String posDataRegion, String posDataGover, String posDataDistrict, String posDataArea, String posDataCity, String posDataOwnerName, String posDataOwnerIdNum, String level, String payment, String channel, String posStatusId, String stkStatusId, String paymentStatusId, String posPhone, String englishAdress, String strSurvDate, String docLocation, String supervisorId,String supervisorName, String teamleaderId, String teamleaderName, String salesrepId, String salesrepName) throws SQLException {
 
         Vector<POSSearchExcelModel> posDetailVec = new Vector<POSSearchExcelModel>();
         UserDataModel supervisor = new UserDataModel();
@@ -2841,6 +2841,8 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
         ResultSet rs = st.executeQuery(queryStr);
         while (rs.next()) {
             POSSearchExcelModel posSearchExcelModel = new POSSearchExcelModel();
+            String posStatusName= RequestDao.getDCMStatus(posDataCode);
+            posSearchExcelModel.setPosStatus(posStatusName);
             posSearchExcelModel.setSupervisorId(getUserDataByDetailId(con, rs.getString("SUPERVISOR_ID")).getUserFullName());//rs.getString("SUPERVISOR_ID")
             posSearchExcelModel.setTeamleaderId(getUserDataByDetailId(con, rs.getString("TEAMLEADER_ID")).getUserFullName()); //rs.getString("TEAMLEADER_ID")
             posSearchExcelModel.setSalesrepId(getUserDataByDetailId(con, rs.getString("SALESREP_ID")).getUserFullName());//rs.getString("SALESREP_ID")
