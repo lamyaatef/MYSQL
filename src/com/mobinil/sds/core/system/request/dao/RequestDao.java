@@ -2525,7 +2525,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
         StringBuilder whereStr = new StringBuilder();
         String[] queryStrings = new String[2];
         if (posStatusId != null && posStatusId.compareTo("-1") != 0 && posStatusId.compareTo("") != 0) {
-            fromStr.append(" , GEN_DCM dcm");
+            fromStr.append(" , GEN_DCM ");//dcm as alias was removed coz it caused column ambiguity and throws " column ambiguously defined"
             whereStr.append(" and dcm.DCM_ID = detail.pos_id and dcm.DCM_STATUS_ID=" + posStatusId);
         }
         
