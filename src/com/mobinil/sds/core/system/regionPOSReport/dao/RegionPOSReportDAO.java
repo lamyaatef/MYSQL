@@ -162,6 +162,7 @@ public class RegionPOSReportDAO {
               {
                   
                   strSql = "select region_level_type_id,parent_region_id,region_name from dcm_region where region_id="+regionId;
+                  System.out.println("region level sql "+strSql);
                   ResultSet res2 = stat.executeQuery(strSql);
                   if(res2.next())
                   {
@@ -176,10 +177,12 @@ public class RegionPOSReportDAO {
                           isRegionLevelOne =true;
                       }
                   }
+                  
                   res2.close();
               }  
                 
             }
+            System.out.println("WHILE - END");
             res.close();
             
             stat.close();
