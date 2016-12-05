@@ -153,7 +153,7 @@ public class RegionPOSReportDAO {
             
             
             String strSql = "select parent_region_id from dcm_region where lower(region_name) LIKE lower('%"+regionName+"%') and region_level_type_id="+regionLevel;
-            System.out.println("parent level sql "+strSql);
+            //System.out.println("parent level sql "+strSql);
             ResultSet res = stat.executeQuery(strSql);
             
             if (res.next()) {
@@ -162,7 +162,7 @@ public class RegionPOSReportDAO {
               {
                   
                   strSql = "select region_level_type_id,parent_region_id,region_name from dcm_region where region_id="+regionId;
-                  System.out.println("region level sql "+strSql);
+                  //System.out.println("region level sql "+strSql);
                   ResultSet res2 = stat.executeQuery(strSql);
                   if(res2.next())
                   {

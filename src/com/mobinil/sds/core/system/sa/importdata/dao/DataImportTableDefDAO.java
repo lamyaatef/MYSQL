@@ -76,7 +76,7 @@ public class DataImportTableDefDAO
     return tableVec; 
   }
 
-  public static DataImportTableDefModel getTableDef(String tableId)
+  public static DataImportTableDefModel getTableDef(String tableId,int tableCategory)
   {
     System.out.println("get table DEF  ");
     DataImportTableDefModel tableDefModel = null;
@@ -84,7 +84,7 @@ public class DataImportTableDefDAO
     {
      Connection con = Utility.getConnection();
      Statement stat = con.createStatement();
-     ResultSet res= stat.executeQuery("select * from vw_ADM_DATA_IMPORT_DEF where table_id="+tableId);     
+     ResultSet res= stat.executeQuery("select * from vw_ADM_DATA_IMPORT_DEF where table_id="+tableId+" and table_category_id = "+tableCategory);     
      if (res.next())
      {
       tableDefModel =  new DataImportTableDefModel(res);

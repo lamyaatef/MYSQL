@@ -1635,7 +1635,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
                 }
                 else if (tableName.compareToIgnoreCase("DCM_L1_TEMP")==0)    
                 {
-                    tableUpdated = bulkUpdateFeature(con,dcmCode,"IS_LEVEL_ONE",rss.getString("IS_LEVEL_ONE"));
+                    tableUpdated = bulkUpdateFeature(con,dcmCode,"IS_LEVEL_ONE",rss.getString("IS_POS_LEVEL_ONE"));
                     fieldName = "IS_LEVEL_ONE";
                 }
                 else if (tableName.compareToIgnoreCase("DCM_QC_TEMP")==0)    

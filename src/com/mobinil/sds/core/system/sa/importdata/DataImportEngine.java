@@ -35,11 +35,13 @@ public class DataImportEngine {
             + " where ADM_DATA_IMPORT_CELL_TYPE.type_id = vw_ADM_DATA_IMPORT_CELL_DEF.CELL_TYPE_ID"
             + " and table_id = ? order by position_num";
 
-    private Vector getTableCellsDef(Connection con, String tableId) throws Exception {
+    private Vector getTableCellsDef(Connection con, String tableId,int tableCategory) throws Exception {
         Vector cellsDefVec = new Vector();
         System.out.println("in getTableCellsDef table id "+tableId);
         PreparedStatement stat = con.prepareStatement(GetTableCellsDefSQL);
         stat.setString(1, tableId);
+        
+        System.out.println("GetTableCellsDefSQL "+GetTableCellsDefSQL);
         ResultSet res = stat.executeQuery();
         while (res.next()) {
             DataImportCellDefModel cellDef = new DataImportCellDefModel(res);
@@ -191,10 +193,10 @@ public class DataImportEngine {
 
             for (String tableID : tableId) {
 
-                Vector cellsDefVec = getTableCellsDef(con, tableID);
+                Vector cellsDefVec = getTableCellsDef(con, tableID,43);
                 System.out.println("table id" + tableID);
                 System.out.println("debugging file name "+fileName);
-                DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableID);
+                DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableID,43);
 
                 FileInputStream tempIn = new FileInputStream(fileName);
                 
@@ -637,7 +639,7 @@ public class DataImportEngine {
         //Utility.logger.debug(s);
     }
 
-    public DataImportReport ImportFile(String fileName, String operation, String tableId) {
+    public DataImportReport ImportFile(String fileName, String operation, String tableId, int tableCategory) {
        
         System.out.println("inside ImportFile in DataImportEngine : "+fileName);
         Vector report = new Vector();
@@ -646,9 +648,9 @@ public class DataImportEngine {
         int numberOfRowsUpdated = 0;
         try {
             Connection con = Utility.getConnection();
-            Vector cellsDefVec = getTableCellsDef(con, tableId);
+            Vector cellsDefVec = getTableCellsDef(con, tableId,tableCategory);
             System.out.println("now print table id" + tableId);
-            DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableId);
+            DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableId,tableCategory);
             System.out.println("finished getTableDef");
             FileInputStream tempIn = new FileInputStream(fileName);
             System.out.println("-> workbook factory create : "+tempIn);
@@ -731,9 +733,9 @@ public class DataImportEngine {
         int numberOfRowsUpdated = 0;
         try {
             Connection con = Utility.getConnection();
-            Vector cellsDefVec = getTableCellsDef(con, tableId);
+            Vector cellsDefVec = getTableCellsDef(con, tableId,43);
 
-            DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableId);
+            DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableId,43);
 
             FileInputStream tempIn = new FileInputStream(fileName);
 
@@ -806,7 +808,7 @@ public class DataImportEngine {
         int numberOfRowsUpdated = 0;
         try {
             Connection con = Utility.getConnection();
-            Vector cellsDefVec = getTableCellsDef(con, tableId);
+            Vector cellsDefVec = getTableCellsDef(con, tableId,43);
             System.out.println("table id = " + tableId);
             DataImportTableDefModel tableModel = MemoDAO.getTableDef(tableId);
 
@@ -875,8 +877,8 @@ public class DataImportEngine {
         int numberOfRowsUpdated = 0;
         try {
             Connection con = Utility.getConnection();
-            Vector cellsDefVec = getTableCellsDef(con, tableId);
-            DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableId);
+            Vector cellsDefVec = getTableCellsDef(con, tableId,43);
+            DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableId,43);
 
             FileInputStream tempIn = new FileInputStream(fileName);
             Workbook wb = org.apache.poi.ss.usermodel.WorkbookFactory.create(tempIn);
@@ -938,8 +940,8 @@ public class DataImportEngine {
         int numberOfRowsUpdated = 0;
         try {
             Connection con = Utility.getConnection();
-            Vector cellsDefVec = getTableCellsDef(con, tableId);
-            DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableId);
+            Vector cellsDefVec = getTableCellsDef(con, tableId,43);
+            DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableId,43);
 
             FileInputStream tempIn = new FileInputStream(fileName);
             Workbook wb = org.apache.poi.ss.usermodel.WorkbookFactory.create(tempIn);

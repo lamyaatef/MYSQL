@@ -105,7 +105,7 @@ Vector statusVector = new Vector();
 
 
 DataImportEngine importEngine = new DataImportEngine();
-DataImportReport importReport =importEngine.ImportFile(baseDirectory+fileUniqueName , operation, tableId); 
+DataImportReport importReport =importEngine.ImportFile(baseDirectory+fileUniqueName , operation, tableId,43); 
 Vector report = importReport.getReport();
 String operationName = importReport.getOperation();
 int numOfRecordsInserted = importReport.getNumOfRecordsInserted();
