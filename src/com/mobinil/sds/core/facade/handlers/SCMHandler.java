@@ -13,6 +13,7 @@ import com.mobinil.sds.core.utilities.DBUtil;
 import com.mobinil.sds.core.utilities.ExcelUtil;
 import com.mobinil.sds.core.utilities.GetUploadedFile;
 import com.mobinil.sds.web.interfaces.InterfaceKey;
+import com.mobinil.sds.web.interfaces.sa.AdministrationInterfaceKey;
 import com.mobinil.sds.web.interfaces.scm.SCMInterfaceKey;
 import java.io.File;
 import java.io.FileInputStream;
@@ -140,6 +141,8 @@ public class SCMHandler {
     public static final int action_export_supervisors = 98;
     public static final int action_export_teamleaders = 99;
     public static final int ACTION_SHOW_SAVE_LISTS = 100;
+    
+    public static final int ACTION_UPDATE_POS_MONTH_LIST = 101;
     //Rep Management --End
 
     public static HashMap handle(String action, HashMap paramHashMap, java.sql.Connection con) {
@@ -572,7 +575,10 @@ public class SCMHandler {
                 actionType =  ACTION_SHOW_SAVE_LISTS;
             }
                 
-
+            else if(action.compareTo(SCMInterfaceKey.ACTION_UPDATE_POS_MONTH_LIST)==0)
+      {
+        actionType = ACTION_UPDATE_POS_MONTH_LIST;
+      }
             switch (actionType) {
                 case ACTION_SHOW_SAVE_LISTS:
                 {
@@ -639,6 +645,29 @@ public class SCMHandler {
                     dataHashMap.put(SCMInterfaceKey.HASHMAP_STOCKS_, STKDAO.getStocksHM(con));
                 }
                 break;
+                    
+                    
+                    
+                case ACTION_UPDATE_POS_MONTH_LIST:
+          {
+             // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
+            System.out.println("%%% ACTION_UPDATE_POS_MONTH_LIST action");
+            
+            String returnedUserId = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+            System.out.println("RETURNED ID : "+returnedUserId);
+            dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID,returnedUserId);
+            
+            
+              String  posCode =(String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_INPUT_POS_CODE);
+              String  emailDate =(String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_INPUT_EMAIL_DATE);
+              String  emailSubject =(String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_INPUT_EMAIL_SUBJECT);
+              String month = (String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_SELECT_MONTH);
+              String year = (String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_INPUT_YEAR);
+              String list = (String) paramHashMap.get(AdministrationInterfaceKey.CONTROL_SELECT_LIST);
+              System.out.println("pos code : "+posCode+" email date : "+emailDate+" email subject : "+emailSubject+" month : "+month+" year : "+year+" list : "+list);
+          }
+          break;        
+                    
 
                 case import_stk_pos: {
                     dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, strUserID);

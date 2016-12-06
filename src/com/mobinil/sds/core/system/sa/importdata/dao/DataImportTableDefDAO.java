@@ -101,4 +101,31 @@ public class DataImportTableDefDAO
     return tableDefModel; 
   }
   
+  
+  public static DataImportTableDefModel getTableDef(String tableId)
+  {
+    System.out.println("get table DEF  ");
+    DataImportTableDefModel tableDefModel = null;
+    try
+    {
+     Connection con = Utility.getConnection();
+     Statement stat = con.createStatement();
+     ResultSet res= stat.executeQuery("select * from vw_ADM_DATA_IMPORT_DEF where table_id="+tableId);     
+     if (res.next())
+     {
+      tableDefModel =  new DataImportTableDefModel(res);
+     }
+     stat.close();
+     Utility.closeConnection(con);        
+    }
+    catch(Exception e)
+    {
+    if (debugFlag)
+    e.printStackTrace();
+    }
+
+    return tableDefModel; 
+  }
+  
+  
 }

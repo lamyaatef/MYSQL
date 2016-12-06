@@ -600,7 +600,7 @@ public class SCMInterfaceKey {
     public static final String ACTION_UPLOAD_PAYMENT_LIST_PROCESS = "action_upload_payment_list_process";
     
             
-    
+    public static final String ACTION_UPDATE_POS_MONTH_LIST ="action_update_pos_month_list";
     
 
 }

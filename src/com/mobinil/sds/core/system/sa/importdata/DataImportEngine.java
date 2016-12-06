@@ -35,7 +35,7 @@ public class DataImportEngine {
             + " where ADM_DATA_IMPORT_CELL_TYPE.type_id = vw_ADM_DATA_IMPORT_CELL_DEF.CELL_TYPE_ID"
             + " and table_id = ? order by position_num";
 
-    private Vector getTableCellsDef(Connection con, String tableId,int tableCategory) throws Exception {
+    private Vector getTableCellsDef(Connection con, String tableId) throws Exception {
         Vector cellsDefVec = new Vector();
         System.out.println("in getTableCellsDef table id "+tableId);
         PreparedStatement stat = con.prepareStatement(GetTableCellsDefSQL);
@@ -52,6 +52,9 @@ public class DataImportEngine {
         System.out.println("finished getTableCellsDef");
         return cellsDefVec;
     }
+
+    
+    
 
     private /*void*/int insertToTable(DataImportTableDefModel tableModel, Hashtable valuesTable, Vector report, Connection con, int rownum, Statement stat) {
         Utility.logger.debug("inside DataImportEngine function insertToTable****");
@@ -193,7 +196,7 @@ public class DataImportEngine {
 
             for (String tableID : tableId) {
 
-                Vector cellsDefVec = getTableCellsDef(con, tableID,43);
+                Vector cellsDefVec = getTableCellsDef(con, tableID);
                 System.out.println("table id" + tableID);
                 System.out.println("debugging file name "+fileName);
                 DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableID,43);
@@ -638,6 +641,92 @@ public class DataImportEngine {
         }
         //Utility.logger.debug(s);
     }
+    
+    public DataImportReport ImportFile(String fileName, String operation, String tableId) {
+       
+        System.out.println("inside ImportFile in DataImportEngine : "+fileName);
+        Vector report = new Vector();
+        DataImportReport importReport = new DataImportReport();
+        int numberOfRowsInserted = 0;
+        int numberOfRowsUpdated = 0;
+        try {
+            Connection con = Utility.getConnection();
+            Vector cellsDefVec = getTableCellsDef(con, tableId);
+            System.out.println("now print table id" + tableId);
+            DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableId);
+            System.out.println("finished getTableDef");
+            FileInputStream tempIn = new FileInputStream(fileName);
+            System.out.println("-> workbook factory create : "+tempIn);
+            Workbook wb = org.apache.poi.ss.usermodel.WorkbookFactory.create(tempIn);
+            System.out.println("-> get sheet");
+            Sheet sheet = wb.getSheetAt(0);
+            System.out.println("-> get last row no");
+            int lastRowNum = sheet.getLastRowNum() + 1;
+            debug("Last Row Number = " + lastRowNum);
+            System.out.println("again Last Row Number = " + lastRowNum);
+            Hashtable valuesTable = new Hashtable();
+            Hashtable primaryKeysTable = new Hashtable();
+
+            boolean insertOperationFlag = false;
+            if (operation.compareTo(AdministrationInterfaceKey.DATA_IMPORT_INSERT) == 0) {
+                insertOperationFlag = true;
+            } else if (operation.compareTo(AdministrationInterfaceKey.DATA_IMPORT_UPDATE) == 0) {
+                insertOperationFlag = false;
+            }
+
+            Statement stat = con.createStatement();
+            for (int currentRow = 1; currentRow < lastRowNum; currentRow++) {
+                valuesTable.clear();
+                primaryKeysTable.clear();
+                boolean readRowFlag = readRow(cellsDefVec, currentRow, sheet.getRow(currentRow), report, valuesTable, primaryKeysTable, insertOperationFlag);
+
+                if (readRowFlag) {
+                    if (insertOperationFlag) {
+                        System.out.println("-> insert to table");
+                        numberOfRowsInserted = insertToTable(tableModel, valuesTable, report, con, currentRow, stat);
+                        
+                        System.out.println("FINISHED insert to table : numberOfRowsInserted : "+numberOfRowsInserted);
+                        //TODO : insert a new nomad file with min date max date no of records label id
+                        
+                        
+                    } else {
+                        System.out.println("-> update table");
+                        numberOfRowsUpdated += updateTable(tableModel, valuesTable, primaryKeysTable, report, con, currentRow, stat);
+                        System.out.println("FINISHED update table : numberOfRowsUpdated : "+numberOfRowsUpdated);
+                    }
+                }
+            }
+            System.out.println("-> insert in file but the nomad records added are : "+numberOfRowsInserted);
+            //String labelName = TangoFileDAO.getLabelName(labelId);
+            //TODO: get user id , min date in nomad data , max date in nomad data
+            
+            
+            //NomadFileDAO.insertNewFile("min", "max", numberOfRowsInserted, "New", "274", labelId);
+            
+            
+            
+            stat.close();
+            Utility.closeConnection(con);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            if (e.getMessage() != null) {
+                ErrorInfo error = new ErrorInfo();
+                error.setErrorMsg(e.getMessage());
+                report.add(error);
+
+            }
+        }
+
+        System.out.println("NSERT FILE: numberOfRowsUpdated "+numberOfRowsUpdated+"  numberOfRowsInserted "+numberOfRowsInserted);
+        importReport.setOperation(operation);
+        importReport.setNumOfRecordsUpdated(numberOfRowsUpdated);
+        importReport.setNumOfRecordsInserted(numberOfRowsInserted);
+        importReport.setReport(report);
+
+        return importReport;
+    }
 
     public DataImportReport ImportFile(String fileName, String operation, String tableId, int tableCategory) {
        
@@ -648,7 +737,7 @@ public class DataImportEngine {
         int numberOfRowsUpdated = 0;
         try {
             Connection con = Utility.getConnection();
-            Vector cellsDefVec = getTableCellsDef(con, tableId,tableCategory);
+            Vector cellsDefVec = getTableCellsDef(con, tableId);
             System.out.println("now print table id" + tableId);
             DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableId,tableCategory);
             System.out.println("finished getTableDef");
@@ -733,7 +822,7 @@ public class DataImportEngine {
         int numberOfRowsUpdated = 0;
         try {
             Connection con = Utility.getConnection();
-            Vector cellsDefVec = getTableCellsDef(con, tableId,43);
+            Vector cellsDefVec = getTableCellsDef(con, tableId);
 
             DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableId,43);
 
@@ -808,7 +897,7 @@ public class DataImportEngine {
         int numberOfRowsUpdated = 0;
         try {
             Connection con = Utility.getConnection();
-            Vector cellsDefVec = getTableCellsDef(con, tableId,43);
+            Vector cellsDefVec = getTableCellsDef(con, tableId);
             System.out.println("table id = " + tableId);
             DataImportTableDefModel tableModel = MemoDAO.getTableDef(tableId);
 
@@ -877,7 +966,7 @@ public class DataImportEngine {
         int numberOfRowsUpdated = 0;
         try {
             Connection con = Utility.getConnection();
-            Vector cellsDefVec = getTableCellsDef(con, tableId,43);
+            Vector cellsDefVec = getTableCellsDef(con, tableId);
             DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableId,43);
 
             FileInputStream tempIn = new FileInputStream(fileName);
@@ -940,7 +1029,7 @@ public class DataImportEngine {
         int numberOfRowsUpdated = 0;
         try {
             Connection con = Utility.getConnection();
-            Vector cellsDefVec = getTableCellsDef(con, tableId,43);
+            Vector cellsDefVec = getTableCellsDef(con, tableId);
             DataImportTableDefModel tableModel = DataImportTableDefDAO.getTableDef(tableId,43);
 
             FileInputStream tempIn = new FileInputStream(fileName);
