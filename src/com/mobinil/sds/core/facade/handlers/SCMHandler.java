@@ -2,6 +2,7 @@
 package com.mobinil.sds.core.facade.handlers;
 import com.mobinil.sds.core.system.dcm.region.model.RegionModel;
 import com.mobinil.sds.core.system.dcm.user.model.DCMUserModel;
+import com.mobinil.sds.core.system.sa.importdata.dao.DataImportTableDefDAO;
 import com.mobinil.sds.core.system.sa.persons.model.PersonModel;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -141,7 +142,7 @@ public class SCMHandler {
     public static final int action_export_supervisors = 98;
     public static final int action_export_teamleaders = 99;
     public static final int ACTION_SHOW_SAVE_LISTS = 100;
-    
+    public static final int ACTION_SUPERVISORS_BULK_UPLOAD =102;
     public static final int ACTION_UPDATE_POS_MONTH_LIST = 101;
     //Rep Management --End
 
@@ -531,6 +532,13 @@ public class SCMHandler {
                 actionType =  view_barcoderequest_excel;
 
             }
+            
+            
+            if (action.equals(SCMInterfaceKey.ACTION_SUPERVISORS_BULK_UPLOAD)) {
+
+                actionType =  ACTION_SUPERVISORS_BULK_UPLOAD;
+
+            }
             if (action.equals(SCMInterfaceKey.VIEW_STK_DIST_REQUEST_EXCEL)) {
 
                 actionType =  view_stk_dist_request_excel;
@@ -848,7 +856,18 @@ public class SCMHandler {
 
 
                 }
-                    break;
+                break;
+                
+                case ACTION_SUPERVISORS_BULK_UPLOAD:
+        {
+            Vector tableDefVector= DataImportTableDefDAO.getTableDefByCategory("43");
+            dataHashMap.put(  AdministrationInterfaceKey.TABLE_DEF_VECTOR  , tableDefVector);
+           // Vector labelVec= NomadLabelDao.getLabelByUser(con, strUserID);
+           // dataHashMap.put(AuthResInterfaceKey.VECTOR_LABEL,labelVec); 
+        }
+        break;  
+                
+                    
                 case barcode_request: {
                     Vector<DCMUserDetailModel> reps = new Vector<DCMUserDetailModel>();
                     reps = BarcodeDAO.getReps(con);
