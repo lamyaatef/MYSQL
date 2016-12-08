@@ -1,3 +1,5 @@
+<%@page import="com.mobinil.sds.core.system.scm.importdata.SalesrepImporter"%>
+<%@page import="com.mobinil.sds.core.system.scm.importdata.TeamleaderImporter"%>
 <%@page import="com.mobinil.sds.core.system.scm.importdata.SupervisorImporter"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.ParseException"%>
@@ -117,15 +119,15 @@ dataHashMap.put(AdministrationInterfaceKey.TEXT_NOMAD_FILE_NAME,fileNameOnClient
 
 
 printToStream("DataImportEngine ", out);
-System.out.println("-> import Supervisors Sheet");
+System.out.println("-> import Teamleaders Sheet");
 
-SupervisorImporter superImporterObj = new SupervisorImporter(fileDateStr, new Long(0), baseDirectory+fileUniqueName , 12);
-  superImporterObj.clean();
+SalesrepImporter repImporterObj = new SalesrepImporter(fileDateStr, new Long(0), baseDirectory+fileUniqueName , 12);
+  repImporterObj.clean();
 
 
-out.println("Supervisors Data Upload Was Completed");
+out.println("Teaml Leaders Data Upload Was Completed");
   printToStream("<h3>",out);
-  printToStream("Number of records inserted " + superImporterObj.getNumberOfRowsInserted(),out);
+  printToStream("Number of records inserted " + repImporterObj.getNumberOfRowsInserted(),out);
   printToStream("</h3>",out);
 
 

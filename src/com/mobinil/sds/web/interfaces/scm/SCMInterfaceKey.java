@@ -9,6 +9,15 @@ public class SCMInterfaceKey {
     //lamya
     public static final String ACTION_SUPERVISORS_BULK_UPLOAD="supervisors_bulk_upload";
     public static final String ACTION_SUPERVISORS_BULK_UPLOAD_PROCESS="supervisors_file_import_process";
+    
+    public static final String ACTION_TEAMLEADERS_BULK_UPLOAD="teamleaders_bulk_upload";
+    public static final String ACTION_TEAMLEADERS_BULK_UPLOAD_PROCESS="teamleaders_file_import_process";
+    
+    
+    public static final String ACTION_SALESREPS_BULK_UPLOAD="salesreps_bulk_upload";
+    public static final String ACTION_SALESREPS_BULK_UPLOAD_PROCESS="salesreps_file_import_process";
+    
+    
     public static final String REPORT_TO_CALIDUS = "report_to_calidus";
     
     public static final String IS_L1 = "pos_level_one";

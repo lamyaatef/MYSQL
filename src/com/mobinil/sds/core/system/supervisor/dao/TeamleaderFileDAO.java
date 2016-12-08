@@ -15,7 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 
-public class SupervisorFileDAO{
+public class TeamleaderFileDAO{
 
     public static Vector getallNomadfiles(Connection con, String userId) {
         Vector vec = new Vector();
@@ -123,11 +123,11 @@ public class SupervisorFileDAO{
   }
     
     
-    public static void insertSupervisorData(Connection con, Statement stat,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
+    public static void insertTeamleaderData(Connection con, Statement stat,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
         //System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
         String strSql = "";
-        System.out.println("insertSupervisorData : go to record no. "+count);
+        System.out.println("insertTeamleaderData : go to record no. "+count);
                             
         try {
         for (int i=0; i<lineFields.length;i++)
@@ -170,7 +170,7 @@ public class SupervisorFileDAO{
         
         
         System.out.println("Line text : "+concatFields);
-           strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values (SEQ_SCM_SUPERVISOR_ID.nextval,"+concatFields+",sysdate)";
+           strSql = "insert into SCM_TEAMLEADER ( TEAMLEADER_ID, TEAMLEADER_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values (SEQ_SCM_TEAMLEADER_ID.nextval,"+concatFields+",sysdate)";
             System.out.println("query "+strSql);
             stat.execute(strSql);
            
@@ -187,10 +187,10 @@ public class SupervisorFileDAO{
 
     
     
-    public static int getSupervisorDataRecords(Connection con, Statement stat,Long fileID) throws ParseException {
+    public static int getTeamleaderDataRecords(Connection con, Statement stat,Long fileID) throws ParseException {
         int count=-1;
         try {
-            String strSql = "select count(*) from SCM_SUPERVISOR";
+            String strSql = "select count(*) from SCM_TEAMLEADER";
             System.out.println("SQL is " + strSql);
             ResultSet rs = stat.executeQuery(strSql);
             if(rs.next())

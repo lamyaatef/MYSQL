@@ -142,8 +142,11 @@ public class SCMHandler {
     public static final int action_export_supervisors = 98;
     public static final int action_export_teamleaders = 99;
     public static final int ACTION_SHOW_SAVE_LISTS = 100;
-    public static final int ACTION_SUPERVISORS_BULK_UPLOAD =102;
+    
     public static final int ACTION_UPDATE_POS_MONTH_LIST = 101;
+    public static final int SHOW_SUPERVISORS_BULK_UPLOAD =102;
+    public static final int SHOW_TEAMLEADERS_BULK_UPLOAD =103;
+    public static final int SHOW_SALESREPS_BULK_UPLOAD =104;
     //Rep Management --End
 
     public static HashMap handle(String action, HashMap paramHashMap, java.sql.Connection con) {
@@ -536,7 +539,17 @@ public class SCMHandler {
             
             if (action.equals(SCMInterfaceKey.ACTION_SUPERVISORS_BULK_UPLOAD)) {
 
-                actionType =  ACTION_SUPERVISORS_BULK_UPLOAD;
+                actionType =  SHOW_SUPERVISORS_BULK_UPLOAD;
+
+            }
+            if (action.equals(SCMInterfaceKey.ACTION_TEAMLEADERS_BULK_UPLOAD)) {
+
+                actionType =  SHOW_TEAMLEADERS_BULK_UPLOAD;
+
+            }
+            if (action.equals(SCMInterfaceKey.ACTION_SALESREPS_BULK_UPLOAD)) {
+
+                actionType =  SHOW_SALESREPS_BULK_UPLOAD;
 
             }
             if (action.equals(SCMInterfaceKey.VIEW_STK_DIST_REQUEST_EXCEL)) {
@@ -858,7 +871,7 @@ public class SCMHandler {
                 }
                 break;
                 
-                case ACTION_SUPERVISORS_BULK_UPLOAD:
+         case SHOW_SUPERVISORS_BULK_UPLOAD:
         {
             Vector tableDefVector= DataImportTableDefDAO.getTableDefByCategory("43");
             dataHashMap.put(  AdministrationInterfaceKey.TABLE_DEF_VECTOR  , tableDefVector);
@@ -867,6 +880,28 @@ public class SCMHandler {
         }
         break;  
                 
+             
+             
+        case SHOW_TEAMLEADERS_BULK_UPLOAD:
+        {
+            Vector tableDefVector= DataImportTableDefDAO.getTableDefByCategory("43");
+            dataHashMap.put(  AdministrationInterfaceKey.TABLE_DEF_VECTOR  , tableDefVector);
+           // Vector labelVec= NomadLabelDao.getLabelByUser(con, strUserID);
+           // dataHashMap.put(AuthResInterfaceKey.VECTOR_LABEL,labelVec); 
+        }
+        break; 
+            
+            
+        case SHOW_SALESREPS_BULK_UPLOAD:
+        {
+            Vector tableDefVector= DataImportTableDefDAO.getTableDefByCategory("43");
+            dataHashMap.put(  AdministrationInterfaceKey.TABLE_DEF_VECTOR  , tableDefVector);
+           // Vector labelVec= NomadLabelDao.getLabelByUser(con, strUserID);
+           // dataHashMap.put(AuthResInterfaceKey.VECTOR_LABEL,labelVec); 
+        }
+        break;  
+                
+             
                     
                 case barcode_request: {
                     Vector<DCMUserDetailModel> reps = new Vector<DCMUserDetailModel>();

@@ -12,9 +12,9 @@
    <HEAD>
       <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252"/>
       <LINK REL=STYLESHEET TYPE="text/css" HREF="../resources/css/Template1.css">
-      <TITLE>Supervisors Bulk Import</TITLE>
+      <TITLE>Team Leaders Bulk Import</TITLE>
 <center>
-      <h2>Supervisors Bulk Import</h2>
+      <h2>Team Leaders Bulk Import</h2>
 </center>
    </HEAD>
 
@@ -38,7 +38,7 @@ String appName = request.getContextPath();
 
 String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
                     +InterfaceKey.HASHMAP_KEY_ACTION+"="
-                    +SCMInterfaceKey.ACTION_SUPERVISORS_BULK_UPLOAD_PROCESS; //action=
+                    +SCMInterfaceKey.ACTION_TEAMLEADERS_BULK_UPLOAD_PROCESS; //action=
 
 %>
 

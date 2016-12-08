@@ -4,7 +4,9 @@ package com.mobinil.sds.core.system.scm.importdata;
 
 import com.mobinil.sds.core.system.authenticationResult.dao.AuthResDAO;
 import com.mobinil.sds.core.system.nomad.dao.NomadFileDAO;
+import com.mobinil.sds.core.system.supervisor.dao.SalesrepFileDAO;
 import com.mobinil.sds.core.system.supervisor.dao.SupervisorFileDAO;
+import com.mobinil.sds.core.system.supervisor.dao.TeamleaderFileDAO;
 import com.mobinil.sds.core.system.tango.dao.TangoFileDAO;
         import java.io.File;
         import java.io.IOException;
@@ -39,7 +41,7 @@ import java.util.Date;
         import org.xml.sax.SAXException;
         import org.xml.sax.XMLReader;
 
-public class SupervisorImporter {
+public class SalesrepImporter {
     /**
      * Uses the XSSF Event SAX helpers to do most of the work
      *  of parsing the Sheet XML, and outputs the contents
@@ -74,7 +76,7 @@ public class SupervisorImporter {
         }
     }
 
-    public SupervisorImporter (String fileDate,Long fileID , String filePath , int minColumns)
+    public SalesrepImporter (String fileDate,Long fileID , String filePath , int minColumns)
     {
         System.out.println("file path : "+filePath);
         int updateOn=-1;
@@ -138,7 +140,7 @@ public class SupervisorImporter {
                            
                             if (v1 == null) 
                                 v1 = "";
-                            SupervisorFileDAO.insertSupervisorData(con, stat,lineFields,fileID,sellerIndx,statusIndx,count/*,fileDate,updateOn*/);
+                            SalesrepFileDAO.insertSalesrepData(con, stat,lineFields,fileID,sellerIndx,statusIndx,count/*,fileDate,updateOn*/);
                             System.out.println("^^^^^^^^^^end^^^^^^^^^");
                            
                            }  
@@ -147,7 +149,7 @@ public class SupervisorImporter {
                        // System.out.println("count isssssss      " + count);
 
                     }
-                    this.numberOfRowsInserted = SupervisorFileDAO.getSupervisorDataRecords(con, stat, fileID);
+                    this.numberOfRowsInserted = SalesrepFileDAO.getSalesrepDataRecords(con, stat, fileID);
                     System.out.println("rows %%%% "+this.numberOfRowsInserted);
 
                 } catch (Exception e) {
@@ -166,7 +168,7 @@ public class SupervisorImporter {
     }
 
 
-    public SupervisorImporter(OPCPackage pkg) {
+    public SalesrepImporter(OPCPackage pkg) {
         this.xlsxPackage = pkg;
 
     }
@@ -360,7 +362,7 @@ public class SupervisorImporter {
 
         // The package open is instantaneous, as it should be.
         OPCPackage p = OPCPackage.open(xlsxFile.getPath(), PackageAccess.READ);
-        SupervisorImporter xlsx2csv = new SupervisorImporter(p);
+        SalesrepImporter xlsx2csv = new SalesrepImporter(p);
         xlsx2csv.process();
         p.close();
     }
