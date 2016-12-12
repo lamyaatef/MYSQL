@@ -123,7 +123,7 @@ public class SalesrepFileDAO{
   }
     
     
-    public static void insertSalesrepData(Connection con, Statement stat,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
+    public static void insertSalesrepData(Connection con, Statement stat,String[] lineFields,boolean isemptyField,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
         //System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
         String strSql = "";
@@ -132,37 +132,9 @@ public class SalesrepFileDAO{
         try {
         for (int i=0; i<lineFields.length;i++)
         {
-            
+            if(isemptyField)
+                concatFields +="' '" + ",";
             concatFields += "'"+lineFields[i]+"'"+",";
-           /* if (i==sellerIndex) 
-            {
-                if(lineFields[i].contains("M"))
-                
-                    concatFields += "'"+lineFields[i].substring(lineFields[i].indexOf("M")+1)+"'"+",";
-                
-                else concatFields += "'"+lineFields[i]+"'"+",";
-            }
-            // if not VALID, return
-            if (i==statusIndex) 
-            {
-                //if(lineFields[i].compareToIgnoreCase("INVALID")==0 || lineFields[i].compareToIgnoreCase("CREATING")==0 || lineFields[i].compareToIgnoreCase("CREATED")==0 || lineFields[i].compareToIgnoreCase("PROGRESS")==0 || lineFields[i].compareToIgnoreCase("UPLOADING")==0 || lineFields[i].compareToIgnoreCase("VALID_PENDING_VERIFICATION")==0)
-                if(lineFields[i].compareToIgnoreCase("VALID")!=0)
-                    return;
-                    
-            }
-            if (i!=sellerIndex)
-            //check if String is a Date HH24.MI.SSXFF 
-            {
-                
-                if(isValidDate(lineFields[i]))
-                {
-                    //System.out.println("is DATE TRUE");
-                    concatFields += "to_date('"+lineFields[i]+"', 'YYYY-MM-DD HH24:MI:SS')"+",";
-                }
-            
-            
-                else concatFields += "'"+lineFields[i]+"'"+",";
-            }*/
            
         }
         
@@ -171,9 +143,12 @@ public class SalesrepFileDAO{
         
         
         System.out.println("Line text : "+concatFields);
-           strSql = "insert into SCM_SALESREP ( SALESREP_ID, SALESREP_NAME, MOBILE ,CREATION_TIMESTAMP) values (SEQ_SCM_SALESREP_ID.nextval,"+concatFields+",sysdate)";
-            System.out.println("query "+strSql);
-            stat.execute(strSql);
+        if(isemptyField)   
+            strSql = "insert into SCM_SALESREP ( SALESREP_ID, MOBILE, SALESREP_NAME, CREATION_TIMESTAMP) values (SEQ_SCM_SALESREP_ID.nextval,"+concatFields+",sysdate)";
+        else
+            strSql = "insert into SCM_SALESREP ( SALESREP_ID, SALESREP_NAME, MOBILE, CREATION_TIMESTAMP) values (SEQ_SCM_SALESREP_ID.nextval,"+concatFields+",sysdate)";
+        System.out.println("query "+strSql);
+        stat.execute(strSql);
            
             System.out.println("............INSERTED........"+count);
 
