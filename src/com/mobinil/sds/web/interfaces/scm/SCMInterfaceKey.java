@@ -18,6 +18,10 @@ public class SCMInterfaceKey {
     public static final String ACTION_SALESREPS_BULK_UPLOAD_PROCESS="salesreps_file_import_process";
     
     
+    public static final String ACTION_COMMERCIAL_DATA_UPLOAD="commercial_data_upload";
+    public static final String ACTION_COMMERCIAL_DATA_UPLOAD_PROCESS="commercial_data_file_import_process";
+    
+    
     public static final String REPORT_TO_CALIDUS = "report_to_calidus";
     
     public static final String IS_L1 = "pos_level_one";

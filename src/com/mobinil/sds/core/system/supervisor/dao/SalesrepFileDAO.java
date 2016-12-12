@@ -139,14 +139,12 @@ public class SalesrepFileDAO{
         }
         
         concatFields = concatFields.substring(0, concatFields.length()-1);
-            
-        
-        
         System.out.println("Line text : "+concatFields);
         if(isemptyField)   
             strSql = "insert into SCM_SALESREP ( SALESREP_ID, MOBILE, SALESREP_NAME, CREATION_TIMESTAMP) values (SEQ_SCM_SALESREP_ID.nextval,"+concatFields+",sysdate)";
         else
             strSql = "insert into SCM_SALESREP ( SALESREP_ID, SALESREP_NAME, MOBILE, CREATION_TIMESTAMP) values (SEQ_SCM_SALESREP_ID.nextval,"+concatFields+",sysdate)";
+        
         System.out.println("query "+strSql);
         stat.execute(strSql);
            

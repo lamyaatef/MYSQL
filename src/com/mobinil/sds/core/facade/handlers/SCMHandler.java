@@ -147,6 +147,7 @@ public class SCMHandler {
     public static final int SHOW_SUPERVISORS_BULK_UPLOAD =102;
     public static final int SHOW_TEAMLEADERS_BULK_UPLOAD =103;
     public static final int SHOW_SALESREPS_BULK_UPLOAD =104;
+    public static final int SHOW_COMMERCIAL_DATA_UPLOAD =105;
     //Rep Management --End
 
     public static HashMap handle(String action, HashMap paramHashMap, java.sql.Connection con) {
@@ -230,6 +231,12 @@ public class SCMHandler {
 
                 actionType = action_export_supervisors;
             }
+            
+            if (action.equals(SCMInterfaceKey.ACTION_COMMERCIAL_DATA_UPLOAD)) {
+
+                actionType = SHOW_COMMERCIAL_DATA_UPLOAD;
+            }
+            
             if (action.equals(SCMInterfaceKey.ACTION_EXPORT_TEAMLEADERS)) {
 
                 actionType = action_export_teamleaders;
@@ -893,6 +900,14 @@ public class SCMHandler {
             
             
         case SHOW_SALESREPS_BULK_UPLOAD:
+        {
+            Vector tableDefVector= DataImportTableDefDAO.getTableDefByCategory("43");
+            dataHashMap.put(  AdministrationInterfaceKey.TABLE_DEF_VECTOR  , tableDefVector);
+           // Vector labelVec= NomadLabelDao.getLabelByUser(con, strUserID);
+           // dataHashMap.put(AuthResInterfaceKey.VECTOR_LABEL,labelVec); 
+        }
+        break;  
+        case SHOW_COMMERCIAL_DATA_UPLOAD:
         {
             Vector tableDefVector= DataImportTableDefDAO.getTableDefByCategory("43");
             dataHashMap.put(  AdministrationInterfaceKey.TABLE_DEF_VECTOR  , tableDefVector);
