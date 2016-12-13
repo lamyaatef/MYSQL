@@ -1,3 +1,4 @@
+<%@page import="com.mobinil.sds.core.system.scm.importdata.CommercialImporter"%>
 <%@page import="com.mobinil.sds.core.system.scm.importdata.SupervisorImporter"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.ParseException"%>
@@ -97,7 +98,7 @@ while(itr.hasNext()) {
         Utility.logger.debug("fileNameOnClient : " + fileNameOnClient);
         fileUniqueName = System.currentTimeMillis()+".xls";
         File savedFile = new File(baseDirectory+fileUniqueName);	
-        System.out.println("Saved Nomad File : "+savedFile);
+        System.out.println("Saved File : "+savedFile);
         Utility.logger.debug("file " + savedFile);
         item.write(savedFile);
     }
@@ -117,13 +118,13 @@ dataHashMap.put(AdministrationInterfaceKey.TEXT_NOMAD_FILE_NAME,fileNameOnClient
 
 
 printToStream("DataImportEngine ", out);
-System.out.println("-> import Supervisors Sheet");
+System.out.println("-> import Commercial Sheet");
 
-SupervisorImporter superImporterObj = new SupervisorImporter(fileDateStr, new Long(0), baseDirectory+fileUniqueName , 12);
+CommercialImporter superImporterObj = new CommercialImporter(fileDateStr, new Long(0), baseDirectory+fileUniqueName , 12);
   superImporterObj.clean();
 
 
-out.println("Supervisors Data Upload Was Completed");
+out.println("Commercial Data Upload Was Completed");
   printToStream("<h3>",out);
   printToStream("Number of records inserted " + superImporterObj.getNumberOfRowsInserted(),out);
   printToStream("</h3>",out);
