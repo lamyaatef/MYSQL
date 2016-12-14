@@ -32,6 +32,9 @@ String appName = request.getContextPath();
 DiskFileUpload upload = new DiskFileUpload();
 List items = upload.parseRequest(request);
 String fileUniqueName ="";
+
+    
+
 String baseDirectory =request.getRealPath("/sa/upload/");
 
 String tableId = (String)request.getParameter(AdministrationInterfaceKey.QUERY_STRING_TABLES) ;
@@ -116,11 +119,11 @@ HashMap dataHashMap = null;
 dataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
 dataHashMap.put(AdministrationInterfaceKey.TEXT_NOMAD_FILE_NAME,fileNameOnClient);
 
-
+String userId = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
 printToStream("DataImportEngine ", out);
 System.out.println("-> import Commercial Sheet");
 
-CommercialImporter superImporterObj = new CommercialImporter(fileDateStr, new Long(0), baseDirectory+fileUniqueName , 12);
+CommercialImporter superImporterObj = new CommercialImporter(userId,fileDateStr, new Long(0), baseDirectory+fileUniqueName , 12);
   superImporterObj.clean();
 
 

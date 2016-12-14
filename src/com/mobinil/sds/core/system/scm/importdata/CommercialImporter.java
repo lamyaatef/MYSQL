@@ -77,9 +77,9 @@ public class CommercialImporter {
         }
     }
 
-    public CommercialImporter (String fileDate,Long fileID , String filePath , int minColumns)
+    public CommercialImporter (String userId,String fileDate,Long fileID , String filePath , int minColumns)
     {
-        System.out.println("file path : "+filePath);
+        System.out.println("file path : "+filePath+" and user id from hashmap : "+userId);
         int updateOn=-1;
         int sellerIndx = -1;
         int statusIndx = -1;
@@ -145,7 +145,7 @@ public class CommercialImporter {
                            
                             if (v1 == null) 
                                 v1 = "";
-                            CommercialFileDAO.insertCommercialData(con, stat,lineFields,count/*,fileDate,updateOn*/);
+                            CommercialFileDAO.insertCommercialData(con, stat,userId,lineFields,count/*,fileDate,updateOn*/);
                             System.out.println("^^^^^^^^^^end^^^^^^^^^");
                            
                            }  

@@ -124,16 +124,62 @@ public class CommercialFileDAO{
   }
     
     
-    public static void insertCommercialData(Connection con, Statement stat,String[] lineFields,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
-        //System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
-        String concatFields = "";
-        String strSql = "";
-        System.out.println("insertCommercialData : go to record no. "+count);
-          
-        
+    public static void insertCommercialData(Connection con, Statement stat,String userId,String[] lineFields,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
         /*ChannelCode	PosCode	PosENm	ArabicName	Owner	IDnumber	IDType	SalesRegion	City	Governerate	DistrictID	District	ImDistrict	AreaCode	Area	Address	DocNumber	Documents	entryDt	PosStatus	OwnerPhone	LevelCode	RegionalName	TeamLeader	RepName	StkDialNo	StkStatus	StkActivationDate	IqrarReceiveDate	PayStatus	PayLevelName	ArabicAddress	IqrarReceived	VerifyOk	DocumentLocation	SurveyID	POS_OWNER_PHONE_NUMBER	branch	MBB_Rep	ImDistCode	L1	Ex	Sign	QC	CommercialGov
        '1','0001.001','Pyramids Telecom','بيراميدز تيليكوم','Khaled Mohamed Kamel Abdo Salem','25811181400351','','Greater Cairo','Cairo','Cairo','NDD000','Qaser El Nile','Qaser El Nile','11103','Qasr El Dobara','27 Gharb El Seka El Hadid St. Bassateen','','','6/21/2011','ACTIVE','1224011000','2','Mohamed Aly Morsy','Mohamed Ali Morsi','Hatem Fathy Ibrahim','01278535655','Active','','6/1/2011','ELIGIBLE','Dist Show Rooms','32 ش سليمان باشا','Received','Verified','0','null','','0001','','NDD000','Y','','','','Cairo'
 */
+        String concatFields = "";
+        String strSql = "";
+        String channelCode="";
+        String posCode="";
+        String posEnName="";
+        String posArName="";
+        String posOwnerName="";
+        String posOwnerIdNumber="";
+        String posOwnerIdType="";
+        String regionName="";
+        String cityName="";
+        String governName="";
+        String districtCode="";
+        String districtName="";
+        String imgDistrictName="";
+        String areaCode="";
+        String areaName="";
+        String posAddress="";
+        String docNumber="";
+        String posDocuments="";
+        String assignEntryDate="";
+        String posStatusName="";
+        String posOwnerPhoneNumber="";
+        String posLevelId="";//level code
+        String supervisorName="";
+        String teamleaderName="";
+        String salesrepName="";
+        String stkDialNumber="";
+        String stkStatusName="";
+        String stkActivationDate="";
+        String iqrarReceivedDate="";
+        String paymentStatusName="";
+        String paymentLevelName="";
+        String posArAddress="";
+        String isIqrarReceivedName=""; //table scm_stk_owner
+        String isVerifiedName="";//table scm_stk_owner
+        String docLocation="";
+        String surveyId="";
+        String posOwnerPhoneNumber2="";
+        String branch="";
+        String mbbRepName="";
+        String imgDistrictCode="";
+        String L1="";
+        String Ex="";
+        String Sign="";
+        String Qc="";
+        String commercialGovernName="";
+        
+        System.out.println("insertCommercialData : go to record no. "+count);
+          
+        
+       
         
         try {
         for (int i=0; i<lineFields.length;i++)
@@ -190,10 +236,527 @@ public class CommercialFileDAO{
         
 
     }
+    
+    private static int updateGenDCMTable(Connection con, Statement stat,String stkNumber,String isExclusive, String isQualityClub,String isLevelOne,String hasSign, String dcmLevelId , String dcmDistrictName, String dcmCityName, String channeId,String dcmName,String dcmAddress, String dcmPaymentLevelName,String dcmStatusName,String posCode)
+    {
+        int updated=-1;
+        int districtId=-1;
+        int cityId=-1;
+        int dcmPayLevelId=-1;
+        int dcmStatusId=-1;
+        try {
+            String ex="";
+            String l1="";
+            String qc="";
+            String sign="";
+            if(isExclusive.compareToIgnoreCase("Y")==0 || isExclusive.compareToIgnoreCase("Yes")==0)
+                ex="1";
+            else ex="0";
+            
+            if(isQualityClub.compareToIgnoreCase("Y")==0 || isQualityClub.compareToIgnoreCase("Yes")==0)
+                qc="1";
+            else qc="0";
+            
+            if(isLevelOne.compareToIgnoreCase("Y")==0 || isLevelOne.compareToIgnoreCase("Yes")==0)
+                l1="1";
+            else l1="0";
+            
+            if(hasSign.compareToIgnoreCase("Y")==0 || hasSign.compareToIgnoreCase("Yes")==0)
+                sign="1";
+            else sign="0";
+            
+            
+            
+            String sqlDistrictId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+dcmDistrictName+"%') and region_level_type_id=4";
+            ResultSet rs1 = stat.executeQuery(sqlDistrictId);
+            if(rs1.next())
+                districtId = Integer.parseInt(rs1.getString("region_id"));
+            
+            
+            
+            String sqlCityId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+dcmCityName+"%') and region_level_type_id=5";
+            ResultSet rs2 = stat.executeQuery(sqlCityId);
+            if(rs2.next())
+                cityId = Integer.parseInt(rs2.getString("region_id"));
+            
+            
+            
+            String sqlPayLevelId="select dcm_payment_level_id from gen_dcm_payment_level where LOWER(dcm_payment_level_name) like LOWER('%"+dcmPaymentLevelName+"%')";
+            ResultSet rs3 = stat.executeQuery(sqlPayLevelId);
+            if(rs3.next())
+                dcmPayLevelId = Integer.parseInt(rs3.getString("dcm_payment_level_id"));
+            
+            
+            
+            String sqlDcmStatusId="select dcm_status_id from gen_dcm_status where LOWER(dcm_status_name) like LOWER('%"+dcmStatusName+"%')";
+            ResultSet rs4 = stat.executeQuery(sqlDcmStatusId);
+            if(rs4.next())
+                dcmStatusId = Integer.parseInt(rs4.getString("dcm_status_id"));
+            
+            
+            
+            String strSql = "update gen_dcm set stk_number='"+stkNumber+"',is_exclusive='"+ex+"',is_quality_club='"+qc+"',is_level_one='"+l1+"',has_sign='"+sign+"',DCM_LEVEL_ID="+dcmLevelId+" ,dcm_district_id="+districtId+", dcm_city_id="+cityId+", channel_id="+channeId+", dcm_name='"+dcmName+"',dcm_address='"+dcmAddress+"',dcm_payment_level_id="+dcmPayLevelId+",dcm_status_id="+dcmStatusId+" where pos_code='"+posCode+"'";
+            System.out.println("SQL UPDATE GEN_DCM is " + strSql);
+            updated = stat.executeUpdate(strSql);
+            
+                
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return updated;
+        
+    }
+    
+    
+    private static int updateDistrictCode(Connection con, Statement stat,String districtcode, String districtName)
+    {
+        int updated=-1;
+        int districtId=-1;
+        
+        try {
+            
+            
+            String sqlDistrictId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+districtName+"%') and region_level_type_id=4";
+            ResultSet rs1 = stat.executeQuery(sqlDistrictId);
+            if(rs1.next())
+                districtId = Integer.parseInt(rs1.getString("region_id"));
+            
+            
+            
+            String strSql = "update dcm_region set region_code='"+districtcode+"' where region_level_type_id=4 and region_id="+districtId;
+            System.out.println("SQL UPDATE dcm_region for district code is " + strSql);
+            updated = stat.executeUpdate(strSql);
+            
+                
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return updated;
+        
+    }
 
     
+    private static int updatePOSOwnerPhoneTable(Connection con, Statement stat,String userId, String posOwnerPhoneNumber, String dcmCode)
+    {
+        int updated=-1;
+        
+        try {
+            
+            
+            
+            String strSql = "update dcm_pos_owner_phone set user_id='"+userId+"',updated_in = timestamp ,pos_owner_phone_number='"+posOwnerPhoneNumber+"' where pos_detail_id in (select pos_detail_id from dcm_pos_detail where pos_code='"+dcmCode+"' and flage is null) ";
+            System.out.println("SQL updatePOSOwnerPhoneTable is " + strSql);
+            updated = stat.executeUpdate(strSql);
+            
+                
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return updated;
+        
+    }
     
-    public static int getSupervisorDataRecords(Connection con, Statement stat,Long fileID) throws ParseException {
+    
+    private static int updateSCMSalesRepTable(Connection con, Statement stat,String teamleaderName, String salesrepName)
+    {
+        int updated=-1;
+        int teamleaderId=-1;
+        int salesrepId=-1;
+        try {
+            
+            
+            String sqlTeamleaderId="select teamleader_id from scm_teamleader where teamleader_name='"+teamleaderName+"'";
+            ResultSet rs9 = stat.executeQuery(sqlTeamleaderId);
+            if(rs9.next())
+                teamleaderId = Integer.parseInt(rs9.getString("teamleader_id"));
+            
+            
+            String sqlRepId="select salesrep_id from scm_salesrep where salesrep_name='"+salesrepName+"'";
+            ResultSet rs10 = stat.executeQuery(sqlRepId);
+            if(rs10.next())
+                salesrepId = Integer.parseInt(rs10.getString("salesrep_id"));
+            
+            
+            String strSql = "update scm_salesrep set teamlead_id="+teamleaderId+" where salesrep_id="+salesrepId;
+            System.out.println("SQL updateSCMSalesRepTable is " + strSql);
+            updated = stat.executeUpdate(strSql);
+            
+                
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return updated;
+        
+    }
+    
+    
+    
+    private static int updateSCMTeamLeaderTable(Connection con, Statement stat,String teamleaderName, String supervisorName)
+    {
+        int updated=-1;
+        int teamleaderId=-1;
+        int supervisorId=-1;
+        try {
+            
+            
+            String sqlTeamleaderId="select teamleader_id from scm_teamleader where teamleader_name='"+teamleaderName+"'";
+            ResultSet rs9 = stat.executeQuery(sqlTeamleaderId);
+            if(rs9.next())
+                teamleaderId = Integer.parseInt(rs9.getString("teamleader_id"));
+            
+            
+            String sqlSupervisorId="select supervisor_id from scm_supervisor where supervisor_name='"+supervisorName+"'";
+            ResultSet rs8 = stat.executeQuery(sqlSupervisorId);
+            if(rs8.next())
+                supervisorId = Integer.parseInt(rs8.getString("supervisor_id"));
+            
+            
+            String strSql = "update scm_teamleader set sup_id="+supervisorId+" where teamleader_id="+teamleaderId;
+            System.out.println("SQL updateSCMTeamLeaderTable is " + strSql);
+            updated = stat.executeUpdate(strSql);
+            
+                
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return updated;
+        
+    }
+    
+    
+    private static int insertSCMUserRegionForSupervisor(Connection con, Statement stat,String districtName, String supervisorName, String dcmCode)
+    {
+        int inserted=-1;
+        int districtId=-1;
+        int supervisorId=-1;
+        try {
+            
+            
+            String sqlDistrictId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+districtName+"%') and region_level_type_id=4";
+            ResultSet rs1 = stat.executeQuery(sqlDistrictId);
+            if(rs1.next())
+                districtId = Integer.parseInt(rs1.getString("region_id"));
+            
+            
+            String sqlSupervisorId="select supervisor_id from scm_supervisor where supervisor_name='"+supervisorName+"'";
+            ResultSet rs8 = stat.executeQuery(sqlSupervisorId);
+            if(rs8.next())
+                supervisorId = Integer.parseInt(rs8.getString("supervisor_id"));
+            
+            
+            String strSql = "insert into scm_user_region (REGION_ID,USER_ID,POS_CODE,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+supervisorId+",'"+dcmCode+"',4,4)";
+            System.out.println("SQL updateSCMSalesRepTable is " + strSql);
+            inserted = stat.executeUpdate(strSql);
+            
+                
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return inserted;
+        
+    }
+    private static int insertSCMUserRegionForTeamleader(Connection con, Statement stat,String districtName, String teamleaderName, String dcmCode)
+    {
+        int inserted=-1;
+        int districtId=-1;
+        int teamleaderId=-1;
+        try {
+            
+            
+            String sqlDistrictId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+districtName+"%') and region_level_type_id=4";
+            ResultSet rs1 = stat.executeQuery(sqlDistrictId);
+            if(rs1.next())
+                districtId = Integer.parseInt(rs1.getString("region_id"));
+            
+            
+            String sqlTeamleaderId="select teamleader_id from scm_teamleader where teamleader_name='"+teamleaderName+"'";
+            ResultSet rs9 = stat.executeQuery(sqlTeamleaderId);
+            if(rs9.next())
+                teamleaderId = Integer.parseInt(rs9.getString("teamleader_id"));
+            
+            
+            String strSql = "insert into scm_user_region (REGION_ID,USER_ID,POS_CODE,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+teamleaderId+",'"+dcmCode+"',5,4)";
+            System.out.println("SQL updateSCMSalesRepTable is " + strSql);
+            inserted = stat.executeUpdate(strSql);
+            
+                
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return inserted;
+        
+    }
+    
+    
+    private static int insertSCMUserRegionForSalesRep(Connection con, Statement stat,String districtName, String salesrepName, String dcmCode)
+    {
+        int inserted=-1;
+        int districtId=-1;
+        int salesrepId=-1;
+        try {
+            
+            
+            String sqlDistrictId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+districtName+"%') and region_level_type_id=4";
+            ResultSet rs1 = stat.executeQuery(sqlDistrictId);
+            if(rs1.next())
+                districtId = Integer.parseInt(rs1.getString("region_id"));
+            
+            
+            String sqlRepId="select salesrep_id from scm_salesrep where salesrep_name='"+salesrepName+"'";
+            ResultSet rs10 = stat.executeQuery(sqlRepId);
+            if(rs10.next())
+                salesrepId = Integer.parseInt(rs10.getString("salesrep_id"));
+            
+            String strSql = "insert into scm_user_region (REGION_ID,USER_ID,POS_CODE,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+salesrepId+",'"+dcmCode+"',6,4)";
+            System.out.println("SQL updateSCMSalesRepTable is " + strSql);
+            inserted = stat.executeUpdate(strSql);
+            
+                
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return inserted;
+        
+    }
+    
+    
+    private static int updatePOSDocumentsTable(Connection con, Statement stat,String assignEntryDate, String iqrarReceivedDate,String stkActivationDate, String stkDialNumber, String posDocuments,String posDocumentNumber, String dcmCode)
+    {
+        int updated=-1;
+        
+        try {
+            
+            
+            
+            String strSql = "update pos_documents set assign_date=to_date('"+assignEntryDate+"','mm/dd/yyyy'),iqrarrcvdt=to_date('"+iqrarReceivedDate+"','mm/dd/yyyy'), stkactvdt=to_date('"+stkActivationDate+"','mm/dd/yyyy'), stkdialno='"+stkDialNumber+"',posdocuments = "+posDocuments+",posdocumentnum="+posDocumentNumber+", where code='"+dcmCode+"'";
+            System.out.println("SQL updatePOSDocumentsTable is " + strSql);
+            updated = stat.executeUpdate(strSql);
+            
+                
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return updated;
+        
+    }
+    
+    
+    
+    private static int updatePOSOwnerTable(Connection con, Statement stat,String userId, String posOwnerIdTypeName, String posOwnerIdNumber,String posOwnerName,String dcmCode)
+    {
+        int updated=-1;
+        int posOwnerIdTypeId = -1;
+        try {
+            
+            String sqlIdtypeId="select id_type_id from dcm_id_type where id_type_name='"+posOwnerIdTypeName+"'";
+            ResultSet rs1 = stat.executeQuery(sqlIdtypeId);
+            if(rs1.next())
+                posOwnerIdTypeId = Integer.parseInt(rs1.getString("id_type_id"));
+            
+            
+            String strSql = "update dcm_pos_owner set user_id='"+userId+"',updated_in = timestamp , pos_owner_id_type_id="+posOwnerIdTypeId+",pos_owner_id_number='"+posOwnerIdNumber+"' , pos_owner_name='"+posOwnerName+"' where pos_detail_id in (select pos_detail_id from dcm_pos_detail where pos_code='"+dcmCode+"' and flage is null) ";
+            System.out.println("SQL updatePOSOwnerTable is " + strSql);
+            updated = stat.executeUpdate(strSql);
+            
+                
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return updated;
+        
+    }
+    
+    
+    
+    private static int updateCAM_PAYMENT_SCM_STATUSTable(Connection con, Statement stat,String stkNumber, String stkStatusName,String paymentCamStateName,String dcmCode)
+    {
+        int updated=-1;
+        int stkStatusId=-1;
+        int payStatusId=-1;
+        try {
+            
+            
+            String sqlSTKId="select stk_status_id from scm_stk_status where LOWER(name) like LOWER('"+stkStatusName+"')";
+            ResultSet rs1 = stat.executeQuery(sqlSTKId);
+            if(rs1.next())
+                stkStatusId = Integer.parseInt(rs1.getString("stk_status_id"));
+            
+            
+            String sqlPayStatusId="select id from CAM_PAYMENT_cam_state where LOWER(cam_status_for_payment) like LOWER('"+paymentCamStateName+"')";
+            ResultSet rs2 = stat.executeQuery(sqlPayStatusId);
+            if(rs2.next())
+                payStatusId = Integer.parseInt(rs2.getString("id"));
+            
+            
+            String strSql = "update CAM_PAYMENT_SCM_STATUS set stk_number='"+stkNumber+"', stk_status="+stkStatusId+",PAYMENT_cam_state_id="+payStatusId+" where scm_id in (select dcm_id from gen_dcm where dcm_code='"+dcmCode+"')";
+            System.out.println("SQL updateCAM_PAYMENT_SCM_STATUSTable is " + strSql);
+            updated = stat.executeUpdate(strSql);
+            
+                
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return updated;
+        
+    }
+    
+    
+    
+    
+
+    private static int updateAreaCode(Connection con, Statement stat,String areacode, String areaName)
+    {
+        int updated=-1;
+        int areaId=-1;
+        
+        try {
+            
+            
+            String sqlAreaId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+areaName+"%') and region_level_type_id=5";
+            ResultSet rs1 = stat.executeQuery(sqlAreaId);
+            if(rs1.next())
+                areaId = Integer.parseInt(rs1.getString("region_id"));
+            
+            
+            
+            String strSql = "update dcm_region set region_code='"+areacode+"' where region_level_type_id=4 and region_id="+areaId;
+            System.out.println("SQL UPDATE dcm_region for area code is " + strSql);
+            updated = stat.executeUpdate(strSql);
+            
+                
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return updated;
+        
+    }
+    
+    
+    private static int updateDcmPosDetailTable(Connection con, Statement stat,String surveyId,String isExclusive, String isQualityClub,String isLevelOne,String hasSign,String posArabicAddress,String posDocNum,String docLocation, String supervisorName, String teamleaderName,String salesrepName,String dcmPaymentLevelName, String dcmLevelId ,String dcmStatusName,String posCode, String posChannelId, String regionName, String districtCode,String posGovernName,String posDistrictName, String posCityName,String posAreaName,String posName,String posArabicName,String posAddress)
+    {
+        int updated=-1;
+        int districtId=-1;
+        int cityId=-1;
+        int dcmPayLevelId=-1;
+        int dcmStatusId=-1;
+        int regionId=-1;
+        int governId=-1;
+        int areaId=-1;
+        int supervisorId=-1;
+        int teamleaderId=-1;
+        int salesrepId=-1;
+        try {
+            String ex="";
+            String l1="";
+            String qc="";
+            String sign="";
+            if(isExclusive.compareToIgnoreCase("Y")==0 || isExclusive.compareToIgnoreCase("Yes")==0)
+                ex="1";
+            else ex="0";
+            
+            if(isQualityClub.compareToIgnoreCase("Y")==0 || isQualityClub.compareToIgnoreCase("Yes")==0)
+                qc="1";
+            else qc="0";
+            
+            if(isLevelOne.compareToIgnoreCase("Y")==0 || isLevelOne.compareToIgnoreCase("Yes")==0)
+                l1="1";
+            else l1="0";
+            
+            if(hasSign.compareToIgnoreCase("Y")==0 || hasSign.compareToIgnoreCase("Yes")==0)
+                sign="1";
+            else sign="0";
+            
+            
+            
+            String sqlRegionId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+regionName+"%') and region_level_type_id=1";
+            ResultSet rs5 = stat.executeQuery(sqlRegionId);
+            if(rs5.next())
+                regionId = Integer.parseInt(rs5.getString("region_id"));
+            
+            
+            String sqlGovernId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+posGovernName+"%') and region_level_type_id=2";
+            ResultSet rs6 = stat.executeQuery(sqlGovernId);
+            if(rs6.next())
+                governId = Integer.parseInt(rs6.getString("region_id"));
+            
+            String sqlAreaId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+posAreaName+"%') and region_level_type_id=5";
+            ResultSet rs7 = stat.executeQuery(sqlAreaId);
+            if(rs7.next())
+                areaId = Integer.parseInt(rs7.getString("region_id"));
+            
+            
+            
+            String sqlDistrictId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+posDistrictName+"%') and region_level_type_id=4";
+            ResultSet rs1 = stat.executeQuery(sqlDistrictId);
+            if(rs1.next())
+                districtId = Integer.parseInt(rs1.getString("region_id"));
+            
+            
+            
+            String sqlCityId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+posCityName+"%') and region_level_type_id=3";
+            ResultSet rs2 = stat.executeQuery(sqlCityId);
+            if(rs2.next())
+                cityId = Integer.parseInt(rs2.getString("region_id"));
+            
+            
+            
+            String sqlPayLevelId="select dcm_payment_level_id from gen_dcm_payment_level where LOWER(dcm_payment_level_name) like LOWER('%"+dcmPaymentLevelName+"%')";
+            ResultSet rs3 = stat.executeQuery(sqlPayLevelId);
+            if(rs3.next())
+                dcmPayLevelId = Integer.parseInt(rs3.getString("dcm_payment_level_id"));
+            
+            
+            
+            String sqlDcmStatusId="select dcm_status_id from gen_dcm_status where LOWER(dcm_status_name) like LOWER('%"+dcmStatusName+"%')";
+            ResultSet rs4 = stat.executeQuery(sqlDcmStatusId);
+            if(rs4.next())
+                dcmStatusId = Integer.parseInt(rs4.getString("dcm_status_id"));
+            
+            
+            
+            String sqlSupervisorId="select supervisor_id from scm_supervisor where supervisor_name='"+supervisorName+"'";
+            ResultSet rs8 = stat.executeQuery(sqlSupervisorId);
+            if(rs8.next())
+                supervisorId = Integer.parseInt(rs8.getString("supervisor_id"));
+            
+            String sqlTeamleaderId="select teamleader_id from scm_teamleader where teamleader_name='"+teamleaderName+"'";
+            ResultSet rs9 = stat.executeQuery(sqlTeamleaderId);
+            if(rs9.next())
+                teamleaderId = Integer.parseInt(rs9.getString("teamleader_id"));
+            
+            String sqlRepId="select salesrep_id from scm_salesrep where salesrep_name='"+salesrepName+"'";
+            ResultSet rs10 = stat.executeQuery(sqlRepId);
+            if(rs10.next())
+                salesrepId = Integer.parseInt(rs10.getString("salesrep_id"));
+            
+            
+            
+            String strSql = "update dcm_pos_detail set survey_id='"+surveyId+"',is_exclusive='"+ex+"',is_quality_club='"+qc+"',is_level_one='"+l1+"',has_sign='"+sign+"',pos_arabic_address = '"+posAddress+"',pos_doc_num='"+posDocNum+"',doc_location='"+docLocation+"',supervisor_id="+supervisorId+", teamleader_id="+teamleaderId+",salesrep_id="+salesrepId+",dcm_payment_level_id="+dcmPayLevelId+", DCM_LEVEL_ID='"+dcmLevelId+"' ,pos_status_type_id="+dcmStatusId+", pos_channel_id='"+posChannelId+"', region_id="+regionId+", district_code='"+districtCode+"',pos_governrate = "+governId+",pos_district_id="+districtId+", pos_city_id="+cityId+",pos_area_id="+areaId+",pos_name='"+posName+"',pos_arabic_name='"+posArabicName+"',pos_address='"+posAddress+"' where pos_code='"+posCode+"'";
+            System.out.println("SQL UPDATE DCM_POS_DETAIL is " + strSql);
+            updated = stat.executeUpdate(strSql);
+            
+                
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return updated;
+        
+    }
+    
+    public static int getDataRecords(Connection con, Statement stat,Long fileID) throws ParseException {
         int count=-1;
         try {
             String strSql = "select count(*) from SCM_SUPERVISOR";
