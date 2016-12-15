@@ -49,10 +49,12 @@ String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControl
 <%
     HashMap dataHashMap = null;
     dataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
-    
+    String userID =(String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
     Vector tableVec = (Vector) dataHashMap.get(AdministrationInterfaceKey.TABLE_DEF_VECTOR);
     out.println("<center>");
-
+    %>
+    <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_USER_ID%>" value="<%=userID%>">
+    <%
     out.println("<TABLE style=\"BORDER-COLLAPSE: collapse\" cellSpacing=2 cellPadding=1 width=\"50%\" border=1>");
     
    

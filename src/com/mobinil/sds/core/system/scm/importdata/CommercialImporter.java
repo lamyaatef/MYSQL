@@ -126,7 +126,7 @@ public class CommercialImporter {
                        
                          if (count > 1) {//!=0
                             System.out.println("^^^^^^^^^^start^^^^^^^^^\n");
-                            String fields = line;
+                            String fields = input.readLine();//line;
                             String v1 = fields;
                             String[] lineFields = null;
                            System.out.println("LINE V1 %%%% "+v1); 
@@ -149,10 +149,10 @@ public class CommercialImporter {
                             System.out.println("^^^^^^^^^^end^^^^^^^^^");
                            
                            }  
-                            
+                           break; 
                         }
                        // System.out.println("count isssssss      " + count);
-
+                         
                     }
                     this.numberOfRowsInserted = 0;//SalesrepFileDAO.getSalesrepDataRecords(con, stat, fileID);
                     System.out.println("rows %%%% "+this.numberOfRowsInserted);

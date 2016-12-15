@@ -18,7 +18,7 @@ public class SCMInterfaceKey {
     public static final String ACTION_SALESREPS_BULK_UPLOAD_PROCESS="salesreps_file_import_process";
     
     
-    public static final String ACTION_COMMERCIAL_DATA_UPLOAD="commercial_data_upload";
+    public static final String ACTION_COMMERCIAL_DATA_UPLOAD="commercial_upload";
     public static final String ACTION_COMMERCIAL_DATA_UPLOAD_PROCESS="commercial_data_file_import_process";
     
     

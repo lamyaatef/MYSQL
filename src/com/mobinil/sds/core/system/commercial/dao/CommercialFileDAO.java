@@ -130,60 +130,80 @@ public class CommercialFileDAO{
 */
         String concatFields = "";
         String strSql = "";
-        String channelCode="";
-        String posCode="";
-        String posEnName="";
-        String posArName="";
-        String posOwnerName="";
-        String posOwnerIdNumber="";
-        String posOwnerIdType="";
-        String regionName="";
-        String cityName="";
-        String governName="";
-        String districtCode="";
-        String districtName="";
-        String imgDistrictName="";
-        String areaCode="";
-        String areaName="";
-        String posAddress="";
-        String docNumber="";
-        String posDocuments="";
-        String assignEntryDate="";
-        String posStatusName="";
-        String posOwnerPhoneNumber="";
-        String posLevelId="";//level code
-        String supervisorName="";
-        String teamleaderName="";
-        String salesrepName="";
-        String stkDialNumber="";
-        String stkStatusName="";
-        String stkActivationDate="";
-        String iqrarReceivedDate="";
-        String paymentStatusName="";
-        String paymentLevelName="";
-        String posArAddress="";
-        String isIqrarReceivedName=""; //table scm_stk_owner
-        String isVerifiedName="";//table scm_stk_owner
-        String docLocation="";
-        String surveyId="";
-        String posOwnerPhoneNumber2="";
-        String branch="";
-        String mbbRepName="";
-        String imgDistrictCode="";
-        String L1="";
-        String Ex="";
-        String Sign="";
-        String Qc="";
-        String commercialGovernName="";
+        
+        String channelCode=lineFields[0];
+        String posCode=lineFields[1];
+        String posEnName=lineFields[2];
+        String posArName=lineFields[3];
+        String posOwnerName=lineFields[4];
+        String posOwnerIdNumber=lineFields[5];
+        String posOwnerIdType=lineFields[6];
+        String regionName=lineFields[7];
+        String cityName=lineFields[8];
+        String governName=lineFields[9];
+        String districtCode=lineFields[10];
+        String districtName=lineFields[11];
+        String imgDistrictName=lineFields[12];
+        String areaCode=lineFields[13];
+        String areaName=lineFields[14];
+        String posAddress=lineFields[15];
+        String docNumber=lineFields[16];
+        String posDocuments=lineFields[17];
+        String assignEntryDate=lineFields[18];
+        String posStatusName=lineFields[19];
+        String posOwnerPhoneNumber=lineFields[20];
+        String posLevelId=lineFields[21];//level code
+        String supervisorName=lineFields[22];
+        String teamleaderName=lineFields[23];
+        String salesrepName=lineFields[24];
+        String stkDialNumber=lineFields[25];
+        String stkStatusName=lineFields[26];
+        String stkActivationDate=lineFields[27];
+        String iqrarReceivedDate=lineFields[28];
+        String paymentStatusName=lineFields[29];
+        String paymentLevelName=lineFields[30];
+        String posArAddress=lineFields[31];
+        String isIqrarReceivedName=lineFields[32]; //table scm_stk_owner
+        String isVerifiedName=lineFields[33];//table scm_stk_owner
+        String docLocation=lineFields[34];
+        String surveyId=lineFields[35];
+        String posOwnerPhoneNumber2=lineFields[36];
+        String branch=lineFields[37];
+        String mbbRepName=lineFields[38];
+        String imgDistrictCode=lineFields[39];
+        String L1=lineFields[40];
+        String Ex=lineFields[41];
+        String Sign=lineFields[42];
+        String Qc=lineFields[43];
+        String commercialGovernName=lineFields[44];
         
         System.out.println("insertCommercialData : go to record no. "+count);
           
+        insertSCMUserRegionForSupervisor(con, stat, districtName, supervisorName, posCode);
+        insertSCMUserRegionForTeamleader(con, stat, districtName, teamleaderName, posCode);
+        insertSCMUserRegionForSalesRep(con, stat, districtName, salesrepName, posCode);
         
-       
+        updateSCMTeamLeaderTable(con, stat, teamleaderName, supervisorName);
+        updateSCMSalesRepTable(con, stat, teamleaderName, salesrepName);
+        
+        insertSCMSTKOwnerTable(con, stat, posCode, supervisorName, userId, isVerifiedName, iqrarReceivedDate, stkStatusName, iqrarReceivedDate, assignEntryDate, stkActivationDate);
+        
+        updateGenDCMTable(con, stat, docNumber, Ex, surveyId, posLevelId, Sign, posLevelId, districtName, cityName, channelCode, areaName, posAddress, paymentLevelName, stkStatusName, posCode);
+        updateDcmPosDetailTable(con, stat, surveyId, Ex, surveyId, posLevelId, Sign, posArAddress, posDocuments, docLocation, supervisorName, teamleaderName, salesrepName, paymentLevelName, posLevelId, stkStatusName, posCode, posLevelId, regionName, districtCode, governName, districtName, cityName, posArName, posArName, posArName, posAddress);
+        
+        updateDistrictCode(con, stat, districtCode, districtName);
+        updateAreaCode(con, stat, areaCode, areaName);
+        
+        updateCAM_PAYMENT_SCM_STATUSTable(con, stat, docNumber, stkStatusName, paymentStatusName, posCode);
+        
+        updatePOSOwnerTable(con, stat, userId, posOwnerIdType, posOwnerIdNumber, posOwnerName, posCode);
+        updatePOSOwnerPhoneTable(con, stat, userId, posOwnerPhoneNumber, posCode);
+        updatePOSDocumentsTable(con, stat, assignEntryDate, iqrarReceivedDate, stkActivationDate, stkDialNumber, posDocuments, posDocuments, posCode);
         
         try {
         for (int i=0; i<lineFields.length;i++)
         {
+            
             concatFields += "'"+lineFields[i]+"'"+",";
            /* if (i==sellerIndex) 
             {
@@ -236,6 +256,67 @@ public class CommercialFileDAO{
         
 
     }
+    
+    
+    private static int insertSCMSTKOwnerTable(Connection con, Statement stat, String dcmCode,String supervisorName,String userId,String dcmVerifiedStatusName, String iqrarReceivedStatusName, String stkStatusName,String iqrarReceivedDate, String stkEntryAssignDate, String stkActivationDate)
+    {
+        int inserted=-1;
+        int supervisorId=-1;
+        int dcmVerifiedStatusId = -1;
+        int stkStatusId = -1;
+        int iqrarReceivedStatusId=-1;
+        try{    
+            
+            String sqlSupervisorId="select supervisor_id from scm_supervisor where LOWER(supervisor_name) like LOWER('%"+supervisorName+"%')";
+            System.out.println("sql for supervisor id in insertSCMSTKOwnerTable : "+sqlSupervisorId);
+            ResultSet rs8 = stat.executeQuery(sqlSupervisorId);
+            if(rs8.next())
+                supervisorId = Integer.parseInt(rs8.getString("supervisor_id"));
+            System.out.println("sup id : "+supervisorId);
+            
+            
+            String sqlDcmVerifiedStatusId="select dcm_verified_status_id from scm_verified_status where LOWER(name) like LOWER('%"+dcmVerifiedStatusName+"%')";
+            ResultSet rs1 = stat.executeQuery(sqlDcmVerifiedStatusId);
+            if(rs1.next())
+                dcmVerifiedStatusId = Integer.parseInt(rs1.getString("dcm_verified_status_id"));
+            
+            
+            
+            
+            
+            
+            
+            String sqlIqrarReceivedStatusId="select iqrar_receving_status_id from scm_iqrar_receving_status where LOWER(name) like LOWER('%"+iqrarReceivedStatusName+"%')";
+            ResultSet rs2 = stat.executeQuery(sqlIqrarReceivedStatusId);
+            if(rs2.next())
+                iqrarReceivedStatusId = Integer.parseInt(rs2.getString("iqrar_receving_status_id"));
+            
+            
+            
+            
+            String sqlIStkStatusId="select stk_status_id from scm_stk_status where LOWER(name) like LOWER('%"+stkStatusName+"%')";
+            ResultSet rs3 = stat.executeQuery(sqlIStkStatusId);
+            if(rs3.next())
+                stkStatusId = Integer.parseInt(rs3.getString("stk_status_id"));
+            
+            
+            
+            
+            String strSql = "insert into scm_stk_owner values((select max(stk_id)+1 from scm_stk_owner), (select dcm_id from gen_dcm where dcm_code='0001.001'),'"+supervisorId+"','"+userId+"',timestamp,"+dcmVerifiedStatusId+","+iqrarReceivedStatusId+", "+stkStatusId+", to_date('"+iqrarReceivedDate+"','mm/dd/yyyy'), timestamp,to_date('"+stkActivationDate+"','mm/dd/yyyy'),null,null,null,to_date('"+stkEntryAssignDate+"','mm/dd/yyyy'),to_date('"+stkActivationDate+"','mm/dd/yyyy'),null,null,0)";
+            System.out.println("SQL insertSCMSTKOwnerTable is " + strSql);
+            inserted = stat.executeUpdate(strSql);
+            
+                
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return inserted;
+        
+    }
+    
+    
+    
     
     private static int updateGenDCMTable(Connection con, Statement stat,String stkNumber,String isExclusive, String isQualityClub,String isLevelOne,String hasSign, String dcmLevelId , String dcmDistrictName, String dcmCityName, String channeId,String dcmName,String dcmAddress, String dcmPaymentLevelName,String dcmStatusName,String posCode)
     {
@@ -368,13 +449,13 @@ public class CommercialFileDAO{
         try {
             
             
-            String sqlTeamleaderId="select teamleader_id from scm_teamleader where teamleader_name='"+teamleaderName+"'";
+            String sqlTeamleaderId="select teamleader_id from scm_teamleader where LOWER(teamleader_name) like LOWER('%"+teamleaderName+"%')";
             ResultSet rs9 = stat.executeQuery(sqlTeamleaderId);
             if(rs9.next())
                 teamleaderId = Integer.parseInt(rs9.getString("teamleader_id"));
             
             
-            String sqlRepId="select salesrep_id from scm_salesrep where salesrep_name='"+salesrepName+"'";
+            String sqlRepId="select salesrep_id from scm_salesrep where LOWER(salesrep_name)  like LOWER('%"+salesrepName+"%')";
             ResultSet rs10 = stat.executeQuery(sqlRepId);
             if(rs10.next())
                 salesrepId = Integer.parseInt(rs10.getString("salesrep_id"));
@@ -403,13 +484,13 @@ public class CommercialFileDAO{
         try {
             
             
-            String sqlTeamleaderId="select teamleader_id from scm_teamleader where teamleader_name='"+teamleaderName+"'";
+            String sqlTeamleaderId="select teamleader_id from scm_teamleader where LOWER(teamleader_name)  like LOWER('%"+teamleaderName+"%')";
             ResultSet rs9 = stat.executeQuery(sqlTeamleaderId);
             if(rs9.next())
                 teamleaderId = Integer.parseInt(rs9.getString("teamleader_id"));
             
             
-            String sqlSupervisorId="select supervisor_id from scm_supervisor where supervisor_name='"+supervisorName+"'";
+            String sqlSupervisorId="select supervisor_id from scm_supervisor where LOWER(supervisor_name) like LOWER('%"+supervisorName+"%')";
             ResultSet rs8 = stat.executeQuery(sqlSupervisorId);
             if(rs8.next())
                 supervisorId = Integer.parseInt(rs8.getString("supervisor_id"));
@@ -443,7 +524,7 @@ public class CommercialFileDAO{
                 districtId = Integer.parseInt(rs1.getString("region_id"));
             
             
-            String sqlSupervisorId="select supervisor_id from scm_supervisor where supervisor_name='"+supervisorName+"'";
+            String sqlSupervisorId="select supervisor_id from scm_supervisor where LOWER(supervisor_name) like LOWER('%"+supervisorName+"%')";
             ResultSet rs8 = stat.executeQuery(sqlSupervisorId);
             if(rs8.next())
                 supervisorId = Integer.parseInt(rs8.getString("supervisor_id"));
@@ -475,7 +556,7 @@ public class CommercialFileDAO{
                 districtId = Integer.parseInt(rs1.getString("region_id"));
             
             
-            String sqlTeamleaderId="select teamleader_id from scm_teamleader where teamleader_name='"+teamleaderName+"'";
+            String sqlTeamleaderId="select teamleader_id from scm_teamleader where LOWER(teamleader_name) like LOWER('%"+teamleaderName+"%')";
             ResultSet rs9 = stat.executeQuery(sqlTeamleaderId);
             if(rs9.next())
                 teamleaderId = Integer.parseInt(rs9.getString("teamleader_id"));
@@ -509,7 +590,7 @@ public class CommercialFileDAO{
                 districtId = Integer.parseInt(rs1.getString("region_id"));
             
             
-            String sqlRepId="select salesrep_id from scm_salesrep where salesrep_name='"+salesrepName+"'";
+            String sqlRepId="select salesrep_id from scm_salesrep where LOWER(salesrep_name) like LOWER('%"+salesrepName+"%')";
             ResultSet rs10 = stat.executeQuery(sqlRepId);
             if(rs10.next())
                 salesrepId = Integer.parseInt(rs10.getString("salesrep_id"));
@@ -557,7 +638,7 @@ public class CommercialFileDAO{
         int posOwnerIdTypeId = -1;
         try {
             
-            String sqlIdtypeId="select id_type_id from dcm_id_type where id_type_name='"+posOwnerIdTypeName+"'";
+            String sqlIdtypeId="select id_type_id from dcm_id_type where LOWER(id_type_name) like LOWER('%"+posOwnerIdTypeName+"%')";
             ResultSet rs1 = stat.executeQuery(sqlIdtypeId);
             if(rs1.next())
                 posOwnerIdTypeId = Integer.parseInt(rs1.getString("id_type_id"));
@@ -726,17 +807,17 @@ public class CommercialFileDAO{
             
             
             
-            String sqlSupervisorId="select supervisor_id from scm_supervisor where supervisor_name='"+supervisorName+"'";
+            String sqlSupervisorId="select supervisor_id from scm_supervisor where LOWER(supervisor_name) like LOWER('%"+supervisorName+"%')";
             ResultSet rs8 = stat.executeQuery(sqlSupervisorId);
             if(rs8.next())
                 supervisorId = Integer.parseInt(rs8.getString("supervisor_id"));
             
-            String sqlTeamleaderId="select teamleader_id from scm_teamleader where teamleader_name='"+teamleaderName+"'";
+            String sqlTeamleaderId="select teamleader_id from scm_teamleader where LOWER(teamleader_name) like LOWER('%"+teamleaderName+"%')";
             ResultSet rs9 = stat.executeQuery(sqlTeamleaderId);
             if(rs9.next())
                 teamleaderId = Integer.parseInt(rs9.getString("teamleader_id"));
             
-            String sqlRepId="select salesrep_id from scm_salesrep where salesrep_name='"+salesrepName+"'";
+            String sqlRepId="select salesrep_id from scm_salesrep where LOWER(salesrep_name) like LOWER('%"+salesrepName+"%')";
             ResultSet rs10 = stat.executeQuery(sqlRepId);
             if(rs10.next())
                 salesrepId = Integer.parseInt(rs10.getString("salesrep_id"));
