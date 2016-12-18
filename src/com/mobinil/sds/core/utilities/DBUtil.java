@@ -124,6 +124,7 @@ public class DBUtil {
         PreparedStatement prepStat = null;
         try {
             prepStat = getPreparedStatement(sql, con, params);
+            
             ResultSet res = prepStat.executeQuery();
             while (res.next()) {
                 T tempModel = clazz.newInstance();

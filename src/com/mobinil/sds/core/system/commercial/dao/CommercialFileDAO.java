@@ -186,19 +186,19 @@ public class CommercialFileDAO{
         updateSCMTeamLeaderTable(con, stat, teamleaderName, supervisorName);
         updateSCMSalesRepTable(con, stat, teamleaderName, salesrepName);
         
-        insertSCMSTKOwnerTable(con, stat, posCode, supervisorName, userId, isVerifiedName, iqrarReceivedDate, stkStatusName, iqrarReceivedDate, assignEntryDate, stkActivationDate);
-        
-        updateGenDCMTable(con, stat, docNumber, Ex, surveyId, posLevelId, Sign, posLevelId, districtName, cityName, channelCode, areaName, posAddress, paymentLevelName, stkStatusName, posCode);
+        insertSCMSTKOwnerTable(con, stat, posCode, supervisorName, userId, isVerifiedName, iqrarReceivedDate, stkStatusName, isIqrarReceivedName, assignEntryDate, stkActivationDate);
+        //supposed to be stk number
+        updateGenDCMTable(con, stat, stkDialNumber, Ex, surveyId, posLevelId, Sign, posLevelId, districtName, cityName, channelCode, areaName, posAddress, paymentLevelName, stkStatusName, posCode);
         updateDcmPosDetailTable(con, stat, surveyId, Ex, surveyId, posLevelId, Sign, posArAddress, posDocuments, docLocation, supervisorName, teamleaderName, salesrepName, paymentLevelName, posLevelId, stkStatusName, posCode, posLevelId, regionName, districtCode, governName, districtName, cityName, posArName, posArName, posArName, posAddress);
         
         updateDistrictCode(con, stat, districtCode, districtName);
         updateAreaCode(con, stat, areaCode, areaName);
-        
-        updateCAM_PAYMENT_SCM_STATUSTable(con, stat, docNumber, stkStatusName, paymentStatusName, posCode);
+        //supposed to be stk number
+        updateCAM_PAYMENT_SCM_STATUSTable(con, stat, stkDialNumber, stkStatusName, paymentStatusName, posCode);
         
         updatePOSOwnerTable(con, stat, userId, posOwnerIdType, posOwnerIdNumber, posOwnerName, posCode);
         updatePOSOwnerPhoneTable(con, stat, userId, posOwnerPhoneNumber, posCode);
-        updatePOSDocumentsTable(con, stat, assignEntryDate, iqrarReceivedDate, stkActivationDate, stkDialNumber, posDocuments, posDocuments, posCode);
+        updatePOSDocumentsTable(con, stat, assignEntryDate, iqrarReceivedDate, stkActivationDate, stkDialNumber, posDocuments, docNumber, posCode);
         
         try {
         for (int i=0; i<lineFields.length;i++)
@@ -257,8 +257,8 @@ public class CommercialFileDAO{
 
     }
     
-    
-    private static int insertSCMSTKOwnerTable(Connection con, Statement stat, String dcmCode,String supervisorName,String userId,String dcmVerifiedStatusName, String iqrarReceivedStatusName, String stkStatusName,String iqrarReceivedDate, String stkEntryAssignDate, String stkActivationDate)
+    //insertSCMSTKOwnerTable(con, stat, posCode, supervisorName, userId, isVerifiedName, iqrarReceivedDate, stkStatusName, isIqrarReceivedName, assignEntryDate, stkActivationDate);
+    private static int insertSCMSTKOwnerTable(Connection con, Statement stat, String dcmCode,String supervisorName,String userId,String dcmVerifiedStatusName, String iqrarReceivedDate, String stkStatusName,String iqrarReceivedStatusName, String stkEntryAssignDate, String stkActivationDate)
     {
         int inserted=-1;
         int supervisorId=-1;
@@ -287,6 +287,7 @@ public class CommercialFileDAO{
             
             
             String sqlIqrarReceivedStatusId="select iqrar_receving_status_id from scm_iqrar_receving_status where LOWER(name) like LOWER('%"+iqrarReceivedStatusName+"%')";
+            //System.out.println("iqrar SQL: "+sqlIqrarReceivedStatusId);
             ResultSet rs2 = stat.executeQuery(sqlIqrarReceivedStatusId);
             if(rs2.next())
                 iqrarReceivedStatusId = Integer.parseInt(rs2.getString("iqrar_receving_status_id"));
@@ -302,7 +303,7 @@ public class CommercialFileDAO{
             
             
             
-            String strSql = "insert into scm_stk_owner values((select max(stk_id)+1 from scm_stk_owner), (select dcm_id from gen_dcm where dcm_code='0001.001'),'"+supervisorId+"','"+userId+"',timestamp,"+dcmVerifiedStatusId+","+iqrarReceivedStatusId+", "+stkStatusId+", to_date('"+iqrarReceivedDate+"','mm/dd/yyyy'), timestamp,to_date('"+stkActivationDate+"','mm/dd/yyyy'),null,null,null,to_date('"+stkEntryAssignDate+"','mm/dd/yyyy'),to_date('"+stkActivationDate+"','mm/dd/yyyy'),null,null,0)";
+            String strSql = "insert into scm_stk_owner values((select max(stk_id)+1 from scm_stk_owner), (select dcm_id from gen_dcm where dcm_code='0001.001'),'"+supervisorId+"','"+userId+"',SYSTIMESTAMP,"+dcmVerifiedStatusId+","+iqrarReceivedStatusId+", "+stkStatusId+", to_date('"+iqrarReceivedDate+"','mm/dd/yyyy'), SYSTIMESTAMP,to_date('"+stkActivationDate+"','mm/dd/yyyy'),null,null,null,to_date('"+stkEntryAssignDate+"','mm/dd/yyyy'),to_date('"+stkActivationDate+"','mm/dd/yyyy'),null,null,0)";
             System.out.println("SQL insertSCMSTKOwnerTable is " + strSql);
             inserted = stat.executeUpdate(strSql);
             
@@ -376,8 +377,8 @@ public class CommercialFileDAO{
             
             
             
-            String strSql = "update gen_dcm set stk_number='"+stkNumber+"',is_exclusive='"+ex+"',is_quality_club='"+qc+"',is_level_one='"+l1+"',has_sign='"+sign+"',DCM_LEVEL_ID="+dcmLevelId+" ,dcm_district_id="+districtId+", dcm_city_id="+cityId+", channel_id="+channeId+", dcm_name='"+dcmName+"',dcm_address='"+dcmAddress+"',dcm_payment_level_id="+dcmPayLevelId+",dcm_status_id="+dcmStatusId+" where pos_code='"+posCode+"'";
-            System.out.println("SQL UPDATE GEN_DCM is " + strSql);
+            String strSql = "update gen_dcm set /*stk_number='"+stkNumber+"',*/is_exclusive='"+ex+"',is_quality_club='"+qc+"',is_level_one='"+l1+"',has_sign='"+sign+"',DCM_LEVEL_ID="+dcmLevelId+" ,dcm_district_id="+districtId+", dcm_city_id="+cityId+", channel_id="+channeId+", dcm_name='"+dcmName+"',dcm_address='"+dcmAddress+"',dcm_payment_level_id="+dcmPayLevelId+",dcm_status_id="+dcmStatusId+" where dcm_code='"+posCode+"'";
+            System.out.println("SQL updateGenDCMTable is " + strSql);
             updated = stat.executeUpdate(strSql);
             
                 
@@ -406,7 +407,7 @@ public class CommercialFileDAO{
             
             
             String strSql = "update dcm_region set region_code='"+districtcode+"' where region_level_type_id=4 and region_id="+districtId;
-            System.out.println("SQL UPDATE dcm_region for district code is " + strSql);
+            System.out.println("SQL updateDistrictCode is " + strSql);
             updated = stat.executeUpdate(strSql);
             
                 
@@ -427,7 +428,7 @@ public class CommercialFileDAO{
             
             
             
-            String strSql = "update dcm_pos_owner_phone set user_id='"+userId+"',updated_in = timestamp ,pos_owner_phone_number='"+posOwnerPhoneNumber+"' where pos_detail_id in (select pos_detail_id from dcm_pos_detail where pos_code='"+dcmCode+"' and flage is null) ";
+            String strSql = "update dcm_pos_owner_phone set user_id='"+userId+"',updated_in = SYSTIMESTAMP ,pos_owner_phone_number='"+posOwnerPhoneNumber+"' where pos_owner_id in (select dcm_pos_owner.pos_owner_id from dcm_pos_owner,dcm_pos_detail where dcm_pos_detail.pos_detail_id = dcm_pos_owner.pos_detail_id and dcm_pos_detail.pos_code='"+dcmCode+"' and dcm_pos_detail.flage is null)";
             System.out.println("SQL updatePOSOwnerPhoneTable is " + strSql);
             updated = stat.executeUpdate(strSql);
             
@@ -531,7 +532,7 @@ public class CommercialFileDAO{
             
             
             String strSql = "insert into scm_user_region (REGION_ID,USER_ID,POS_CODE,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+supervisorId+",'"+dcmCode+"',4,4)";
-            System.out.println("SQL updateSCMSalesRepTable is " + strSql);
+            System.out.println("SQL insertSCMUserRegionForSupervisor is " + strSql);
             inserted = stat.executeUpdate(strSql);
             
                 
@@ -563,7 +564,7 @@ public class CommercialFileDAO{
             
             
             String strSql = "insert into scm_user_region (REGION_ID,USER_ID,POS_CODE,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+teamleaderId+",'"+dcmCode+"',5,4)";
-            System.out.println("SQL updateSCMSalesRepTable is " + strSql);
+            System.out.println("SQL insertSCMUserRegionForTeamleader is " + strSql);
             inserted = stat.executeUpdate(strSql);
             
                 
@@ -596,7 +597,7 @@ public class CommercialFileDAO{
                 salesrepId = Integer.parseInt(rs10.getString("salesrep_id"));
             
             String strSql = "insert into scm_user_region (REGION_ID,USER_ID,POS_CODE,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+salesrepId+",'"+dcmCode+"',6,4)";
-            System.out.println("SQL updateSCMSalesRepTable is " + strSql);
+            System.out.println("SQL insertSCMUserRegionForSalesRep is " + strSql);
             inserted = stat.executeUpdate(strSql);
             
                 
@@ -617,7 +618,7 @@ public class CommercialFileDAO{
             
             
             
-            String strSql = "update pos_documents set assign_date=to_date('"+assignEntryDate+"','mm/dd/yyyy'),iqrarrcvdt=to_date('"+iqrarReceivedDate+"','mm/dd/yyyy'), stkactvdt=to_date('"+stkActivationDate+"','mm/dd/yyyy'), stkdialno='"+stkDialNumber+"',posdocuments = "+posDocuments+",posdocumentnum="+posDocumentNumber+", where code='"+dcmCode+"'";
+            String strSql = "update pos_documents set assign_date=to_date('"+assignEntryDate+"','mm/dd/yyyy'),iqrarrcvdt=to_date('"+iqrarReceivedDate+"','mm/dd/yyyy'), stkactvdt=to_date('"+stkActivationDate+"','mm/dd/yyyy'), stkdialno='"+stkDialNumber+"',posdocuments = '"+posDocuments+"',posdocumentnum='"+posDocumentNumber+"' where code='"+dcmCode+"'";
             System.out.println("SQL updatePOSDocumentsTable is " + strSql);
             updated = stat.executeUpdate(strSql);
             
@@ -644,7 +645,7 @@ public class CommercialFileDAO{
                 posOwnerIdTypeId = Integer.parseInt(rs1.getString("id_type_id"));
             
             
-            String strSql = "update dcm_pos_owner set user_id='"+userId+"',updated_in = timestamp , pos_owner_id_type_id="+posOwnerIdTypeId+",pos_owner_id_number='"+posOwnerIdNumber+"' , pos_owner_name='"+posOwnerName+"' where pos_detail_id in (select pos_detail_id from dcm_pos_detail where pos_code='"+dcmCode+"' and flage is null) ";
+            String strSql = "update dcm_pos_owner set user_id='"+userId+"',updated_in = SYSTIMESTAMP , pos_owner_id_type_id="+posOwnerIdTypeId+",pos_owner_id_number='"+posOwnerIdNumber+"' , pos_owner_name='"+posOwnerName+"' where pos_detail_id in (select pos_detail_id from dcm_pos_detail where pos_code='"+dcmCode+"' and flage is null) ";
             System.out.println("SQL updatePOSOwnerTable is " + strSql);
             updated = stat.executeUpdate(strSql);
             
@@ -679,7 +680,7 @@ public class CommercialFileDAO{
                 payStatusId = Integer.parseInt(rs2.getString("id"));
             
             
-            String strSql = "update CAM_PAYMENT_SCM_STATUS set stk_number='"+stkNumber+"', stk_status="+stkStatusId+",PAYMENT_cam_state_id="+payStatusId+" where scm_id in (select dcm_id from gen_dcm where dcm_code='"+dcmCode+"')";
+            String strSql = "update CAM_PAYMENT_SCM_STATUS set /*stk_number='"+stkNumber+"',*/ stk_status="+stkStatusId+",PAYMENT_cam_state_id="+payStatusId+" where scm_id in (select dcm_id from gen_dcm where dcm_code='"+dcmCode+"')";
             System.out.println("SQL updateCAM_PAYMENT_SCM_STATUSTable is " + strSql);
             updated = stat.executeUpdate(strSql);
             
@@ -712,7 +713,7 @@ public class CommercialFileDAO{
             
             
             String strSql = "update dcm_region set region_code='"+areacode+"' where region_level_type_id=4 and region_id="+areaId;
-            System.out.println("SQL UPDATE dcm_region for area code is " + strSql);
+            System.out.println("SQL updateAreaCode is " + strSql);
             updated = stat.executeUpdate(strSql);
             
                 
@@ -825,7 +826,7 @@ public class CommercialFileDAO{
             
             
             String strSql = "update dcm_pos_detail set survey_id='"+surveyId+"',is_exclusive='"+ex+"',is_quality_club='"+qc+"',is_level_one='"+l1+"',has_sign='"+sign+"',pos_arabic_address = '"+posAddress+"',pos_doc_num='"+posDocNum+"',doc_location='"+docLocation+"',supervisor_id="+supervisorId+", teamleader_id="+teamleaderId+",salesrep_id="+salesrepId+",dcm_payment_level_id="+dcmPayLevelId+", DCM_LEVEL_ID='"+dcmLevelId+"' ,pos_status_type_id="+dcmStatusId+", pos_channel_id='"+posChannelId+"', region_id="+regionId+", district_code='"+districtCode+"',pos_governrate = "+governId+",pos_district_id="+districtId+", pos_city_id="+cityId+",pos_area_id="+areaId+",pos_name='"+posName+"',pos_arabic_name='"+posArabicName+"',pos_address='"+posAddress+"' where pos_code='"+posCode+"'";
-            System.out.println("SQL UPDATE DCM_POS_DETAIL is " + strSql);
+            System.out.println("SQL updateDcmPosDetailTable is " + strSql);
             updated = stat.executeUpdate(strSql);
             
                 
@@ -1178,7 +1179,7 @@ public class CommercialFileDAO{
         Vector vec = new Vector();
         try {
             Statement stat = con.createStatement();
-            String strSql = "select AUTH_RES_STATISTICS.file_id,no_of_read_lines,no_of_inserted_lines ,start_timestamp,end_timestamp "
+            String strSql = "select AUTH_RES_STATISTICS.file_id,no_of_read_lines,no_of_inserted_lines ,start_SYSTIMESTAMP,end_SYSTIMESTAMP "
                     + "from AUTH_RES_STATISTICS,auth_res_file  where AUTH_RES_STATISTICS.FILE_ID='" + file_id + "' "
                     + " and AUTH_RES_STATISTICS.file_id = auth_res_file.file_id";
 

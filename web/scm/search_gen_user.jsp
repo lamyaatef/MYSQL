@@ -86,7 +86,11 @@
                         <td align="center"><input type="text" name="<%=SCMInterfaceKey.PERSON_NAME%>" value="<%=personName%>"></td>
                     </tr>
                     <tr>
-                        <td colspan="4" align="center"><input type="button" class="button" value="Search" onclick="submitSearchForm();">&nbsp;<input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="doBack();"></td>
+                        <td colspan="4" align="center">
+                            <input type="button" class="button" value="Search" onclick="submitSearchForm();">
+                            &nbsp;
+                            <input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="doBack();">
+                        </td>
                     </tr>
                 </table>
             </form>
