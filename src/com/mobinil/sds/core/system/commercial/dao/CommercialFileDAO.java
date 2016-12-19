@@ -14,6 +14,7 @@ import com.mobinil.sds.core.system.nomadFile.model.NomadLabelModel;
 import com.mobinil.sds.core.utilities.DBUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import org.apache.poi.hpbf.model.qcbits.QCBit;
 
 
 public class CommercialFileDAO{
@@ -130,7 +131,7 @@ public class CommercialFileDAO{
 */
         String concatFields = "";
         String strSql = "";
-        
+        System.out.println("line fields LENGTH "+lineFields.length);
         String channelCode=lineFields[0];
         String posCode=lineFields[1];
         String posEnName=lineFields[2];
@@ -187,17 +188,20 @@ public class CommercialFileDAO{
         updateSCMSalesRepTable(con, stat, teamleaderName, salesrepName);
         
         insertSCMSTKOwnerTable(con, stat, posCode, supervisorName, userId, isVerifiedName, iqrarReceivedDate, stkStatusName, isIqrarReceivedName, assignEntryDate, stkActivationDate);
+        
         //supposed to be stk number
-        updateGenDCMTable(con, stat, stkDialNumber, Ex, surveyId, posLevelId, Sign, posLevelId, districtName, cityName, channelCode, areaName, posAddress, paymentLevelName, stkStatusName, posCode);
-        updateDcmPosDetailTable(con, stat, surveyId, Ex, surveyId, posLevelId, Sign, posArAddress, posDocuments, docLocation, supervisorName, teamleaderName, salesrepName, paymentLevelName, posLevelId, stkStatusName, posCode, posLevelId, regionName, districtCode, governName, districtName, cityName, posArName, posArName, posArName, posAddress);
+        updateGenDCMTable(con, stat, stkDialNumber, Ex, Qc, L1, Sign, posLevelId, districtName, cityName, channelCode, posEnName, posAddress, paymentLevelName, posStatusName, posCode);
+        updateDcmPosDetailTable(con, stat, surveyId, Ex, Qc, L1, Sign, posArAddress, docNumber, docLocation, supervisorName, teamleaderName, salesrepName, paymentLevelName, posLevelId, posStatusName, posCode, channelCode, regionName, districtCode, governName, districtName, cityName, areaName, posEnName , posArName, posAddress);
         
         updateDistrictCode(con, stat, districtCode, districtName);
+        
         updateAreaCode(con, stat, areaCode, areaName);
         //supposed to be stk number
         updateCAM_PAYMENT_SCM_STATUSTable(con, stat, stkDialNumber, stkStatusName, paymentStatusName, posCode);
         
         updatePOSOwnerTable(con, stat, userId, posOwnerIdType, posOwnerIdNumber, posOwnerName, posCode);
         updatePOSOwnerPhoneTable(con, stat, userId, posOwnerPhoneNumber, posCode);
+        
         updatePOSDocumentsTable(con, stat, assignEntryDate, iqrarReceivedDate, stkActivationDate, stkDialNumber, posDocuments, docNumber, posCode);
         
         try {
@@ -257,7 +261,7 @@ public class CommercialFileDAO{
 
     }
     
-    //insertSCMSTKOwnerTable(con, stat, posCode, supervisorName, userId, isVerifiedName, iqrarReceivedDate, stkStatusName, isIqrarReceivedName, assignEntryDate, stkActivationDate);
+    
     private static int insertSCMSTKOwnerTable(Connection con, Statement stat, String dcmCode,String supervisorName,String userId,String dcmVerifiedStatusName, String iqrarReceivedDate, String stkStatusName,String iqrarReceivedStatusName, String stkEntryAssignDate, String stkActivationDate)
     {
         int inserted=-1;
@@ -725,7 +729,7 @@ public class CommercialFileDAO{
         
     }
     
-    
+   
     private static int updateDcmPosDetailTable(Connection con, Statement stat,String surveyId,String isExclusive, String isQualityClub,String isLevelOne,String hasSign,String posArabicAddress,String posDocNum,String docLocation, String supervisorName, String teamleaderName,String salesrepName,String dcmPaymentLevelName, String dcmLevelId ,String dcmStatusName,String posCode, String posChannelId, String regionName, String districtCode,String posGovernName,String posDistrictName, String posCityName,String posAreaName,String posName,String posArabicName,String posAddress)
     {
         int updated=-1;

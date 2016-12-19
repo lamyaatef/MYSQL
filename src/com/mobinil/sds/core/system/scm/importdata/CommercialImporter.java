@@ -135,8 +135,8 @@ public class CommercialImporter {
                             else if (v1.contains("\t"))
                                 lineFields = v1.split("\t"); // \t
                             
-                           System.out.println("LINE  %%%% "+lineFields);
-                            if(lineFields!=null)
+                           System.out.println("LINE  %%%% "+lineFields+" and length is : "+lineFields.length);
+                           if(lineFields!=null)
                            {
                                isemptyField = false;
                                if(lineFields.length<2)
@@ -151,7 +151,7 @@ public class CommercialImporter {
                            }  
                            //break; 
                         }
-                        System.out.println("count isssssss      " + count);
+                        System.out.println("count is : " + count);
                          
                     }
                     this.numberOfRowsInserted = count-1;//SalesrepFileDAO.getSalesrepDataRecords(con, stat, fileID);
