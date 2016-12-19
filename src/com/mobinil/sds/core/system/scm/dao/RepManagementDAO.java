@@ -701,16 +701,15 @@ public class RepManagementDAO {
                             +" SELECT USER_ID FROM DCM_USER WHERE USER_STATUS_TYPE_ID <>3 AND USER_ID IS NOT NULL)";
         if(personName!=null&& !personName.trim().equalsIgnoreCase("")){
            //sqlStatement+=" AND  LOWER(GP.PERSON_FULL_NAME) LIKE ?";
-            sqlStatement+=" AND  LOWER(GP.PERSON_FULL_NAME) LIKE '%"+personName.toLowerCase()+"%'";
            //personName="'%"+personName.toLowerCase()+"%'";
-           System.out.println("if sqlStatement "+sqlStatement+" personName "+personName);
-persons=DBUtil.executeSqlQueryMultiValue(sqlStatement, PersonModel.class, con);           
-//persons=DBUtil.executePreparedSqlQueryMultiValue(sqlStatement, PersonModel.class, con,new Object[]{personName});
+           //persons=DBUtil.executePreparedSqlQueryMultiValue(sqlStatement, PersonModel.class, con,new Object[]{personName});
+            sqlStatement+=" AND  LOWER(GP.PERSON_FULL_NAME) LIKE '%"+personName.toLowerCase()+"%'";
+            persons=DBUtil.executeSqlQueryMultiValue(sqlStatement, PersonModel.class, con);           
+           
         }
         else{
-           sqlStatement+="order by LOWER(GP.PERSON_FULL_NAME)";
-           System.out.println("else sqlStatement "+sqlStatement+" personName "+personName);
-            persons=DBUtil.executeSqlQueryMultiValue(sqlStatement, PersonModel.class, con);
+           sqlStatement+=" order by LOWER(GP.PERSON_FULL_NAME)";
+           persons=DBUtil.executeSqlQueryMultiValue(sqlStatement, PersonModel.class, con);
         }
 
         return persons;

@@ -39,6 +39,7 @@ public class DBUtil {
      */
     public static <T extends Model> Vector<T> executeSqlQueryMultiValue(
             String sql, Class<T> clazz, Connection con) {
+        System.out.println("executeSqlQueryMultiValue");
         Vector<T> valueVector = new Vector<T>();
         Statement stat = null;
         try {
