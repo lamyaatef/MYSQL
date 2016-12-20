@@ -125,136 +125,132 @@ public class CommercialFileDAO{
   }
     
     
-    public static void insertCommercialData(Connection con, Statement stat,String userId,String[] lineFields,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
+    public static void insertCommercialData(Connection con, Statement stat,int posAddressIndex,String userId,String[] lineFields,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
         /*ChannelCode	PosCode	PosENm	ArabicName	Owner	IDnumber	IDType	SalesRegion	City	Governerate	DistrictID	District	ImDistrict	AreaCode	Area	Address	DocNumber	Documents	entryDt	PosStatus	OwnerPhone	LevelCode	RegionalName	TeamLeader	RepName	StkDialNo	StkStatus	StkActivationDate	IqrarReceiveDate	PayStatus	PayLevelName	ArabicAddress	IqrarReceived	VerifyOk	DocumentLocation	SurveyID	POS_OWNER_PHONE_NUMBER	branch	MBB_Rep	ImDistCode	L1	Ex	Sign	QC	CommercialGov
        '1','0001.001','Pyramids Telecom','بيراميدز تيليكوم','Khaled Mohamed Kamel Abdo Salem','25811181400351','','Greater Cairo','Cairo','Cairo','NDD000','Qaser El Nile','Qaser El Nile','11103','Qasr El Dobara','27 Gharb El Seka El Hadid St. Bassateen','','','6/21/2011','ACTIVE','1224011000','2','Mohamed Aly Morsy','Mohamed Ali Morsi','Hatem Fathy Ibrahim','01278535655','Active','','6/1/2011','ELIGIBLE','Dist Show Rooms','32 ش سليمان باشا','Received','Verified','0','null','','0001','','NDD000','Y','','','','Cairo'
 */
         String concatFields = "";
         String strSql = "";
-        System.out.println("line fields LENGTH "+lineFields.length);
-        String channelCode=lineFields[0];
-        String posCode=lineFields[1];
-        String posEnName=lineFields[2];
-        String posArName=lineFields[3];
-        String posOwnerName=lineFields[4];
-        String posOwnerIdNumber=lineFields[5];
-        String posOwnerIdType=lineFields[6];
-        String regionName=lineFields[7];
-        String cityName=lineFields[8];
-        String governName=lineFields[9];
-        String districtCode=lineFields[10];
-        String districtName=lineFields[11];
-        String imgDistrictName=lineFields[12];
-        String areaCode=lineFields[13];
-        String areaName=lineFields[14];
-        String posAddress=lineFields[15];
-        String docNumber=lineFields[16];
-        String posDocuments=lineFields[17];
-        String assignEntryDate=lineFields[18];
-        String posStatusName=lineFields[19];
-        String posOwnerPhoneNumber=lineFields[20];
-        String posLevelId=lineFields[21];//level code
-        String supervisorName=lineFields[22];
-        String teamleaderName=lineFields[23];
-        String salesrepName=lineFields[24];
-        String stkDialNumber=lineFields[25];
-        String stkStatusName=lineFields[26];
-        String stkActivationDate=lineFields[27];
-        String iqrarReceivedDate=lineFields[28];
-        String paymentStatusName=lineFields[29];
-        String paymentLevelName=lineFields[30];
-        String posArAddress=lineFields[31];
-        String isIqrarReceivedName=lineFields[32]; //table scm_stk_owner
-        String isVerifiedName=lineFields[33];//table scm_stk_owner
-        String docLocation=lineFields[34];
-        String surveyId=lineFields[35];
-        String posOwnerPhoneNumber2=lineFields[36];
-        String branch=lineFields[37];
-        String mbbRepName=lineFields[38];
-        String imgDistrictCode=lineFields[39];
-        String L1=lineFields[40];
-        String Ex=lineFields[41];
-        String Sign=lineFields[42];
-        String Qc=lineFields[43];
-        String commercialGovernName=lineFields[44];
+        String mbbRepName="";
+        String imgDistrictCode="";
+        String L1="";
+        String Ex="";
+        String Sign="";
+        String Qc="";
+        String commercialGovernName="";
         
-        System.out.println("insertCommercialData : go to record no. "+count);
-          
-        insertSCMUserRegionForSupervisor(con, stat, districtName, supervisorName, posCode);
-        insertSCMUserRegionForTeamleader(con, stat, districtName, teamleaderName, posCode);
-        insertSCMUserRegionForSalesRep(con, stat, districtName, salesrepName, posCode);
         
-        updateSCMTeamLeaderTable(con, stat, teamleaderName, supervisorName);
-        updateSCMSalesRepTable(con, stat, teamleaderName, salesrepName);
         
-        insertSCMSTKOwnerTable(con, stat, posCode, supervisorName, userId, isVerifiedName, iqrarReceivedDate, stkStatusName, isIqrarReceivedName, assignEntryDate, stkActivationDate);
-        
-        //supposed to be stk number
-        updateGenDCMTable(con, stat, stkDialNumber, Ex, Qc, L1, Sign, posLevelId, districtName, cityName, channelCode, posEnName, posAddress, paymentLevelName, posStatusName, posCode);
-        updateDcmPosDetailTable(con, stat, surveyId, Ex, Qc, L1, Sign, posArAddress, docNumber, docLocation, supervisorName, teamleaderName, salesrepName, paymentLevelName, posLevelId, posStatusName, posCode, channelCode, regionName, districtCode, governName, districtName, cityName, areaName, posEnName , posArName, posAddress);
-        
-        updateDistrictCode(con, stat, districtCode, districtName);
-        
-        updateAreaCode(con, stat, areaCode, areaName);
-        //supposed to be stk number
-        updateCAM_PAYMENT_SCM_STATUSTable(con, stat, stkDialNumber, stkStatusName, paymentStatusName, posCode);
-        
-        updatePOSOwnerTable(con, stat, userId, posOwnerIdType, posOwnerIdNumber, posOwnerName, posCode);
-        updatePOSOwnerPhoneTable(con, stat, userId, posOwnerPhoneNumber, posCode);
-        
-        updatePOSDocumentsTable(con, stat, assignEntryDate, iqrarReceivedDate, stkActivationDate, stkDialNumber, posDocuments, docNumber, posCode);
-        
-        try {
+        System.out.println("Line Fields LENGTH "+lineFields.length);
+        System.out.println("insertCommercialData : go to Line no. "+count);
         for (int i=0; i<lineFields.length;i++)
         {
-            
+            /*if(i==posAddressIndex && lineFields[i].contains(","))
+                lineFields[i]=lineFields[i].replace(",", "");*/
             concatFields += "'"+lineFields[i]+"'"+",";
-           /* if (i==sellerIndex) 
-            {
-                if(lineFields[i].contains("M"))
-                
-                    concatFields += "'"+lineFields[i].substring(lineFields[i].indexOf("M")+1)+"'"+",";
-                
-                else concatFields += "'"+lineFields[i]+"'"+",";
-            }
-            // if not VALID, return
-            if (i==statusIndex) 
-            {
-                //if(lineFields[i].compareToIgnoreCase("INVALID")==0 || lineFields[i].compareToIgnoreCase("CREATING")==0 || lineFields[i].compareToIgnoreCase("CREATED")==0 || lineFields[i].compareToIgnoreCase("PROGRESS")==0 || lineFields[i].compareToIgnoreCase("UPLOADING")==0 || lineFields[i].compareToIgnoreCase("VALID_PENDING_VERIFICATION")==0)
-                if(lineFields[i].compareToIgnoreCase("VALID")!=0)
-                    return;
-                    
-            }
-            if (i!=sellerIndex)
-            //check if String is a Date HH24.MI.SSXFF 
-            {
-                
-                if(isValidDate(lineFields[i]))
-                {
-                    //System.out.println("is DATE TRUE");
-                    concatFields += "to_date('"+lineFields[i]+"', 'YYYY-MM-DD HH24:MI:SS')"+",";
-                }
-            
-            
-                else concatFields += "'"+lineFields[i]+"'"+",";
-            }*/
-           
+
+        }
+        concatFields = concatFields.substring(0, concatFields.length()-1);
+        System.out.println("Line text Concatenated : "+concatFields);
+
+        String channelCode=(lineFields[0].compareTo("")==0)? " " : lineFields[0];
+        String posCode=(lineFields[1].compareTo("")==0)? " " : lineFields[1];
+        String posEnName=(lineFields[2].compareTo("")==0)? " " : lineFields[2];
+        String posArName=(lineFields[3].compareTo("")==0)? " " : lineFields[3];
+        String posOwnerName=(lineFields[4].compareTo("")==0)? " " : lineFields[4];
+        String posOwnerIdNumber=(lineFields[5].compareTo("")==0)? " " : lineFields[5];
+        String posOwnerIdType=(lineFields[6].compareTo("")==0)? " " : lineFields[6];
+        String regionName=(lineFields[7].compareTo("")==0)? " " : lineFields[7];
+        String cityName=(lineFields[8].compareTo("")==0)? " " : lineFields[8];
+        String governName=(lineFields[9].compareTo("")==0)? " " : lineFields[9];
+        String districtCode=(lineFields[10].compareTo("")==0)? " " : lineFields[10];
+        String districtName=(lineFields[11].compareTo("")==0)? " " : lineFields[11];
+        String imgDistrictName=(lineFields[12].compareTo("")==0)? " " : lineFields[12];
+        String areaCode=(lineFields[13].compareTo("")==0)? " " : lineFields[13];
+        String areaName=(lineFields[14].compareTo("")==0)? " " : lineFields[14];
+        String posAddress=(lineFields[15].compareTo("")==0)? " " : lineFields[15];
+        String docNumber=(lineFields[16].compareTo("")==0)? " " : lineFields[16];
+        String posDocuments=(lineFields[17].compareTo("")==0)? " " : lineFields[17];
+        String assignEntryDate=(lineFields[18].compareTo("")==0)? "" : lineFields[18];
+        String posStatusName=(lineFields[19].compareTo("")==0)? " " : lineFields[19];
+        String posOwnerPhoneNumber=(lineFields[20].compareTo("")==0)? " " : lineFields[20];
+        String posLevelId=(lineFields[21].compareTo("")==0)? " " : lineFields[21];//level code
+        String supervisorName=(lineFields[22].compareTo("")==0)? " " : lineFields[22];
+        String teamleaderName=(lineFields[23].compareTo("")==0)? " " : lineFields[23];
+        String salesrepName=(lineFields[24].compareTo("")==0)? " " : lineFields[24];
+        String stkDialNumber=(lineFields[25].compareTo("")==0)? " " : lineFields[25];
+        String stkStatusName=(lineFields[26].compareTo("")==0)? " " : lineFields[26];
+        String stkActivationDate=(lineFields[27].compareTo("")==0)? "" : lineFields[27];
+        String iqrarReceivedDate=(lineFields[28].compareTo("")==0)? "" : lineFields[28];
+        String paymentStatusName=(lineFields[29].compareTo("")==0)? " " : lineFields[29];
+        String paymentLevelName=(lineFields[30].compareTo("")==0)? " " : lineFields[30];
+        String posArAddress=(lineFields[31].compareTo("")==0)? " " : lineFields[31];
+        String isIqrarReceivedName=(lineFields[32].compareTo("")==0)? " " : lineFields[32]; //table scm_stk_owner
+        String isVerifiedName=(lineFields[33].compareTo("")==0)? " " : lineFields[33];//table scm_stk_owner
+        String docLocation=(lineFields[34].compareTo("")==0)? " " : lineFields[34];
+        String surveyId=(lineFields[35].compareTo("")==0)? " " : lineFields[35];
+        String posOwnerPhoneNumber2=(lineFields[36].compareTo("")==0)? " " : lineFields[36];
+        String branch=(lineFields[37].compareTo("")==0)? " " : lineFields[37];
+        if(lineFields.length==38)
+        {
+            System.out.println("length is < 38");
+            mbbRepName="";//(lineFields[38].compareTo("")==0)? " " : lineFields[38];
+            imgDistrictCode="";//(lineFields[39].compareTo("")==0)? " " : lineFields[39];
+            L1="";//(lineFields[40].compareTo("")==0)? " " : lineFields[40];
+            Ex="";//(lineFields[41].compareTo("")==0)? " " : lineFields[41];
+            Sign="";//(lineFields[42].compareTo("")==0)? " " : lineFields[42];
+            Qc="";//(lineFields[43].compareTo("")==0)? " " : lineFields[43];
+            commercialGovernName="";//(lineFields[44].compareTo("")==0)? " " : lineFields[44];
+        
+        }
+        else
+        {
+            System.out.println("length is NOT < 38");
+            mbbRepName=(lineFields[38].compareTo("")==0)? " " : lineFields[38];
+            imgDistrictCode=(lineFields[39].compareTo("")==0)? " " : lineFields[39];
+            L1=(lineFields[40].compareTo("")==0)? " " : lineFields[40];
+            Ex=(lineFields[41].compareTo("")==0)? " " : lineFields[41];
+            Sign=(lineFields[42].compareTo("")==0)? " " : lineFields[42];
+            Qc=(lineFields[43].compareTo("")==0)? " " : lineFields[43];
+            commercialGovernName=(lineFields[44].compareTo("")==0)? " " : lineFields[44];
         }
         
-        concatFields = concatFields.substring(0, concatFields.length()-1);
-            
         
-        
-        System.out.println("Line text : "+concatFields);
-         //  strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values (SEQ_SCM_SUPERVISOR_ID.nextval,"+concatFields+",sysdate)";
-            //System.out.println("query "+strSql);
-           // stat.execute(strSql);
-           
-            System.out.println("............INSERTED........"+count);
+        try {  
+                
+
+                insertSCMUserRegionForSupervisor(con, stat, districtName, supervisorName, posCode);
+                insertSCMUserRegionForTeamleader(con, stat, districtName, teamleaderName, posCode);
+                insertSCMUserRegionForSalesRep(con, stat, districtName, salesrepName, posCode);
+
+                updateSCMTeamLeaderTable(con, stat, teamleaderName, supervisorName);
+                updateSCMSalesRepTable(con, stat, teamleaderName, salesrepName);
+
+                insertSCMSTKOwnerTable(con, stat, posCode, supervisorName, userId, isVerifiedName, iqrarReceivedDate, stkStatusName, isIqrarReceivedName, assignEntryDate, stkActivationDate);
+
+                //supposed to be stk number
+                updateGenDCMTable(con, stat, stkDialNumber, Ex, Qc, L1, Sign, posLevelId, districtName, cityName, channelCode, posEnName, posAddress, paymentLevelName, posStatusName, posCode);
+                updateDcmPosDetailTable(con, stat, surveyId, Ex, Qc, L1, Sign, posArAddress, docNumber, docLocation, supervisorName, teamleaderName, salesrepName, paymentLevelName, posLevelId, posStatusName, posCode, channelCode, regionName, districtCode, governName, districtName, cityName, areaName, posEnName , posArName, posAddress);
+
+                updateDistrictCode(con, stat, districtCode, districtName);
+
+                updateAreaCode(con, stat, areaCode, areaName);
+                //supposed to be stk number
+                updateCAM_PAYMENT_SCM_STATUSTable(con, stat, stkDialNumber, stkStatusName, paymentStatusName, posCode);
+
+                updatePOSOwnerTable(con, stat, userId, posOwnerIdType, posOwnerIdNumber, posOwnerName, posCode);
+                updatePOSOwnerPhoneTable(con, stat, userId, posOwnerPhoneNumber, posCode);
+
+                updatePOSDocumentsTable(con, stat, assignEntryDate, iqrarReceivedDate, stkActivationDate, stkDialNumber, posDocuments, docNumber, posCode);
+
+
+
+
+                System.out.println("............LINE INSERTED Number........"+count);
 
         } catch (Exception e) {
             
-                     System.out.println("............NOT INSERTED........"+count+" "+"EXCEPTION in " + strSql);
+                     System.out.println("............LINE NOT INSERTED Number........"+count+" "+"EXCEPTION in " + strSql);
             e.printStackTrace();
         }
         
@@ -269,7 +265,23 @@ public class CommercialFileDAO{
         int dcmVerifiedStatusId = -1;
         int stkStatusId = -1;
         int iqrarReceivedStatusId=-1;
+        String stkEntryAssignDateSql="null";
+        String stkActivationDateSql="null";
+        String iqrarReceivedDateSql="null";
         try{    
+            
+            if(iqrarReceivedDate.compareTo("")!=0)
+                iqrarReceivedDateSql = "to_date('"+iqrarReceivedDate+"','mm/dd/yyyy')";
+            
+            if(stkActivationDate.compareTo("")!=0)
+                stkActivationDateSql = "to_date('"+stkActivationDate+"','mm/dd/yyyy')";
+            
+            
+            if(stkEntryAssignDate.compareTo("")!=0)
+                stkEntryAssignDateSql = "to_date('"+stkEntryAssignDate+"','mm/dd/yyyy')";
+            
+            
+            
             
             String sqlSupervisorId="select supervisor_id from scm_supervisor where LOWER(supervisor_name) like LOWER('%"+supervisorName+"%')";
             System.out.println("sql for supervisor id in insertSCMSTKOwnerTable : "+sqlSupervisorId);
@@ -291,7 +303,6 @@ public class CommercialFileDAO{
             
             
             String sqlIqrarReceivedStatusId="select iqrar_receving_status_id from scm_iqrar_receving_status where LOWER(name) like LOWER('%"+iqrarReceivedStatusName+"%')";
-            //System.out.println("iqrar SQL: "+sqlIqrarReceivedStatusId);
             ResultSet rs2 = stat.executeQuery(sqlIqrarReceivedStatusId);
             if(rs2.next())
                 iqrarReceivedStatusId = Integer.parseInt(rs2.getString("iqrar_receving_status_id"));
@@ -307,7 +318,7 @@ public class CommercialFileDAO{
             
             
             
-            String strSql = "insert into scm_stk_owner values((select max(stk_id)+1 from scm_stk_owner), (select dcm_id from gen_dcm where dcm_code='0001.001'),'"+supervisorId+"','"+userId+"',SYSTIMESTAMP,"+dcmVerifiedStatusId+","+iqrarReceivedStatusId+", "+stkStatusId+", to_date('"+iqrarReceivedDate+"','mm/dd/yyyy'), SYSTIMESTAMP,to_date('"+stkActivationDate+"','mm/dd/yyyy'),null,null,null,to_date('"+stkEntryAssignDate+"','mm/dd/yyyy'),to_date('"+stkActivationDate+"','mm/dd/yyyy'),null,null,0)";
+            String strSql = "insert into scm_stk_owner values((select max(stk_id)+1 from scm_stk_owner), (select dcm_id from gen_dcm where dcm_code='0001.001'),'"+supervisorId+"','"+userId+"',SYSTIMESTAMP,"+dcmVerifiedStatusId+","+iqrarReceivedStatusId+", "+stkStatusId+", "+iqrarReceivedDateSql+", SYSTIMESTAMP,"+stkActivationDateSql+",null,null,null,"+stkEntryAssignDateSql+","+stkActivationDateSql+",null,null,0)";
             System.out.println("SQL insertSCMSTKOwnerTable is " + strSql);
             inserted = stat.executeUpdate(strSql);
             
@@ -617,12 +628,22 @@ public class CommercialFileDAO{
     private static int updatePOSDocumentsTable(Connection con, Statement stat,String assignEntryDate, String iqrarReceivedDate,String stkActivationDate, String stkDialNumber, String posDocuments,String posDocumentNumber, String dcmCode)
     {
         int updated=-1;
-        
-        try {
+        String stkEntryAssignDateSql="null";
+        String stkActivationDateSql="null";
+        String iqrarReceivedDateSql="null";
+        try{    
+            
+            if(iqrarReceivedDate.compareTo("")!=0)
+                iqrarReceivedDateSql = "to_date('"+iqrarReceivedDate+"','mm/dd/yyyy')";
+            
+            if(stkActivationDate.compareTo("")!=0)
+                stkActivationDateSql = "to_date('"+stkActivationDate+"','mm/dd/yyyy')";
             
             
+            if(assignEntryDate.compareTo("")!=0)
+                stkEntryAssignDateSql = "to_date('"+assignEntryDate+"','mm/dd/yyyy')";
             
-            String strSql = "update pos_documents set assign_date=to_date('"+assignEntryDate+"','mm/dd/yyyy'),iqrarrcvdt=to_date('"+iqrarReceivedDate+"','mm/dd/yyyy'), stkactvdt=to_date('"+stkActivationDate+"','mm/dd/yyyy'), stkdialno='"+stkDialNumber+"',posdocuments = '"+posDocuments+"',posdocumentnum='"+posDocumentNumber+"' where code='"+dcmCode+"'";
+            String strSql = "update pos_documents set assign_date="+stkEntryAssignDateSql+",iqrarrcvdt="+iqrarReceivedDateSql+", stkactvdt="+stkActivationDateSql+", stkdialno='"+stkDialNumber+"',posdocuments = '"+posDocuments+"',posdocumentnum='"+posDocumentNumber+"' where code='"+dcmCode+"'";
             System.out.println("SQL updatePOSDocumentsTable is " + strSql);
             updated = stat.executeUpdate(strSql);
             

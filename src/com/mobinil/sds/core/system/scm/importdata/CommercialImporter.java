@@ -80,9 +80,7 @@ public class CommercialImporter {
     public CommercialImporter (String userId,String fileDate,Long fileID , String filePath , int minColumns)
     {
         System.out.println("file path : "+filePath+" and user id from hashmap : "+userId);
-        int updateOn=-1;
-        int sellerIndx = -1;
-        int statusIndx = -1;
+        int posAddressIndex=-1;
         boolean isemptyField= false;
         this.fileID = fileID;
         this.filePath = filePath;
@@ -123,29 +121,55 @@ public class CommercialImporter {
             //    System.out.println("NOMAD line = input.readLine() "+input.readLine());
                     while ((line = input.readLine()) != null) {
                         count++;
-                       
+                       if (count == 1) {
+                           //looking for a title "Address"
+                            String tempLine = line;
+                            String[] posAddress=null;
+                            if(tempLine.contains(","))
+                                posAddress = tempLine.split(","); 
+                            else if (tempLine.contains("\t"))
+                                posAddress = tempLine.split("\t"); 
+                            if(posAddress!=null)
+                            {
+                                
+                                for(int i=0;i< posAddress.length;i++)
+                                {
+                                    if (posAddress[i].compareToIgnoreCase("Address")==0)
+                                        { 
+                                            posAddressIndex = i;
+
+                                        }
+                                    
+                                }
+                            }
+                            //fileid = AuthResDAO.insertSearchFile(con, year, month, "processing", description, user_id, label, catId, fileTypeId);
+                        }
                          if (count > 1) {//!=0
                             System.out.println("^^^^^^^^^^start^^^line "+count+"^^^^^^\n");
                             String fields = line;
                             String v1 = fields;
+                           
                             String[] lineFields = null;
                            System.out.println("LINE V1 %%%% "+v1); 
-                            if (v1.contains(","))
-                                lineFields = v1.split(","); // \t
-                            else if (v1.contains("\t"))
-                                lineFields = v1.split("\t"); // \t
                             
-                           System.out.println("LINE  %%%% "+lineFields+" and length is : "+lineFields.length);
+                           if (v1.contains(","))
+                                     lineFields = v1.split(","); // \t
+                               
+                               else if (v1.contains("\t"))
+                                     lineFields = v1.split("\t"); // \t
+                          
+                           
+                           System.out.println("length is : "+lineFields.length);
                            if(lineFields!=null)
                            {
                                isemptyField = false;
                                if(lineFields.length<2)
                                    isemptyField = true;
-                            System.out.println("LINE not null %%%% "+lineFields);
+                            
                            
                             if (v1 == null) 
                                 v1 = "";
-                            CommercialFileDAO.insertCommercialData(con, stat,userId,lineFields,count/*,fileDate,updateOn*/);
+                            CommercialFileDAO.insertCommercialData(con, stat,posAddressIndex,userId,lineFields,count/*,fileDate,updateOn*/);
                             System.out.println("^^^^^^^^^^end^^^^^^^^^");
                            
                            }  
