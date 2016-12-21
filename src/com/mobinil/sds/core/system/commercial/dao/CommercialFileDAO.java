@@ -191,7 +191,7 @@ public class CommercialFileDAO{
         String surveyId=(lineFields[35].compareTo("")==0)? " " : lineFields[35];
         String posOwnerPhoneNumber2=(lineFields[36].compareTo("")==0)? " " : lineFields[36];
         String branch=(lineFields[37].compareTo("")==0)? " " : lineFields[37];
-        if(lineFields.length==38)
+        /*if(lineFields.length==38)
         {
             System.out.println("length is < 38");
             mbbRepName="";//(lineFields[38].compareTo("")==0)? " " : lineFields[38];
@@ -213,7 +213,7 @@ public class CommercialFileDAO{
             Sign=(lineFields[42].compareTo("")==0)? " " : lineFields[42];
             Qc=(lineFields[43].compareTo("")==0)? " " : lineFields[43];
             commercialGovernName=(lineFields[44].compareTo("")==0)? " " : lineFields[44];
-        }
+        }*/
         
         
         try {  
@@ -268,16 +268,17 @@ public class CommercialFileDAO{
         String stkEntryAssignDateSql="null";
         String stkActivationDateSql="null";
         String iqrarReceivedDateSql="null";
-        try{    
+        DateValidator validateDate = new DateValidator();
+       try{    
             
-            if(iqrarReceivedDate.compareTo("")!=0)
+            if(iqrarReceivedDate.compareTo("")!=0 && validateDate.isThisDateValid(iqrarReceivedDate, "mm/dd/yyyy"))
                 iqrarReceivedDateSql = "to_date('"+iqrarReceivedDate+"','mm/dd/yyyy')";
             
-            if(stkActivationDate.compareTo("")!=0)
+            if(stkActivationDate.compareTo("")!=0 && validateDate.isThisDateValid(stkActivationDate, "mm/dd/yyyy"))
                 stkActivationDateSql = "to_date('"+stkActivationDate+"','mm/dd/yyyy')";
             
             
-            if(stkEntryAssignDate.compareTo("")!=0)
+            if(stkEntryAssignDate.compareTo("")!=0 && validateDate.isThisDateValid(stkEntryAssignDate, "mm/dd/yyyy"))
                 stkEntryAssignDateSql = "to_date('"+stkEntryAssignDate+"','mm/dd/yyyy')";
             
             
@@ -334,13 +335,14 @@ public class CommercialFileDAO{
     
     
     
-    private static int updateGenDCMTable(Connection con, Statement stat,String stkNumber,String isExclusive, String isQualityClub,String isLevelOne,String hasSign, String dcmLevelId , String dcmDistrictName, String dcmCityName, String channeId,String dcmName,String dcmAddress, String dcmPaymentLevelName,String dcmStatusName,String posCode)
+    private static int updateGenDCMTable(Connection con, Statement stat,String stkNumber,String isExclusive, String isQualityClub,String isLevelOne,String hasSign, String dcmLevelName , String dcmDistrictName, String dcmCityName, String channeId,String dcmName,String dcmAddress, String dcmPaymentLevelName,String dcmStatusName,String posCode)
     {
         int updated=-1;
         int districtId=-1;
         int cityId=-1;
         int dcmPayLevelId=-1;
         int dcmStatusId=-1;
+        int dcmLevelId=-1;
         try {
             String ex="";
             String l1="";
@@ -390,6 +392,10 @@ public class CommercialFileDAO{
             if(rs4.next())
                 dcmStatusId = Integer.parseInt(rs4.getString("dcm_status_id"));
             
+            String sqlDcmLevelId="select dcm_level_id from gen_dcm_level where LOWER(dcm_level_name)  like LOWER('"+dcmLevelName+"')";
+            ResultSet rs5 = stat.executeQuery(sqlDcmLevelId);
+            if(rs5.next())
+                dcmStatusId = Integer.parseInt(rs5.getString("dcm_level_id"));
             
             
             String strSql = "update gen_dcm set /*stk_number='"+stkNumber+"',*/is_exclusive='"+ex+"',is_quality_club='"+qc+"',is_level_one='"+l1+"',has_sign='"+sign+"',DCM_LEVEL_ID="+dcmLevelId+" ,dcm_district_id="+districtId+", dcm_city_id="+cityId+", channel_id="+channeId+", dcm_name='"+dcmName+"',dcm_address='"+dcmAddress+"',dcm_payment_level_id="+dcmPayLevelId+",dcm_status_id="+dcmStatusId+" where dcm_code='"+posCode+"'";
@@ -631,16 +637,19 @@ public class CommercialFileDAO{
         String stkEntryAssignDateSql="null";
         String stkActivationDateSql="null";
         String iqrarReceivedDateSql="null";
+        DateValidator validateDate = new DateValidator();
+       
+            
         try{    
             
-            if(iqrarReceivedDate.compareTo("")!=0)
+            if(iqrarReceivedDate.compareTo("")!=0 && validateDate.isThisDateValid(iqrarReceivedDate, "mm/dd/yyyy"))
                 iqrarReceivedDateSql = "to_date('"+iqrarReceivedDate+"','mm/dd/yyyy')";
             
-            if(stkActivationDate.compareTo("")!=0)
+            if(stkActivationDate.compareTo("")!=0 && validateDate.isThisDateValid(stkActivationDate, "mm/dd/yyyy"))
                 stkActivationDateSql = "to_date('"+stkActivationDate+"','mm/dd/yyyy')";
             
             
-            if(assignEntryDate.compareTo("")!=0)
+            if(assignEntryDate.compareTo("")!=0 && validateDate.isThisDateValid(assignEntryDate, "mm/dd/yyyy"))
                 stkEntryAssignDateSql = "to_date('"+assignEntryDate+"','mm/dd/yyyy')";
             
             String strSql = "update pos_documents set assign_date="+stkEntryAssignDateSql+",iqrarrcvdt="+iqrarReceivedDateSql+", stkactvdt="+stkActivationDateSql+", stkdialno='"+stkDialNumber+"',posdocuments = '"+posDocuments+"',posdocumentnum='"+posDocumentNumber+"' where code='"+dcmCode+"'";
@@ -656,12 +665,24 @@ public class CommercialFileDAO{
         
     }
     
-    
+    private static boolean isNumeric(String str) {
+    if (str == null) {
+        return false;
+    }
+    int sz = str.length();
+    for (int i = 0; i < sz; i++) {
+        if (Character.isDigit(str.charAt(i)) == false) {
+            return false;
+        }
+    }
+    return true;
+}
     
     private static int updatePOSOwnerTable(Connection con, Statement stat,String userId, String posOwnerIdTypeName, String posOwnerIdNumber,String posOwnerName,String dcmCode)
     {
         int updated=-1;
         int posOwnerIdTypeId = -1;
+        String posOwnerIdNumberSql="";
         try {
             
             String sqlIdtypeId="select id_type_id from dcm_id_type where LOWER(id_type_name) like LOWER('%"+posOwnerIdTypeName+"%')";
@@ -670,7 +691,11 @@ public class CommercialFileDAO{
                 posOwnerIdTypeId = Integer.parseInt(rs1.getString("id_type_id"));
             
             
-            String strSql = "update dcm_pos_owner set user_id='"+userId+"',updated_in = SYSTIMESTAMP , pos_owner_id_type_id="+posOwnerIdTypeId+",pos_owner_id_number='"+posOwnerIdNumber+"' , pos_owner_name='"+posOwnerName+"' where pos_detail_id in (select pos_detail_id from dcm_pos_detail where pos_code='"+dcmCode+"' and flage is null) ";
+            if(isNumeric(posOwnerIdNumber))
+                posOwnerIdNumberSql = "pos_owner_id_number="+Long.parseLong(posOwnerIdNumber)+",";
+            
+            
+            String strSql = "update dcm_pos_owner set user_id='"+userId+"',updated_in = SYSTIMESTAMP , pos_owner_id_type_id="+posOwnerIdTypeId+","+posOwnerIdNumberSql+" pos_owner_name='"+posOwnerName+"' where pos_detail_id in (select pos_detail_id from dcm_pos_detail where pos_code='"+dcmCode+"' and flage is null) ";
             System.out.println("SQL updatePOSOwnerTable is " + strSql);
             updated = stat.executeUpdate(strSql);
             

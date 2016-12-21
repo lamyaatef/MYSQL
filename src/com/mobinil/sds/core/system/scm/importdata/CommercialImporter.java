@@ -82,6 +82,9 @@ public class CommercialImporter {
         System.out.println("file path : "+filePath+" and user id from hashmap : "+userId);
         int posAddressIndex=-1;
         boolean isemptyField= false;
+        String line = null;
+        BufferedReader input = null;
+        int count = 0;
         this.fileID = fileID;
         this.filePath = filePath;
         this.minColumns = minColumns;
@@ -99,11 +102,7 @@ public class CommercialImporter {
             e.printStackTrace();
         }
         
-        //lamya : CSV file
-        //Long fileid = null;
-        String line = null;
-        BufferedReader input = null;
-        int count = 0;
+        
         
                 try {
                   //  System.out.println("before buffered reader : "+filePath);
@@ -134,6 +133,7 @@ public class CommercialImporter {
                                 
                                 for(int i=0;i< posAddress.length;i++)
                                 {
+                                    
                                     if (posAddress[i].compareToIgnoreCase("Address")==0)
                                         { 
                                             posAddressIndex = i;
@@ -162,9 +162,12 @@ public class CommercialImporter {
                            System.out.println("length is : "+lineFields.length);
                            if(lineFields!=null)
                            {
-                               isemptyField = false;
+                               
                                if(lineFields.length<2)
                                    isemptyField = true;
+                               
+                               if(lineFields.length<45)
+                                   continue;
                             
                            
                             if (v1 == null) 
@@ -179,7 +182,7 @@ public class CommercialImporter {
                          
                     }
                     this.numberOfRowsInserted = count-1;//SalesrepFileDAO.getSalesrepDataRecords(con, stat, fileID);
-                    System.out.println("rows %%%% "+this.numberOfRowsInserted);
+                    System.out.println("total rows inserted/updated %%%% "+this.numberOfRowsInserted);
 
                 } catch (Exception e) {
                     e.printStackTrace();
