@@ -123,10 +123,12 @@ public class SupervisorFileDAO{
   }
     
     
-    public static void insertSupervisorData(Connection con, Statement stat,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
+    public static void insertSupervisorData(Connection con, Statement stat,String userId,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
         //System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
         String strSql = "";
+        String strUserSql = "";
+        String strUserDetailSql = "";
         System.out.println("insertSupervisorData : go to record no. "+count);
                             
         try {
@@ -168,17 +170,43 @@ public class SupervisorFileDAO{
         concatFields = concatFields.substring(0, concatFields.length()-1);
             
         
+        Long supId = Utility.getSequenceNextVal(con, "SEQ_SCM_SUPERVISOR_ID");
+        Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
-        System.out.println("Line text : "+concatFields);
-           strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values (SEQ_SCM_SUPERVISOR_ID.nextval,"+concatFields+",sysdate)";
-            System.out.println("query "+strSql);
-            stat.execute(strSql);
+        String sqlCheckDcmId = "select * from dcm_user where dcm_user_id = "+supId;
+        ResultSet rs = stat.executeQuery(sqlCheckDcmId);
+        
+        if(rs.next())
+        {
+            strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values((select max(dcm_user_id)+1 from dcm_user),"+userId+",4,"+supDetailId+",1,4)";
+            
+            String strLastId = "select dcm_user_id from dcm_user order by dcm_user_id desc";
+            ResultSet rsLast = stat.executeQuery(strLastId);
+            if(rsLast.next())
+                supId = rsLast.getLong("dcm_user_id");
+        } 
+            
+        else
+           strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+supId+","+userId+",4,"+supDetailId+",1,4)";
+        
+        
+        
+           strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+supId+","+concatFields+",sysdate)"; 
+           strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+supDetailId+","+supId+","+userId+","+concatFields+",sysdate)";
            
+           System.out.println("Line text : "+concatFields);
+           System.out.println("query1 "+strSql);
+           System.out.println("query2 "+strUserSql);
+           System.out.println("query3 "+strUserDetailSql);
+           
+           stat.execute(strSql);
+           stat.execute(strUserSql);
+           stat.execute(strUserDetailSql);
             System.out.println("............INSERTED........"+count);
 
         } catch (Exception e) {
             
-                     System.out.println("............NOT INSERTED........"+count+" "+"EXCEPTION in " + strSql);
+                    System.out.println("............NOT INSERTED........"+count+" "+"EXCEPTION in " + strSql);
             e.printStackTrace();
         }
         

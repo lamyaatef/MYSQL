@@ -401,7 +401,7 @@ public class DCMIIHandler {
               /*add a function to get the region's parent level..need to be level 1 to export*/
               String entityLevelName = RegionPOSReportDAO.getRegionLevel(con, entityName, entityLevel);
               
-                  Vector files =RegionPOSReportDAO.getRegionPOSData(con,entityLevelName/*entityName,entityName*/);
+                  Vector files =RegionPOSReportDAO.getRegionPOSData(con/*,entityLevelName,entityName,entityName*/);
                   String excelLink = PoiWriteExcelFile.exportExcelSheetForRegionPOSData(/*dataVec*/files, baseDirectory);
                   dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
               

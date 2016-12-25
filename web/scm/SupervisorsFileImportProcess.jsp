@@ -26,8 +26,9 @@
   %>
 
 <%
-    
+
 String appName = request.getContextPath();
+String userId = request.getParameter("userId");
 DiskFileUpload upload = new DiskFileUpload();
 List items = upload.parseRequest(request);
 String fileUniqueName ="";
@@ -114,12 +115,12 @@ while(itr.hasNext()) {
 HashMap dataHashMap = null;
 dataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
 dataHashMap.put(AdministrationInterfaceKey.TEXT_NOMAD_FILE_NAME,fileNameOnClient);
-
+String strUserId = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);    
 
 printToStream("DataImportEngine ", out);
-System.out.println("-> import Supervisors Sheet");
+System.out.println("-> import Supervisors Sheet for User Id "+userId);
 
-SupervisorImporter superImporterObj = new SupervisorImporter(fileDateStr, new Long(0), baseDirectory+fileUniqueName , 12);
+SupervisorImporter superImporterObj = new SupervisorImporter(userId,fileDateStr, new Long(0), baseDirectory+fileUniqueName , 12);
   superImporterObj.clean();
 
 

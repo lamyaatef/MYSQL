@@ -73,7 +73,7 @@ public class RegionPOSReportModel {
     private String paymentLevelName="";
     private String iqrarReceived = "";//boolean
     private String verifyOk=""; //boolean
-    private String stkVerificationId="";
+    //private String stkVerificationId="";
     private String posOwnerPhoneNumber="";
     private String L1="";
     private String Ex="";
@@ -83,12 +83,18 @@ public class RegionPOSReportModel {
     private String surveyId="";
     private String branch="";
     private String documents="";
+    
+    private String imageDistrict="";
+    private String imageDistrictCode="";
+    private String mbbRep="";
+    private String posOwnerPhoneNumber2="";
+    private String commercialGov="";
 
     public RegionPOSReportModel()
 {
 	
 }
-public RegionPOSReportModel(ResultSet res,String supervisorName, String teamleaderName)
+public RegionPOSReportModel(ResultSet res/*,String supervisorName, String teamleaderName*/)
 {
     try
 	      {
@@ -96,55 +102,52 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
                        
                   posARName = res.getString("pos_arabic_name");
                   posCode = res.getString("pos_code");
-                    posENName = res.getString("pos_name");
+                    posENName = res.getString("pos_english_name");
 		    
                     
                    
                     ownerName= res.getString("pos_owner_name");
                     IdNumber= res.getString("pos_owner_id_number");
-                    IdType= res.getString("pos_owner_id_type_id");
-                    region= res.getString("supervisor_region_name");//region_id , supervisor_region_id
-                    city= res.getString("supervisor_city_name");//POS_CITY_ID , supervisor_city_id
-                    //disctrict= res.getString("salesrep_district_name");//POS_DISTRICT_ID, salesrep_district_id
-                    disctrict= res.getString("district_name");//POS_DISTRICT_ID, salesrep_district_id                    
-                    governorate= res.getString("supervisor_govern_name");//POS_GOVERNRATE , supervisor_govern_id
-                    districtCodeId= res.getString("DISTRICT_CODE");
-                    areaCode= res.getString("POS_AREA_ID");//salesrep_area_id,res.getString("area_code");
+                    IdType= res.getString("id_type_name");
+                    region= res.getString("region_name");//region_id , supervisor_region_id
+                    city= res.getString("city_name");//POS_CITY_ID , supervisor_city_id
+                    disctrict= res.getString("district_name");//POS_DISTRICT_ID, salesrep_district_id
+                    governorate= res.getString("govern_name");//POS_GOVERNRATE , supervisor_govern_id
+                    districtCodeId= res.getString("district_code");
+                    areaCode= res.getString("area_code");//salesrep_area_id,res.getString("area_code");
                     area= res.getString("area_name");//salesrep_area_name,POS_AREA_ID
-                    channelCode= res.getString("channel_id");
+                    channelCode= res.getString("channel_code");
                     address= res.getString("pos_address");
-                    arAddress= res.getString("POS_ARABIC_ADDRESS");
-                    documentNumber= res.getString("POS_DOC_NUM");
-                    entryDate= res.getString("Entry_DATE");
-                    posStatus= res.getString("POS_STATUS_TYPE_NAME");
-                    posLevel= res.getString("DCM_LEVEL_ID");
-                    //regionSupervisor= res.getString("Supervisor_Name");//supervisorName;
-                    //regionTeamleader= res.getString("Teamleader_Name");//teamleaderName;
-                    salesRep= res.getString("Salesrep_Name");//sales_rep_name
+                    arAddress= res.getString("pos_arabic_address");
+                    documentNumber= res.getString("pos_doc_num");
+                    entryDate= res.getString("assign_date");
+                    posStatus= res.getString("pos_status");
+                    posLevel= res.getString("pos_level_code");
+                    regionTeamleader= res.getString("teamleader_name");//teamleaderName;
+                    salesRep= res.getString("salesrep_name");//sales_rep_name
                     regionSupervisor = res.getString("supervisor_name");
-                    //regionTeamleader         = res.getString("supervisor_name");
                     stkDialNumber= res.getString("StkDialNo");
                     stkStatus= res.getString("stk_status");
-                    stkActivationDate= res.getString("stkActvDt");
+                    stkActivationDate= res.getString("stk_activation_date");
                     
-                    iqrarReceivedDate= res.getString("IqrarRcvDt");
-                    stkVerificationId = res.getString("STKVRFCAT_VANTIFCASEIDNO");
+                    iqrarReceivedDate= res.getString("iqrar_received_date");
+                    //stkVerificationId = res.getString("STKVRFCAT_VANTIFCASEIDNO");
               
-                    iqrarReceived = res.getString("iqrar_rcv_status");
+                    iqrarReceived = res.getString("is_iqrar_received");
             
-                    verifyOk = res.getString("verified_status");
+                    verifyOk = res.getString("is_verified");
                     paymentStatus= res.getString("payment_status");//payment_status
-                    paymentLevelName= res.getString("DCM_PAYMENT_LEVEL_NAME");
+                    paymentLevelName= res.getString("payment_level");
                     posOwnerPhoneNumber= res.getString("pos_owner_phone_number");
                   
                     L1= res.getString("L1")!=null && res.getString("L1").compareTo("1")==0 ? "Y":"N";
                     Ex= res.getString("EX")!=null && res.getString("EX").compareTo("1")==0 ? "Y":"N";
                     Sign= res.getString("Sign")!=null && res.getString("Sign").compareTo("1")==0 ? "Y":"N";
                     QC= res.getString("QC")!=null && res.getString("QC").compareTo("1")==0 ? "Y":"N";
-                    documentLocation= res.getString("DOC_LOCATION");
-                    surveyId= res.getString("SURVEY_ID");
+                    documentLocation= res.getString("doc_location");
+                    surveyId= res.getString("survey_id");
                     branch= "";//res.getString("BRANCH_ID");
-                    documents = res.getString("PosDocuments");
+                    documents = res.getString("posdocuments");
                     
                     
                    
@@ -719,6 +722,76 @@ public RegionPOSReportModel(ResultSet res,String supervisorName, String teamlead
      */
     public void setDocuments(String documents) {
         this.documents = documents;
+    }
+
+    /**
+     * @return the imageDistrict
+     */
+    public String getImageDistrict() {
+        return imageDistrict;
+    }
+
+    /**
+     * @param imageDistrict the imageDistrict to set
+     */
+    public void setImageDistrict(String imageDistrict) {
+        this.imageDistrict = imageDistrict;
+    }
+
+    /**
+     * @return the imageDistrictCode
+     */
+    public String getImageDistrictCode() {
+        return imageDistrictCode;
+    }
+
+    /**
+     * @param imageDistrictCode the imageDistrictCode to set
+     */
+    public void setImageDistrictCode(String imageDistrictCode) {
+        this.imageDistrictCode = imageDistrictCode;
+    }
+
+    /**
+     * @return the mbbRep
+     */
+    public String getMbbRep() {
+        return mbbRep;
+    }
+
+    /**
+     * @param mbbRep the mbbRep to set
+     */
+    public void setMbbRep(String mbbRep) {
+        this.mbbRep = mbbRep;
+    }
+
+    /**
+     * @return the commercialGov
+     */
+    public String getCommercialGov() {
+        return commercialGov;
+    }
+
+    /**
+     * @param commercialGov the commercialGov to set
+     */
+    public void setCommercialGov(String commercialGov) {
+        this.commercialGov = commercialGov;
+    }
+
+    /**
+     * @return the posOwnerPhoneNumber2
+     */
+    public String getPosOwnerPhoneNumber2() {
+        return posOwnerPhoneNumber2;
+    }
+
+    /**
+     * @param posOwnerPhoneNumber2 the posOwnerPhoneNumber2 to set
+     */
+    public void setPosOwnerPhoneNumber2(String posOwnerPhoneNumber2) {
+        this.posOwnerPhoneNumber2 = posOwnerPhoneNumber2;
     }
     
 }

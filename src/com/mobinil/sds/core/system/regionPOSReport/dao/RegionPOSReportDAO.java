@@ -19,112 +19,112 @@ import java.util.Vector;
 public class RegionPOSReportDAO {
     
     //private static final int ROWNUM = 10000;
-    public static Vector getRegionPOSData(Connection con, String regionName/*, String regionLevel*/) {
+    public static Vector getRegionPOSData(Connection con/*, String regionName, String regionLevel*/) {
         
         Vector vec = new Vector();
-        String supervisorName="";
-        String teamleaderName="";
+      //  String supervisorName="";
+     //   String teamleaderName="";
                 
-        System.out.println("getregionPOSData "+regionName);
+       // System.out.println("getregionPOSData "+regionName);
         
               
         try {
             Statement stat = con.createStatement();
             Statement stat2 = con.createStatement();
             //stat.setFetchSize(0);
-            String strSql = "SELECT vw_supervisor_assignment.region_name AS supervisor_region_name,\n" +
-"  vw_supervisor_assignment.region_id        AS supervisor_region_id,\n" +
-"  vw_supervisor_assignment.gov_region_name  AS supervisor_govern_name,\n" +
-"  vw_supervisor_assignment.city_region_name AS supervisor_city_name,\n" +
-"  supervisor_detail.user_full_name          AS supervisor_name,\n" +
-"  supervisor.dcm_user_id                    AS supervisor_id,\n" +
-"  supervisor.user_level_type_id             AS manag_level_type_id,\n" +
-"  vw_sales_rep_assignment.salesrep_name     AS Salesrep_Name,\n" +
-"  vw_sales_rep_assignment.salesrep_id,\n" +
-"  vw_sales_rep_assignment.SALESREP_DISTRICT_ID,\n" +
-"  vw_sales_rep_assignment.district_region_name AS district_name,\n" +
-"  dcm_pos_detail.pos_code,\n" +
-"  dcm_pos_detail.pos_area_id,\n" +
-"  dcm_pos_detail.DISTRICT_CODE,\n" +
-"  dcm_pos_detail.pos_name,\n" +
+            String strSql = "SELECT gen_dcm.channel_id AS channel_code,\n" +
+"  gen_dcm.dcm_code        AS pos_code,\n" +
+"  gen_dcm.dcm_name        AS pos_english_name,\n" +
 "  dcm_pos_detail.pos_arabic_name,\n" +
-"  dcm_pos_detail.pos_address,\n" +
-"  dcm_pos_detail.POS_DOC_NUM,\n" +
-"  dcm_pos_detail.DCM_LEVEL_ID,\n" +
-"  dcm_pos_detail.survey_date AS Entry_DATE,\n" +
-"  dcm_pos_detail.POS_ARABIC_ADDRESS,\n" +
-"  dcm_pos_detail.DOC_LOCATION,\n" +
-"  dcm_pos_detail.SURVEY_ID,\n" +
-"  dcm_pos_detail.IS_LEVEL_ONE    AS L1,\n" +
-"  dcm_pos_detail.IS_EXCLUSIVE    AS EX,\n" +
-"  dcm_pos_detail.IS_QUALITY_CLUB AS QC ,\n" +
-"  dcm_pos_detail.HAS_SIGN        AS SIGN,\n" +
-"  gen_dcm.channel_id,\n" +
 "  dcm_pos_owner.pos_owner_name,\n" +
 "  dcm_pos_owner.pos_owner_id_number,\n" +
-"  dcm_pos_owner.pos_owner_id_type_id,\n" +
-"  dcm_region.region_name AS area_name,\n" +
-"  dcm_pos_status_type.pos_status_type_name,\n" +
+"  dcm_id_type.id_type_name,\n" +
+"  dcm_region.region_name,\n" +
+"  city.region_name as city_name,\n" +
+"  govern.region_name as govern_name,\n" +
+"  dcm_pos_detail.district_code,\n" +
+"  district.region_name as district_name,\n" +
+"  area.region_code as area_code,\n" +
+"  area.region_name as area_name,\n" +
+"  dcm_pos_detail.pos_address,\n" +
+"  dcm_pos_detail.pos_doc_num,\n" +
+"  pos_documents.posdocuments,\n" +
+"  pos_documents.assign_date,\n" +
+"  gen_dcm_status.dcm_status_name as pos_status,\n" +
 "  dcm_pos_owner_phone.pos_owner_phone_number,\n" +
-"  pos_documents.PosDocuments,\n" +
-"  pos_documents.StkDialNo,\n" +
-"  pos_documents.stkActvDt,\n" +
-"  pos_documents.IqrarRcvDt,\n" +
-"  pos_documents.STKVRFCAT_VANTIFCASEIDNO,\n" +
-"  scm_iqrar_receving_status.name AS iqrar_rcv_status,\n" +
-"  scm_stk_status.name            AS stk_status,\n" +
-"  scm_verified_status.name       AS verified_status,\n" +
-"  gen_dcm_payment_level.DCM_PAYMENT_LEVEL_NAME,\n" +
-"  CAM_PAYMENT_cam_state.cam_status_for_payment AS payment_status\n" +
-"FROM dcm_pos_detail,\n" +
-"  gen_dcm,\n" +
-"  pos_documents,\n" +
+"  gen_dcm_level.dcm_level_id as pos_level_code,\n" +
+"  scm_supervisor.supervisor_name,\n" +
+"  scm_teamleader.teamleader_name,\n" +
+"  scm_salesrep.salesrep_name,\n" +
+"  gen_dcm.stk_number,\n" +
+"  scm_stk_status.name as stk_status,\n" +
+"  pos_documents.stkactvdt as stk_activation_date,\n" +
+"  pos_documents.iqrarrcvdt as iqrar_received_date,\n" +
+"  CAM_PAYMENT_cam_state.cam_status_for_payment as payment_status,\n" +
+"  gen_dcm_payment_level.dcm_payment_level_name as payment_level,\n" +
+"  dcm_pos_detail.pos_arabic_address,\n" +
+"  scm_iqrar_receving_status.name as is_iqrar_received,\n" +
+"  scm_verified_status.name as is_verified,\n" +
+"  dcm_pos_detail.doc_location,\n" +
+"  dcm_pos_detail.survey_id,\n" +
+"  dcm_pos_detail.is_level_one as L1,\n" +
+"  dcm_pos_detail.is_exclusive as Ex,\n" +
+"  dcm_pos_detail.has_sign as Sign,\n" +
+"  dcm_pos_detail.is_quality_club as Qc\n" +
+"FROM gen_dcm,\n" +
+"  dcm_pos_detail,\n" +
 "  dcm_pos_owner,\n" +
-"  gen_dcm_payment_level,\n" +
+"  dcm_id_type,\n" +
+"  dcm_region,\n" +
+"  dcm_region city,\n" +
+"  dcm_region govern,\n" +
+"  dcm_region district,\n" +
+"  dcm_region area,\n" +
+"  pos_documents,\n" +
+"  gen_dcm_status,\n" +
 "  dcm_pos_owner_phone,\n" +
-"  scm_stk_owner,\n" +
+"  gen_dcm_level,\n" +
+"  scm_supervisor,\n" +
+"  scm_teamleader,\n" +
+"  scm_salesrep,\n" +
+"  scm_stk_status,\n" +
 "  CAM_PAYMENT_SCM_STATUS,\n" +
 "  CAM_PAYMENT_cam_state,\n" +
-"  dcm_pos_status_type,\n" +
-"  dcm_region,\n" +
+"  gen_dcm_payment_level,\n" +
+"  scm_stk_owner,\n" +
 "  scm_iqrar_receving_status,\n" +
-"  scm_stk_status,\n" +
-"  scm_verified_status,\n" +
-"  vw_sales_rep_assignment,\n" +
-"  vw_supervisor_assignment,\n" +
-"  dcm_user,\n" +
-"  dcm_user_detail,\n" +
-"  dcm_user supervisor,\n" +
-"  dcm_user_detail supervisor_detail\n" +
-"WHERE dcm_pos_detail.pos_code                    = gen_dcm.dcm_code\n" +
-"AND dcm_pos_detail.pos_code                      = pos_documents.code(+)\n" +
-"AND dcm_pos_detail.pos_detail_id                 = dcm_pos_owner.pos_detail_id(+)\n" +
-"AND gen_dcm.DCM_PAYMENT_LEVEL_ID                 = gen_dcm_payment_level.DCM_PAYMENT_LEVEL_ID\n" +
-"AND dcm_pos_owner.pos_owner_id                   = dcm_pos_owner_phone.pos_owner_id (+)\n" +
-"AND gen_dcm.DCM_ID                               = scm_stk_owner.DCM_ID (+)\n" +
-"AND gen_dcm.DCM_ID                               = CAM_PAYMENT_SCM_STATUS.scm_id (+)\n" +
-"AND CAM_PAYMENT_SCM_STATUS.payment_cam_state_id  = CAM_PAYMENT_cam_state.id\n" +
-"AND dcm_pos_detail.POS_STATUS_TYPE_ID            = dcm_pos_status_type.POS_STATUS_TYPE_ID (+)\n" +
-"AND scm_stk_owner.IQRAR_RECEVING_STATUS_ID       = scm_iqrar_receving_status.iqrar_receving_status_id (+)\n" +
-"AND scm_stk_owner.STK_STATUS_ID                  = scm_stk_status.stk_status_id (+)\n" +
-"AND scm_stk_owner.DCM_VERIFIED_STATUS_ID         = scm_verified_status.dcm_verified_status_id (+)\n" +
-"AND gen_dcm.channel_id                           = 1\n" +
-"AND dcm_pos_detail.flage                        IS NULL\n" +
-"AND dcm_pos_detail.pos_area_id                   = dcm_region.region_id (+)\n" +
-"AND dcm_region.parent_REGION_ID                  = vw_sales_rep_assignment.SALESREP_DISTRICT_ID\n" +
-"AND vw_sales_rep_assignment.SALESREP_DISTRICT_ID = vw_supervisor_assignment.DISTRICT_REGION_ID\n" +
-"AND LOWER(vw_supervisor_assignment.region_name) LIKE LOWER('%"+regionName+"%')\n" +
-"AND vw_sales_rep_assignment.salesrep_id = dcm_user.dcm_user_id\n" +
-"AND dcm_user_detail.user_detail_id      = dcm_user.user_detail_id\n" +
-"AND dcm_user.manager_dcm_user_id        = supervisor.dcm_user_id\n" +
-"AND supervisor_detail.user_detail_id    = supervisor.user_detail_id\n" +
-"ORDER BY salesrep_district_id ASC";
+"  scm_verified_status\n" +
+"WHERE gen_dcm.dcm_id            = dcm_pos_detail.pos_id\n" +
+"AND gen_dcm.dcm_code            = dcm_pos_detail.pos_code\n" +
+"AND dcm_pos_owner.pos_detail_id = dcm_pos_detail.pos_detail_id\n" +
+"AND dcm_pos_owner.pos_owner_id_type_id = dcm_id_type.id_type_id\n" +
+"AND dcm_region.region_id = dcm_pos_detail.region_id\n" +
+"AND city.region_id = dcm_pos_detail.pos_city_id\n" +
+"AND govern.region_id = dcm_pos_detail.pos_governrate\n" +
+"AND district.region_id = dcm_pos_detail.pos_district_id\n" +
+"AND area.region_id = dcm_pos_detail.pos_area_id\n" +
+"AND pos_documents.code = dcm_pos_detail.pos_code\n" +
+"AND gen_dcm_status.dcm_status_id = dcm_pos_detail.pos_status_type_id\n" +
+"AND dcm_pos_owner.pos_owner_id = dcm_pos_owner_phone.pos_owner_id\n" +
+"AND gen_dcm_level.dcm_level_id = dcm_pos_detail.DCM_LEVEL_ID\n" +
+"AND scm_supervisor.supervisor_id = dcm_pos_detail.supervisor_id\n" +
+"AND scm_teamleader.teamleader_id = dcm_pos_detail.teamleader_id\n" +
+"AND scm_salesrep.salesrep_id = dcm_pos_detail.salesrep_id\n" +
+"AND scm_stk_status.stk_status_id = CAM_PAYMENT_SCM_STATUS.stk_status\n" +
+"AND CAM_PAYMENT_SCM_STATUS.scm_id = gen_dcm.dcm_id\n" +
+"AND CAM_PAYMENT_cam_state.id = CAM_PAYMENT_SCM_STATUS.PAYMENT_cam_state_id\n" +
+"AND gen_dcm_payment_level.dcm_payment_level_id = dcm_pos_detail.dcm_payment_level_id\n" +
+"AND scm_iqrar_receving_status.iqrar_receving_status_id = scm_stk_owner.iqrar_receving_status_id\n" +
+"AND scm_verified_status.dcm_verified_status_id = scm_stk_owner.dcm_verified_status_id\n" +
+"AND scm_stk_owner.dcm_id = dcm_pos_detail.pos_id\n" +
+"\n" +
+"AND dcm_pos_detail.flage       IS NULL";
             
             System.out.println("SQL ^^^ : \n"+ strSql);
             ResultSet res = stat.executeQuery(strSql);
             while (res.next()) {
                
-                vec.add(new RegionPOSReportModel(res,supervisorName,teamleaderName));
+                vec.add(new RegionPOSReportModel(res/*,supervisorName,teamleaderName*/));
                 }
             res.close();
             stat2.close();

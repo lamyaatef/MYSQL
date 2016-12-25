@@ -74,7 +74,7 @@ public class SupervisorImporter {
         }
     }
 
-    public SupervisorImporter (String fileDate,Long fileID , String filePath , int minColumns)
+    public SupervisorImporter (String userId,String fileDate,Long fileID , String filePath , int minColumns)
     {
         System.out.println("file path : "+filePath);
         int updateOn=-1;
@@ -138,7 +138,7 @@ public class SupervisorImporter {
                            
                             if (v1 == null) 
                                 v1 = "";
-                            SupervisorFileDAO.insertSupervisorData(con, stat,lineFields,fileID,sellerIndx,statusIndx,count/*,fileDate,updateOn*/);
+                            SupervisorFileDAO.insertSupervisorData(con, stat,userId,lineFields,fileID,sellerIndx,statusIndx,count/*,fileDate,updateOn*/);
                             System.out.println("^^^^^^^^^^end^^^^^^^^^");
                            
                            }  
