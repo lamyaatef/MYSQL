@@ -123,58 +123,67 @@ public class TeamleaderFileDAO{
   }
     
     
-    public static void insertTeamleaderData(Connection con, Statement stat,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
+    public static void insertTeamleaderData(Connection con, Statement stat,String userId,boolean isemptyField,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
         //System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
         String strSql = "";
+        String strUserSql = "";
+        String strUserDetailSql = "";
         System.out.println("insertTeamleaderData : go to record no. "+count);
                             
         try {
         for (int i=0; i<lineFields.length;i++)
         {
+           /* if(isemptyField)
+                concatFields +="' '" + ",";*/
             concatFields += "'"+lineFields[i]+"'"+",";
-           /* if (i==sellerIndex) 
-            {
-                if(lineFields[i].contains("M"))
-                
-                    concatFields += "'"+lineFields[i].substring(lineFields[i].indexOf("M")+1)+"'"+",";
-                
-                else concatFields += "'"+lineFields[i]+"'"+",";
-            }
-            // if not VALID, return
-            if (i==statusIndex) 
-            {
-                //if(lineFields[i].compareToIgnoreCase("INVALID")==0 || lineFields[i].compareToIgnoreCase("CREATING")==0 || lineFields[i].compareToIgnoreCase("CREATED")==0 || lineFields[i].compareToIgnoreCase("PROGRESS")==0 || lineFields[i].compareToIgnoreCase("UPLOADING")==0 || lineFields[i].compareToIgnoreCase("VALID_PENDING_VERIFICATION")==0)
-                if(lineFields[i].compareToIgnoreCase("VALID")!=0)
-                    return;
-                    
-            }
-            if (i!=sellerIndex)
-            //check if String is a Date HH24.MI.SSXFF 
-            {
-                
-                if(isValidDate(lineFields[i]))
-                {
-                    //System.out.println("is DATE TRUE");
-                    concatFields += "to_date('"+lineFields[i]+"', 'YYYY-MM-DD HH24:MI:SS')"+",";
-                }
-            
-            
-                else concatFields += "'"+lineFields[i]+"'"+",";
-            }*/
            
         }
         
         concatFields = concatFields.substring(0, concatFields.length()-1);
+        System.out.println("Line Text Concatenated: "+concatFields);
+        
+        Long teamId = Utility.getSequenceNextVal(con, "SEQ_SCM_TEAMLEADER_ID");
+        
+        
+        String sqlCheckDcmId = "select * from dcm_user where dcm_user_id = "+teamId;
+        ResultSet rs = stat.executeQuery(sqlCheckDcmId);
+        
+        if(rs.next())
+        {
+            /*strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values((select max(dcm_user_id)+1 from dcm_user),"+userId+",5,"+teamDetailId+",1,5)";
             
+            String strLastId = "select dcm_user_id from dcm_user order by dcm_user_id desc";
+            ResultSet rsLast = stat.executeQuery(strLastId);
+            if(rsLast.next())
+                teamId = rsLast.getLong("dcm_user_id");*/
+            strUserSql = "update dcm_user set user_id="+userId+",user_level_type_id=5,user_status_type_id=1,user_level_id=5 where dcm_user_id="+teamId;
+            System.out.println("query2 "+strUserSql);
+            strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=sysdate where user_id="+teamId;
+            System.out.println("query3 "+strUserDetailSql);
+            stat.execute(strUserSql);
+            stat.execute(strUserDetailSql);
+        } 
+            
+        else
+        {
+            Long teamDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+            strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+teamId+","+userId+",5,"+teamDetailId+",1,5)";
+            System.out.println("query2 "+strUserSql);
+            strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+teamDetailId+","+teamId+","+userId+","+concatFields+",sysdate)";
+            System.out.println("query3 "+strUserDetailSql);
+            stat.execute(strUserSql);
+            stat.execute(strUserDetailSql);
+        }
         
+        strSql = "insert into SCM_TEAMLEADER ( TEAMLEADER_ID, TEAMLEADER_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+teamId+","+concatFields+",sysdate)";
+        System.out.println("query1 "+strSql);
+        stat.execute(strSql);
         
-        System.out.println("Line text : "+concatFields);
-           strSql = "insert into SCM_TEAMLEADER ( TEAMLEADER_ID, TEAMLEADER_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values (SEQ_SCM_TEAMLEADER_ID.nextval,"+concatFields+",sysdate)";
-            System.out.println("query "+strSql);
-            stat.execute(strSql);
            
-            System.out.println("............INSERTED........"+count);
+           
+           
+           System.out.println("............INSERTED........"+count);
 
         } catch (Exception e) {
             

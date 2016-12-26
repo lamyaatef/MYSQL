@@ -123,7 +123,7 @@ public class SupervisorFileDAO{
   }
     
     
-    public static void insertSupervisorData(Connection con, Statement stat,String userId,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
+    public static void insertSupervisorData(Connection con, Statement stat,String userId,boolean isemptyField,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
         //System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
         String strSql = "";
@@ -135,73 +135,52 @@ public class SupervisorFileDAO{
         for (int i=0; i<lineFields.length;i++)
         {
             concatFields += "'"+lineFields[i]+"'"+",";
-           /* if (i==sellerIndex) 
-            {
-                if(lineFields[i].contains("M"))
-                
-                    concatFields += "'"+lineFields[i].substring(lineFields[i].indexOf("M")+1)+"'"+",";
-                
-                else concatFields += "'"+lineFields[i]+"'"+",";
-            }
-            // if not VALID, return
-            if (i==statusIndex) 
-            {
-                //if(lineFields[i].compareToIgnoreCase("INVALID")==0 || lineFields[i].compareToIgnoreCase("CREATING")==0 || lineFields[i].compareToIgnoreCase("CREATED")==0 || lineFields[i].compareToIgnoreCase("PROGRESS")==0 || lineFields[i].compareToIgnoreCase("UPLOADING")==0 || lineFields[i].compareToIgnoreCase("VALID_PENDING_VERIFICATION")==0)
-                if(lineFields[i].compareToIgnoreCase("VALID")!=0)
-                    return;
-                    
-            }
-            if (i!=sellerIndex)
-            //check if String is a Date HH24.MI.SSXFF 
-            {
-                
-                if(isValidDate(lineFields[i]))
-                {
-                    //System.out.println("is DATE TRUE");
-                    concatFields += "to_date('"+lineFields[i]+"', 'YYYY-MM-DD HH24:MI:SS')"+",";
-                }
-            
-            
-                else concatFields += "'"+lineFields[i]+"'"+",";
-            }*/
+            /*if(isemptyField)
+                concatFields +="' '" + ",";
+            concatFields += "'"+lineFields[i]+"'"+",";*/
            
         }
         
         concatFields = concatFields.substring(0, concatFields.length()-1);
+        System.out.println("Line Text Concatenated: "+concatFields);
             
         
         Long supId = Utility.getSequenceNextVal(con, "SEQ_SCM_SUPERVISOR_ID");
-        Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+        
         
         String sqlCheckDcmId = "select * from dcm_user where dcm_user_id = "+supId;
         ResultSet rs = stat.executeQuery(sqlCheckDcmId);
         
         if(rs.next())
         {
-            strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values((select max(dcm_user_id)+1 from dcm_user),"+userId+",4,"+supDetailId+",1,4)";
+            /*strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values((select max(dcm_user_id)+1 from dcm_user),"+userId+",4,"+supDetailId+",1,4)";
             
             String strLastId = "select dcm_user_id from dcm_user order by dcm_user_id desc";
             ResultSet rsLast = stat.executeQuery(strLastId);
             if(rsLast.next())
-                supId = rsLast.getLong("dcm_user_id");
+                supId = rsLast.getLong("dcm_user_id");*/
+            strUserSql = "update dcm_user set user_id="+userId+",user_level_type_id=4,user_status_type_id=1,user_level_id=4 where dcm_user_id="+supId;
+            System.out.println("query2 "+strUserSql);
+            strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=sysdate where user_id="+supId;
+            System.out.println("query3 "+strUserDetailSql);
+            stat.execute(strUserSql);
+            stat.execute(strUserDetailSql);
         } 
             
         else
-           strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+supId+","+userId+",4,"+supDetailId+",1,4)";
-        
-        
-        
-           strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+supId+","+concatFields+",sysdate)"; 
-           strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+supDetailId+","+supId+","+userId+","+concatFields+",sysdate)";
-           
-           System.out.println("Line text : "+concatFields);
-           System.out.println("query1 "+strSql);
-           System.out.println("query2 "+strUserSql);
-           System.out.println("query3 "+strUserDetailSql);
-           
-           stat.execute(strSql);
-           stat.execute(strUserSql);
-           stat.execute(strUserDetailSql);
+        {
+            Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+            strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+supId+","+userId+",4,"+supDetailId+",1,4)";
+            System.out.println("query2 "+strUserSql);
+            strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+supDetailId+","+supId+","+userId+","+concatFields+",sysdate)";
+            System.out.println("query3 "+strUserDetailSql);
+            stat.execute(strUserSql);
+            stat.execute(strUserDetailSql);
+        }
+        strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+supId+","+concatFields+",sysdate)"; 
+        System.out.println("query1 "+strSql);
+        stat.execute(strSql);   
+         
             System.out.println("............INSERTED........"+count);
 
         } catch (Exception e) {

@@ -78,6 +78,7 @@ public class SupervisorImporter {
     {
         System.out.println("file path : "+filePath);
         int updateOn=-1;
+        boolean isemptyField= false;
         int sellerIndx = -1;
         int statusIndx = -1;
         this.fileID = fileID;
@@ -134,11 +135,14 @@ public class SupervisorImporter {
                            System.out.println("LINE  %%%% "+lineFields);
                             if(lineFields!=null)
                            {
+                               isemptyField = false;
+                               if(lineFields.length<3)
+                                   continue;//isemptyField = true;
                             System.out.println("LINE not null %%%% "+lineFields);
                            
                             if (v1 == null) 
                                 v1 = "";
-                            SupervisorFileDAO.insertSupervisorData(con, stat,userId,lineFields,fileID,sellerIndx,statusIndx,count/*,fileDate,updateOn*/);
+                            SupervisorFileDAO.insertSupervisorData(con, stat,userId,isemptyField,lineFields,fileID,sellerIndx,statusIndx,count/*,fileDate,updateOn*/);
                             System.out.println("^^^^^^^^^^end^^^^^^^^^");
                            
                            }  

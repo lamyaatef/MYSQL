@@ -75,12 +75,13 @@ public class TeamleaderImporter {
         }
     }
 
-    public TeamleaderImporter (String fileDate,Long fileID , String filePath , int minColumns)
+    public TeamleaderImporter (String userId,String fileDate,Long fileID , String filePath , int minColumns)
     {
         System.out.println("file path : "+filePath);
         int updateOn=-1;
         int sellerIndx = -1;
         int statusIndx = -1;
+        boolean isemptyField= false;
         this.fileID = fileID;
         this.filePath = filePath;
         this.minColumns = minColumns;
@@ -135,11 +136,14 @@ public class TeamleaderImporter {
                            System.out.println("LINE  %%%% "+lineFields);
                             if(lineFields!=null)
                            {
+                               isemptyField = false;
+                               if(lineFields.length<3)
+                                   continue;//isemptyField = true;
                             System.out.println("LINE not null %%%% "+lineFields);
                            
                             if (v1 == null) 
                                 v1 = "";
-                            TeamleaderFileDAO.insertTeamleaderData(con, stat,lineFields,fileID,sellerIndx,statusIndx,count/*,fileDate,updateOn*/);
+                            TeamleaderFileDAO.insertTeamleaderData(con, stat,userId,isemptyField,lineFields,fileID,sellerIndx,statusIndx,count/*,fileDate,updateOn*/);
                             System.out.println("^^^^^^^^^^end^^^^^^^^^");
                            
                            }  

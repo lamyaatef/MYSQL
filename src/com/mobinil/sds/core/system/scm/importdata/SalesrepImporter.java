@@ -76,7 +76,7 @@ public class SalesrepImporter {
         }
     }
 
-    public SalesrepImporter (String fileDate,Long fileID , String filePath , int minColumns)
+    public SalesrepImporter (String userId,String fileDate,Long fileID , String filePath , int minColumns)
     {
         System.out.println("file path : "+filePath);
         int updateOn=-1;
@@ -139,12 +139,12 @@ public class SalesrepImporter {
                            {
                                isemptyField = false;
                                if(lineFields.length<2)
-                                   isemptyField = true;
+                                   continue;//isemptyField = true;
                             System.out.println("LINE not null %%%% "+lineFields);
                            
                             if (v1 == null) 
                                 v1 = "";
-                            SalesrepFileDAO.insertSalesrepData(con, stat,lineFields,isemptyField,count/*,fileDate,updateOn*/);
+                            SalesrepFileDAO.insertSalesrepData(con, stat,userId,lineFields,isemptyField,count/*,fileDate,updateOn*/);
                             System.out.println("^^^^^^^^^^end^^^^^^^^^");
                            
                            }  

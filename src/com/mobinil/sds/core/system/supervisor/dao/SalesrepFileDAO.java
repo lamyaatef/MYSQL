@@ -123,27 +123,66 @@ public class SalesrepFileDAO{
   }
     
     
-    public static void insertSalesrepData(Connection con, Statement stat,String[] lineFields,boolean isemptyField,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
+    public static void insertSalesrepData(Connection con, Statement stat,String userId,String[] lineFields,boolean isemptyField,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
         //System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
         String strSql = "";
+        String strUserSql = "";
+        String strUserDetailSql = "";
         System.out.println("insertSalesrepData : go to record no. "+count);
                             
         try {
         for (int i=0; i<lineFields.length;i++)
         {
-            if(isemptyField)
+            System.out.println("linefield["+i+"] is "+lineFields[i]);
+           /* if(isemptyField)
+            {
+                //lineFields[i]=" ";
                 concatFields +="' '" + ",";
+                //concatFields +="'"+lineFields[i]+"'"+ ",";
+            }*/
             concatFields += "'"+lineFields[i]+"'"+",";
            
         }
         
         concatFields = concatFields.substring(0, concatFields.length()-1);
-        System.out.println("Line text : "+concatFields);
-        if(isemptyField)   
-            strSql = "insert into SCM_SALESREP ( SALESREP_ID, MOBILE, SALESREP_NAME, CREATION_TIMESTAMP) values (SEQ_SCM_SALESREP_ID.nextval,"+concatFields+",sysdate)";
+        System.out.println("Line Text Concatenated: "+concatFields);
+        
+        Long repId = Utility.getSequenceNextVal(con, "SEQ_SCM_SALESREP_ID");
+        String sqlCheckDcmId = "select * from dcm_user where dcm_user_id = "+repId;
+        ResultSet rs = stat.executeQuery(sqlCheckDcmId);
+        
+        if(rs.next())
+        {
+            
+            strUserSql = "update dcm_user set user_id="+userId+",user_level_type_id=6,user_status_type_id=1,user_level_id=6 where dcm_user_id="+repId;
+            System.out.println("query2 "+strUserSql);
+            strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_mobile='"+lineFields[1]+"',CREATION_TIMESTAMP=sysdate where user_id="+repId;
+            System.out.println("query3 "+strUserDetailSql);
+            stat.execute(strUserSql);
+            stat.execute(strUserDetailSql);
+        } 
+            
         else
-            strSql = "insert into SCM_SALESREP ( SALESREP_ID, SALESREP_NAME, MOBILE, CREATION_TIMESTAMP) values (SEQ_SCM_SALESREP_ID.nextval,"+concatFields+",sysdate)";
+        {
+            Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+            strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+repId+","+userId+",6,"+repDetailId+",1,6)";
+            System.out.println("query2 "+strUserSql);
+            strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_mobile,CREATION_TIMESTAMP) values("+repDetailId+","+repId+","+userId+","+concatFields+",sysdate)";
+            System.out.println("query3 "+strUserDetailSql);
+            stat.execute(strUserSql);
+            stat.execute(strUserDetailSql);
+        }
+        
+        
+        
+        
+        
+        
+        if(isemptyField)   
+            strSql = "insert into SCM_SALESREP ( SALESREP_ID, MOBILE, SALESREP_NAME, CREATION_TIMESTAMP) values ("+repId+","+concatFields+",sysdate)";
+        else
+            strSql = "insert into SCM_SALESREP ( SALESREP_ID, SALESREP_NAME, MOBILE, CREATION_TIMESTAMP) values ("+repId+","+concatFields+",sysdate)";
         
         System.out.println("query "+strSql);
         stat.execute(strSql);

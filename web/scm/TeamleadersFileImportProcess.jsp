@@ -29,6 +29,7 @@
 <%
     
 String appName = request.getContextPath();
+String userId = request.getParameter("userId");
 DiskFileUpload upload = new DiskFileUpload();
 List items = upload.parseRequest(request);
 String fileUniqueName ="";
@@ -120,7 +121,7 @@ dataHashMap.put(AdministrationInterfaceKey.TEXT_NOMAD_FILE_NAME,fileNameOnClient
 printToStream("DataImportEngine ", out);
 System.out.println("-> import Teamleaders Sheet");
 
-TeamleaderImporter teamImporterObj = new TeamleaderImporter(fileDateStr, new Long(0), baseDirectory+fileUniqueName , 12);
+TeamleaderImporter teamImporterObj = new TeamleaderImporter(userId,fileDateStr, new Long(0), baseDirectory+fileUniqueName , 12);
   teamImporterObj.clean();
 
 

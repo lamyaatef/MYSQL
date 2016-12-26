@@ -100,7 +100,7 @@ public class RepManagementDAO {
             sqlSearch+=" REGION_ID IN("+regionId+areasIdString+")";
 
         }
-
+        
         sqlStatement="SELECT * from"
             +"("
             +"SELECT x.*, ROWNUM as row_num FROM "
@@ -112,10 +112,27 @@ public class RepManagementDAO {
             +"		DCM_USER.DCM_USER_ID=DCM_USER_DETAIL.USER_ID AND "
             +"		DCM_USER.USER_LEVEL_TYPE_ID=DCM_USER_LEVEL_TYPE.USER_LEVEL_TYPE_ID AND "
             +"		DCM_USER.USER_STATUS_TYPE_ID=1 AND DCM_USER.REGION_ID=DCM_REGION.REGION_ID "
-            +"		AND DCM_USER.USER_LEVEL_TYPE_ID IN(3,4,5) "
+            +"		AND DCM_USER.USER_LEVEL_TYPE_ID IN(3,4,5,6) "
             +"	) x"
             +" "+sqlSearch +"   "
-            +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";//ROWNUM
+            +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";
+//ROWNUM
+       /* sqlStatement="SELECT * from"
+            +"("
+            +"SELECT x.*, ROWNUM as row_num FROM "
+            +"	(SELECT DCM_USER.DCM_USER_ID, DCM_USER.USER_ID, DCM_USER.USER_LEVEL_TYPE_ID,"
+            +"		DCM_USER_DETAIL.USER_FULL_NAME, SCM_USER_REGION.REGION_ID, DCM_REGION.REGION_NAME,"
+            +"		DCM_USER_LEVEL_TYPE.USER_LEVEL_TYPE_NAME, DCM_USER_DETAIL.CREATION_TIMESTAMP "
+            +"	FROM  DCM_USER,DCM_USER_DETAIL,DCM_REGION,DCM_USER_LEVEL_TYPE,SCM_USER_REGION "
+            +"	WHERE "
+            +"		DCM_USER.DCM_USER_ID=DCM_USER_DETAIL.USER_ID AND "
+            +"		DCM_USER.USER_LEVEL_TYPE_ID=DCM_USER_LEVEL_TYPE.USER_LEVEL_TYPE_ID AND "
+            +"		DCM_USER.USER_STATUS_TYPE_ID=1 AND SCM_USER_REGION.REGION_ID=DCM_REGION.REGION_ID "
+            +"		AND SCM_USER_REGION.USER_ID=DCM_USER.DCM_USER_ID "
+            +"		AND DCM_USER.USER_LEVEL_TYPE_ID IN(3,4,5,6) "
+            +"	) x"
+            +" "+sqlSearch +"   "
+            +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";*/
         System.out.println("Search Rep Query : "+sqlStatement);
         dcmUser= DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class, "fillForRepManagementSearch", con);
 

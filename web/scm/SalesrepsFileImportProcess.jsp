@@ -30,6 +30,7 @@
 <%
     
 String appName = request.getContextPath();
+String userId = request.getParameter("userId");
 DiskFileUpload upload = new DiskFileUpload();
 List items = upload.parseRequest(request);
 String fileUniqueName ="";
@@ -121,11 +122,11 @@ dataHashMap.put(AdministrationInterfaceKey.TEXT_NOMAD_FILE_NAME,fileNameOnClient
 printToStream("DataImportEngine ", out);
 System.out.println("-> import Teamleaders Sheet");
 
-SalesrepImporter repImporterObj = new SalesrepImporter(fileDateStr, new Long(0), baseDirectory+fileUniqueName , 12);
+SalesrepImporter repImporterObj = new SalesrepImporter(userId,fileDateStr, new Long(0), baseDirectory+fileUniqueName , 12);
   repImporterObj.clean();
 
 
-out.println("Teaml Leaders Data Upload Was Completed");
+out.println("Sales Reps Data Upload Was Completed");
   printToStream("<h3>",out);
   printToStream("Number of records inserted " + repImporterObj.getNumberOfRowsInserted(),out);
   printToStream("</h3>",out);
