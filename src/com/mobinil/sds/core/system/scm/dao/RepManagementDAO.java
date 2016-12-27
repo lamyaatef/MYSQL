@@ -101,7 +101,7 @@ public class RepManagementDAO {
 
         }
         
-        sqlStatement="SELECT * from"
+        /*sqlStatement="SELECT * from"
             +"("
             +"SELECT x.*, ROWNUM as row_num FROM "
             +"	(SELECT DCM_USER.DCM_USER_ID, DCM_USER.USER_ID, DCM_USER.USER_LEVEL_TYPE_ID,"
@@ -115,24 +115,34 @@ public class RepManagementDAO {
             +"		AND DCM_USER.USER_LEVEL_TYPE_ID IN(3,4,5,6) "
             +"	) x"
             +" "+sqlSearch +"   "
-            +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";
+            +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";*/
 //ROWNUM
-       /* sqlStatement="SELECT * from"
+        sqlStatement="SELECT * from"
             +"("
             +"SELECT x.*, ROWNUM as row_num FROM "
-            +"	(SELECT DCM_USER.DCM_USER_ID, DCM_USER.USER_ID, DCM_USER.USER_LEVEL_TYPE_ID,"
-            +"		DCM_USER_DETAIL.USER_FULL_NAME, SCM_USER_REGION.REGION_ID, DCM_REGION.REGION_NAME,"
-            +"		DCM_USER_LEVEL_TYPE.USER_LEVEL_TYPE_NAME, DCM_USER_DETAIL.CREATION_TIMESTAMP "
-            +"	FROM  DCM_USER,DCM_USER_DETAIL,DCM_REGION,DCM_USER_LEVEL_TYPE,SCM_USER_REGION "
-            +"	WHERE "
-            +"		DCM_USER.DCM_USER_ID=DCM_USER_DETAIL.USER_ID AND "
-            +"		DCM_USER.USER_LEVEL_TYPE_ID=DCM_USER_LEVEL_TYPE.USER_LEVEL_TYPE_ID AND "
-            +"		DCM_USER.USER_STATUS_TYPE_ID=1 AND SCM_USER_REGION.REGION_ID=DCM_REGION.REGION_ID "
-            +"		AND SCM_USER_REGION.USER_ID=DCM_USER.DCM_USER_ID "
-            +"		AND DCM_USER.USER_LEVEL_TYPE_ID IN(3,4,5,6) "
-            +"	) x"
+            +"	(SELECT \n" +
+"      scm_user_region.USER_ID,\n" +
+"      scm_user_region.USER_LEVEL_TYPE_ID,\n" +
+"      DCM_USER_DETAIL.USER_FULL_NAME,\n" +
+"      scm_user_region.REGION_ID,\n" +
+"      DCM_REGION.REGION_NAME,\n" +
+"      DCM_USER_LEVEL_TYPE.USER_LEVEL_TYPE_NAME,\n" +
+"      DCM_USER_DETAIL.CREATION_TIMESTAMP\n" +
+"    FROM \n" +
+"      DCM_USER_DETAIL,\n" +
+"      DCM_REGION,\n" +
+"      DCM_USER_LEVEL_TYPE,\n" +
+"      scm_user_region\n" +
+"    WHERE --DCM_USER.DCM_USER_ID       =DCM_USER_DETAIL.USER_ID\n" +
+"    --AND DCM_USER.USER_LEVEL_TYPE_ID  =DCM_USER_LEVEL_TYPE.USER_LEVEL_TYPE_ID\n" +
+"    scm_user_region.USER_LEVEL_TYPE_ID  =DCM_USER_LEVEL_TYPE.USER_LEVEL_TYPE_ID\n" +
+"    --AND DCM_USER.USER_STATUS_TYPE_ID =1\n" +
+"    --AND DCM_USER.REGION_ID           =DCM_REGION.REGION_ID\n" +
+"    AND scm_user_region.REGION_ID           =DCM_REGION.REGION_ID\n" +
+"    AND scm_user_region.user_ID           =DCM_USER_DETAIL.USER_ID\n" +
+"    AND scm_user_region.USER_LEVEL_TYPE_ID IN(3,4,5,6)) x"
             +" "+sqlSearch +"   "
-            +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";*/
+            +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";
         System.out.println("Search Rep Query : "+sqlStatement);
         dcmUser= DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class, "fillForRepManagementSearch", con);
 

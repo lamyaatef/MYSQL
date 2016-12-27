@@ -157,10 +157,22 @@ public class SalesrepFileDAO{
             
             strUserSql = "update dcm_user set user_id="+userId+",user_level_type_id=6,user_status_type_id=1,user_level_id=6 where dcm_user_id="+repId;
             System.out.println("query2 "+strUserSql);
-            strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_mobile='"+lineFields[1]+"',CREATION_TIMESTAMP=sysdate where user_id="+repId;
-            System.out.println("query3 "+strUserDetailSql);
-            stat.execute(strUserSql);
-            stat.execute(strUserDetailSql);
+            
+            String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id = "+repId;
+            ResultSet rs2 = stat.executeQuery(sqlCheckDcmDetailId);
+            if(rs2.next())
+            {
+                strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_mobile='"+lineFields[1]+"',CREATION_TIMESTAMP=sysdate where user_id="+repId;
+                System.out.println("query3 inner "+strUserDetailSql);
+                stat.execute(strUserDetailSql);
+            }
+            else
+            {
+                Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+                strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_mobile,CREATION_TIMESTAMP) values("+repDetailId+","+repId+","+userId+","+concatFields+",sysdate)";
+                System.out.println("query3 inner "+strUserDetailSql);
+                stat.execute(strUserDetailSql);
+            }
         } 
             
         else

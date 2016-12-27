@@ -216,7 +216,7 @@ public class CommercialFileDAO{
 
                 //supposed to be stk number
                 updateGenDCMTable(con, stat, stkDialNumber, Ex, Qc, L1, Sign, posLevelId, districtName, cityName, channelCode, posEnName, posAddress, paymentLevelName, posStatusName, posCode);
-                updateDcmPosDetailTable(con, stat, surveyId, Ex, Qc, L1, Sign, posArAddress, docNumber, docLocation, supervisorName, teamleaderName, salesrepName, paymentLevelName, posLevelId, posStatusName, posCode, channelCode, regionName, districtCode, governName, districtName, cityName, areaName, posEnName , posArName, posAddress);
+                updateDcmPosDetailTable(con, stat, userId,surveyId, Ex, Qc, L1, Sign, posArAddress, docNumber, docLocation, supervisorName, teamleaderName, salesrepName, paymentLevelName, posLevelId, posStatusName, posCode, channelCode, regionName, districtCode, governName, districtName, cityName, areaName, posEnName , posArName, posAddress);
 
                 updateDistrictCode(con, stat, districtCode, districtName);
 
@@ -302,12 +302,17 @@ public class CommercialFileDAO{
             if(rs3.next())
                 stkStatusId = Integer.parseInt(rs3.getString("stk_status_id"));
             
+            String checkSql = "select * from scm_stk_owner where dcm_id in (select dcm_id from gen_dcm where dcm_code='"+dcmCode+"') and dcm_user_id="+supervisorId;
+            ResultSet rs = stat.executeQuery(checkSql);
+            if(!rs.next())
+            {
+                String strSql = "insert into scm_stk_owner values((select max(stk_id)+1 from scm_stk_owner), (select dcm_id from gen_dcm where dcm_code='"+dcmCode+"'),'"+supervisorId+"','"+userId+"',SYSTIMESTAMP,"+dcmVerifiedStatusId+","+iqrarReceivedStatusId+", "+stkStatusId+", "+iqrarReceivedDateSql+", SYSTIMESTAMP,"+stkActivationDateSql+",null,null,null,"+stkEntryAssignDateSql+","+stkActivationDateSql+",null,null,0)";
+                System.out.println("SQL insertSCMSTKOwnerTable is " + strSql);
+                inserted = stat.executeUpdate(strSql);
+            }
             
             
             
-            String strSql = "insert into scm_stk_owner values((select max(stk_id)+1 from scm_stk_owner), (select dcm_id from gen_dcm where dcm_code='"+dcmCode+"'),'"+supervisorId+"','"+userId+"',SYSTIMESTAMP,"+dcmVerifiedStatusId+","+iqrarReceivedStatusId+", "+stkStatusId+", "+iqrarReceivedDateSql+", SYSTIMESTAMP,"+stkActivationDateSql+",null,null,null,"+stkEntryAssignDateSql+","+stkActivationDateSql+",null,null,0)";
-            System.out.println("SQL insertSCMSTKOwnerTable is " + strSql);
-            inserted = stat.executeUpdate(strSql);
             
                 
 
@@ -468,11 +473,19 @@ public class CommercialFileDAO{
             if(rs10.next())
                 salesrepId = Integer.parseInt(rs10.getString("salesrep_id"));
             
-            
-            String strSql = "update scm_salesrep set teamlead_id="+teamleaderId+" where salesrep_id="+salesrepId;
-            System.out.println("SQL updateSCMSalesRepTable is " + strSql);
-            updated = stat.executeUpdate(strSql);
-            
+            if(teamleaderId==-1)
+            {
+                Long repId = Utility.getSequenceNextVal(con, "SEQ_SCM_SALESREP_ID"); 
+                String strSql = "insert into SCM_SALESREP ( SALESREP_ID, SALESREP_NAME, teamlead_id,CREATION_TIMESTAMP) values ("+repId+",'"+salesrepName+"',"+teamleaderId+",sysdate)" ;
+                System.out.println("SQL insertSCMSalesRepTable is " + strSql);
+                stat.execute(strSql);
+            }
+            else
+            {
+                String strSql = "update scm_salesrep set teamlead_id="+teamleaderId+" where salesrep_id="+salesrepId;
+                System.out.println("SQL updateSCMSalesRepTable is " + strSql);
+                updated = stat.executeUpdate(strSql);
+            }
                 
 
         } catch (Exception e) {
@@ -489,6 +502,7 @@ public class CommercialFileDAO{
         int updated=-1;
         int teamleaderId=-1;
         int supervisorId=-1;
+        
         try {
             
             
@@ -504,9 +518,20 @@ public class CommercialFileDAO{
                 supervisorId = Integer.parseInt(rs8.getString("supervisor_id"));
             
             
-            String strSql = "update scm_teamleader set sup_id="+supervisorId+" where teamleader_id="+teamleaderId;
-            System.out.println("SQL updateSCMTeamLeaderTable is " + strSql);
-            updated = stat.executeUpdate(strSql);
+            if(teamleaderId==-1)
+            {
+                Long teamId = Utility.getSequenceNextVal(con, "SEQ_SCM_TEAMLEADER_ID"); 
+                String strSql = "insert into SCM_TEAMLEADER ( TEAMLEADER_ID, TEAMLEADER_NAME, sup_id ,CREATION_TIMESTAMP) values ("+teamId+",'"+teamleaderName+"',"+supervisorId+",sysdate)" ;
+                System.out.println("SQL insertSCMTeamLeaderTable is " + strSql);
+                stat.execute(strSql);
+            }
+            
+            else
+            {
+                String strSql = "update scm_teamleader set sup_id="+supervisorId+" where teamleader_id="+teamleaderId;
+                System.out.println("SQL updateSCMTeamLeaderTable is " + strSql);
+                updated = stat.executeUpdate(strSql);
+            }
             
                 
 
@@ -538,10 +563,14 @@ public class CommercialFileDAO{
                 supervisorId = Integer.parseInt(rs8.getString("supervisor_id"));
             
             
-            String strSql = "insert into scm_user_region (REGION_ID,USER_ID,POS_CODE,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+supervisorId+",'"+dcmCode+"',4,4)";
-            System.out.println("SQL insertSCMUserRegionForSupervisor is " + strSql);
-            inserted = stat.executeUpdate(strSql);
-            
+            String checkSql = "select * from scm_user_region where user_id="+supervisorId+" and region_id="+districtId+" and USER_LEVEL_TYPE_ID=4 and REGION_LEVEL_TYPE_ID=4";
+            ResultSet rs = stat.executeQuery(checkSql);
+            if(!rs.next())
+            {
+                String strSql = "insert into scm_user_region (REGION_ID,USER_ID/*,POS_CODE*/,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+supervisorId+",/*'"+dcmCode+"',*/4,4)";
+                System.out.println("SQL insertSCMUserRegionForSupervisor is " + strSql);
+                inserted = stat.executeUpdate(strSql);
+            }
                 
 
         } catch (Exception e) {
@@ -569,10 +598,15 @@ public class CommercialFileDAO{
             if(rs9.next())
                 teamleaderId = Integer.parseInt(rs9.getString("teamleader_id"));
             
+            String checkSql = "select * from scm_user_region where user_id="+teamleaderId+" and region_id="+districtId+" and USER_LEVEL_TYPE_ID=5 and REGION_LEVEL_TYPE_ID=4";
+            ResultSet rs = stat.executeQuery(checkSql);
+            if(!rs.next())
+            {
+                String strSql = "insert into scm_user_region (REGION_ID,USER_ID/*,POS_CODE*/,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+teamleaderId+"/*,'"+dcmCode+"'*/,5,4)";
+                System.out.println("SQL insertSCMUserRegionForTeamleader is " + strSql);
+                inserted = stat.executeUpdate(strSql);
+            }
             
-            String strSql = "insert into scm_user_region (REGION_ID,USER_ID,POS_CODE,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+teamleaderId+",'"+dcmCode+"',5,4)";
-            System.out.println("SQL insertSCMUserRegionForTeamleader is " + strSql);
-            inserted = stat.executeUpdate(strSql);
             
                 
 
@@ -603,9 +637,16 @@ public class CommercialFileDAO{
             if(rs10.next())
                 salesrepId = Integer.parseInt(rs10.getString("salesrep_id"));
             
-            String strSql = "insert into scm_user_region (REGION_ID,USER_ID,POS_CODE,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+salesrepId+",'"+dcmCode+"',6,4)";
-            System.out.println("SQL insertSCMUserRegionForSalesRep is " + strSql);
-            inserted = stat.executeUpdate(strSql);
+            
+            String checkSql = "select * from scm_user_region where user_id="+salesrepId+" and region_id="+districtId+" and USER_LEVEL_TYPE_ID=6 and REGION_LEVEL_TYPE_ID=4";
+            ResultSet rs = stat.executeQuery(checkSql);
+            if(!rs.next())
+            {
+                String strSql = "insert into scm_user_region (REGION_ID,USER_ID/*,POS_CODE*/,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+salesrepId+",/*'"+dcmCode+"',*/6,4)";
+                System.out.println("SQL insertSCMUserRegionForSalesRep is " + strSql);
+                inserted = stat.executeUpdate(strSql);
+            }
+            
             
                 
 
@@ -762,7 +803,7 @@ public class CommercialFileDAO{
     }
     
    
-    private static int updateDcmPosDetailTable(Connection con, Statement stat,String surveyId,String isExclusive, String isQualityClub,String isLevelOne,String hasSign,String posArabicAddress,String posDocNum,String docLocation, String supervisorName, String teamleaderName,String salesrepName,String dcmPaymentLevelName, String dcmLevelName ,String dcmStatusName,String posCode, String posChannelId, String regionName, String districtCode,String posGovernName,String posDistrictName, String posCityName,String posAreaName,String posName,String posArabicName,String posAddress)
+    private static int updateDcmPosDetailTable(Connection con, Statement stat,String userId,String surveyId,String isExclusive, String isQualityClub,String isLevelOne,String hasSign,String posArabicAddress,String posDocNum,String docLocation, String supervisorName, String teamleaderName,String salesrepName,String dcmPaymentLevelName, String dcmLevelName ,String dcmStatusName,String posCode, String posChannelId, String regionName, String districtCode,String posGovernName,String posDistrictName, String posCityName,String posAreaName,String posName,String posArabicName,String posAddress)
     {
         int updated=-1;
         int districtId=-1;
@@ -867,7 +908,7 @@ public class CommercialFileDAO{
             
             
             
-            String strSql = "update dcm_pos_detail set survey_id='"+surveyId+"',is_exclusive='"+ex+"',is_quality_club='"+qc+"',is_level_one='"+l1+"',has_sign='"+sign+"',pos_arabic_address = '"+posAddress+"',pos_doc_num='"+posDocNum+"',doc_location='"+docLocation+"',supervisor_id="+supervisorId+", teamleader_id="+teamleaderId+",salesrep_id="+salesrepId+",dcm_payment_level_id="+dcmPayLevelId+", DCM_LEVEL_ID="+dcmLevelId+" ,pos_status_type_id="+dcmStatusId+", pos_channel_id='"+posChannelId+"', region_id="+regionId+", district_code='"+districtCode+"',pos_governrate = "+governId+",pos_district_id="+districtId+", pos_city_id="+cityId+",pos_area_id="+areaId+",pos_name='"+posName+"',pos_arabic_name='"+posArabicName+"',pos_address='"+posAddress+"' where pos_code='"+posCode+"'";
+            String strSql = "update dcm_pos_detail set user_id="+userId+",survey_id='"+surveyId+"',is_exclusive='"+ex+"',is_quality_club='"+qc+"',is_level_one='"+l1+"',has_sign='"+sign+"',pos_arabic_address = '"+posAddress+"',pos_doc_num='"+posDocNum+"',doc_location='"+docLocation+"',supervisor_id="+supervisorId+", teamleader_id="+teamleaderId+",salesrep_id="+salesrepId+",dcm_payment_level_id="+dcmPayLevelId+", DCM_LEVEL_ID="+dcmLevelId+" ,pos_status_type_id="+dcmStatusId+", pos_channel_id="+posChannelId+", region_id="+regionId+", district_code='"+districtCode+"',pos_governrate = "+governId+",pos_district_id="+districtId+", pos_city_id="+cityId+",pos_area_id="+areaId+",pos_name='"+posName+"',pos_arabic_name='"+posArabicName+"',pos_address='"+posAddress+"' where pos_code='"+posCode+"'";
             System.out.println("SQL updateDcmPosDetailTable is " + strSql);
             updated = stat.executeUpdate(strSql);
             

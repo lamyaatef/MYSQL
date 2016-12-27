@@ -153,18 +153,26 @@ public class SupervisorFileDAO{
         
         if(rs.next())
         {
-            /*strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values((select max(dcm_user_id)+1 from dcm_user),"+userId+",4,"+supDetailId+",1,4)";
             
-            String strLastId = "select dcm_user_id from dcm_user order by dcm_user_id desc";
-            ResultSet rsLast = stat.executeQuery(strLastId);
-            if(rsLast.next())
-                supId = rsLast.getLong("dcm_user_id");*/
             strUserSql = "update dcm_user set user_id="+userId+",user_level_type_id=4,user_status_type_id=1,user_level_id=4 where dcm_user_id="+supId;
             System.out.println("query2 "+strUserSql);
-            strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=sysdate where user_id="+supId;
-            System.out.println("query3 "+strUserDetailSql);
             stat.execute(strUserSql);
-            stat.execute(strUserDetailSql);
+            String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id = "+supId;
+            ResultSet rs2 = stat.executeQuery(sqlCheckDcmDetailId);
+            if(rs2.next())
+            {
+                strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=sysdate where user_id="+supId;
+                System.out.println("query3 inner "+strUserDetailSql);
+                stat.execute(strUserDetailSql);
+            }
+            else
+            {
+                Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+                strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+supDetailId+","+supId+","+userId+","+concatFields+",sysdate)";
+                System.out.println("query3 inner "+strUserDetailSql);
+                stat.execute(strUserDetailSql);
+            }
+            
         } 
             
         else

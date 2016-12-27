@@ -197,7 +197,7 @@ public void setCreationTimeStamp(Date passCreationTimeStamp) {
 
     public void fillForRepManagementSearch(ResultSet res){
         try {
-            this.setDcmUserId(res.getString("DCM_USER_ID"));
+            //this.setDcmUserId(res.getString("DCM_USER_ID"));
             this.setUserFullName(res.getString("USER_FULL_NAME"));
             this.setUserId(res.getString("USER_ID"));
             this.setRegionName(res.getString("REGION_NAME"));
@@ -242,6 +242,7 @@ public void setCreationTimeStamp(Date passCreationTimeStamp) {
         try {
 
             this.setDcmUserId(res.getString("DCM_USER_ID"));
+            
             this.setUserFullName(res.getString("USER_FULL_NAME"));
 
         } catch (SQLException ex) {

@@ -1820,8 +1820,8 @@ public class SCMHandler {
 
                             dataHashMap.put(SCMInterfaceKey.DCM_USER_DETAIL_MODEL, dcmUserDetail);
 
-                            supervisors=RepSupDAO.getRegionSupervisors(con, regionId);
-                            teamleaders=RepSupDAO.getRegionTeamleaders(con, regionId);
+                            supervisors=RepSupDAO.getRegionSupervisors(con, districtID/*regionId*/);
+                            teamleaders=RepSupDAO.getRegionTeamleaders(con, districtID/*regionId*/);
                             dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_TEAMLEADERS, teamleaders);
                             dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS, supervisors);
 

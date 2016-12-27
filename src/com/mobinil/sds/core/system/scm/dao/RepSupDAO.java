@@ -43,8 +43,9 @@ public class RepSupDAO {
     public static Vector<DCMUserModel> getRegionSupervisors(Connection con,String regionId){
         String sqlStatement;
         Vector <DCMUserModel> supervisors=new Vector();
-        sqlStatement="SELECT DU.DCM_USER_ID,DUD.USER_FULL_NAME FROM DCM_USER DU,DCM_USER_DETAIL DUD" 
-                    +" WHERE DU.DCM_USER_ID=DUD.USER_ID AND DU.USER_LEVEL_TYPE_ID=4 AND DU.REGION_ID="+regionId+" ORDER BY LOWER(DUD.USER_FULL_NAME)";
+        /*sqlStatement="SELECT DU.DCM_USER_ID,DUD.USER_FULL_NAME FROM DCM_USER DU,DCM_USER_DETAIL DUD" 
+                    +" WHERE DU.DCM_USER_ID=DUD.USER_ID AND DU.USER_LEVEL_TYPE_ID=4 AND DU.REGION_ID="+regionId+" ORDER BY LOWER(DUD.USER_FULL_NAME)";*/
+        sqlStatement="select scm_user_region.region_id , scm_supervisor.supervisor_id as DCM_USER_ID , DCM_USER_DETAIL.USER_FULL_NAME from scm_user_region, scm_supervisor, DCM_USER_DETAIL where DCM_USER_DETAIL.user_id = scm_supervisor.supervisor_id and scm_user_region.user_id = scm_supervisor.supervisor_id and scm_user_region.user_level_type_id=4 and scm_user_region.region_id="+regionId;
         System.out.println("getRegionSupervisors "+sqlStatement);
         supervisors=DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class,"fillForRepSupAssign", con);
         return supervisors;
@@ -52,8 +53,9 @@ public class RepSupDAO {
     public static Vector<DCMUserModel> getRegionTeamleaders(Connection con,String regionId){
         String sqlStatement;
         Vector <DCMUserModel> teamleaders=new Vector();
-        sqlStatement="SELECT DU.DCM_USER_ID,DUD.USER_FULL_NAME FROM DCM_USER DU,DCM_USER_DETAIL DUD" 
-                    +" WHERE DU.DCM_USER_ID=DUD.USER_ID AND DU.USER_LEVEL_TYPE_ID=5 AND DU.REGION_ID="+regionId+" ORDER BY LOWER(DUD.USER_FULL_NAME)";
+        /*sqlStatement="SELECT DU.DCM_USER_ID,DUD.USER_FULL_NAME FROM DCM_USER DU,DCM_USER_DETAIL DUD" 
+                    +" WHERE DU.DCM_USER_ID=DUD.USER_ID AND DU.USER_LEVEL_TYPE_ID=5 AND DU.REGION_ID="+regionId+" ORDER BY LOWER(DUD.USER_FULL_NAME)";*/
+        sqlStatement = "select scm_user_region.region_id , scm_teamleader.teamleader_id as DCM_USER_ID , DCM_USER_DETAIL.USER_FULL_NAME from scm_user_region, scm_teamleader, DCM_USER_DETAIL where DCM_USER_DETAIL.user_id = scm_teamleader.teamleader_id and scm_user_region.user_id = scm_teamleader.teamleader_id and scm_user_region.user_level_type_id=5 and scm_user_region.region_id="+regionId;
         System.out.println("getRegionTeamleaders "+sqlStatement);
         teamleaders=DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class,"fillForRepTeamleadAssign", con);
         return teamleaders;
@@ -208,8 +210,9 @@ public class RepSupDAO {
     public static Vector<DCMUserModel> getRegionReps(Connection con,String areasId){
         String sqlStatement;
         Vector <DCMUserModel> reps=new Vector();
-        sqlStatement="SELECT DU.DCM_USER_ID,DUD.USER_FULL_NAME FROM DCM_USER DU,DCM_USER_DETAIL DUD" 
-                    +" WHERE DU.DCM_USER_ID=DUD.USER_ID AND DU.USER_LEVEL_TYPE_ID=3 AND DU.REGION_ID IN("+areasId+") ORDER BY LOWER(DUD.USER_FULL_NAME)";
+        /*sqlStatement="SELECT DU.DCM_USER_ID,DUD.USER_FULL_NAME FROM DCM_USER DU,DCM_USER_DETAIL DUD" 
+                    +" WHERE DU.DCM_USER_ID=DUD.USER_ID AND DU.USER_LEVEL_TYPE_ID=3 AND DU.REGION_ID IN("+areasId+") ORDER BY LOWER(DUD.USER_FULL_NAME)";*/
+        sqlStatement = "select scm_user_region.region_id , scm_salesrep.salesrep_id as DCM_USER_ID , DCM_USER_DETAIL.USER_FULL_NAME from scm_user_region, scm_salesrep, DCM_USER_DETAIL where DCM_USER_DETAIL.user_id = scm_salesrep.salesrep_id and scm_user_region.user_id = scm_salesrep.salesrep_id and scm_user_region.user_level_type_id=6 and scm_user_region.region_id="+areasId;
         reps=DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class,"fillForRepSupAssign", con);
         return reps;
     }
