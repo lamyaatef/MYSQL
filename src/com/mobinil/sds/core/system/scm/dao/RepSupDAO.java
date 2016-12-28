@@ -8,7 +8,11 @@ package com.mobinil.sds.core.system.scm.dao;
 import com.mobinil.sds.core.system.dcm.region.model.RegionModel;
 import com.mobinil.sds.core.system.dcm.user.model.DCMUserModel;
 import com.mobinil.sds.core.utilities.DBUtil;
+import com.mobinil.sds.core.utilities.Utility;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Vector;
 
 /**
@@ -76,21 +80,62 @@ public class RepSupDAO {
         sqlStatement="UPDATE SCM_REP_SUPERVISORS SET REP_ID = "+repId+",SUP_ID="+supId+",CREATED_IN=sysdate,CREATED_BY = "+userId;
         DBUtil.executeSQL(sqlStatement, con);
     }
-    public static void assignRepToTeamleader(Connection con,String repId,String teamleadId,String userId){
-        String sqlStatement;
-        sqlStatement="INSERT INTO SCM_REP_TEAMLEADERS VALUES("+repId+","+teamleadId+",sysdate,"+userId+")";
-        DBUtil.executeSQL(sqlStatement, con);
+    public static void assignRepToTeamleader(Connection con,String repId,String teamleadId,String userId) throws SQLException{
+        //String sqlStatement;
+        Statement stat = con.createStatement();
+        
+        //sqlStatement="INSERT INTO SCM_REP_TEAMLEADERS VALUES("+repId+","+teamleadId+",sysdate,"+userId+")";
+        String sqlRepId="select * from scm_salesrep where salesrep_id="+repId;
+        ResultSet rs10 = stat.executeQuery(sqlRepId);
+        if(!rs10.next())
+           
+            {
+                Long salesRepId = Utility.getSequenceNextVal(con, "SEQ_SCM_SALESREP_ID"); 
+                String strSql = "insert into SCM_SALESREP ( SALESREP_ID, teamlead_id,CREATION_TIMESTAMP) values ("+salesRepId+","+teamleadId+",sysdate)" ;
+                System.out.println("SQL assignRepToTeamleader is " + strSql);
+                stat.execute(strSql);
+            
+            
+            }
+        else
+            {
+                String strSql = "update scm_salesrep set teamlead_id="+teamleadId+" where salesrep_id="+repId;
+                System.out.println("SQL assignRepToTeamleader Update is " + strSql);
+                stat.executeUpdate(strSql);    
+                
+            }
+        //DBUtil.executeSQL(sqlStatement, con);
     }
     
     
-    public static void assignTeamleaderToSupervisor(Connection con,String teamleaderId,String supervisorId, String systemUserId){
-        String sqlStatement;
+    public static void assignTeamleaderToSupervisor(Connection con,String teamleaderId,String supervisorId, String systemUserId) throws SQLException{
+        /*String sqlStatement;
         sqlStatement="update dcm_user set manager_dcm_user_id='"+supervisorId+"' where dcm_user_id='"+teamleaderId+"' and user_level_type_id=5";
         System.out.println("UPDATE QUERY : "+sqlStatement);
         DBUtil.executeSQL(sqlStatement, con);
         sqlStatement="INSERT INTO scm_teamleader_supervisors VALUES("+supervisorId+","+teamleaderId+",sysdate,"+systemUserId+")";
         System.out.println("INSERT QUERY : "+sqlStatement);
-        DBUtil.executeSQL(sqlStatement, con);
+        DBUtil.executeSQL(sqlStatement, con);*/
+        Statement stat = con.createStatement();
+        String sqlTeamId="select * from scm_teamleader where teamleader_id="+teamleaderId;
+        ResultSet rs10 = stat.executeQuery(sqlTeamId);
+        if(!rs10.next())
+           
+            {
+                Long teamId = Utility.getSequenceNextVal(con, "SEQ_SCM_TEAMLEADER_ID"); 
+                String strSql = "insert into scm_teamleader ( teamleader_ID, sup_id,CREATION_TIMESTAMP) values ("+teamId+","+supervisorId+",sysdate)" ;
+                System.out.println("SQL assignTeamleaderToSupervisor is " + strSql);
+                stat.execute(strSql);
+            
+            
+            }
+        else
+            {
+                String strSql = "update scm_teamleader set sup_id="+supervisorId+" where teamleader_id="+teamleaderId;
+                System.out.println("SQL assignTeamleaderToSupervisor Update is " + strSql);
+                stat.executeUpdate(strSql);    
+                
+            }
     }
     
      

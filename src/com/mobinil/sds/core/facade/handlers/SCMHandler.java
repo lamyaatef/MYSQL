@@ -1573,10 +1573,10 @@ public class SCMHandler {
                     dcmUserDetatil.setUserEmail(userEmail);
                     dcmUserDetatil.setUserMobile(userMobile);
 
-                    if (supervisorId!=null && supervisorId.compareTo("")!=0 && supervisorId.compareTo("--")!=0)
+                   /* if (supervisorId!=null && supervisorId.compareTo("")!=0 && supervisorId.compareTo("--")!=0)
                     {
                         //repSuper = RepManagementDAO.getRepSupervisor(con, userId, supervisorId);
-                        if (!RepManagementDAO.checkIfRepSupervisor(con, userId, supervisorId)/*repSuper==null*/)
+                        if (!RepManagementDAO.checkIfRepSupervisor(con, userId, supervisorId))
                             {
                                 System.out.println("ASSIGN Supervisor in ADD");
                                 RepSupDAO.assignRepToSupervisor(con, userId, supervisorId, systemUserId);
@@ -1587,15 +1587,29 @@ public class SCMHandler {
                     if (teamleaderId!=null && teamleaderId.compareTo("")!=0 && teamleaderId.compareTo("--")!=0)
                     {
                         //repTeamlead = RepManagementDAO.getRepTeamleader(con, userId, teamleaderId);
-                        if (!RepManagementDAO.checkIfRepTeamleader(con, userId, teamleaderId)/*repTeamlead==null*/)
+                        if (!RepManagementDAO.checkIfRepTeamleader(con, userId, teamleaderId))
                             {
                                 System.out.println("ASSIGN Teamleader in ADD");
                                 RepSupDAO.assignRepToTeamleader(con, userId, teamleaderId, systemUserId);
                                 repTeamlead = RepManagementDAO.getRepTeamleader(con, userId, teamleaderId);
                             }
                       
+                    }*/
+                    if (supervisorId!=null && supervisorId.compareTo("")!=0)
+                    {
+                        if (!RepManagementDAO.checkIfRepSupervisor(con, userId, supervisorId))
+                            {
+                                if (teamleaderId!=null && teamleaderId.compareTo("")!=0)
+                                {
+                                    if (!RepManagementDAO.checkIfRepTeamleader(con, userId, teamleaderId))
+                                    {
+                                        System.out.println("ASSIGN supervisor to teamleader and assign teamleader to salesrep :");
+                                        RepSupDAO.assignRepToTeamleader(con, userId, teamleaderId, systemUserId);
+                                        RepSupDAO.assignTeamleaderToSupervisor(con, teamleaderId, userId,systemUserId);
+                                    }
+                                }
+                            }
                     }
-
                     RepManagementDAO.addNewRepOrSupervisor(con, dcmUser, dcmUserDetatil, systemUserId);
                     //RepSupDAO.assignRepToSupervisor(con, userId, userId, userId);
                     //RepSupDAO.assignRepToTeamleader(con, userId, userId, userId);
@@ -1633,11 +1647,15 @@ public class SCMHandler {
 //                    if (userLevelTypeId.equalsIgnoreCase("3")) {
 //                        userRegionId = (String) paramHashMap.get(SCMInterfaceKey.AREA_ID);
 //                    }
-                    if (supervisorId!=null && supervisorId.compareTo("")!=0)
+                   
+                    
+                 ////////////////////////////////////////////////////////////////////////////////////   
+                    
+                  /* if (supervisorId!=null && supervisorId.compareTo("")!=0)
                     {
                         //repSuper = RepManagementDAO.getRepSupervisor(con, dcmUserId, supervisorId);
                         //System.out.println("REP SUPER$$$ "+repSuper);
-                        if (!RepManagementDAO.checkIfRepSupervisor(con, dcmUserId, supervisorId)/*repSuper==null*/)
+                        if (!RepManagementDAO.checkIfRepSupervisor(con, dcmUserId, supervisorId))
                             {
                                 
                                 System.out.println("ASSIGN Supervisor in UPDATE");
@@ -1648,7 +1666,7 @@ public class SCMHandler {
                     if (teamleaderId!=null && teamleaderId.compareTo("")!=0)
                     {
                         //repTeamlead = RepManagementDAO.getRepTeamleader(con, dcmUserId, teamleaderId);
-                        if (!RepManagementDAO.checkIfRepTeamleader(con, dcmUserId, teamleaderId)/*repTeamlead==null*/)
+                        if (!RepManagementDAO.checkIfRepTeamleader(con, dcmUserId, teamleaderId))
                             {
                                 System.out.println("ASSIGN Teamleader in UPDATE");
                                 RepSupDAO.assignRepToTeamleader(con, dcmUserId, teamleaderId, systemUserId);
@@ -1665,6 +1683,24 @@ public class SCMHandler {
                     {
                         supervisorId=dcmUserId;
                         RepSupDAO.assignTeamleaderToSupervisor(con, dcmUserId, supervisorId,systemUserId);
+                    }*/
+                    
+                    
+                    
+                    if (supervisorId!=null && supervisorId.compareTo("")!=0)
+                    {
+                        if (!RepManagementDAO.checkIfRepSupervisor(con, dcmUserId, supervisorId))
+                            {
+                                if (teamleaderId!=null && teamleaderId.compareTo("")!=0)
+                                {
+                                    if (!RepManagementDAO.checkIfRepTeamleader(con, dcmUserId, teamleaderId))
+                                    {
+                                        System.out.println("ASSIGN supervisor to teamleader and assign teamleader to salesrep :");
+                                        RepSupDAO.assignRepToTeamleader(con, dcmUserId, teamleaderId, systemUserId);
+                                        RepSupDAO.assignTeamleaderToSupervisor(con, teamleaderId, dcmUserId,systemUserId);
+                                    }
+                                }
+                            }
                     }
                     //////////////////////////////////////////////
                             supervisors=RepSupDAO.getRegionSupervisors(con, userRegionId);
@@ -1737,7 +1773,7 @@ public class SCMHandler {
                     paramHashMap.put(SCMInterfaceKey.PERSON_ID, dcmUserId);
                     putRepAddOrUpdateBasicData(paramHashMap, dataHashMap, con);
                 }
-
+                
                 break;
 
                 case action_delete_rep_sup: {

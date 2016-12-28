@@ -431,6 +431,7 @@ public class RepManagementDAO {
             String insertDCMUserDeatilSqlStatement="insert into SDS.DCM_USER_DETAIL " +
                     "(USER_DETAIL_ID, USER_ID, USER_FULL_NAME, USER_ADDRESS, USER_EMAIL, USER_MOBILE, REGION_ID, USER_DETAIL_STATUS_ID, CREATION_TIMESTAMP, CREATION_USER_ID) " +
                     "values (?, ?, ?, ?, ?, ?, ?, 1, sysdate, ?)";
+            
             DBUtil.executePreparedStatment(insertDCMUserSqlStatement, con, new Object[]{dcmUserId,repOrSupervisor.getUserId(),Integer.parseInt(repOrSupervisor.getUserLevelTypeId()),dcmUserDetailId,Integer.parseInt(repOrSupervisor.getRegionId())});
             DBUtil.executePreparedStatment(insertDCMUserDeatilSqlStatement,con,new Object[]{dcmUserDetailId,dcmUserId,userDetail.getUserFullName(),userDetail.getUserAddress(),userDetail.getUserEmail(),userDetail.getUserMobile(),repOrSupervisor.getRegionId(),userId});
         }
@@ -582,9 +583,10 @@ public class RepManagementDAO {
         public static Vector<RepSupervisorModel> getRepSupervisors(Connection con, String dcmUserId){
 
             Vector<RepSupervisorModel> repSupervisors=new Vector();
-            String sqlStatement="SELECT RS.SUP_ID,RS.REP_ID,UD.USER_FULL_NAME SUP_NAME,RS.CREATED_BY,RS.CREATED_IN "
+            /*String sqlStatement="SELECT RS.SUP_ID,RS.REP_ID,UD.USER_FULL_NAME SUP_NAME,RS.CREATED_BY,RS.CREATED_IN "
                                 +" FROM DCM_USER_DETAIL UD,SCM_REP_SUPERVISORS RS WHERE RS.SUP_ID=UD.USER_ID"
-                                +" AND RS.REP_ID="+dcmUserId;
+                                +" AND RS.REP_ID="+dcmUserId;*/
+            String sqlStatement = "select scm_teamleader.sup_id, scm_salesrep.salesrep_id as rep_id,scm_supervisor.supervisor_name as SUP_NAME,scm_salesrep.creation_timestamp as CREATED_IN, dcm_user_detail.creation_user_id as CREATED_BY from scm_salesrep, scm_teamleader , scm_supervisor, dcm_user_detail where scm_salesrep.teamlead_id is not null and scm_salesrep.teamlead_id = scm_teamleader.teamleader_id and scm_salesrep.salesrep_id = dcm_user_detail.user_id and scm_teamleader.sup_id is not null and scm_supervisor.supervisor_id = scm_teamleader.sup_id and salesrep_id="+dcmUserId; 
             System.out.println("getRepSupervisors "+sqlStatement);
             repSupervisors=DBUtil.executeSqlQueryMultiValue(sqlStatement, RepSupervisorModel.class, con);
             return repSupervisors;
@@ -606,10 +608,11 @@ public class RepManagementDAO {
            public static boolean checkIfRepSupervisor(Connection con, String dcmUserId, String superId){
 
             
-            String sqlStatement="SELECT RS.SUP_ID,RS.REP_ID,UD.USER_FULL_NAME SUP_NAME,RS.CREATED_BY,RS.CREATED_IN "
+            /*String sqlStatement="SELECT RS.SUP_ID,RS.REP_ID,UD.USER_FULL_NAME SUP_NAME,RS.CREATED_BY,RS.CREATED_IN "
                                 +" FROM DCM_USER_DETAIL UD,SCM_REP_SUPERVISORS RS WHERE RS.SUP_ID=UD.USER_ID"
                                 +" AND RS.REP_ID="+dcmUserId
-                                +" AND RS.SUP_ID="+superId;
+                                +" AND RS.SUP_ID="+superId;*/
+            String sqlStatement="select scm_teamleader.sup_id, scm_salesrep.salesrep_id as rep_id,scm_supervisor.supervisor_name as SUP_NAME,scm_salesrep.creation_timestamp as CREATED_IN, dcm_user_detail.creation_user_id as CREATED_BY from scm_salesrep, scm_teamleader , scm_supervisor, dcm_user_detail where scm_salesrep.teamlead_id is not null and scm_salesrep.teamlead_id = scm_teamleader.teamleader_id and scm_salesrep.salesrep_id = dcm_user_detail.user_id and scm_teamleader.sup_id is not null and scm_supervisor.supervisor_id = scm_teamleader.sup_id and salesrep_id="+dcmUserId+" and scm_supervisor.supervisor_id="+superId;
             
             boolean repSuperExits = DBUtil.executeSQLExistCheck(sqlStatement, con);
             
@@ -619,10 +622,11 @@ public class RepManagementDAO {
               public static boolean checkIfRepTeamleader(Connection con, String dcmUserId, String teamleadId){
 
             
-            String sqlStatement="SELECT RS.TEAMLEAD_ID,RS.REP_ID,UD.USER_FULL_NAME SUP_NAME,RS.CREATED_BY,RS.CREATED_IN "
+            /*String sqlStatement="SELECT RS.TEAMLEAD_ID,RS.REP_ID,UD.USER_FULL_NAME SUP_NAME,RS.CREATED_BY,RS.CREATED_IN "
                                 +" FROM DCM_USER_DETAIL UD,SCM_REP_TEAMLEADERS RS WHERE RS.TEAMLEAD_ID=UD.USER_ID"
                                 +" AND RS.REP_ID="+dcmUserId
-                                +" AND RS.TEAMLEAD_ID="+teamleadId;
+                                +" AND RS.TEAMLEAD_ID="+teamleadId;*/
+            String sqlStatement = "select scm_salesrep.teamlead_id, scm_salesrep.salesrep_id as rep_id,scm_teamleader.teamleader_name as TEAMLEAD_NAME,scm_salesrep.creation_timestamp as CREATED_IN, dcm_user_detail.creation_user_id as CREATED_BY from scm_salesrep, scm_teamleader , dcm_user_detail where scm_salesrep.teamlead_id is not null and scm_salesrep.teamlead_id = scm_teamleader.teamleader_id and scm_salesrep.salesrep_id = dcm_user_detail.user_id and salesrep_id="+dcmUserId+" and scm_teamleader.teamleader_id="+teamleadId;
             
             boolean repTeamleadExits = DBUtil.executeSQLExistCheck(sqlStatement, con);
             
@@ -632,9 +636,10 @@ public class RepManagementDAO {
            public static Vector<RepTeamleaderModel> getRepTeamleaders(Connection con, String dcmUserId){
 
             Vector<RepTeamleaderModel> repTeamleaders=new Vector();
-            String sqlStatement="SELECT RT.TEAMLEAD_ID,RT.REP_ID,UD.USER_FULL_NAME TEAMLEAD_NAME,RT.CREATED_BY,RT.CREATED_IN "
+            /*String sqlStatement="SELECT RT.TEAMLEAD_ID,RT.REP_ID,UD.USER_FULL_NAME TEAMLEAD_NAME,RT.CREATED_BY,RT.CREATED_IN "
                                 +" FROM DCM_USER_DETAIL UD,SCM_REP_TEAMLEADERS RT WHERE RT.TEAMLEAD_ID=UD.USER_ID"
-                                +" AND RT.REP_ID="+dcmUserId;
+                                +" AND RT.REP_ID="+dcmUserId;*/
+            String sqlStatement = "select scm_salesrep.teamlead_id, scm_salesrep.salesrep_id as rep_id,scm_teamleader.teamleader_name as TEAMLEAD_NAME,scm_salesrep.creation_timestamp as CREATED_IN, dcm_user_detail.creation_user_id as CREATED_BY from scm_salesrep, scm_teamleader , dcm_user_detail where scm_salesrep.teamlead_id is not null and scm_salesrep.teamlead_id = scm_teamleader.teamleader_id and scm_salesrep.salesrep_id = dcm_user_detail.user_id and salesrep_id="+dcmUserId;
             System.out.println("getRepTeamleaders "+sqlStatement);
             repTeamleaders=DBUtil.executeSqlQueryMultiValue(sqlStatement, RepTeamleaderModel.class, con);
             return repTeamleaders;
