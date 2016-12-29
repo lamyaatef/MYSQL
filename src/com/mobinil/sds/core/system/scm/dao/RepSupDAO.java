@@ -7,6 +7,7 @@ package com.mobinil.sds.core.system.scm.dao;
 
 import com.mobinil.sds.core.system.dcm.region.model.RegionModel;
 import com.mobinil.sds.core.system.dcm.user.model.DCMUserModel;
+import com.mobinil.sds.core.system.scm.model.DCMUserDetailModel;
 import com.mobinil.sds.core.utilities.DBUtil;
 import com.mobinil.sds.core.utilities.Utility;
 import java.sql.Connection;
@@ -32,6 +33,15 @@ public class RepSupDAO {
 //        return regionId;
 //    }
 
+    
+    public static String getDistrictId(Connection con,String userID, String userLevelTypeId){
+        String sqlStatement;
+        sqlStatement="select region_id from scm_user_region where user_id='"+userID+"' and user_level_type_id='"+userLevelTypeId+"'";
+        System.out.println("getDistrictId "+sqlStatement);
+        String districtId=DBUtil.executeQuerySingleValueString(sqlStatement, "region_id", con);
+        return districtId;
+    }
+    
     public static String getDistrictRegionId(Connection con,String districtID){
         String sqlStatement;
         sqlStatement="SELECT PARENT_REGION_ID FROM DCM_REGION WHERE"
@@ -79,6 +89,17 @@ public class RepSupDAO {
         String sqlStatement;
         sqlStatement="UPDATE SCM_REP_SUPERVISORS SET REP_ID = "+repId+",SUP_ID="+supId+",CREATED_IN=sysdate,CREATED_BY = "+userId;
         DBUtil.executeSQL(sqlStatement, con);
+    }
+    
+    public static void addNewSupervisor(Connection con, DCMUserDetailModel userDetail,String supervisorId) 
+    {
+        String strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+supervisorId+",'"+userDetail.getUserFullName()+"','"+userDetail.getUserEmail()+"','"+userDetail.getUserMobile()+"',sysdate)"; 
+        System.out.println("query1 addNewSupervisor"+strSql);
+        try{
+            Statement stat = con.createStatement();
+            stat.execute(strSql);   
+        }catch(Exception e){}
+         
     }
     public static void assignRepToTeamleader(Connection con,String repId,String teamleadId,String userId) throws SQLException{
         //String sqlStatement;

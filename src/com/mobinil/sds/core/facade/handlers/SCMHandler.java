@@ -1604,13 +1604,15 @@ public class SCMHandler {
                                     if (!RepManagementDAO.checkIfRepTeamleader(con, userId, teamleaderId))
                                     {
                                         System.out.println("ASSIGN supervisor to teamleader and assign teamleader to salesrep :");
+                                        RepSupDAO.addNewSupervisor(con, dcmUserDetatil, supervisorId);
                                         RepSupDAO.assignRepToTeamleader(con, userId, teamleaderId, systemUserId);
-                                        RepSupDAO.assignTeamleaderToSupervisor(con, teamleaderId, userId,systemUserId);
+                                        RepSupDAO.assignTeamleaderToSupervisor(con, teamleaderId, supervisorId,systemUserId);
                                     }
                                 }
                             }
                     }
                     RepManagementDAO.addNewRepOrSupervisor(con, dcmUser, dcmUserDetatil, systemUserId);
+                    
                     //RepSupDAO.assignRepToSupervisor(con, userId, userId, userId);
                     //RepSupDAO.assignRepToTeamleader(con, userId, userId, userId);
                     dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE, "Added Successfuly.");
@@ -1824,6 +1826,9 @@ public class SCMHandler {
                 case action_edit_rep_sup: {
                     System.out.println("action_edit_rep_sup");
                     String stDcmUserId = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
+                    HttpServletRequest request = (HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET);
+                    if (stDcmUserId==null || (stDcmUserId!=null && stDcmUserId.compareTo("")==0))
+                        stDcmUserId = (String)request.getSession(false).getAttribute(SCMInterfaceKey.DCM_USER_ID);
                     System.out.println("^^^^^^^ DCM_USER_ID ^^^^^^^^ "+stDcmUserId);
                     dataHashMap.put(SCMInterfaceKey.TEAMLEAD_ID, "");
                     dataHashMap.put(SCMInterfaceKey.SUP_ID, "");
@@ -1847,7 +1852,8 @@ public class SCMHandler {
                             DCMUserDetailModel dcmUserDetail = RepManagementDAO.getDcmUserDetail(con, dcmUser.getUserDetailId());
                             System.out.println("dcm user region id "+dcmUser.getRegionId());
                             
-                            districtID = dcmUser.getRegionId();
+                            
+                            districtID = RepSupDAO.getDistrictId(con, stDcmUserId, dcmUser.getUserLevelTypeId());//dcmUser.getRegionId();
                             regionId=RepSupDAO.getDistrictRegionId(con, districtID);
                             if (regionId=="" || regionId==null)
                                 regionId = districtID;

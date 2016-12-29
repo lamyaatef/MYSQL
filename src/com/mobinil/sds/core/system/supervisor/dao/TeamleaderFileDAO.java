@@ -123,7 +123,7 @@ public class TeamleaderFileDAO{
   }
     
     
-    public static void insertTeamleaderData(Connection con, Statement stat,String userId,boolean isemptyField,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
+    public static void insertTeamleaderData(Connection con, Statement stat,String userId,boolean isemptyField,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) {
         //System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
         String strSql = "";
@@ -144,7 +144,7 @@ public class TeamleaderFileDAO{
         System.out.println("Line Text Concatenated: "+concatFields);
         
         Long teamId = Utility.getSequenceNextVal(con, "SEQ_SCM_TEAMLEADER_ID");
-        
+        Long teamDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
         String sqlCheckDcmId = "select * from dcm_user where dcm_user_id = "+teamId;
         ResultSet rs = stat.executeQuery(sqlCheckDcmId);
@@ -152,7 +152,7 @@ public class TeamleaderFileDAO{
         if(rs.next())
         {
             
-            strUserSql = "update dcm_user set user_id="+userId+",user_level_type_id=5,user_status_type_id=1,user_level_id=5 where dcm_user_id="+teamId;
+            strUserSql = "update dcm_user set user_id="+userId+",user_status_type_id=1,user_level_id=5,user_level_type_id=5 where dcm_user_id="+teamId;
             System.out.println("query2 "+strUserSql);
             stat.execute(strUserSql);
             
@@ -169,7 +169,7 @@ public class TeamleaderFileDAO{
             }
             else
             {
-                Long teamDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+                //Long teamDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
                 strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+teamDetailId+","+teamId+","+userId+","+concatFields+",sysdate)";
                 System.out.println("query3 inner "+strUserDetailSql);
                 stat.execute(strUserDetailSql);
@@ -178,7 +178,7 @@ public class TeamleaderFileDAO{
             
         else
         {
-            Long teamDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+            //Long teamDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
             strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+teamId+","+userId+",5,"+teamDetailId+",1,5)";
             System.out.println("query2 "+strUserSql);
             strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+teamDetailId+","+teamId+","+userId+","+concatFields+",sysdate)";

@@ -123,7 +123,7 @@ public class SalesrepFileDAO{
   }
     
     
-    public static void insertSalesrepData(Connection con, Statement stat,String userId,String[] lineFields,boolean isemptyField,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
+    public static void insertSalesrepData(Connection con, Statement stat,String userId,String[] lineFields,boolean isemptyField,int count/*, String fileDate, int updatedIndex*/) {
         //System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
         String strSql = "";
@@ -149,13 +149,16 @@ public class SalesrepFileDAO{
         System.out.println("Line Text Concatenated: "+concatFields);
         
         Long repId = Utility.getSequenceNextVal(con, "SEQ_SCM_SALESREP_ID");
+        Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+        
+        
         String sqlCheckDcmId = "select * from dcm_user where dcm_user_id = "+repId;
         ResultSet rs = stat.executeQuery(sqlCheckDcmId);
         
         if(rs.next())
         {
             
-            strUserSql = "update dcm_user set user_id="+userId+",user_level_type_id=6,user_status_type_id=1,user_level_id=6 where dcm_user_id="+repId;
+            strUserSql = "update dcm_user set user_id="+userId+",user_status_type_id=1,user_level_id=6,user_level_type_id=6 where dcm_user_id="+repId;
             System.out.println("query2 "+strUserSql);
             
             String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id = "+repId;
@@ -168,7 +171,7 @@ public class SalesrepFileDAO{
             }
             else
             {
-                Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+                //Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
                 strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_mobile,CREATION_TIMESTAMP) values("+repDetailId+","+repId+","+userId+","+concatFields+",sysdate)";
                 System.out.println("query3 inner "+strUserDetailSql);
                 stat.execute(strUserDetailSql);
@@ -177,7 +180,7 @@ public class SalesrepFileDAO{
             
         else
         {
-            Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+            //Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
             strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+repId+","+userId+",6,"+repDetailId+",1,6)";
             System.out.println("query2 "+strUserSql);
             strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_mobile,CREATION_TIMESTAMP) values("+repDetailId+","+repId+","+userId+","+concatFields+",sysdate)";

@@ -121,7 +121,7 @@ public class RepManagementDAO {
             +"("
             +"SELECT x.*, ROWNUM as row_num FROM "
             +"	(SELECT \n" +
-"      scm_user_region.USER_ID,\n" +
+"      scm_user_region.USER_ID ,\n" +
 "      scm_user_region.USER_LEVEL_TYPE_ID,\n" +
 "      DCM_USER_DETAIL.USER_FULL_NAME,\n" +
 "      scm_user_region.REGION_ID,\n" +
@@ -139,7 +139,7 @@ public class RepManagementDAO {
 "    --AND DCM_USER.USER_STATUS_TYPE_ID =1\n" +
 "    --AND DCM_USER.REGION_ID           =DCM_REGION.REGION_ID\n" +
 "    AND scm_user_region.REGION_ID           =DCM_REGION.REGION_ID\n" +
-"    AND scm_user_region.user_ID           =DCM_USER_DETAIL.USER_ID\n" +
+"    AND    scm_user_region.USER_ID         =DCM_USER_DETAIL.USER_ID\n" +
 "    AND scm_user_region.USER_LEVEL_TYPE_ID IN(3,4,5,6)) x"
             +" "+sqlSearch +"   "
             +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";
@@ -448,7 +448,10 @@ public class RepManagementDAO {
         
 
     }
-
+    
+    
+    
+    
     public static Vector<RegionModel> getGovernorates(Connection con,String regionId){
         
         Vector<RegionModel> regionGovernorates=new Vector();

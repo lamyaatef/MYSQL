@@ -123,7 +123,7 @@ public class SupervisorFileDAO{
   }
     
     
-    public static void insertSupervisorData(Connection con, Statement stat,String userId,boolean isemptyField,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
+    public static void insertSupervisorData(Connection con, Statement stat,String userId,boolean isemptyField,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) {
         //System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
         String strSql = "";
@@ -146,15 +146,16 @@ public class SupervisorFileDAO{
             
         
         Long supId = Utility.getSequenceNextVal(con, "SEQ_SCM_SUPERVISOR_ID");
-        
+        Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
         String sqlCheckDcmId = "select * from dcm_user where dcm_user_id = "+supId;
+        System.out.println("check supervisor in dcm_user "+sqlCheckDcmId);
         ResultSet rs = stat.executeQuery(sqlCheckDcmId);
         
         if(rs.next())
         {
             
-            strUserSql = "update dcm_user set user_id="+userId+",user_level_type_id=4,user_status_type_id=1,user_level_id=4 where dcm_user_id="+supId;
+            strUserSql = "update dcm_user set user_id="+userId+",user_status_type_id=1,user_level_id=4,user_level_type_id=4 where dcm_user_id="+supId;
             System.out.println("query2 "+strUserSql);
             stat.execute(strUserSql);
             String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id = "+supId;
@@ -167,7 +168,7 @@ public class SupervisorFileDAO{
             }
             else
             {
-                Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+                //Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
                 strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+supDetailId+","+supId+","+userId+","+concatFields+",sysdate)";
                 System.out.println("query3 inner "+strUserDetailSql);
                 stat.execute(strUserDetailSql);
@@ -177,7 +178,7 @@ public class SupervisorFileDAO{
             
         else
         {
-            Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+            //Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
             strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+supId+","+userId+",4,"+supDetailId+",1,4)";
             System.out.println("query2 "+strUserSql);
             strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+supDetailId+","+supId+","+userId+","+concatFields+",sysdate)";
