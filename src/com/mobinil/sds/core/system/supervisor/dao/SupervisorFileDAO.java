@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 
 
 public class SupervisorFileDAO{
-
+public static final String PHONE_NUMBER = "0900";
     public static Vector getallNomadfiles(Connection con, String userId) {
         Vector vec = new Vector();
         String personName="";
@@ -148,7 +148,7 @@ public class SupervisorFileDAO{
         Long supId = Utility.getSequenceNextVal(con, "SEQ_SCM_SUPERVISOR_ID");
         Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
-        String sqlCheckDcmId = "select * from dcm_user where dcm_user_id = "+supId;
+        String sqlCheckDcmId = "select * from dcm_user where dcm_user_id = "+supId.longValue();
         System.out.println("check supervisor in dcm_user "+sqlCheckDcmId);
         ResultSet rs = stat.executeQuery(sqlCheckDcmId);
         
@@ -158,18 +158,19 @@ public class SupervisorFileDAO{
             strUserSql = "update dcm_user set user_id="+userId+",user_status_type_id=1,user_level_id=4,user_level_type_id=4 where dcm_user_id="+supId;
             System.out.println("query2 "+strUserSql);
             stat.execute(strUserSql);
-            String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id = "+supId;
+            String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id = "+supId.longValue();
             ResultSet rs2 = stat.executeQuery(sqlCheckDcmDetailId);
             if(rs2.next())
             {
-                strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=sysdate where user_id="+supId;
+                //strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=sysdate where user_id="+supId.longValue();
+                strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',CREATION_TIMESTAMP=sysdate where user_id="+supId.longValue();
                 System.out.println("query3 inner "+strUserDetailSql);
                 stat.execute(strUserDetailSql);
             }
             else
             {
                 //Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
-                strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+supDetailId+","+supId+","+userId+","+concatFields+",sysdate)";
+                strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,/*user_mobile,*/CREATION_TIMESTAMP) values("+supDetailId.longValue()+","+supId.longValue()+","+userId+","+concatFields+",sysdate)";
                 System.out.println("query3 inner "+strUserDetailSql);
                 stat.execute(strUserDetailSql);
             }
@@ -179,14 +180,14 @@ public class SupervisorFileDAO{
         else
         {
             //Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
-            strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+supId+","+userId+",4,"+supDetailId+",1,4)";
+            strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+supId.longValue()+","+userId+",4,"+supDetailId.longValue()+",1,4)";
             System.out.println("query2 "+strUserSql);
-            strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+supDetailId+","+supId+","+userId+","+concatFields+",sysdate)";
+            strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,/*user_mobile,*/CREATION_TIMESTAMP) values("+supDetailId.longValue()+","+supId.longValue()+","+userId+","+concatFields+",sysdate)";
             System.out.println("query3 "+strUserDetailSql);
             stat.execute(strUserSql);
             stat.execute(strUserDetailSql);
         }
-        strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+supId+","+concatFields+",sysdate)"; 
+        strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, /*MOBILE ,*/CREATION_TIMESTAMP) values ("+supId.longValue()+","+concatFields+",sysdate)"; 
         System.out.println("query1 "+strSql);
         stat.execute(strSql);   
          

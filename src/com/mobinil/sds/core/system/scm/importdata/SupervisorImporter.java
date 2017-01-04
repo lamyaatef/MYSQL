@@ -136,7 +136,7 @@ public class SupervisorImporter {
                             if(lineFields!=null)
                            {
                                isemptyField = false;
-                               if(lineFields.length<3)
+                               if(lineFields.length<2)
                                    continue;//isemptyField = true;
                             System.out.println("LINE not null %%%% "+lineFields);
                            

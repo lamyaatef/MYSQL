@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 
 
 public class TeamleaderFileDAO{
+public static final String PHONE_NUMBER = "0900";
 
     public static Vector getallNomadfiles(Connection con, String userId) {
         Vector vec = new Vector();
@@ -146,31 +147,31 @@ public class TeamleaderFileDAO{
         Long teamId = Utility.getSequenceNextVal(con, "SEQ_SCM_TEAMLEADER_ID");
         Long teamDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
-        String sqlCheckDcmId = "select * from dcm_user where dcm_user_id = "+teamId;
+        String sqlCheckDcmId = "select * from dcm_user where dcm_user_id = "+teamId.longValue();
         ResultSet rs = stat.executeQuery(sqlCheckDcmId);
         
         if(rs.next())
         {
             
-            strUserSql = "update dcm_user set user_id="+userId+",user_status_type_id=1,user_level_id=5,user_level_type_id=5 where dcm_user_id="+teamId;
+            strUserSql = "update dcm_user set user_id="+userId+",user_status_type_id=1,user_level_id=5,user_level_type_id=5 where dcm_user_id="+teamId.longValue();
             System.out.println("query2 "+strUserSql);
             stat.execute(strUserSql);
             
             
             
             
-            String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id = "+teamId;
+            String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id = "+teamId.longValue();
             ResultSet rs2 = stat.executeQuery(sqlCheckDcmDetailId);
             if(rs2.next())
             {
-                strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=sysdate where user_id="+teamId;
+                strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=sysdate where user_id="+teamId.longValue();
                 System.out.println("query3 inner "+strUserDetailSql);
                 stat.execute(strUserDetailSql);
             }
             else
             {
                 //Long teamDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
-                strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+teamDetailId+","+teamId+","+userId+","+concatFields+",sysdate)";
+                strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+teamDetailId.longValue()+","+teamId.longValue()+","+userId+","+concatFields+",sysdate)";
                 System.out.println("query3 inner "+strUserDetailSql);
                 stat.execute(strUserDetailSql);
             }
@@ -179,15 +180,15 @@ public class TeamleaderFileDAO{
         else
         {
             //Long teamDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
-            strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+teamId+","+userId+",5,"+teamDetailId+",1,5)";
+            strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+teamId.longValue()+","+userId+",5,"+teamDetailId.longValue()+",1,5)";
             System.out.println("query2 "+strUserSql);
-            strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+teamDetailId+","+teamId+","+userId+","+concatFields+",sysdate)";
+            strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+teamDetailId.longValue()+","+teamId.longValue()+","+userId+","+concatFields+",sysdate)";
             System.out.println("query3 "+strUserDetailSql);
             stat.execute(strUserSql);
             stat.execute(strUserDetailSql);
         }
         
-        strSql = "insert into SCM_TEAMLEADER ( TEAMLEADER_ID, TEAMLEADER_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+teamId+","+concatFields+",sysdate)";
+        strSql = "insert into SCM_TEAMLEADER ( TEAMLEADER_ID, TEAMLEADER_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+teamId.longValue()+","+concatFields+",sysdate)";
         System.out.println("query1 "+strSql);
         stat.execute(strSql);
         

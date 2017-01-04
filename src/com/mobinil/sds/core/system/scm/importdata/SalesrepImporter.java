@@ -138,7 +138,7 @@ public class SalesrepImporter {
                             if(lineFields!=null)
                            {
                                isemptyField = false;
-                               if(lineFields.length<2)
+                               if(lineFields.length<3)
                                    continue;//isemptyField = true;
                             System.out.println("LINE not null %%%% "+lineFields);
                            
