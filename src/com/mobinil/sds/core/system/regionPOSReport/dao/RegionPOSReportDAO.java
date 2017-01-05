@@ -107,9 +107,12 @@ public class RegionPOSReportDAO {
 "AND gen_dcm_status.dcm_status_id = dcm_pos_detail.pos_status_type_id\n" +
 "AND dcm_pos_owner.pos_owner_id = dcm_pos_owner_phone.pos_owner_id\n" +
 "AND gen_dcm_level.dcm_level_id = dcm_pos_detail.DCM_LEVEL_ID\n" +
-"AND scm_supervisor.supervisor_id = dcm_pos_detail.supervisor_id\n" +
-"AND scm_teamleader.teamleader_id = dcm_pos_detail.teamleader_id\n" +
-"AND scm_salesrep.salesrep_id = dcm_pos_detail.salesrep_id\n" +
+"--AND scm_supervisor.supervisor_id = dcm_pos_detail.supervisor_id\n" +
+"--AND scm_teamleader.teamleader_id = dcm_pos_detail.teamleader_id\n" +
+"--AND scm_salesrep.salesrep_id = dcm_pos_detail.salesrep_id\n" +
+"AND scm_supervisor.supervisor_id = dcm_pos_detail.user_id\n" +
+"AND scm_teamleader.teamleader_id = dcm_pos_detail.user_id\n" +
+"AND scm_salesrep.salesrep_id = dcm_pos_detail.user_id\n"+
 "AND scm_stk_status.stk_status_id = CAM_PAYMENT_SCM_STATUS.stk_status\n" +
 "AND CAM_PAYMENT_SCM_STATUS.scm_id = gen_dcm.dcm_id\n" +
 "AND CAM_PAYMENT_cam_state.id = CAM_PAYMENT_SCM_STATUS.PAYMENT_cam_state_id\n" +

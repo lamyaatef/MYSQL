@@ -205,11 +205,20 @@ public class CommercialFileDAO{
         
         try {  
                 
+                if(districtCode.compareToIgnoreCase(imgDistrictCode)!=0 && imgDistrictCode.compareTo("")==0)
+                {
+                    insertSCMUserDistrictForSupervisor(con, stat, imgDistrictName, supervisorName, posCode);
+                    insertSCMUserDistrictForTeamleader(con, stat, imgDistrictName, teamleaderName, posCode);
+                    insertSCMUserDistrictForSalesRep(con, stat, imgDistrictName, salesrepName, posCode);
 
-                insertSCMUserDistrictForSupervisor(con, stat, districtName, supervisorName, posCode);
-                insertSCMUserDistrictForTeamleader(con, stat, districtName, teamleaderName, posCode);
-                insertSCMUserDistrictForSalesRep(con, stat, districtName, salesrepName, posCode);
+                }
+                else
+                {
+                    insertSCMUserDistrictForSupervisor(con, stat, districtName, supervisorName, posCode);
+                    insertSCMUserDistrictForTeamleader(con, stat, districtName, teamleaderName, posCode);
+                    insertSCMUserDistrictForSalesRep(con, stat, districtName, salesrepName, posCode);
 
+                }
                 
                 
                 
@@ -219,8 +228,8 @@ public class CommercialFileDAO{
                 //insertSCMSTKOwnerTable(con, stat, posCode, supervisorName, userId, isVerifiedName, iqrarReceivedDate, stkStatusName, isIqrarReceivedName, assignEntryDate, stkActivationDate);
 
                 //supposed to be stk number
-                //updateGenDCMTable(con, stat, stkDialNumber, Ex, Qc, L1, Sign, posLevelId, districtName, cityName, channelCode, posEnName, posAddress, paymentLevelName, posStatusName, posCode);
-                //updateDcmPosDetailTable(con, stat, userId,surveyId, Ex, Qc, L1, Sign, posArAddress, docNumber, docLocation, supervisorName, teamleaderName, salesrepName, paymentLevelName, posLevelId, posStatusName, posCode, channelCode, regionName, districtCode, governName, districtName, cityName, areaName, posEnName , posArName, posAddress);
+                updateGenDCMTable(con, stat, stkDialNumber, Ex, Qc, L1, Sign, posLevelId, districtName, cityName, channelCode, posEnName, posAddress, paymentLevelName, posStatusName, posCode);
+                updateDcmPosDetailTable(con, stat, userId,surveyId, Ex, Qc, L1, Sign, posArAddress, docNumber, docLocation, supervisorName, teamleaderName, salesrepName, paymentLevelName, posLevelId, posStatusName, posCode, channelCode, regionName, districtCode, governName, districtName, cityName, areaName, posEnName , posArName, posAddress);
 
                 //updateDistrictCode(con, stat, districtCode, districtName);
 

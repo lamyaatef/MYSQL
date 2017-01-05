@@ -48,7 +48,7 @@ public class RepManagementDAO {
 
         Vector<DCMUserLevelTypeModel> repAndSupervisorLevels=new Vector();
         String sqlStatement;
-        sqlStatement="SELECT USER_LEVEL_TYPE_ID,USER_LEVEL_TYPE_NAME FROM DCM_USER_LEVEL_TYPE WHERE USER_LEVEL_TYPE_ID=3 OR USER_LEVEL_TYPE_ID=4 OR USER_LEVEL_TYPE_ID=5";
+        sqlStatement="SELECT USER_LEVEL_TYPE_ID,USER_LEVEL_TYPE_NAME FROM DCM_USER_LEVEL_TYPE WHERE USER_LEVEL_TYPE_ID=4 OR USER_LEVEL_TYPE_ID=5 OR USER_LEVEL_TYPE_ID=6";
         repAndSupervisorLevels=DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserLevelTypeModel.class, con);
         return repAndSupervisorLevels;
 
@@ -142,7 +142,7 @@ public class RepManagementDAO {
 "    AND    scm_user_region.USER_ID         =DCM_USER_DETAIL.USER_ID\n" +
 "    AND scm_user_region.USER_LEVEL_TYPE_ID IN(3,4,5,6)) x"
             +" "+sqlSearch +"   "
-            +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";
+            +" ) ORDER BY LOWER(USER_FULL_NAME) ";
         System.out.println("Search Rep Query : "+sqlStatement);
         dcmUser= DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class, "fillForRepManagementSearch", con);
 
@@ -158,23 +158,41 @@ public class RepManagementDAO {
               
         try {
             Statement stat = con.createStatement();
-            String strSql1 = "select * from vw_salesrep_manager_assign order by rep_name";
-            String strSql2 = "select * from vw_salesrep_manager_notexist order by rep_name";
+            //String strSql1 = "select * from vw_salesrep_manager_assign order by rep_name";
+            //String strSql2 = "select * from vw_salesrep_manager_notexist order by rep_name";
             
-            
-            ResultSet res1 = stat.executeQuery(strSql1);
+            //String strSql = "select * from scm_salesrep order by salesrep_name";
+            String strSql = "SELECT scm_salesrep.*,\n" +
+            "  dcm_region.region_name,\n" +
+            "  scm_teamleader.teamleader_name,\n" +
+            "  scm_teamleader.email as teamleader_email,\n" +
+            "  scm_teamleader.mobile as teamleader_mobile,\n" +
+            "  scm_supervisor.supervisor_name,\n" +
+            "  scm_supervisor.email as supervisor_email,\n" +
+            "  scm_supervisor.mobile as supervisor_mobile\n" +
+            "FROM scm_supervisor,\n" +
+            "scm_salesrep,\n" +
+            "scm_teamleader,\n" +
+            "  scm_user_region,\n" +
+            "  dcm_region\n" +
+            "WHERE scm_salesrep.salesrep_id    = scm_user_region.user_id\n" +
+            "AND scm_user_region.user_level_type_id=6\n" +
+            "AND scm_user_region.region_id         = dcm_region.region_id\n" +
+            "AND scm_salesrep.teamlead_id = scm_teamleader.teamleader_id\n" +
+            "AND scm_teamleader.sup_id = scm_supervisor.supervisor_id";
+            ResultSet res1 = stat.executeQuery(strSql);
             while (res1.next()) {
                
-                vec.add(new RepExcelModel(res1,true));
+                vec.add(new RepExcelModel(res1,false));
                 }
             res1.close();
             
-            ResultSet res2 = stat.executeQuery(strSql2);
+            /*ResultSet res2 = stat.executeQuery(strSql2);
             while (res2.next()) {
                
                 vec.add(new RepExcelModel(res2,false));
                 }
-            res2.close();
+            res2.close();*/
  
      
      
@@ -202,24 +220,48 @@ public class RepManagementDAO {
                
                 System.out.println("RepResults.get(i) "+RepResults.get(i).getDcmUserId());
                 DCMUserModel rep = RepResults.get(i);
-                String strSql1 = "select * from vw_salesrep_manager_assign where dcm_user_id = '"+rep.getDcmUserId()+"' ";
-                String strSql2 = "select * from vw_salesrep_manager_notexist where dcm_user_id = '"+rep.getDcmUserId()+"' ";
-                System.out.println(strSql1);
-                System.out.println(strSql2);
-                ResultSet res1 = stat.executeQuery(strSql1);
-                if (res1.next()) {
+                //String strSql1 = "select * from vw_salesrep_manager_assign where dcm_user_id = '"+rep.getDcmUserId()+"' ";
+                //String strSql2 = "select * from vw_salesrep_manager_notexist where dcm_user_id = '"+rep.getDcmUserId()+"' ";
+                //String strSql="select * from scm_salesrep where salesrep_id = '"+rep.getDcmUserId()+"' ";
+                String strSql="SELECT scm_salesrep.*,\n" +
+                "  dcm_region.region_name,\n" +
+                "  scm_teamleader.teamleader_name,\n" +
+                "  scm_teamleader.email as teamleader_email,\n" +
+                "  scm_teamleader.mobile as teamleader_mobile,\n" +
+                "  scm_supervisor.supervisor_name,\n" +
+                "  scm_supervisor.email as supervisor_email,\n" +
+                "  scm_supervisor.mobile as supervisor_mobile\n" +
+                "FROM scm_supervisor,\n" +
+                "scm_salesrep,\n" +
+                "scm_teamleader,\n" +
+                "  scm_user_region,\n" +
+                "  dcm_region\n" +
+                "WHERE scm_salesrep.salesrep_id    = scm_user_region.user_id\n" +
+                "AND scm_user_region.user_level_type_id=6\n" +
+                "AND scm_user_region.region_id         = dcm_region.region_id\n" +
+                "AND scm_salesrep.teamlead_id = scm_teamleader.teamleader_id\n" +
+                "AND scm_teamleader.sup_id = scm_supervisor.supervisor_id\n" +
+                "AND scm_salesrep.salesrep_id = '"+rep.getDcmUserId()+"'";
+                System.out.println(strSql);
+                if(i==0)
+                {
+                    ResultSet res1 = stat.executeQuery(strSql);
+                    while (res1.next()) {
 
-                    vec.add(new RepExcelModel(res1,true));
-                    }
-                res1.close();
-
-                ResultSet res2 = stat.executeQuery(strSql2);
-                if (res2.next()) {
-
-                    vec.add(new RepExcelModel(res2,false));
-                    }
-                res2.close();
+                        vec.add(new RepExcelModel(res1,true));
+                        }
+                    res1.close();
                 }
+                if(i!=0 && RepResults.get(i).getDcmUserId().compareTo(RepResults.get(i-1).getDcmUserId())!=0)
+                {
+                    ResultSet res1 = stat.executeQuery(strSql);
+                    while (res1.next()) {
+
+                        vec.add(new RepExcelModel(res1,true));
+                        }
+                    res1.close();
+                }
+            }
             
            
             stat.close();
@@ -244,14 +286,14 @@ public class RepManagementDAO {
             System.out.println("SupervisorResults.size() "+SupervisorResults.size());
             for (int i=0;i<SupervisorResults.size();i++) {
                
-                System.out.println("RepResults.get(i) "+SupervisorResults.get(i).getDcmUserId());
+                System.out.println("SuperResults.get(i) "+SupervisorResults.get(i).getDcmUserId());
                 DCMUserModel supervisor = SupervisorResults.get(i);
-                String strSql1 = "select * from mySupervisors where sup_id = '"+supervisor.getDcmUserId()+"' ";
-                
+                //String strSql1 = "select * from scm_supervisor where supervisor_id = '"+supervisor.getDcmUserId()+"' ";
+                String strSql1= "select scm_supervisor.*, dcm_region.region_name from scm_supervisor, scm_user_region, dcm_region where scm_supervisor.supervisor_id = scm_user_region.user_id and scm_user_region.user_level_type_id=4 and scm_user_region.region_id = dcm_region.region_id and scm_supervisor.supervisor_id='"+supervisor.getDcmUserId()+"' ";
                 System.out.println(strSql1);
 
                 ResultSet res1 = stat.executeQuery(strSql1);
-                if (res1.next()) {
+                while (res1.next()) {
 
                     vec.add(new SupervisorExcelModel(res1, true));
                     }
@@ -286,18 +328,28 @@ public class RepManagementDAO {
                
                 System.out.println("TeamleaderResults.get(i) "+TeamleaderResults.get(i).getDcmUserId());
                 DCMUserModel teamleader = TeamleaderResults.get(i);
-                String strSql1 = "select * from myTeamleaders where team_id = '"+teamleader.getDcmUserId()+"' ";
-                
+                //String strSql1 = "select * from scm_teamleader where teamleader_id = '"+teamleader.getDcmUserId()+"' ";
+                String strSql1= "select scm_teamleader.*, dcm_region.region_name from scm_teamleader, scm_user_region, dcm_region where scm_teamleader.teamleader_id = scm_user_region.user_id and scm_user_region.user_level_type_id=5 and scm_user_region.region_id = dcm_region.region_id and scm_teamleader.teamleader_id='"+teamleader.getDcmUserId()+"' ";
                 System.out.println(strSql1);
+                if(i==0)    
+                {
+                    ResultSet res1 = stat.executeQuery(strSql1);
+                    while (res1.next()) {
 
-                ResultSet res1 = stat.executeQuery(strSql1);
-                if (res1.next()) {
-
-                    vec.add(new TeamleaderExcelModel(res1, true));
-                    }
-                res1.close();
-
+                        vec.add(new TeamleaderExcelModel(res1, true));
+                        }
+                    res1.close();
                 }
+                if(i!=0 && TeamleaderResults.get(i).getDcmUserId().compareTo(TeamleaderResults.get(i-1).getDcmUserId())!=0)
+                {
+                    ResultSet res1 = stat.executeQuery(strSql1);
+                    while (res1.next()) {
+
+                        vec.add(new TeamleaderExcelModel(res1, true));
+                        }
+                    res1.close();
+                }
+            }
             
            
             stat.close();
@@ -320,13 +372,13 @@ public class RepManagementDAO {
               
         try {
             Statement stat = con.createStatement();
-            String strSql1 = "select * from mySupervisors order by supervisor_name";
-            
+            String strSql1 = "select * from scm_supervisor order by supervisor_name";
+            System.out.println("get supervisors : "+strSql1);
             
             ResultSet res1 = stat.executeQuery(strSql1);
             while (res1.next()) {
                
-                vec.add(new SupervisorExcelModel(res1,true));
+                vec.add(new SupervisorExcelModel(res1,false));
                 }
             res1.close();
             
@@ -347,12 +399,12 @@ public class RepManagementDAO {
               
         try {
             Statement stat = con.createStatement();
-            String strSql1 = "select * from myTeamleaders order by teamleader_name";
+            String strSql1 = "select * from scm_teamleader order by teamleader_name";
             
             ResultSet res1 = stat.executeQuery(strSql1);
             while (res1.next()) {
                
-                vec.add(new TeamleaderExcelModel(res1,true));
+                vec.add(new TeamleaderExcelModel(res1,false));
                 }
             res1.close();
             

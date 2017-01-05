@@ -18,17 +18,22 @@ public class SupervisorExcelModel {
     private String supervisorEmail="";
     private String supervisorName="";
     private String supervisorMobile="";
+    private String regionName = "";
     
     
     public SupervisorExcelModel(){}
-    public SupervisorExcelModel(ResultSet res, boolean hasManager) throws SQLException{
+    public SupervisorExcelModel(ResultSet res, boolean hasRegion) throws SQLException{
     
-        supervisorId = res.getString("sup_id");
-            supervisorAddress = res.getString("supervisor_address");
-            supervisorEmail = res.getString("supervisor_email");
-            supervisorMobile = res.getString("supervisor_mobile");
+        //supervisorId = String.valueOf(res.getInt("supervisor_id"));
+        supervisorId = res.getString("supervisor_id");
+            //supervisorAddress = res.getString("supervisor_address");
+            supervisorEmail = res.getString("email");
+            supervisorMobile = res.getString("mobile");
+            if (supervisorMobile==null)
+                supervisorMobile="null";
             supervisorName = res.getString("supervisor_name");
-        
+            if(hasRegion)
+                regionName = res.getString("region_name");
         
     }
 
@@ -97,6 +102,20 @@ public class SupervisorExcelModel {
      */
     public void setSupervisorMobile(String supervisorMobile) {
         this.supervisorMobile = supervisorMobile;
+    }
+
+    /**
+     * @return the regionName
+     */
+    public String getRegionName() {
+        return regionName;
+    }
+
+    /**
+     * @param regionName the regionName to set
+     */
+    public void setRegionName(String regionName) {
+        this.regionName = regionName;
     }
 
     

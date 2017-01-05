@@ -18,19 +18,20 @@ public class TeamleaderExcelModel {
     private String teamleaderAddress="";
     private String teamleaderEmail="";
     private String teamleaderMobile="";
-    
+    private String supId="";
+    private String regionName="";
     
     public TeamleaderExcelModel(){}
-    public TeamleaderExcelModel(ResultSet res, boolean hasManager) throws SQLException{
+    public TeamleaderExcelModel(ResultSet res, boolean hasRegion) throws SQLException{
     
-            teamleaderId = res.getString("team_id");
-            teamleaderAddress = res.getString("teamleader_address");
-            teamleaderEmail = res.getString("teamleader_email");
-            teamleaderMobile = res.getString("teamleader_mobile");
+            //teamleaderId = res.getString("teamleader_id");
+            //teamleaderAddress = res.getString("teamleader_address");
+            teamleaderEmail = res.getString("email");
+            teamleaderMobile = res.getString("mobile");
             teamleaderName = res.getString("teamleader_name");
-       
-      
-        
+            supId = res.getString("sup_id");
+            if(hasRegion)
+                regionName = res.getString("region_name");
     }
 
     public String getTeamleaderId() {
@@ -98,5 +99,33 @@ public class TeamleaderExcelModel {
      */
     public void setTeamleaderMobile(String teamleaderMobile) {
         this.teamleaderMobile = teamleaderMobile;
+    }
+
+    /**
+     * @return the supId
+     */
+    public String getSupId() {
+        return supId;
+    }
+
+    /**
+     * @param supId the supId to set
+     */
+    public void setSupId(String supId) {
+        this.supId = supId;
+    }
+
+    /**
+     * @return the regionName
+     */
+    public String getRegionName() {
+        return regionName;
+    }
+
+    /**
+     * @param regionName the regionName to set
+     */
+    public void setRegionName(String regionName) {
+        this.regionName = regionName;
     }
 }

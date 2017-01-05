@@ -28,28 +28,40 @@ public class RepExcelModel {
     private String teamleaderAddress="";
     private String teamleaderEmail="";
     private String teamleaderMobile="";
-    
+    private String regionName="";
     
     public RepExcelModel(){}
-    public RepExcelModel(ResultSet res, boolean hasManager) throws SQLException{
+    public RepExcelModel(ResultSet res, boolean hasRegion) throws SQLException{
     
-        repId = res.getString("dcm_user_id");
-        repName = res.getString("rep_name");
-        repMobile = res.getString("rep_mobile");
-        repAddress = res.getString("rep_address");
-        repEmail = res.getString("rep_email");
-        if(hasManager)
+        //repId = res.getString("salesrep_id");
+        repName = res.getString("salesrep_name");
+        repMobile = res.getString("mobile");
+        //repAddress = res.getString("rep_address");
+        repEmail = res.getString("email");
+        teamleaderName = res.getString("teamleader_name");
+        teamleaderEmail = res.getString("teamleader_email");
+        teamleaderMobile = res.getString("teamleader_mobile");
+        if (teamleaderMobile==null)
+                teamleaderMobile="null";
+        supervisorEmail = res.getString("supervisor_email");
+        supervisorMobile = res.getString("supervisor_mobile");
+        if (supervisorMobile==null)
+                supervisorMobile="null";
+        supervisorName = res.getString("supervisor_name");
+        
+        if(hasRegion)
         {
-            supervisorId = res.getString("sup_id");
+            regionName = res.getString("region_name");
+            /*supervisorId = res.getString("sup_id");
             supervisorAddress = res.getString("supervisor_address");
             supervisorEmail = res.getString("supervisor_email");
             supervisorMobile = res.getString("supervisor_mobile");
             supervisorName = res.getString("supervisor_name");
-            teamleaderId = res.getString("team_id");
+            teamleaderId = res.getString("teamlead_id");
             teamleaderAddress = res.getString("teamleader_address");
             teamleaderEmail = res.getString("teamleader_email");
             teamleaderMobile = res.getString("teamleader_mobile");
-            teamleaderName = res.getString("teamleader_name");
+            teamleaderName = res.getString("teamleader_name");*/
         }
       
         
@@ -263,5 +275,19 @@ public class RepExcelModel {
      */
     public void setTeamleaderMobile(String teamleaderMobile) {
         this.teamleaderMobile = teamleaderMobile;
+    }
+
+    /**
+     * @return the regionName
+     */
+    public String getRegionName() {
+        return regionName;
+    }
+
+    /**
+     * @param regionName the regionName to set
+     */
+    public void setRegionName(String regionName) {
+        this.regionName = regionName;
     }
 }

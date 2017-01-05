@@ -105,7 +105,7 @@
                 var userType = document.getElementById("selectType").value;
                 var regionSelected = document.getElementById("region_select").value;
                 
-                if(userType=='3')
+                if(userType=='6')
                     document.repManagement.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_SALESREPS);%>'
                 if(userType=='4')
                     document.<%=formName%>.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_SUPERVISORS);%>'
