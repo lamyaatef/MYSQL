@@ -225,22 +225,22 @@ public class CommercialFileDAO{
                 updateSCMTeamLeaderTable(con, stat, teamleaderName, supervisorName);
                 updateSCMSalesRepTable(con, stat, teamleaderName, salesrepName);
 
-                //insertSCMSTKOwnerTable(con, stat, posCode, supervisorName, userId, isVerifiedName, iqrarReceivedDate, stkStatusName, isIqrarReceivedName, assignEntryDate, stkActivationDate);
+                insertSCMSTKOwnerTable(con, stat, posCode, supervisorName, userId, isVerifiedName, iqrarReceivedDate, stkStatusName, isIqrarReceivedName, assignEntryDate, stkActivationDate);
 
                 //supposed to be stk number
                 updateGenDCMTable(con, stat, stkDialNumber, Ex, Qc, L1, Sign, posLevelId, districtName, cityName, channelCode, posEnName, posAddress, paymentLevelName, posStatusName, posCode);
                 updateDcmPosDetailTable(con, stat, userId,surveyId, Ex, Qc, L1, Sign, posArAddress, docNumber, docLocation, supervisorName, teamleaderName, salesrepName, paymentLevelName, posLevelId, posStatusName, posCode, channelCode, regionName, districtCode, governName, districtName, cityName, areaName, posEnName , posArName, posAddress);
 
-                //updateDistrictCode(con, stat, districtCode, districtName);
+                updateDistrictCode(con, stat, districtCode, districtName);
 
-                //updateAreaCode(con, stat, areaCode, areaName);
+                updateAreaCode(con, stat, areaCode, areaName);
                 //supposed to be stk number
-                //updateCAM_PAYMENT_SCM_STATUSTable(con, stat, stkDialNumber, stkStatusName, paymentStatusName, posCode);
+                updateCAM_PAYMENT_SCM_STATUSTable(con, stat, stkDialNumber, stkStatusName, paymentStatusName, posCode);
 
-                //updatePOSOwnerTable(con, stat, userId, posOwnerIdType, posOwnerIdNumber, posOwnerName, posCode);
-                //updatePOSOwnerPhoneTable(con, stat, userId, posOwnerPhoneNumber, posCode);
+                updatePOSOwnerTable(con, stat, userId, posOwnerIdType, posOwnerIdNumber, posOwnerName, posCode);
+                updatePOSOwnerPhoneTable(con, stat, userId, posOwnerPhoneNumber, posCode);
 
-                //updatePOSDocumentsTable(con, stat, assignEntryDate, iqrarReceivedDate, stkActivationDate, stkDialNumber, posDocuments, docNumber, posCode);
+                updatePOSDocumentsTable(con, stat, assignEntryDate, iqrarReceivedDate, stkActivationDate, stkDialNumber, posDocuments, docNumber, posCode);
 
 
 

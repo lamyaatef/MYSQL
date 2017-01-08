@@ -1709,7 +1709,8 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                       cells.get(header).get(0).setCellValue("Supervisor Mobile");
                                       header++;
                                       cells.get(header).get(0).setCellValue("Supervisor Address");
-                                      
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("District Name");
                                       
             try {
                 Connection con = Utility.getConnection();

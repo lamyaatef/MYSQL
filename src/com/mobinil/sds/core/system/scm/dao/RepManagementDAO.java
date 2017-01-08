@@ -243,7 +243,7 @@ public class RepManagementDAO {
                 "AND scm_teamleader.sup_id = scm_supervisor.supervisor_id\n" +
                 "AND scm_salesrep.salesrep_id = '"+rep.getDcmUserId()+"'";
                 System.out.println(strSql);
-                if(i==0)
+                /*if(i==0)
                 {
                     ResultSet res1 = stat.executeQuery(strSql);
                     while (res1.next()) {
@@ -260,7 +260,13 @@ public class RepManagementDAO {
                         vec.add(new RepExcelModel(res1,true));
                         }
                     res1.close();
-                }
+                }*/
+                ResultSet res1 = stat.executeQuery(strSql);
+                    while (res1.next()) {
+
+                        vec.add(new RepExcelModel(res1,true));
+                        }
+                    res1.close();
             }
             
            
@@ -331,7 +337,7 @@ public class RepManagementDAO {
                 //String strSql1 = "select * from scm_teamleader where teamleader_id = '"+teamleader.getDcmUserId()+"' ";
                 String strSql1= "select scm_teamleader.*, dcm_region.region_name from scm_teamleader, scm_user_region, dcm_region where scm_teamleader.teamleader_id = scm_user_region.user_id and scm_user_region.user_level_type_id=5 and scm_user_region.region_id = dcm_region.region_id and scm_teamleader.teamleader_id='"+teamleader.getDcmUserId()+"' ";
                 System.out.println(strSql1);
-                if(i==0)    
+                /*if(i==0)    
                 {
                     ResultSet res1 = stat.executeQuery(strSql1);
                     while (res1.next()) {
@@ -348,7 +354,13 @@ public class RepManagementDAO {
                         vec.add(new TeamleaderExcelModel(res1, true));
                         }
                     res1.close();
-                }
+                }*/
+                ResultSet res1 = stat.executeQuery(strSql1);
+                    while (res1.next()) {
+
+                        vec.add(new TeamleaderExcelModel(res1, true));
+                        }
+                    res1.close();
             }
             
            

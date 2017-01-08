@@ -55,7 +55,7 @@ public static final String PHONE_NUMBER = "0900";
             Statement stat = con.createStatement();
 
             String strSql = "update GEN_DCM_NOMAD_FILE"
-                    + "  SET  STATUS = '" + status + "' , file_upload_date = sysdate where GEN_DCM_NOMAD_FILE_ID = '" + file_id + "'";
+                    + "  SET  STATUS = '" + status + "' , file_upload_date = SYSTIMESTAMP where GEN_DCM_NOMAD_FILE_ID = '" + file_id + "'";
 
             System.out.println("the change status query  is " + strSql);
 
@@ -142,7 +142,7 @@ public static final String PHONE_NUMBER = "0900";
         }
         
         concatFields = concatFields.substring(0, concatFields.length()-1);
-        System.out.println("Line Text Concatenated: "+concatFields);
+        System.out.println("Line Text Concatenated SUPERVISOR: "+concatFields);
             
         
         Long supId = Utility.getSequenceNextVal(con, "SEQ_SCM_SUPERVISOR_ID");
@@ -162,15 +162,15 @@ public static final String PHONE_NUMBER = "0900";
             ResultSet rs2 = stat.executeQuery(sqlCheckDcmDetailId);
             if(rs2.next())
             {
-                //strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=sysdate where user_id="+supId.longValue();
-                strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',CREATION_TIMESTAMP=sysdate where user_id="+supId.longValue();
+                //strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+supId.longValue();
+                strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+supId.longValue();
                 System.out.println("query3 inner "+strUserDetailSql);
                 stat.execute(strUserDetailSql);
             }
             else
             {
                 //Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
-                strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,/*user_mobile,*/CREATION_TIMESTAMP) values("+supDetailId.longValue()+","+supId.longValue()+","+userId+","+concatFields+",sysdate)";
+                strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,/*user_mobile,*/CREATION_TIMESTAMP) values("+supDetailId.longValue()+","+supId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
                 System.out.println("query3 inner "+strUserDetailSql);
                 stat.execute(strUserDetailSql);
             }
@@ -182,12 +182,12 @@ public static final String PHONE_NUMBER = "0900";
             //Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
             strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+supId.longValue()+","+userId+",4,"+supDetailId.longValue()+",1,4)";
             System.out.println("query2 "+strUserSql);
-            strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,/*user_mobile,*/CREATION_TIMESTAMP) values("+supDetailId.longValue()+","+supId.longValue()+","+userId+","+concatFields+",sysdate)";
+            strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,/*user_mobile,*/CREATION_TIMESTAMP) values("+supDetailId.longValue()+","+supId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
             System.out.println("query3 "+strUserDetailSql);
             stat.execute(strUserSql);
             stat.execute(strUserDetailSql);
         }
-        strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, /*MOBILE ,*/CREATION_TIMESTAMP) values ("+supId.longValue()+","+concatFields+",sysdate)"; 
+        strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, /*MOBILE ,*/CREATION_TIMESTAMP) values ("+supId.longValue()+","+concatFields+",SYSTIMESTAMP)"; 
         System.out.println("query1 "+strSql);
         stat.execute(strSql);   
          
@@ -992,7 +992,7 @@ public static final String PHONE_NUMBER = "0900";
         long fileId = Utility.getSequenceNextVal(con, "AUTH_GROSS_ADDS_FILE_SEQ");
         StringBuilder str = new StringBuilder("Insert into AUTH_GROSS_ADDS_FILE values(");
         str.append(fileId);
-        str.append(",sysdate,0,");
+        str.append(",SYSTIMESTAMP,0,");
         str.append(month);
         str.append(",");
         str.append(year);
