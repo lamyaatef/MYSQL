@@ -174,8 +174,9 @@ public class NomadImporter {
                             //System.out.println("fileds "+v1+" line fields at date index: "+lineFields[updateOn]);
                             
                             //if a record is short or has invalid chars such as \n, continue to while loop and get the next line/record
-                           // System.out.println("lineFields.length "+lineFields.length+" updated on index : "+updateOn);
-                           if(lineFields!=null)
+                           System.out.println("lineFields.length "+lineFields.length+" updated on index : "+updateOn);
+                           
+                            if(lineFields!=null)
                            {
                               //System.out.println("LINE  %%%% "+lineFields);
                             if (lineFields.length <10 )
@@ -197,15 +198,16 @@ public class NomadImporter {
                             //System.out.println("updated before trimming : "+updatedDate);
                             updatedDate = updatedDate.substring(0, updatedDate.indexOf(" "));
                             
-
-//Date date = new SimpleDateFormat("yyyy-MM-dd").parse(updatedDate);
-                            //String updatedDate2 = new SimpleDateFormat("yyyy-MM-dd").format(date);
-                            //System.out.println("Update : "+updatedDate2+" VS>> File Date : "+fileDate);
-                            // updatedDate2
-                            DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-
                             
-                            if (updatedDate.compareTo(fileDate)==0)
+                            
+                            
+                            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); //define Date Format matching the file date in the file name
+                            Date theFileDate = (Date)formatter.parse(fileDate); //convert file date from String to Date 
+                            SimpleDateFormat mdyFormat = new SimpleDateFormat("dd-MM-yy"); //define the new Date Format matching to the Format inside CSV file
+                            String mdy = mdyFormat.format(theFileDate);//use the new Date format to change the Old Date Format and returns it as String
+                            
+                            System.out.println("Update : "+updatedDate+" VS>> File Date : "+mdy);
+                            if (updatedDate.compareTo(mdy)==0)
                             {
                                 
                                 NomadFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx,count/*,fileDate,updateOn*/);

@@ -144,10 +144,11 @@ public static final String PHONE_NUMBER = "0900";
         concatFields = concatFields.substring(0, concatFields.length()-1);
         System.out.println("Line Text Concatenated TEAMLEADER: "+concatFields);
         
-        Long teamId = Utility.getSequenceNextVal(con, "SEQ_SCM_TEAMLEADER_ID");
+        //Long teamId = Utility.getSequenceNextVal(con, "SEQ_SCM_TEAMLEADER_ID");
+        Long teamId = Utility.getSequenceNextVal(con, "SEQ_DCM_USER_ID");
         Long teamDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
-        String sqlCheckDcmId = "select * from dcm_user where dcm_user_id = "+teamId.longValue();
+        String sqlCheckDcmId = "select * from dcm_user where user_level_type_id=5 and dcm_user_id = "+teamId.longValue();
         ResultSet rs = stat.executeQuery(sqlCheckDcmId);
         
         if(rs.next())
@@ -160,7 +161,7 @@ public static final String PHONE_NUMBER = "0900";
             
             
             
-            String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id = "+teamId.longValue();
+            String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id in (select dcm_user_id from dcm_user where user_level_type_id=5 and dcm_user_id= "+teamId.longValue()+")";
             ResultSet rs2 = stat.executeQuery(sqlCheckDcmDetailId);
             if(rs2.next())
             {

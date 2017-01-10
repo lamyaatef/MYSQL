@@ -2188,14 +2188,20 @@ public class SCMHandler {
                     Vector <DCMUserModel> supervisors=new Vector();
 
 //                    String areaId=(String)paramHashMap.get(SCMInterfaceKey.REGION_ID);
-                    String districtID=(String)paramHashMap.get(SCMInterfaceKey.REGION_ID);
+                    // we don't assign/reassign to a new supervisor regarding the region because each reagion has one user(sup,rep,team)
+                    
+                    /*String districtID=(String)paramHashMap.get(SCMInterfaceKey.REGION_ID);
                     String regionId=RepSupDAO.getDistrictRegionId(con, districtID);
+                    supervisors=RepSupDAO.getRegionSupervisors(con, regionId);*/
+                    
+                    supervisors=RepSupDAO.getAllSupervisorsData(con);
+                    
                     String repId=(String)paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
                     String userLevelTypeId=(String)paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
                     String systemUserId=(String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
 
                     
-                    supervisors=RepSupDAO.getRegionSupervisors(con, regionId);
+                    
                     dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS, supervisors);
                     dataHashMap.put(SCMInterfaceKey.DCM_USER_ID, repId);
                     dataHashMap.put(SCMInterfaceKey.USER_LEVEL_TYPE_ID,userLevelTypeId);
@@ -2232,11 +2238,11 @@ public class SCMHandler {
                     String systemUserId=(String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
                     String userLevelTypeId=(String)paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
 
-                    if(RepSupDAO.checkIfRepAssigntoMoreThanTwoSupervisors(con, repId))
+                    /*if(RepSupDAO.checkIfRepAssigntoMoreThanTwoSupervisors(con, repId))
                         dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE,"Invalid, Rep already assigned to 2 supervisors.");
                     else if(RepSupDAO.checkIfRepAlreadyAssignedToThisSup(con, repId, supId))
                         dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE,"Invalid, Rep already assigned to this supervisor.");
-                    else
+                    else*/
                         RepSupDAO.assignRepToSupervisor(con, repId, supId,systemUserId);
 
                     DCMUserDetailModel repDetails = new DCMUserDetailModel();

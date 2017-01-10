@@ -20,7 +20,7 @@ public class TeamleaderSupervisorsModel extends Model{
         private String supId;
     private String supName;
     private String teamleaderId;
-    
+    private String teamleaderName;
     private Date createdIn;
     private String createdBy;
 
@@ -56,11 +56,11 @@ public class TeamleaderSupervisorsModel extends Model{
     public void fillInstance(ResultSet res) {
         try {
             this.setTeamleaderId(res.getString("TEAMLEAD_ID"));
-            //this.setSupName(res.getString("SUP_NAME"));
-            this.setSupId(res.getString("SUP_ID"));
-            this.setSupName(res.getString("SUP_NAME"));
-             this.setCreatedIn(res.getDate("CREATED_IN"));
-            this.setCreatedBy(res.getString("CREATED_BY"));
+            this.setSupName(res.getString("TEAMLEADER_NAME"));
+            this.setSupId(res.getString("SUPERVISOR_ID"));
+            this.setSupName(res.getString("SUPERVISOR_NAME"));
+             this.setCreatedIn(res.getDate("creation_timestamp"));
+            this.setCreatedBy(res.getString("user_id"));
         } catch (SQLException ex) {
             Logger.getLogger(RepSupervisorModel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -107,6 +107,20 @@ public class TeamleaderSupervisorsModel extends Model{
      */
     public String getTeamleaderId() {
         return teamleaderId;
+    }
+
+    /**
+     * @return the teamleaderName
+     */
+    public String getTeamleaderName() {
+        return teamleaderName;
+    }
+
+    /**
+     * @param teamleaderName the teamleaderName to set
+     */
+    public void setTeamleaderName(String teamleaderName) {
+        this.teamleaderName = teamleaderName;
     }
 
 

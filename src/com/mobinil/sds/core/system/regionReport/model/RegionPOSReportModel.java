@@ -131,11 +131,9 @@ public RegionPOSReportModel(ResultSet res/*,String supervisorName, String teamle
                     stkActivationDate= res.getString("stk_activation_date");
                     
                     iqrarReceivedDate= res.getString("iqrar_received_date");
-                    //stkVerificationId = res.getString("STKVRFCAT_VANTIFCASEIDNO");
-              
-                    iqrarReceived = res.getString("is_iqrar_received");
+                    //iqrarReceived = res.getString("is_iqrar_received");
             
-                    verifyOk = res.getString("is_verified");
+                    //verifyOk = res.getString("is_verified");
                     paymentStatus= res.getString("payment_status");//payment_status
                     paymentLevelName= res.getString("payment_level");
                     posOwnerPhoneNumber= res.getString("pos_owner_phone_number");
@@ -146,7 +144,7 @@ public RegionPOSReportModel(ResultSet res/*,String supervisorName, String teamle
                     QC= res.getString("QC")!=null && res.getString("QC").compareTo("1")==0 ? "Y":"N";
                     documentLocation= res.getString("doc_location");
                     surveyId= res.getString("survey_id");
-                    branch= "";//res.getString("BRANCH_ID");
+                    branch= posCode.substring(0, posCode.indexOf("."));//res.getString("BRANCH_ID");
                     documents = res.getString("posdocuments");
                     
                     

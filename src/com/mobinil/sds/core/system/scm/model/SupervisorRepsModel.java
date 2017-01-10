@@ -82,12 +82,12 @@ public class SupervisorRepsModel extends Model {
     @Override
     public void fillInstance(ResultSet res) {
         try {
-            this.setSupId(res.getString("SUP_ID"));
-            //this.setSupName(res.getString("SUP_NAME"));
-            this.setRepId(res.getString("REP_ID"));
-            this.setRepName(res.getString("REP_NAME"));
-             this.setCreatedIn(res.getDate("CREATED_IN"));
-            this.setCreatedBy(res.getString("CREATED_BY"));
+            this.setSupId(res.getString("supervisor_id"));
+            this.setSupName(res.getString("supervisor_id"));
+            this.setRepId(res.getString("salesrep_id"));
+            this.setRepName(res.getString("salesrep_name"));
+             this.setCreatedIn(res.getDate("creation_timestamp"));
+            this.setCreatedBy(res.getString("user_id"));
         } catch (SQLException ex) {
             Logger.getLogger(RepSupervisorModel.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -64,6 +64,37 @@ public class RepSupDAO {
         supervisors=DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class,"fillForRepSupAssign", con);
         return supervisors;
     }
+    
+    
+    public static Vector<DCMUserModel> getAllSupervisorsData(Connection con) {
+        
+        Vector <DCMUserModel> supervisors=new Vector();
+        System.out.println("getAllSupervisorsData ");
+        
+              
+        try {
+            Statement stat = con.createStatement();
+            String sqlStatement = "select dcm_user_level_type.*, scm_supervisor.*, dcm_user.user_id from dcm_user_level_type, dcm_user , scm_supervisor where dcm_user.user_level_type_id = dcm_user_level_type.user_level_type_id and dcm_user.dcm_user_id=scm_supervisor.supervisor_id and dcm_user.user_level_type_id=4 order by supervisor_name";
+            System.out.println("get ALL supervisors to assign from : "+sqlStatement);
+            supervisors=DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class,"fillForRepAssignSupervisor", con);
+            /*ResultSet res1 = stat.executeQuery(strSql1);
+            while (res1.next()) {
+               
+                vec.add(new DCMUserModel(res1));
+                }
+            res1.close();
+            
+            stat.close();*/
+           
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return supervisors;
+    }
+    
+    
     public static Vector<DCMUserModel> getRegionTeamleaders(Connection con,String regionId){
         String sqlStatement;
         Vector <DCMUserModel> teamleaders=new Vector();

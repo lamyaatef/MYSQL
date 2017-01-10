@@ -175,7 +175,7 @@ public class CommercialFileDAO{
         String assignEntryDate=(lineFields[18].compareTo("")==0)? "" : lineFields[18];
         String posStatusName=(lineFields[19].compareTo("")==0)? " " : lineFields[19];
         String posOwnerPhoneNumber=(lineFields[20].compareTo("")==0)? " " : lineFields[20];
-        String posLevelId=(lineFields[21].compareTo("")==0)? " " : lineFields[21];//level code
+        String posLevelId=(lineFields[21].compareTo("")==0)? " " : lineFields[21];//LEVEL CODE 
         String supervisorName=(lineFields[22].compareTo("")==0)? " " : lineFields[22];
         String teamleaderName=(lineFields[23].compareTo("")==0)? " " : lineFields[23];
         String salesrepName=(lineFields[24].compareTo("")==0)? " " : lineFields[24];
@@ -205,7 +205,7 @@ public class CommercialFileDAO{
         
         try {  
                 
-                if(districtCode.compareToIgnoreCase(imgDistrictCode)!=0 && imgDistrictCode.compareTo("")==0)
+                if(districtCode.compareToIgnoreCase(imgDistrictCode)!=0 && imgDistrictCode.compareTo("")!=0)
                 {
                     insertSCMUserDistrictForSupervisor(con, stat, imgDistrictName, supervisorName, posCode);
                     insertSCMUserDistrictForTeamleader(con, stat, imgDistrictName, teamleaderName, posCode);
@@ -259,6 +259,7 @@ public class CommercialFileDAO{
     
     private static int insertSCMSTKOwnerTable(Connection con, Statement stat, String dcmCode,String supervisorName,String userId,String dcmVerifiedStatusName, String iqrarReceivedDate, String stkStatusName,String iqrarReceivedStatusName, String stkEntryAssignDate, String stkActivationDate)
     {
+        System.out.println("...FUNC insertSCMSTKOwnerTable...");
         int inserted=-1;
         int supervisorId=-1;
         int dcmVerifiedStatusId = -1;
@@ -269,6 +270,8 @@ public class CommercialFileDAO{
         String iqrarReceivedDateSql="null";
         DateValidator validateDate = new DateValidator();
        try{    
+           
+           System.out.println("...insertSCMSTKOwnerTable...");
             
             if(iqrarReceivedDate.compareTo("")!=0 && validateDate.isThisDateValid(iqrarReceivedDate, "mm/dd/yyyy"))
                 iqrarReceivedDateSql = "to_date('"+iqrarReceivedDate+"','mm/dd/yyyy')";
@@ -350,7 +353,7 @@ public class CommercialFileDAO{
     
     
     
-    private static int updateGenDCMTable(Connection con, Statement stat,String stkNumber,String isExclusive, String isQualityClub,String isLevelOne,String hasSign, String dcmLevelName , String dcmDistrictName, String dcmCityName, String channeId,String dcmName,String dcmAddress, String dcmPaymentLevelName,String dcmStatusName,String posCode)
+    private static int updateGenDCMTable(Connection con, Statement stat,String stkNumber,String isExclusive, String isQualityClub,String isLevelOne,String hasSign, String dcmLevelCode , String dcmDistrictName, String dcmCityName, String channeId,String dcmName,String dcmAddress, String dcmPaymentLevelName,String dcmStatusName,String posCode)
     {
         int updated=-1;
         int districtId=-1;
@@ -407,13 +410,13 @@ public class CommercialFileDAO{
             if(rs4.next())
                 dcmStatusId = Integer.parseInt(rs4.getString("dcm_status_id"));
             
-            String sqlDcmLevelId="select dcm_level_id from gen_dcm_level where LOWER(dcm_level_name)  like LOWER('"+dcmLevelName+"')";
+           /* String sqlDcmLevelId="select dcm_level_id from gen_dcm_level where LOWER(dcm_level_name)  like LOWER('"+dcmLevelName+"')";
             ResultSet rs5 = stat.executeQuery(sqlDcmLevelId);
             if(rs5.next())
-                dcmLevelId = Integer.parseInt(rs5.getString("dcm_level_id"));
+                dcmLevelId = Integer.parseInt(rs5.getString("dcm_level_id"));*/
             
             
-            String strSql = "update gen_dcm set /*stk_number='"+stkNumber+"',*/is_exclusive='"+ex+"',is_quality_club='"+qc+"',is_level_one='"+l1+"',has_sign='"+sign+"',DCM_LEVEL_ID="+dcmLevelId+" ,dcm_district_id="+districtId+", dcm_city_id="+cityId+", channel_id="+channeId+", dcm_name='"+dcmName+"',dcm_address='"+dcmAddress+"',dcm_payment_level_id="+dcmPayLevelId+",dcm_status_id="+dcmStatusId+" where dcm_code='"+posCode+"'";
+            String strSql = "update gen_dcm set /*stk_number='"+stkNumber+"',*/is_exclusive='"+ex+"',is_quality_club='"+qc+"',is_level_one='"+l1+"',has_sign='"+sign+"',DCM_LEVEL_ID="+dcmLevelCode+" ,dcm_district_id="+districtId+", dcm_city_id="+cityId+", channel_id="+channeId+", dcm_name='"+dcmName+"',dcm_address='"+dcmAddress+"',dcm_payment_level_id="+dcmPayLevelId+",dcm_status_id="+dcmStatusId+" where dcm_code='"+posCode+"'";
             System.out.println("SQL updateGenDCMTable is " + strSql);
             updated = stat.executeUpdate(strSql);
             
@@ -832,7 +835,7 @@ public class CommercialFileDAO{
     }
     
    
-    private static int updateDcmPosDetailTable(Connection con, Statement stat,String userId,String surveyId,String isExclusive, String isQualityClub,String isLevelOne,String hasSign,String posArabicAddress,String posDocNum,String docLocation, String supervisorName, String teamleaderName,String salesrepName,String dcmPaymentLevelName, String dcmLevelName ,String dcmStatusName,String posCode, String posChannelId, String regionName, String districtCode,String posGovernName,String posDistrictName, String posCityName,String posAreaName,String posName,String posArabicName,String posAddress)
+    private static int updateDcmPosDetailTable(Connection con, Statement stat,String userId,String surveyId,String isExclusive, String isQualityClub,String isLevelOne,String hasSign,String posArabicAddress,String posDocNum,String docLocation, String supervisorName, String teamleaderName,String salesrepName,String dcmPaymentLevelName, String dcmLevelCode ,String dcmStatusName,String posCode, String posChannelId, String regionName, String districtCode,String posGovernName,String posDistrictName, String posCityName,String posAreaName,String posName,String posArabicName,String posAddress)
     {
         int updated=-1;
         int districtId=-1;
@@ -868,10 +871,10 @@ public class CommercialFileDAO{
             else sign="0";
             
             
-            String sqlDcmLevelId="select dcm_level_id from gen_dcm_level where LOWER(dcm_level_name)  like LOWER('"+dcmLevelName+"')";
+            /*String sqlDcmLevelId="select dcm_level_id from gen_dcm_level where LOWER(dcm_level_name)  like LOWER('"+dcmLevelName+"')";
             ResultSet rs11 = stat.executeQuery(sqlDcmLevelId);
             if(rs11.next())
-                dcmLevelId = Integer.parseInt(rs11.getString("dcm_level_id"));
+                dcmLevelId = Integer.parseInt(rs11.getString("dcm_level_id"));*/
             
             
             String sqlRegionId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+regionName+"%') and region_level_type_id=1";
@@ -937,7 +940,7 @@ public class CommercialFileDAO{
             
             
             
-            String strSql = "update dcm_pos_detail set user_id="+userId+",survey_id='"+surveyId+"',is_exclusive='"+ex+"',is_quality_club='"+qc+"',is_level_one='"+l1+"',has_sign='"+sign+"',pos_arabic_address = '"+posAddress+"',pos_doc_num='"+posDocNum+"',doc_location='"+docLocation+"',supervisor_id="+supervisorId+", teamleader_id="+teamleaderId+",salesrep_id="+salesrepId+",dcm_payment_level_id="+dcmPayLevelId+", DCM_LEVEL_ID="+dcmLevelId+" ,pos_status_type_id="+dcmStatusId+", pos_channel_id="+posChannelId+", region_id="+regionId+", district_code='"+districtCode+"',pos_governrate = "+governId+",pos_district_id="+districtId+", pos_city_id="+cityId+",pos_area_id="+areaId+",pos_name='"+posName+"',pos_arabic_name='"+posArabicName+"',pos_address='"+posAddress+"' where pos_code='"+posCode+"'";
+            String strSql = "update dcm_pos_detail set user_id="+userId+",survey_id='"+surveyId+"',is_exclusive='"+ex+"',is_quality_club='"+qc+"',is_level_one='"+l1+"',has_sign='"+sign+"',pos_arabic_address = '"+posArabicAddress+"',pos_doc_num='"+posDocNum+"',doc_location='"+docLocation+"',supervisor_id="+supervisorId+", teamleader_id="+teamleaderId+",salesrep_id="+salesrepId+",dcm_payment_level_id="+dcmPayLevelId+", DCM_LEVEL_ID="+dcmLevelCode+" ,pos_status_type_id="+dcmStatusId+", pos_channel_id="+posChannelId+", region_id="+regionId+", district_code='"+districtCode+"',pos_governrate = "+governId+",pos_district_id="+districtId+", pos_city_id="+cityId+",pos_area_id="+areaId+",pos_name='"+posName+"',pos_arabic_name='"+posArabicName+"',pos_address='"+posAddress+"' where pos_code='"+posCode+"'";
             System.out.println("SQL updateDcmPosDetailTable is " + strSql);
             updated = stat.executeUpdate(strSql);
             

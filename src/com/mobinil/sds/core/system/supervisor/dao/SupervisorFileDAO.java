@@ -145,10 +145,11 @@ public static final String PHONE_NUMBER = "0900";
         System.out.println("Line Text Concatenated SUPERVISOR: "+concatFields);
             
         
-        Long supId = Utility.getSequenceNextVal(con, "SEQ_SCM_SUPERVISOR_ID");
+        //Long supId = Utility.getSequenceNextVal(con, "SEQ_SCM_SUPERVISOR_ID");
+        Long supId = Utility.getSequenceNextVal(con, "SEQ_DCM_USER_ID");
         Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
-        String sqlCheckDcmId = "select * from dcm_user where dcm_user_id = "+supId.longValue();
+        String sqlCheckDcmId = "select * from dcm_user where user_level_type_id=4 and dcm_user_id = "+supId.longValue();
         System.out.println("check supervisor in dcm_user "+sqlCheckDcmId);
         ResultSet rs = stat.executeQuery(sqlCheckDcmId);
         
@@ -158,7 +159,7 @@ public static final String PHONE_NUMBER = "0900";
             strUserSql = "update dcm_user set user_id="+userId+",user_status_type_id=1,user_level_id=4,user_level_type_id=4 where dcm_user_id="+supId;
             System.out.println("query2 "+strUserSql);
             stat.execute(strUserSql);
-            String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id = "+supId.longValue();
+            String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id in (select dcm_user_id from dcm_user where dcm_user_id = "+supId.longValue()+" and user_level_type_id=4) ";
             ResultSet rs2 = stat.executeQuery(sqlCheckDcmDetailId);
             if(rs2.next())
             {

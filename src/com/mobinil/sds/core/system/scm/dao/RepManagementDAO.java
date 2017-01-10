@@ -618,11 +618,12 @@ public class RepManagementDAO {
 
         DCMUserDetailModel dcmUserDetail=new DCMUserDetailModel();
         String sqlStatement;
+        /*DCM_USER.REGION_ID=DCM_REGION.REGION_ID AND*/
         sqlStatement="SELECT DCM_USER.DCM_USER_ID, DCM_USER.USER_LEVEL_TYPE_ID, DCM_USER.REGION_ID ,DCM_USER_DETAIL.USER_FULL_NAME,DCM_USER_DETAIL.USER_ADDRESS,DCM_USER_DETAIL.USER_EMAIL,DCM_USER_DETAIL.USER_MOBILE,DCM_REGION.REGION_NAME"
                     +" FROM  DCM_USER,DCM_USER_DETAIL,DCM_REGION"
                     +" WHERE DCM_USER.USER_STATUS_TYPE_ID<>3 AND DCM_USER.DCM_USER_ID=DCM_USER_DETAIL.USER_ID AND"
-                    +" DCM_USER.REGION_ID=DCM_REGION.REGION_ID AND DCM_USER.USER_LEVEL_TYPE_ID="+userLevelTypeId+" AND DCM_USER.DCM_USER_ID="+dcmUserId;
-
+                    +"  DCM_USER.USER_LEVEL_TYPE_ID="+userLevelTypeId+" AND DCM_USER.DCM_USER_ID="+dcmUserId;
+System.out.println("getRepSupDetail "+sqlStatement);
            dcmUserDetail= DBUtil.executeSqlQuerySingleValue(sqlStatement, DCMUserDetailModel.class, "fillForRepSupDetail", con);
            return dcmUserDetail;
     }
@@ -630,10 +631,11 @@ public class RepManagementDAO {
 
         DCMUserDetailModel dcmUserDetail=new DCMUserDetailModel();
         String sqlStatement;
+        /*DCM_USER.REGION_ID=DCM_REGION.REGION_ID AND*/
         sqlStatement="SELECT DCM_USER.DCM_USER_ID, DCM_USER.USER_LEVEL_TYPE_ID, DCM_USER.REGION_ID ,DCM_USER_DETAIL.USER_FULL_NAME,DCM_USER_DETAIL.USER_ADDRESS,DCM_USER_DETAIL.USER_EMAIL,DCM_USER_DETAIL.USER_MOBILE,DCM_REGION.REGION_NAME"
                     +" FROM  DCM_USER,DCM_USER_DETAIL,DCM_REGION"
                     +" WHERE DCM_USER.USER_STATUS_TYPE_ID<>3 AND DCM_USER.DCM_USER_ID=DCM_USER_DETAIL.USER_ID AND"
-                    +" DCM_USER.REGION_ID=DCM_REGION.REGION_ID AND DCM_USER.USER_LEVEL_TYPE_ID="+userLevelTypeId+" AND DCM_USER.DCM_USER_ID="+dcmUserId;
+                    +" DCM_USER.USER_LEVEL_TYPE_ID="+userLevelTypeId+" AND DCM_USER.DCM_USER_ID="+dcmUserId;
 
            dcmUserDetail= DBUtil.executeSqlQuerySingleValue(sqlStatement, DCMUserDetailModel.class, "fillForRepTeamleadDetail", con);
            return dcmUserDetail;
@@ -749,9 +751,10 @@ public class RepManagementDAO {
     public static Vector<TeamleaderSupervisorsModel> getTeamleaderSupervisors(Connection con, String dcmUserId){
 
             Vector<TeamleaderSupervisorsModel> supervisorTeamleaders=new Vector();
-            String sqlStatement="SELECT TL.TEAMLEAD_ID,TL.SUP_ID,UD.USER_FULL_NAME SUP_NAME,TL.CREATED_BY,TL.CREATED_IN "
+            /*String sqlStatement="SELECT TL.TEAMLEAD_ID,TL.SUP_ID,UD.USER_FULL_NAME SUP_NAME,TL.CREATED_BY,TL.CREATED_IN "
                                 +" FROM DCM_USER_DETAIL UD,SCM_TEAMLEADER_SUPERVISORS TL WHERE TL.SUP_ID=UD.USER_ID"
-                                +" AND TL.TEAMLEAD_ID="+dcmUserId;
+                                +" AND TL.TEAMLEAD_ID="+dcmUserId;*/
+            String sqlStatement ="select dcm_user.user_id, scm_supervisor.*, scm_teamleader.teamleader_id , scm_teamleader.teamleader_name from dcm_user,scm_teamleader,scm_supervisor where dcm_user.dcm_user_id=scm_supervisor.supervisor_id and dcm_user.user_level_type_id=4 and scm_teamleader.sup_id = scm_supervisor.supervisor_id and scm_teamleader.teamleader_id = "+dcmUserId;
             System.out.println("getTeamleaderSupervisors "+sqlStatement);
             supervisorTeamleaders=DBUtil.executeSqlQueryMultiValue(sqlStatement, TeamleaderSupervisorsModel.class, con);
             
@@ -762,9 +765,10 @@ public class RepManagementDAO {
     public static Vector<SupervisorRepsModel> getSupervisorSalesReps(Connection con, String dcmUserId){
 
             Vector<SupervisorRepsModel> supervisorReps=new Vector();
-            String sqlStatement="SELECT RS.REP_ID,RS.SUP_ID,UD.USER_FULL_NAME REP_NAME,RS.CREATED_BY,RS.CREATED_IN "
+            /*String sqlStatement="SELECT RS.REP_ID,RS.SUP_ID,UD.USER_FULL_NAME REP_NAME,RS.CREATED_BY,RS.CREATED_IN "
                                 +" FROM DCM_USER_DETAIL UD,SCM_REP_SUPERVISORS RS WHERE RS.REP_ID=UD.USER_ID"
-                                +" AND RS.SUP_ID="+dcmUserId;
+                                +" AND RS.SUP_ID="+dcmUserId;*/
+            String sqlStatement = "select dcm_user.user_id, scm_salesrep.*,scm_supervisor.supervisor_id,scm_supervisor.supervisor_name from dcm_user,scm_salesrep, scm_teamleader,scm_supervisor where dcm_user.dcm_user_id=scm_salesrep.salesrep_id and dcm_user.user_level_type_id=6 and scm_supervisor.supervisor_id="+dcmUserId+" and scm_teamleader.sup_id=scm_supervisor.supervisor_id and scm_salesrep.teamlead_id = scm_teamleader.teamleader_id";
             supervisorReps=DBUtil.executeSqlQueryMultiValue(sqlStatement, SupervisorRepsModel.class, con);
             return supervisorReps;
     }
@@ -772,9 +776,10 @@ public class RepManagementDAO {
     public static Vector<TeamleaderRepsModel> getTeamleaderReps(Connection con, String dcmUserId){
 
             Vector<TeamleaderRepsModel> repTeamleaders=new Vector();
-            String sqlStatement="SELECT RS.REP_ID,RS.TEAMLEAD_ID,UD.USER_FULL_NAME REP_NAME,RS.CREATED_BY,RS.CREATED_IN "
+            /*String sqlStatement="SELECT RS.REP_ID,RS.TEAMLEAD_ID,UD.USER_FULL_NAME REP_NAME,RS.CREATED_BY,RS.CREATED_IN "
                                 +" FROM DCM_USER_DETAIL UD,SCM_REP_TEAMLEADERS RS WHERE RS.REP_ID=UD.USER_ID"
-                                +" AND RS.TEAMLEAD_ID="+dcmUserId;
+                                +" AND RS.TEAMLEAD_ID="+dcmUserId;*/
+            String sqlStatement = "select dcm_user.user_id, scm_salesrep.* , scm_teamleader.teamleader_id , scm_teamleader.teamleader_name from dcm_user, scm_salesrep, scm_teamleader where dcm_user.dcm_user_id=scm_salesrep.salesrep_id and dcm_user.user_level_type_id=6 and scm_teamleader.teamleader_id="+dcmUserId+" and scm_salesrep.teamlead_id = scm_teamleader.teamleader_id";
             System.out.println("getTeamleaderReps "+sqlStatement);
             repTeamleaders=DBUtil.executeSqlQueryMultiValue(sqlStatement, TeamleaderRepsModel.class, con);
             return repTeamleaders;

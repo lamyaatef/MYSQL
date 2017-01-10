@@ -148,11 +148,12 @@ public static final String PHONE_NUMBER = "0900";
         concatFields = concatFields.substring(0, concatFields.length()-1);
         System.out.println("Line Text Concatenated REP: "+concatFields);
         
-        Long repId = Utility.getSequenceNextVal(con, "SEQ_SCM_SALESREP_ID");
+        //Long repId = Utility.getSequenceNextVal(con, "SEQ_SCM_SALESREP_ID");
+        Long repId = Utility.getSequenceNextVal(con, "SEQ_DCM_USER_ID");
         Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
         
-        String sqlCheckDcmId = "select * from dcm_user where dcm_user_id = "+repId.longValue();
+        String sqlCheckDcmId = "select * from dcm_user where user_level_type_id=6 and dcm_user_id = "+repId.longValue();
         ResultSet rs = stat.executeQuery(sqlCheckDcmId);
         
         if(rs.next())
@@ -161,7 +162,7 @@ public static final String PHONE_NUMBER = "0900";
             strUserSql = "update dcm_user set user_id="+userId+",user_status_type_id=1,user_level_id=6,user_level_type_id=6 where dcm_user_id="+repId.longValue();
             System.out.println("query2 "+strUserSql);
             
-            String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id = "+repId.longValue();
+            String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id in (select dcm_user_id from dcm_user where user_level_type_id=6 and dcm_user_id="+repId.longValue()+")";
             ResultSet rs2 = stat.executeQuery(sqlCheckDcmDetailId);
             if(rs2.next())
             {
