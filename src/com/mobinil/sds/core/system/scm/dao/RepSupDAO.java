@@ -65,6 +65,45 @@ public class RepSupDAO {
         return supervisors;
     }
     
+    public static Vector<DCMUserModel> getAllTeamleadersData(Connection con) {
+        
+        Vector <DCMUserModel> teamleaders=new Vector();
+        System.out.println("getAllTeamleadersData ");
+        
+              
+        try {
+            Statement stat = con.createStatement();
+            String sqlStatement = "select dcm_user_level_type.*, scm_teamleader.*, dcm_user.user_id from dcm_user_level_type, dcm_user , scm_teamleader where dcm_user.user_level_type_id = dcm_user_level_type.user_level_type_id and dcm_user.dcm_user_id=scm_teamleader.teamleader_id and dcm_user.user_level_type_id=5 order by teamleader_name";
+            System.out.println("get ALL teamleaders to assign from : "+sqlStatement);
+            teamleaders=DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class,"fillForRepAssignTeamleader", con);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return teamleaders;
+    }
+    
+    
+    public static Vector<DCMUserModel> getAllRepsData(Connection con) {
+        
+        Vector <DCMUserModel> reps=new Vector();
+        System.out.println("getAllRepsData ");
+        
+              
+        try {
+            Statement stat = con.createStatement();
+            String sqlStatement = "select dcm_user_level_type.*, scm_salesrep.*, dcm_user.user_id from dcm_user_level_type, dcm_user , scm_salesrep where dcm_user.user_level_type_id = dcm_user_level_type.user_level_type_id and dcm_user.dcm_user_id=scm_salesrep.salesrep_id and dcm_user.user_level_type_id=6 order by salesrep_name";
+            System.out.println("get ALL reps to assign from : "+sqlStatement);
+            reps=DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class,"fillForSupervisorAssignRep", con);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return reps;
+    }
+    
     
     public static Vector<DCMUserModel> getAllSupervisorsData(Connection con) {
         
@@ -77,15 +116,6 @@ public class RepSupDAO {
             String sqlStatement = "select dcm_user_level_type.*, scm_supervisor.*, dcm_user.user_id from dcm_user_level_type, dcm_user , scm_supervisor where dcm_user.user_level_type_id = dcm_user_level_type.user_level_type_id and dcm_user.dcm_user_id=scm_supervisor.supervisor_id and dcm_user.user_level_type_id=4 order by supervisor_name";
             System.out.println("get ALL supervisors to assign from : "+sqlStatement);
             supervisors=DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class,"fillForRepAssignSupervisor", con);
-            /*ResultSet res1 = stat.executeQuery(strSql1);
-            while (res1.next()) {
-               
-                vec.add(new DCMUserModel(res1));
-                }
-            res1.close();
-            
-            stat.close();*/
-           
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,7 +138,7 @@ public class RepSupDAO {
 
     public static void assignRepToSupervisor(Connection con,String repId,String supId,String userId){
         String sqlStatement;
-        sqlStatement="INSERT INTO SCM_REP_SUPERVISORS VALUES("+repId+","+supId+",sysdate,"+userId+")";
+        sqlStatement="update scm_salesrep set sup_id="+supId+" where salesrep_id="+repId;
         DBUtil.executeSQL(sqlStatement, con);
     }
     public static void reassignRepToTeamleader(Connection con,String repId,String teamleadId,String userId){
@@ -133,30 +163,13 @@ public class RepSupDAO {
          
     }
     public static void assignRepToTeamleader(Connection con,String repId,String teamleadId,String userId) throws SQLException{
-        //String sqlStatement;
-        Statement stat = con.createStatement();
         
-        //sqlStatement="INSERT INTO SCM_REP_TEAMLEADERS VALUES("+repId+","+teamleadId+",sysdate,"+userId+")";
-        String sqlRepId="select * from scm_salesrep where salesrep_id="+repId;
-        ResultSet rs10 = stat.executeQuery(sqlRepId);
-        if(!rs10.next())
-           
-            {
-                Long salesRepId = Utility.getSequenceNextVal(con, "SEQ_SCM_SALESREP_ID"); 
-                String strSql = "insert into SCM_SALESREP ( SALESREP_ID, teamlead_id,CREATION_TIMESTAMP) values ("+salesRepId+","+teamleadId+",sysdate)" ;
-                System.out.println("SQL assignRepToTeamleader is " + strSql);
-                stat.execute(strSql);
-            
-            
-            }
-        else
-            {
-                String strSql = "update scm_salesrep set teamlead_id="+teamleadId+" where salesrep_id="+repId;
-                System.out.println("SQL assignRepToTeamleader Update is " + strSql);
-                stat.executeUpdate(strSql);    
-                
-            }
-        //DBUtil.executeSQL(sqlStatement, con);
+        
+        String sqlStatement;
+        sqlStatement="update scm_salesrep set teamlead_id="+teamleadId+" where salesrep_id="+repId;
+        DBUtil.executeSQL(sqlStatement, con);
+        
+        
     }
     
     

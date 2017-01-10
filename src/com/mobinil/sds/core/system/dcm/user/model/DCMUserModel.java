@@ -210,6 +210,39 @@ public void setCreationTimeStamp(Date passCreationTimeStamp) {
         }
 
     }
+    
+    
+    public void fillForRepAssignTeamleader(ResultSet res){
+        try {
+            //this.setDcmUserId(res.getString("DCM_USER_ID"));
+            this.setDcmUserId(res.getString("teamleader_id"));
+            this.setUserFullName(res.getString("teamleader_name"));
+            this.setUserId(res.getString("USER_ID"));
+            //this.setRegionName(res.getString("REGION_NAME"));
+            this.setUserLevelTypeName(res.getString("USER_LEVEL_TYPE_NAME"));
+            this.setCreationTimeStamp(res.getDate("CREATION_TIMESTAMP"));
+            this.setUserLevelTypeId(res.getString("USER_LEVEL_TYPE_ID"));
+        } catch (SQLException ex) {
+            Logger.getLogger(DCMUserModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    public void fillForSupervisorAssignRep(ResultSet res){
+        try {
+            //this.setDcmUserId(res.getString("DCM_USER_ID"));
+            this.setDcmUserId(res.getString("salesrep_id"));
+            this.setUserFullName(res.getString("salesrep_name"));
+            this.setUserId(res.getString("USER_ID"));
+            //this.setRegionName(res.getString("REGION_NAME"));
+            this.setUserLevelTypeName(res.getString("USER_LEVEL_TYPE_NAME"));
+            this.setCreationTimeStamp(res.getDate("CREATION_TIMESTAMP"));
+            this.setUserLevelTypeId(res.getString("USER_LEVEL_TYPE_ID"));
+        } catch (SQLException ex) {
+            Logger.getLogger(DCMUserModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
 
     public void fillForRepManagementSearch(ResultSet res){

@@ -652,10 +652,8 @@ System.out.println("getRepSupDetail "+sqlStatement);
         public static Vector<RepSupervisorModel> getRepSupervisors(Connection con, String dcmUserId){
 
             Vector<RepSupervisorModel> repSupervisors=new Vector();
-            /*String sqlStatement="SELECT RS.SUP_ID,RS.REP_ID,UD.USER_FULL_NAME SUP_NAME,RS.CREATED_BY,RS.CREATED_IN "
-                                +" FROM DCM_USER_DETAIL UD,SCM_REP_SUPERVISORS RS WHERE RS.SUP_ID=UD.USER_ID"
-                                +" AND RS.REP_ID="+dcmUserId;*/
-            String sqlStatement = "select scm_teamleader.sup_id, scm_salesrep.salesrep_id as rep_id,scm_supervisor.supervisor_name as SUP_NAME,scm_salesrep.creation_timestamp as CREATED_IN, dcm_user_detail.creation_user_id as CREATED_BY from scm_salesrep, scm_teamleader , scm_supervisor, dcm_user_detail where scm_salesrep.teamlead_id is not null and scm_salesrep.teamlead_id = scm_teamleader.teamleader_id and scm_salesrep.salesrep_id = dcm_user_detail.user_id and scm_teamleader.sup_id is not null and scm_supervisor.supervisor_id = scm_teamleader.sup_id and salesrep_id="+dcmUserId; 
+            //String sqlStatement = "select scm_teamleader.sup_id, scm_salesrep.salesrep_id as rep_id,scm_supervisor.supervisor_name as SUP_NAME,scm_salesrep.creation_timestamp as CREATED_IN, dcm_user_detail.creation_user_id as CREATED_BY from scm_salesrep, scm_teamleader , scm_supervisor, dcm_user_detail where scm_salesrep.teamlead_id is not null and scm_salesrep.teamlead_id = scm_teamleader.teamleader_id and scm_salesrep.salesrep_id = dcm_user_detail.user_id and scm_teamleader.sup_id is not null and scm_supervisor.supervisor_id = scm_teamleader.sup_id and salesrep_id="+dcmUserId; 
+            String sqlStatement = "select scm_salesrep.sup_id, scm_salesrep.salesrep_id as rep_id,scm_supervisor.supervisor_name as SUP_NAME,scm_salesrep.creation_timestamp as CREATED_IN, dcm_user_detail.creation_user_id as CREATED_BY from scm_salesrep, scm_supervisor, dcm_user_detail where scm_salesrep.salesrep_id = dcm_user_detail.user_id and scm_supervisor.supervisor_id = scm_salesrep.sup_id and scm_salesrep.salesrep_id="+dcmUserId; 
             System.out.println("getRepSupervisors "+sqlStatement);
             repSupervisors=DBUtil.executeSqlQueryMultiValue(sqlStatement, RepSupervisorModel.class, con);
             return repSupervisors;
@@ -740,9 +738,10 @@ System.out.println("getRepSupDetail "+sqlStatement);
     public static Vector<SupervisorTeamleadersModel> getSupervisorTeamleaders(Connection con, String dcmUserId){
 
             Vector<SupervisorTeamleadersModel> supervisorTeamleaders=new Vector();
-            String sqlStatement="SELECT TL.TEAMLEAD_ID,TL.SUP_ID,UD.USER_FULL_NAME TEAMLEAD_NAME,TL.CREATED_BY,TL.CREATED_IN "
+            /*String sqlStatement="SELECT TL.TEAMLEAD_ID,TL.SUP_ID,UD.USER_FULL_NAME TEAMLEAD_NAME,TL.CREATED_BY,TL.CREATED_IN "
                                 +" FROM DCM_USER_DETAIL UD,SCM_TEAMLEADER_SUPERVISORS TL WHERE TL.TEAMLEAD_ID=UD.USER_ID"
-                                +" AND TL.SUP_ID="+dcmUserId;
+                                +" AND TL.SUP_ID="+dcmUserId;*/
+            String sqlStatement = "select dcm_user.user_id, scm_teamleader.*,scm_supervisor.supervisor_id,scm_supervisor.supervisor_name from dcm_user,scm_teamleader,scm_supervisor where dcm_user.dcm_user_id=scm_teamleader.teamleader_id and dcm_user.user_level_type_id=5 and scm_supervisor.supervisor_id="+dcmUserId+" and scm_teamleader.sup_id=scm_supervisor.supervisor_id";
             supervisorTeamleaders=DBUtil.executeSqlQueryMultiValue(sqlStatement, SupervisorTeamleadersModel.class, con);
             
             return supervisorTeamleaders;
@@ -768,10 +767,13 @@ System.out.println("getRepSupDetail "+sqlStatement);
             /*String sqlStatement="SELECT RS.REP_ID,RS.SUP_ID,UD.USER_FULL_NAME REP_NAME,RS.CREATED_BY,RS.CREATED_IN "
                                 +" FROM DCM_USER_DETAIL UD,SCM_REP_SUPERVISORS RS WHERE RS.REP_ID=UD.USER_ID"
                                 +" AND RS.SUP_ID="+dcmUserId;*/
-            String sqlStatement = "select dcm_user.user_id, scm_salesrep.*,scm_supervisor.supervisor_id,scm_supervisor.supervisor_name from dcm_user,scm_salesrep, scm_teamleader,scm_supervisor where dcm_user.dcm_user_id=scm_salesrep.salesrep_id and dcm_user.user_level_type_id=6 and scm_supervisor.supervisor_id="+dcmUserId+" and scm_teamleader.sup_id=scm_supervisor.supervisor_id and scm_salesrep.teamlead_id = scm_teamleader.teamleader_id";
+            //String sqlStatement = "select dcm_user.user_id, scm_salesrep.*,scm_supervisor.supervisor_id,scm_supervisor.supervisor_name from dcm_user,scm_salesrep, scm_teamleader,scm_supervisor where dcm_user.dcm_user_id=scm_salesrep.salesrep_id and dcm_user.user_level_type_id=6 and scm_supervisor.supervisor_id="+dcmUserId+" and scm_teamleader.sup_id=scm_supervisor.supervisor_id and scm_salesrep.teamlead_id = scm_teamleader.teamleader_id";
+            String sqlStatement = "select dcm_user.user_id, scm_salesrep.*,scm_supervisor.supervisor_id,scm_supervisor.supervisor_name from dcm_user,scm_salesrep, scm_supervisor where dcm_user.dcm_user_id=scm_salesrep.salesrep_id and dcm_user.user_level_type_id=6 and scm_supervisor.supervisor_id="+dcmUserId+" and scm_salesrep.sup_id = scm_supervisor.supervisor_id";
             supervisorReps=DBUtil.executeSqlQueryMultiValue(sqlStatement, SupervisorRepsModel.class, con);
             return supervisorReps;
     }
+    
+    
     
     public static Vector<TeamleaderRepsModel> getTeamleaderReps(Connection con, String dcmUserId){
 

@@ -88,11 +88,11 @@ public class SupervisorTeamleadersModel extends Model{
     public void fillInstance(ResultSet res) {
         try {
             this.setSupId(res.getString("SUP_ID"));
-            //this.setSupName(res.getString("SUP_NAME"));
-            this.setTeamleadId(res.getString("TEAMLEAD_ID"));
-            this.setTeamleadName(res.getString("TEAMLEAD_NAME"));
-             this.setCreatedIn(res.getDate("CREATED_IN"));
-            this.setCreatedBy(res.getString("CREATED_BY"));
+            this.setSupName(res.getString("SUPERVISOR_NAME"));
+            this.setTeamleadId(res.getString("TEAMLEADER_ID"));
+            this.setTeamleadName(res.getString("TEAMLEADER_NAME"));
+             this.setCreatedIn(res.getDate("creation_timestamp"));
+            this.setCreatedBy(res.getString("user_id"));
         } catch (SQLException ex) {
             Logger.getLogger(RepSupervisorModel.class.getName()).log(Level.SEVERE, null, ex);
         }

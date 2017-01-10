@@ -199,12 +199,14 @@ public class NomadImporter {
                             updatedDate = updatedDate.substring(0, updatedDate.indexOf(" "));
                             
                             
-                            
+                            //parse String with a DateFormatter: String -> Date ; format Date with a DateFormatter: Date -> String
                             
                             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); //define Date Format matching the file date in the file name
                             Date theFileDate = (Date)formatter.parse(fileDate); //convert file date from String to Date 
                             SimpleDateFormat mdyFormat = new SimpleDateFormat("dd-MM-yy"); //define the new Date Format matching to the Format inside CSV file
                             String mdy = mdyFormat.format(theFileDate);//use the new Date format to change the Old Date Format and returns it as String
+                            
+                            
                             
                             System.out.println("Update : "+updatedDate+" VS>> File Date : "+mdy);
                             if (updatedDate.compareTo(mdy)==0)
