@@ -55,7 +55,7 @@ public class TeamleaderSupervisorsModel extends Model{
     @Override
     public void fillInstance(ResultSet res) {
         try {
-            this.setTeamleaderId(res.getString("TEAMLEAD_ID"));
+            this.setTeamleaderId(res.getString("TEAMLEADER_ID"));
             this.setSupName(res.getString("TEAMLEADER_NAME"));
             this.setSupId(res.getString("SUPERVISOR_ID"));
             this.setSupName(res.getString("SUPERVISOR_NAME"));

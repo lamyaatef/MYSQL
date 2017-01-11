@@ -246,6 +246,126 @@ public class PoiWriteExcelFile
 				}
 
 			}
+                
+                
+                
+                public static String ExportNomadExcel(Vector <CaseModel> resultcase,
+					String filePath)
+			{
+				try
+				{
+
+					/*FileOutputStream fileOut = new FileOutputStream(fileDir
+							+Slach+ "pos_stk_report.xls");*/
+                                    FileOutputStream fileOut = new FileOutputStream(filePath);
+					HSSFWorkbook workbook = new HSSFWorkbook();
+					HSSFSheet worksheet = workbook.createSheet("Nomad Worksheet");
+
+					ArrayList<HSSFRow> rows = new ArrayList<HSSFRow>();
+
+					ArrayList<HSSFCell> cellA = new ArrayList<HSSFCell>();
+					ArrayList<HSSFCell> cellB = new ArrayList<HSSFCell>();
+					ArrayList<HSSFCell> cellC = new ArrayList<HSSFCell>();
+
+					for (int i = 0; i < resultcase.size() + 1; i++)
+					{
+
+						rows.add(worksheet.createRow((short) i));
+						cellA.add(rows.get(i).createCell((short) 0));
+						cellB.add(rows.get(i).createCell((short) 1));
+						cellC.add(rows.get(i).createCell((short) 2));
+					}
+
+
+					cellA.get(0).setCellValue("Row number");
+					cellB.get(0).setCellValue("cell name");
+					cellC.get(0).setCellValue("Message");
+
+					
+					if (!resultcase.isEmpty())
+					{
+						for (int i = 1; i <=resultcase.size(); i++)
+						{
+							CaseModel current = (CaseModel) resultcase.get(i-1);
+							cellA.get(i).setCellValue(current.getrowNumber());
+							cellB.get(i).setCellValue("");
+							String errormsg = "";
+                                                        String Msgflag="";
+
+							
+							if(current.getposCase()!=0)
+							{
+								int posstatus =current.getposCase();
+								switch (posstatus)
+								{
+										case 1 :
+											errormsg="This Pos Already has STK";
+									
+										break;
+										
+										case 2 :
+											errormsg="This POS was Deleted";
+										break;	
+										
+										case 3 :
+											errormsg="This POS is not exist";
+										break;
+
+                                                                                case 4 :
+											errormsg="This POSCODE is not POS Level";
+
+										break;
+
+								}
+							}
+                                                        if(errormsg!="")
+                                                             {
+                                                           Msgflag=" & ";
+                                                             }
+
+							if(current.getstkCase()!=0)
+							{
+								int stkstatus =current.getstkCase();
+								switch (stkstatus)
+								{
+										case 1 :
+											errormsg=errormsg+Msgflag+"This STK Already used by another POS";
+									
+										break;
+										
+										case 2 :
+											errormsg=errormsg+Msgflag+"This STK was Deleted";
+										break;	
+										
+										case 3 :
+											errormsg=errormsg+Msgflag+"This STK is not exist";
+
+                                                                                case 10 :
+											errormsg=errormsg+Msgflag+"This STK doesn't belong to POS stock.";
+										break;	
+								}
+							}
+                                                         cellC.get(i).setCellValue(errormsg);
+							
+						}
+					}
+
+					workbook.write(fileOut);
+					fileOut.flush();
+					fileOut.close();
+					return "pos_stk_report.xls";
+				} catch (FileNotFoundException e)
+				{
+					e.printStackTrace();
+					return "";
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+					return "";
+				}
+
+			}
+                
 
                         public static String ExportExcel(HashMap<String,String> Map,String fileDir,String Distribname)
                         {

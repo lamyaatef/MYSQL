@@ -9,6 +9,7 @@ import com.mobinil.sds.core.utilities.Utility;
 import com.mobinil.sds.core.system.nomadFile.model.NomadFileModel;
 import com.mobinil.sds.core.system.nomadFile.model.NomadFileUserLabelModel;
 import com.mobinil.sds.core.system.nomadFile.model.NomadLabelModel;
+import com.mobinil.sds.core.system.scm.dao.PoiWriteExcelFile;
 import com.mobinil.sds.core.utilities.DBUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -166,7 +167,7 @@ public class NomadFileDAO{
   }
     
     
-    public static void insertNomadData(Connection con, Statement stat,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) throws ParseException {
+    public static void insertNomadData(Connection con, Statement stat,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*,int updatedIndex,String updatedDate,String filePath*/) throws ParseException {
         //System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
         String strSql = "";
@@ -209,7 +210,7 @@ public class NomadFileDAO{
         
         concatFields = concatFields.substring(0, concatFields.length()-1);
             
-        
+        //PoiWriteExcelFile.ExportNomadExcel(null, filePath);
         
         System.out.println("Line text : "+concatFields);
         

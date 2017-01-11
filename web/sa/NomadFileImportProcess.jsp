@@ -88,7 +88,7 @@ while(itr.hasNext()) {
     
         
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd");    
-    
+   
     fileDateStr = df.format(tempDate);
     System.out.println("fileNameOnClient DATE STRING: " + fileDateStr);
     

@@ -223,7 +223,7 @@ public class CommercialFileDAO{
                 
                 
                 updateSCMTeamLeaderTable(con, stat, teamleaderName, supervisorName);
-                updateSCMSalesRepTable(con, stat, teamleaderName, salesrepName);
+                updateSCMSalesRepTable(con, stat, teamleaderName, salesrepName,supervisorName);
 
                 insertSCMSTKOwnerTable(con, stat, posCode, supervisorName, userId, isVerifiedName, iqrarReceivedDate, stkStatusName, isIqrarReceivedName, assignEntryDate, stkActivationDate);
 
@@ -481,12 +481,20 @@ public class CommercialFileDAO{
     }
     
     
-    private static int updateSCMSalesRepTable(Connection con, Statement stat,String teamleaderName, String salesrepName)
+    private static int updateSCMSalesRepTable(Connection con, Statement stat,String teamleaderName, String salesrepName, String supervisorName)
     {
         int updated=-1;
         int teamleaderId=-1;
+        int supervisorId=-1;
         int salesrepId=-1;
         try {
+            
+            
+            String sqlSupervisorId="select supervisor_id from scm_supervisor where LOWER(supervisor_name) like LOWER('%"+supervisorName+"%')";
+            ResultSet rs8 = stat.executeQuery(sqlSupervisorId);
+            if(rs8.next())
+                supervisorId = Integer.parseInt(rs8.getString("supervisor_id"));
+            
             
             
             String sqlTeamleaderId="select teamleader_id from scm_teamleader where LOWER(teamleader_name) like LOWER('%"+teamleaderName+"%')";
@@ -502,8 +510,9 @@ public class CommercialFileDAO{
             
             if(salesrepId==-1)
             {
-                Long repId = Utility.getSequenceNextVal(con, "SEQ_SCM_SALESREP_ID"); 
-                String strSql = "insert into SCM_SALESREP ( SALESREP_ID, SALESREP_NAME, teamlead_id,CREATION_TIMESTAMP) values ("+repId+",'"+salesrepName+"',"+teamleaderId+",sysdate)" ;
+                //Long repId = Utility.getSequenceNextVal(con, "SEQ_SCM_SALESREP_ID"); 
+                Long repId = Utility.getSequenceNextVal(con, "SEQ_DCM_USER_ID");
+                String strSql = "insert into SCM_SALESREP ( SALESREP_ID, SALESREP_NAME, teamlead_id,sup_id,CREATION_TIMESTAMP) values ("+repId+",'"+salesrepName+"',"+teamleaderId+","+supervisorId+",sysdate)" ;
                 System.out.println("SQL insertSCMSalesRepTable is " + strSql);
                 stat.execute(strSql);
             }
@@ -547,7 +556,8 @@ public class CommercialFileDAO{
             
             if(teamleaderId==-1)
             {
-                Long teamId = Utility.getSequenceNextVal(con, "SEQ_SCM_TEAMLEADER_ID"); 
+                //Long teamId = Utility.getSequenceNextVal(con, "SEQ_SCM_TEAMLEADER_ID"); 
+                Long teamId = Utility.getSequenceNextVal(con, "SEQ_DCM_USER_ID");
                 String strSql = "insert into SCM_TEAMLEADER ( TEAMLEADER_ID, TEAMLEADER_NAME, sup_id ,CREATION_TIMESTAMP) values ("+teamId+",'"+teamleaderName+"',"+supervisorId+",sysdate)" ;
                 System.out.println("SQL insertSCMTeamLeaderTable is " + strSql);
                 stat.execute(strSql);

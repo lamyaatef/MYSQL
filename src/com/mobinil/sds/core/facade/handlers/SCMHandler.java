@@ -2312,18 +2312,21 @@ public class SCMHandler {
                     String systemUserId=(String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
                     String userLevelTypeId=(String)paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
 
-                        RepSupDAO.unassignRepFromSupervisor(con, repId, supId);
+                    RepSupDAO.unassignRepFromSupervisor(con, repId, supId);
 
                     DCMUserDetailModel repDetails = new DCMUserDetailModel();
                     RepPOSGroupModel repPOSGroup = new RepPOSGroupModel();
                     Vector<RepSupervisorModel> repSupervisors = new Vector();
+                    Vector<RepTeamleaderModel> repTeamleaders = new Vector();
 
                     repPOSGroup = RepManagementDAO.getRepPOSGroup(con, repId);
                     repDetails = RepManagementDAO.getRepSupDetail(con, userLevelTypeId, repId);
                     repSupervisors = RepManagementDAO.getRepSupervisors(con, repId);
+                    repTeamleaders = RepManagementDAO.getRepTeamleaders(con, repId);
 
                     dataHashMap.put(SCMInterfaceKey.REP_SUP_DETAILS, repDetails);
                     dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REP_SUPERVISORS, repSupervisors);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REP_TEAMLEADS, repTeamleaders);
                     dataHashMap.put(SCMInterfaceKey.REP_POS_GROUP, repPOSGroup);
                     dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, systemUserId);
                 }
@@ -2335,13 +2338,15 @@ public class SCMHandler {
                     String repId=(String)paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
                     String systemUserId=(String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
                     String userLevelTypeId=(String)paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
-
-                        RepSupDAO.unassignRepFromTeamleader(con, repId, teamleadId);
-
                     DCMUserDetailModel repDetails = new DCMUserDetailModel();
                     RepPOSGroupModel repPOSGroup = new RepPOSGroupModel();
                     Vector<RepSupervisorModel> repSupervisors = new Vector();
                     Vector<RepTeamleaderModel> repTeamleaders = new Vector();
+                    
+                    
+                    RepSupDAO.unassignRepFromTeamleader(con, repId, teamleadId);
+
+                    
 
                     repPOSGroup = RepManagementDAO.getRepPOSGroup(con, repId);
                     repDetails = RepManagementDAO.getRepSupDetail(con, userLevelTypeId, repId);
@@ -2367,8 +2372,8 @@ public class SCMHandler {
                     String userLevelTypeId=(String)paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
                     String systemUserId=(String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
 
-//                    areas=RepSupDAO.getRegionAreas(con, regionId);
-                   /* areas=RepSupDAO.getRegionDistricts(con, regionId.toString());
+                    /*areas=RepSupDAO.getRegionAreas(con, regionId);
+                    areas=RepSupDAO.getRegionDistricts(con, regionId.toString());
                     if(areas!=null&&areas.size()!=0){
                         for(int i=0;i<areas.size();i++){
                            RegionModel area=(RegionModel)areas.get(i) ;
@@ -2377,7 +2382,7 @@ public class SCMHandler {
                            areasId.append(",");
                            }
                         }
-                    reps=RepSupDAO.getRegionReps(con, areasId.toString());
+                    
                     }*/
                     reps=RepSupDAO.getAllRepsData(con);
                     dataHashMap.put(SCMInterfaceKey.REGION_ID, regionId);
@@ -2434,7 +2439,7 @@ public class SCMHandler {
                     String userLevelTypeId=(String)paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
                     String systemUserId=(String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
 
-//                    areas=RepSupDAO.getRegionAreas(con, regionId);
+                    /*areas=RepSupDAO.getRegionAreas(con, regionId);
                     areas=RepSupDAO.getRegionDistricts(con, regionId.toString());
                     if(areas!=null&&areas.size()!=0){
                         for(int i=0;i<areas.size();i++){
@@ -2444,8 +2449,9 @@ public class SCMHandler {
                            areasId.append(",");
                            }
                         }
-                    reps=RepSupDAO.getRegionReps(con, areasId.toString());
-                    }
+                    
+                    }*/
+                    reps=RepSupDAO.getAllRepsData(con);
                     dataHashMap.put(SCMInterfaceKey.REGION_ID, regionId);
                     dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_REPS, reps);
                     dataHashMap.put(SCMInterfaceKey.DCM_USER_ID, teamleadId);
@@ -2479,7 +2485,7 @@ public class SCMHandler {
                         }
                     reps=RepSupDAO.getRegionReps(con, areasId.toString());
                     }*/
-                    supervisors=RepSupDAO.getRegionSupervisors(con, regionId.toString());
+                    supervisors=RepSupDAO.getAllSupervisorsData(con);
                     dataHashMap.put(SCMInterfaceKey.REGION_ID, regionId);
                     dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS, supervisors);
                     dataHashMap.put(SCMInterfaceKey.DCM_USER_ID, teamleadId);
@@ -2498,20 +2504,13 @@ public class SCMHandler {
                     String supId=(String)paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
                     String systemUserId=(String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
                     String userLevelTypeId=(String)paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
-                    Vector <DCMUserModel> reps=new Vector();
+                    
                     Vector <RegionModel> areas=new Vector();
                     StringBuffer areasId=new StringBuffer("");
-
-                    if(RepSupDAO.checkIfRepAssigntoMoreThanTwoSupervisors(con, repId))
-                        dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE,"Invalid, Rep already assigned to 2 supervisors.");
-                    else if(RepSupDAO.checkIfRepAlreadyAssignedToThisSup(con, repId, supId))
-                        dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE,"Invalid, Rep already assigned to this supervisor.");
-                    else{
-                        RepSupDAO.assignRepToSupervisor(con, repId, supId,systemUserId);
-                                dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE, "Rep assigned successfuly.");
-                    }
-
-//                    areas=RepSupDAO.getRegionAreas(con, regionId);
+                    DCMUserDetailModel supDetails = new DCMUserDetailModel();
+                    Vector<SupervisorRepsModel> supervisorReps = new Vector();
+                    Vector<SupervisorTeamleadersModel> supervisorTeams = new Vector();
+                    RepSupDAO.assignRepToSupervisor(con, repId, supId,systemUserId);
                     areas=RepSupDAO.getRegionDistricts(con, regionId);
                     if(areas!=null&&areas.size()!=0){
                         for(int i=0;i<areas.size();i++){
@@ -2521,13 +2520,31 @@ public class SCMHandler {
                            areasId.append(",");
                            }
                         }
-                    reps=RepSupDAO.getRegionReps(con, areasId.toString());
+                    
                     }
+                    supDetails = RepManagementDAO.getRepSupDetail(con, userLevelTypeId, supId);
+                    supervisorReps = RepManagementDAO.getSupervisorSalesReps(con, supId);
+                    supervisorTeams = RepManagementDAO.getSupervisorTeamleaders(con, supId);
+                    
+                    /*
+                    reps = RepSupDAO.getAllRepsData(con);
                     dataHashMap.put(SCMInterfaceKey.REGION_ID, regionId);
-                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_REPS, reps);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_REPS, reps);*/
                     dataHashMap.put(SCMInterfaceKey.DCM_USER_ID, supId);
                     dataHashMap.put(SCMInterfaceKey.USER_LEVEL_TYPE_ID, userLevelTypeId);
                     dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, systemUserId);
+                    
+                    
+                    dataHashMap.put(SCMInterfaceKey.REP_SUP_DETAILS, supDetails);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_SUP_REPS, supervisorReps);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_SUP_TEAMLEADERS, supervisorTeams);
+                    dataHashMap.put(SCMInterfaceKey.DCM_USER_ID, supId);
+                    dataHashMap.put(SCMInterfaceKey.USER_LEVEL_TYPE_ID, userLevelTypeId);
+                    dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, systemUserId);
+                    
+                    
+                    
+                    
                 }
                 break;
                     
@@ -2537,123 +2554,89 @@ public class SCMHandler {
                     String supId=(String)paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
                     String systemUserId=(String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
                     String userLevelTypeId=(String)paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
-                    Vector <DCMUserModel> teamleaders=new Vector();
-                    //Vector <RegionModel> areas=new Vector();
-                    //StringBuffer areasId=new StringBuffer("");
-
-                    if(RepSupDAO.checkIfTeamleadAssigntoMoreThanTwoSupervisors(con, teamleadId))
-                        dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE,"Invalid, Teamleader already assigned to 2 supervisors.");
-                    else if(RepSupDAO.checkIfTeamleadAlreadyAssignedToThisSup(con, teamleadId, supId))
-                        dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE,"Invalid, Teamleader already assigned to this supervisor.");
-                    else{
-                        RepSupDAO.assignTeamleaderToSupervisor(con, teamleadId, supId,systemUserId);
-                                dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE, "Teamleader assigned successfuly.");
-                    }
-
-//                    areas=RepSupDAO.getRegionAreas(con, regionId);
-                    /*areas=RepSupDAO.getRegionDistricts(con, regionId);
-                    if(areas!=null&&areas.size()!=0){
-                        for(int i=0;i<areas.size();i++){
-                           RegionModel area=(RegionModel)areas.get(i) ;
-                           areasId.append(area.getRegionId());
-                           if(areas.size()!=i+1){
-                           areasId.append(",");
-                           }
-                        }
-                    reps=RepSupDAO.getRegionReps(con, areasId.toString());
-                    }*/
+                    //Vector <DCMUserModel> teamleaders=new Vector();
+                    DCMUserDetailModel supDetails = new DCMUserDetailModel();
+                    Vector<SupervisorRepsModel> supervisorReps = new Vector();
+                    Vector<SupervisorTeamleadersModel> supervisorTeams = new Vector();
                     
-                    teamleaders=RepSupDAO.getRegionTeamleaders(con, regionId);
+                    RepSupDAO.assignTeamleaderToSupervisor(con, teamleadId, supId,systemUserId);
+                     
                     
+                    supDetails = RepManagementDAO.getRepSupDetail(con, userLevelTypeId, supId);
+                    supervisorReps = RepManagementDAO.getSupervisorSalesReps(con, supId);
+                    supervisorTeams = RepManagementDAO.getSupervisorTeamleaders(con, supId);
+                    
+                    /*
+                    teamleaders=RepSupDAO.getAllTeamleadersData(con);
                     dataHashMap.put(SCMInterfaceKey.REGION_ID, regionId);
-                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_TEAMLEADERS, teamleaders);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_TEAMLEADERS, teamleaders);*/
                     dataHashMap.put(SCMInterfaceKey.DCM_USER_ID, supId);
                     dataHashMap.put(SCMInterfaceKey.USER_LEVEL_TYPE_ID, userLevelTypeId);
                     dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, systemUserId);
+                    
+                    
+                    dataHashMap.put(SCMInterfaceKey.REP_SUP_DETAILS, supDetails);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_SUP_REPS, supervisorReps);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_SUP_TEAMLEADERS, supervisorTeams);
+                    dataHashMap.put(SCMInterfaceKey.DCM_USER_ID, supId);
+                    dataHashMap.put(SCMInterfaceKey.USER_LEVEL_TYPE_ID, userLevelTypeId);
+                    dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, systemUserId);
+                    
                 }
                 break;
                     
                     
                     case action_assign_rep_to_teamleader:{
                     String repId=(String)paramHashMap.get(SCMInterfaceKey.REP_ID);
-                    String regionId=(String)paramHashMap.get(SCMInterfaceKey.REGION_ID);
                     String teamleadId=(String)paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
                     String systemUserId=(String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
                     String userLevelTypeId=(String)paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
-                    Vector <DCMUserModel> reps=new Vector();
-                    Vector <RegionModel> areas=new Vector();
-                    StringBuffer areasId=new StringBuffer("");
+                    DCMUserDetailModel teamleadDetails = new DCMUserDetailModel();
+                    Vector<TeamleaderRepsModel> teamleaderReps = new Vector();
+                    Vector<TeamleaderSupervisorsModel> teamleaderSupervisors = new Vector();
 
-                    if(RepSupDAO.checkIfRepAssigntoMoreThanTwoTeamleaders(con, repId))
-                        dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE,"Invalid, Rep already assigned to 2 teamleader.");
-                    else if(RepSupDAO.checkIfRepAlreadyAssignedToThisTeamlead(con, repId, teamleadId))
-                        dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE,"Invalid, Rep already assigned to this teamleader.");
-                    else{
-                        RepSupDAO.assignRepToTeamleader(con, repId, teamleadId,systemUserId);
-                                dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE, "Rep assigned successfuly.");
-                    }
-
-//                    areas=RepSupDAO.getRegionAreas(con, regionId);
-                    areas=RepSupDAO.getRegionDistricts(con, regionId);
-                    if(areas!=null&&areas.size()!=0){
-                        for(int i=0;i<areas.size();i++){
-                           RegionModel area=(RegionModel)areas.get(i) ;
-                           areasId.append(area.getRegionId());
-                           if(areas.size()!=i+1){
-                           areasId.append(",");
-                           }
-                        }
-                    reps=RepSupDAO.getRegionReps(con, areasId.toString());
-                    }
-                    dataHashMap.put(SCMInterfaceKey.REGION_ID, regionId);
-                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_REPS, reps);
+                    
+                    
+                    RepSupDAO.assignRepToTeamleader(con, repId, teamleadId,systemUserId);
+                    
+                    
+                    teamleadDetails = RepManagementDAO.getRepTeamleadDetail(con, userLevelTypeId, teamleadId);
+                    teamleaderReps = RepManagementDAO.getTeamleaderReps(con, teamleadId);
+                    teamleaderSupervisors = RepManagementDAO.getTeamleaderSupervisors(con, teamleadId);
+                        System.out.println("teamleaderSupervisors "+teamleaderSupervisors.size());
+                    dataHashMap.put(SCMInterfaceKey.REP_TEAMLEAD_DETAILS, teamleadDetails);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_TEAMLEAD_REPS, teamleaderReps);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_TEAMLEAD_SUPERVISORS, teamleaderSupervisors);
                     dataHashMap.put(SCMInterfaceKey.DCM_USER_ID, teamleadId);
                     dataHashMap.put(SCMInterfaceKey.USER_LEVEL_TYPE_ID, userLevelTypeId);
                     dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, systemUserId);
+
                 }
                 break;
                         
                     case action_assign_sup_to_teamleader:{
                         System.out.println("inside action_assign_sup_to_teamleader");
-                    //String repId=(String)paramHashMap.get(SCMInterfaceKey.REP_ID);
                     String supId=(String)paramHashMap.get(SCMInterfaceKey.SUP_ID);
                     String regionId=(String)paramHashMap.get(SCMInterfaceKey.REGION_ID);
                     String teamleadId=(String)paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
                     String systemUserId=(String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
-                    String userLevelTypeId=(String)paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
-                    //Vector <DCMUserModel> reps=new Vector();
-                    Vector <DCMUserModel> supervisors=new Vector();
-                    Vector <RegionModel> areas=new Vector();
-                    StringBuffer areasId=new StringBuffer("");
-
-                    if(RepSupDAO.checkIfTeamleadAssigntoMoreThanTwoSupervisors(con, teamleadId))
-                        dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE,"Invalid, teamleader already assigned to 2 supervisors.");
-                    else if(RepSupDAO.checkIfTeamleadAlreadyAssignedToThisSup(con, teamleadId, supId))
-                        dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE,"Invalid, teamleader already assigned to this supervisor.");
-                    else{
-                        RepSupDAO.assignTeamleaderToSupervisor(con, teamleadId, supId,systemUserId);
-                                dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE, "supervisor assigned successfuly.");
-                    }
-
-//                    areas=RepSupDAO.getRegionAreas(con, regionId);
-                    /*areas=RepSupDAO.getRegionDistricts(con, regionId);
-                    if(areas!=null&&areas.size()!=0){
-                        for(int i=0;i<areas.size();i++){
-                           RegionModel area=(RegionModel)areas.get(i) ;
-                           areasId.append(area.getRegionId());
-                           if(areas.size()!=i+1){
-                           areasId.append(",");
-                           }
-                        }
-                    reps=RepSupDAO.getRegionReps(con, areasId.toString());
-                    }*/
-                    supervisors=RepSupDAO.getRegionSupervisors(con, regionId.toString());
-                    dataHashMap.put(SCMInterfaceKey.REGION_ID, regionId);
-                    //dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_REPS, reps);
-                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS, supervisors);
+                    DCMUserDetailModel teamleadDetails = new DCMUserDetailModel();
+                    Vector<TeamleaderRepsModel> teamleaderReps = new Vector();
+                    Vector<TeamleaderSupervisorsModel> teamleaderSupervisors = new Vector();                    String userLevelTypeId=(String)paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
+                    
+                    
+                    RepSupDAO.assignTeamleaderToSupervisor(con, teamleadId, supId,systemUserId);
+                    teamleadDetails = RepManagementDAO.getRepTeamleadDetail(con, userLevelTypeId, teamleadId);
+                    teamleaderReps = RepManagementDAO.getTeamleaderReps(con, teamleadId);
+                    teamleaderSupervisors = RepManagementDAO.getTeamleaderSupervisors(con, teamleadId);
+                        System.out.println("teamleaderSupervisors "+teamleaderSupervisors.size());
+                    dataHashMap.put(SCMInterfaceKey.REP_TEAMLEAD_DETAILS, teamleadDetails);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_TEAMLEAD_REPS, teamleaderReps);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_TEAMLEAD_SUPERVISORS, teamleaderSupervisors);
                     dataHashMap.put(SCMInterfaceKey.DCM_USER_ID, teamleadId);
                     dataHashMap.put(SCMInterfaceKey.USER_LEVEL_TYPE_ID, userLevelTypeId);
                     dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, systemUserId);
+
                 }
                 break;
                         
@@ -2665,21 +2648,21 @@ public class SCMHandler {
                     String supId=(String)paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
                     String systemUserId=(String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
                     String userLevelTypeId=(String)paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
-
+                    DCMUserDetailModel supDetails = new DCMUserDetailModel();
+                    Vector<SupervisorRepsModel> supervisorReps = new Vector();
+                    Vector<SupervisorTeamleadersModel> supervisorTeams = new Vector();
+                    
 
                     RepSupDAO.unassignRepFromSupervisor(con, repId, supId);
 
-                    DCMUserDetailModel supDetails = new DCMUserDetailModel();
-                    //Vector<RepSupervisorModel> supervisorReps = new Vector();
-                    Vector<SupervisorRepsModel> supervisorReps = new Vector();
-                    
                     supDetails = RepManagementDAO.getRepSupDetail(con, userLevelTypeId, supId);
-                    //supervisorReps = RepManagementDAO.getSupervisorReps(con, supId);
                     supervisorReps = RepManagementDAO.getSupervisorSalesReps(con, supId);
+                    supervisorTeams = RepManagementDAO.getSupervisorTeamleaders(con, supId);
 
                     dataHashMap.put(SCMInterfaceKey.REP_SUP_DETAILS, supDetails);
                     //dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_SUP_REPS, supervisorReps);
                     dataHashMap.put(SCMInterfaceKey.VECTOR_SUP_REPS, supervisorReps);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_SUP_TEAMLEADERS, supervisorTeams);
                     dataHashMap.put(SCMInterfaceKey.DCM_USER_ID, supId);
                     dataHashMap.put(SCMInterfaceKey.USER_LEVEL_TYPE_ID, userLevelTypeId);
                     dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, systemUserId);
@@ -2696,14 +2679,13 @@ public class SCMHandler {
                     String supId=(String)paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
                     String systemUserId=(String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
                     String userLevelTypeId=(String)paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
-
+                    DCMUserDetailModel supDetails = new DCMUserDetailModel();
+                    Vector<SupervisorRepsModel> supervisorReps = new Vector();
+                    Vector<SupervisorTeamleadersModel> supervisorTeamleaders = new Vector();
 
                     RepSupDAO.unassignTeamleadFromSupervisor(con, teamleadId, supId);
 
-                    DCMUserDetailModel supDetails = new DCMUserDetailModel();
-                    Vector<SupervisorRepsModel> supervisorReps = new Vector();
                     
-                    Vector<SupervisorTeamleadersModel> supervisorTeamleaders = new Vector();
 
                     supDetails = RepManagementDAO.getRepSupDetail(con, userLevelTypeId, supId);
                     supervisorReps = RepManagementDAO.getSupervisorSalesReps(con, supId);
@@ -2763,18 +2745,21 @@ public class SCMHandler {
                     String teamleadId=(String)paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
                     String systemUserId=(String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
                     String userLevelTypeId=(String)paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
-
-
-                    RepSupDAO.unassignRepFromTeamleader(con, repId, teamleadId);
-
                     DCMUserDetailModel teamleadDetails = new DCMUserDetailModel();
                     Vector<TeamleaderRepsModel> teamleaderReps = new Vector();
+                    Vector<TeamleaderSupervisorsModel> teamleaderSupervisors = new Vector();
+                    
+                    RepSupDAO.unassignRepFromTeamleader(con, repId, teamleadId);
+
+                    
 
                     teamleadDetails = RepManagementDAO.getRepTeamleadDetail(con, userLevelTypeId, teamleadId);
                     teamleaderReps = RepManagementDAO.getTeamleaderReps(con, teamleadId);
-
+                    teamleaderSupervisors = RepManagementDAO.getTeamleaderSupervisors(con, teamleadId);
+                    
                     dataHashMap.put(SCMInterfaceKey.REP_TEAMLEAD_DETAILS, teamleadDetails);
                     dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_TEAMLEAD_REPS, teamleaderReps);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_TEAMLEAD_SUPERVISORS, teamleaderSupervisors);
                     dataHashMap.put(SCMInterfaceKey.DCM_USER_ID, teamleadId);
                     dataHashMap.put(SCMInterfaceKey.USER_LEVEL_TYPE_ID, userLevelTypeId);
                     dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, systemUserId);

@@ -174,51 +174,27 @@ public class RepSupDAO {
     
     
     public static void assignTeamleaderToSupervisor(Connection con,String teamleaderId,String supervisorId, String systemUserId) throws SQLException{
-        /*String sqlStatement;
-        sqlStatement="update dcm_user set manager_dcm_user_id='"+supervisorId+"' where dcm_user_id='"+teamleaderId+"' and user_level_type_id=5";
-        System.out.println("UPDATE QUERY : "+sqlStatement);
+        String sqlStatement;
+        sqlStatement="update scm_teamleader set sup_id="+supervisorId+" where teamleader_id="+teamleaderId;
         DBUtil.executeSQL(sqlStatement, con);
-        sqlStatement="INSERT INTO scm_teamleader_supervisors VALUES("+supervisorId+","+teamleaderId+",sysdate,"+systemUserId+")";
-        System.out.println("INSERT QUERY : "+sqlStatement);
-        DBUtil.executeSQL(sqlStatement, con);*/
-        Statement stat = con.createStatement();
-        String sqlTeamId="select * from scm_teamleader where teamleader_id="+teamleaderId;
-        ResultSet rs10 = stat.executeQuery(sqlTeamId);
-        if(!rs10.next())
-           
-            {
-                Long teamId = Utility.getSequenceNextVal(con, "SEQ_SCM_TEAMLEADER_ID"); 
-                String strSql = "insert into scm_teamleader ( teamleader_ID, sup_id,CREATION_TIMESTAMP) values ("+teamId+","+supervisorId+",sysdate)" ;
-                System.out.println("SQL assignTeamleaderToSupervisor is " + strSql);
-                stat.execute(strSql);
-            
-            
-            }
-        else
-            {
-                String strSql = "update scm_teamleader set sup_id="+supervisorId+" where teamleader_id="+teamleaderId;
-                System.out.println("SQL assignTeamleaderToSupervisor Update is " + strSql);
-                stat.executeUpdate(strSql);    
-                
-            }
     }
     
      
 
     public static void unassignRepFromSupervisor(Connection con,String repId,String supId){
         String sqlStatement;
-        sqlStatement="DELETE FROM SCM_REP_SUPERVISORS WHERE REP_ID="+repId+" AND SUP_ID="+supId;
+        sqlStatement="update scm_salesrep set sup_id=null where salesrep_id="+repId;
         DBUtil.executeSQL(sqlStatement, con);   
     }
     public static void unassignTeamleadFromSupervisor(Connection con,String teamleadId,String supId){
         String sqlStatement;
-        sqlStatement="DELETE FROM SCM_TEAMLEADER_SUPERVISORS WHERE TEAMLEAD_ID="+teamleadId+" AND SUP_ID="+supId;
+        sqlStatement="update scm_teamleader set sup_id=null where teamleader_id="+teamleadId;
         DBUtil.executeSQL(sqlStatement, con);   
     }
     
     public static void unassignRepFromTeamleader(Connection con,String repId,String teamleadId){
         String sqlStatement;
-        sqlStatement="DELETE FROM SCM_REP_TEAMLEADERS WHERE REP_ID="+repId+" AND TEAMLEAD_ID="+teamleadId;
+        sqlStatement="update scm_salesrep set teamlead_id=null where salesrep_id="+repId;
         System.out.println("UNASSIGN REP FROM TEAMLEADER "+sqlStatement);
         DBUtil.executeSQL(sqlStatement, con);   
     }

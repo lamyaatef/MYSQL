@@ -198,10 +198,10 @@ public class NomadImporter {
                             //System.out.println("updated before trimming : "+updatedDate);
                             updatedDate = updatedDate.substring(0, updatedDate.indexOf(" "));
                             
-                            
+                            /////////////////////////////////////////////////////////////////
                             //parse String with a DateFormatter: String -> Date ; format Date with a DateFormatter: Date -> String
                             
-                            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); //define Date Format matching the file date in the file name
+                            /*DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); //define Date Format matching the file date in the file name
                             Date theFileDate = (Date)formatter.parse(fileDate); //convert file date from String to Date 
                             SimpleDateFormat mdyFormat = new SimpleDateFormat("dd-MM-yy"); //define the new Date Format matching to the Format inside CSV file
                             String mdy = mdyFormat.format(theFileDate);//use the new Date format to change the Old Date Format and returns it as String
@@ -212,9 +212,20 @@ public class NomadImporter {
                             if (updatedDate.compareTo(mdy)==0)
                             {
                                 
-                                NomadFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx,count/*,fileDate,updateOn*/);
+                                NomadFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx,count,updateOn,updatedDate,filePath);
                                 System.out.println("^^^^^^^^^^end^^^^^^^^^");
-                            }
+                            }*/
+                            ///////////////////////////////////////
+                            System.out.println("Update : "+updatedDate+" VS>> File Date : "+fileDate);
+                            DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+                            if (updatedDate.compareTo(fileDate)==0)
+                            {
+                                 
+                                 NomadFileDAO.insertNomadData(con, stat,lineFields,fileID,sellerIndx,statusIndx,count);
+                                 System.out.println("^^^^^^^^^^end^^^^^^^^^");
+                             }
+                            //////////////////////////////////////////
+                            
                            }  
                             
                         }
