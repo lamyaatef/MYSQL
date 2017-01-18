@@ -332,13 +332,13 @@ public class CommercialFileDAO{
                 inserted = stat.executeUpdate(strSql);
             }
             
-            /*else
+            else
             {
                 System.out.println("update STK");
                 String strSql = "update scm_stk_owner set updated_in=SYSTIMESTAMP,dcm_verified_status_id="+dcmVerifiedStatusId+",iqrar_receving_status_id="+iqrarReceivedStatusId+",stk_status_id="+stkStatusId+",iqrar_recieved_date="+iqrarReceivedDateSql+",dcm_verification_date=SYSTIMESTAMP,active_date="+stkActivationDateSql+",stk_verification=null,stk_delivery_date=null,iqrar_delivery_date=null,stk_assign_date="+stkEntryAssignDateSql+",stk_active_date="+stkActivationDateSql+",stk_import_date=null,reason=null,stk_report_flag=0";
                 System.out.println("SQL insertSCMSTKOwnerTable is " + strSql);
                 inserted = stat.executeUpdate(strSql);
-            }*/
+            }
             
             
                 
