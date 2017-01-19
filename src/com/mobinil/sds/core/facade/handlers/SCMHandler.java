@@ -1781,6 +1781,7 @@ public class SCMHandler {
                 case action_delete_rep_sup: {
                     String dcmUserId = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
                     String userLevelTypeId= (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_LEVEL_TYPE_ID);
+                    System.out.println("DELETE: dcm user id "+dcmUserId+" user level type id "+userLevelTypeId);
                     DCMUserModel dcmUser = RepManagementDAO.getDcmUser(con, dcmUserId);
                     RepManagementDAO.deleteRepOrSupervisor(con, dcmUserId,userLevelTypeId);
                     searchRepOrSup(paramHashMap, dataHashMap, con);

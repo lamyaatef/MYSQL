@@ -172,18 +172,27 @@ public static final String PHONE_NUMBER = "0900";
             else
             {
                 //Long teamDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
-                strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+teamDetailId.longValue()+","+teamId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
+                strUserDetailSql = "insert into dcm_user_detail (REGION_ID,USER_DETAIL_STATUS_ID,user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values(-1,1,"+teamDetailId.longValue()+","+teamId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
                 System.out.println("query3 inner "+strUserDetailSql);
                 stat.execute(strUserDetailSql);
             }
         } 
-            
+                   /*USER_DETAIL_ID             NUMBER        
+USER_ID                    NUMBER        
+USER_FULL_NAME             VARCHAR2(50)  
+USER_ADDRESS               VARCHAR2(100) 
+USER_EMAIL                 VARCHAR2(250) 
+USER_MOBILE                VARCHAR2(50)  
+REGION_ID                  NUMBER        
+USER_DETAIL_STATUS_ID      NUMBER        
+CREATION_TIMESTAMP         DATE          
+CREATION_USER_ID*/ 
         else
         {
             //Long teamDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
             strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+teamId.longValue()+","+userId+",5,"+teamDetailId.longValue()+",1,5)";
             System.out.println("query2 "+strUserSql);
-            strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+teamDetailId.longValue()+","+teamId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
+            strUserDetailSql = "insert into dcm_user_detail (REGION_ID,USER_DETAIL_STATUS_ID,user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values(-1,1,"+teamDetailId.longValue()+","+teamId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
             System.out.println("query3 "+strUserDetailSql);
             stat.execute(strUserSql);
             stat.execute(strUserDetailSql);

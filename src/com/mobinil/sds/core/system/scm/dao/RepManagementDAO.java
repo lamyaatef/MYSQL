@@ -587,20 +587,52 @@ public class RepManagementDAO {
 
     public static void deleteRepOrSupervisor(Connection con, String dcmUserId,String userLevelTypeId){
             String deleteDCMUserSqlStatement="UPDATE DCM_USER SET USER_STATUS_TYPE_ID=3 WHERE DCM_USER_ID="+dcmUserId;
+            String deleteScmUserRegionSqlStatement="UPDATE scm_user_region SET user_id=-1 WHERE USER_ID="+dcmUserId;
 
-        if(userLevelTypeId.equals("3")){
+        /*if(userLevelTypeId.equals("3")){
         String deleteAssignedPOSGroups="DELETE FROM SCM_REP_POS_GROUP WHERE DCM_USER_ID="+dcmUserId;
         String deleteAssignedSups="DELETE FROM SCM_REP_SUPERVISORS WHERE REP_ID="+dcmUserId; 
         DBUtil.executeSQL(deleteAssignedPOSGroups);
         DBUtil.executeSQL(deleteAssignedSups);        
+        }*/
+        if(userLevelTypeId.equals("6")){
+        String deleteAssignedPOSGroups="DELETE FROM SCM_REP_POS_GROUP WHERE DCM_USER_ID="+dcmUserId;
+        String deleteAssignedReps="DELETE FROM SCM_salesrep WHERE salesrep_ID="+dcmUserId; 
+        DBUtil.executeSQL(deleteAssignedPOSGroups);
+        DBUtil.executeSQL(deleteAssignedReps);        
+        }    
+        /*if(userLevelTypeId.equals("3")){
+        String deleteAssignedPOSGroups="DELETE FROM SCM_REP_POS_GROUP WHERE DCM_USER_ID="+dcmUserId;
+        String deleteAssignedSups="DELETE FROM SCM_REP_SUPERVISORS WHERE REP_ID="+dcmUserId; 
+        DBUtil.executeSQL(deleteAssignedPOSGroups);
+        DBUtil.executeSQL(deleteAssignedSups);        
+        }*/
+        if(userLevelTypeId.equals("5")){
+        String deleteAssignedPOSGroups="DELETE FROM SCM_REP_POS_GROUP WHERE DCM_USER_ID="+dcmUserId;
+        String deleteAssignedTeams="DELETE FROM SCM_teamleader WHERE teamleader_ID="+dcmUserId; 
+        String deleteAssignedReps="update scm_salesrep set teamlead_id=null where teamlead_id="+dcmUserId; 
+        DBUtil.executeSQL(deleteAssignedPOSGroups);
+        DBUtil.executeSQL(deleteAssignedTeams);        
+        DBUtil.executeSQL(deleteAssignedReps); 
         }
 
-        if(userLevelTypeId.equals("4")){
+        /*if(userLevelTypeId.equals("4")){
                     String deleteAssignedReps="DELETE FROM SCM_REP_SUPERVISORS WHERE SUP_ID="+dcmUserId;
                     DBUtil.executeSQL(deleteAssignedReps);
+        }*/
+        if(userLevelTypeId.equals("4")){
+        String deleteAssignedPOSGroups="DELETE FROM SCM_REP_POS_GROUP WHERE DCM_USER_ID="+dcmUserId;
+        String deleteAssignedSups="DELETE FROM SCM_supervisor WHERE supervisor_ID="+dcmUserId; 
+        String deleteAssignedTeams="update scm_teamleader set sup_id=null where sup_id="+dcmUserId; 
+        String deleteAssignedReps="update scm_salesrep set sup_id=null where sup_id="+dcmUserId; 
+        DBUtil.executeSQL(deleteAssignedPOSGroups);
+        DBUtil.executeSQL(deleteAssignedSups);        
+        DBUtil.executeSQL(deleteAssignedTeams); 
+        DBUtil.executeSQL(deleteAssignedReps); 
         }
 
         DBUtil.executeSQL(deleteDCMUserSqlStatement, con);
+        DBUtil.executeSQL(deleteScmUserRegionSqlStatement, con);
     }
 
     public static boolean checkIfRegionIsDistrict(Connection con, String regionId){

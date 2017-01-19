@@ -148,9 +148,9 @@ public class SupervisorImporter {
                            }  
                             
                         }
-                       // System.out.println("count isssssss      " + count);
-
+                     
                     }
+                    System.out.println("count isssssss      " + count--);
                     this.numberOfRowsInserted = SupervisorFileDAO.getSupervisorDataRecords(con, stat, fileID);
                     System.out.println("rows %%%% "+this.numberOfRowsInserted);
 

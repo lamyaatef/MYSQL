@@ -150,9 +150,10 @@ public class SalesrepImporter {
                            }  
                             
                         }
-                       // System.out.println("count isssssss      " + count);
+                       
 
                     }
+                    System.out.println("count isssssss      " + count--);
                     this.numberOfRowsInserted = SalesrepFileDAO.getSalesrepDataRecords(con, stat, fileID);
                     System.out.println("rows %%%% "+this.numberOfRowsInserted);
 

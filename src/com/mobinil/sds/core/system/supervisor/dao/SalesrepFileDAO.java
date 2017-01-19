@@ -173,7 +173,7 @@ public static final String PHONE_NUMBER = "0900";
             else
             {
                 //Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
-                strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+repDetailId.longValue()+","+repId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
+                strUserDetailSql = "insert into dcm_user_detail (REGION_ID,USER_DETAIL_STATUS_ID,user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values(-1,1"+repDetailId.longValue()+","+repId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
                 System.out.println("query3 inner "+strUserDetailSql);
                 stat.execute(strUserDetailSql);
             }
@@ -184,7 +184,7 @@ public static final String PHONE_NUMBER = "0900";
             //Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
             strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+repId.longValue()+","+userId+",6,"+repDetailId.longValue()+",1,6)";
             System.out.println("query2 "+strUserSql);
-            strUserDetailSql = "insert into dcm_user_detail (user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values("+repDetailId.longValue()+","+repId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
+            strUserDetailSql = "insert into dcm_user_detail (REGION_ID,USER_DETAIL_STATUS_ID,user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values(-1,1,"+repDetailId.longValue()+","+repId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
             System.out.println("query3 "+strUserDetailSql);
             stat.execute(strUserSql);
             stat.execute(strUserDetailSql);
