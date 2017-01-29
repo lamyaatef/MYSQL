@@ -237,11 +237,11 @@ $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").change(function(){
     $.ajax({
     url : "<%out.print(formAction);%>",
     type: "POST",
-    data : {regionid:governid ,type:"2"/*,userLevel:4*/},
+    data : {regionid:governid ,type:"2"},
     success: function(data, textStatus, jqXHR)
     {
-         $("#<%=SCMInterfaceKey.CITY_ID%>").empty();
-        $("#<%=SCMInterfaceKey.DISTRICT_ID%>").empty();
+       $("#<%=SCMInterfaceKey.CITY_ID%>").empty();
+      $("#<%=SCMInterfaceKey.DISTRICT_ID%>").empty();
         
         
               
@@ -253,17 +253,13 @@ $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").change(function(){
  
           //  console.log("data governorates ",option);
             $("#<%=SCMInterfaceKey.CITY_ID%>").append(option);
-});
+                      });
         
-        
-       
-        
-        
-        
+  
     },
     error: function (jqXHR, textStatus, errorThrown)
     {
- 
+
     }
 });
 
@@ -311,6 +307,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
 });
 
 });
+
 });
   
             function submitForm(isSalesAgent)
@@ -632,7 +629,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                         <input type="hidden" id ="supervisorHidden" name="supervisorHidden"  value="true">
                         <td>Team Leaders</td>
                         <td>
-                           <select id="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" onchange="" value="">
+                           <select id="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" >
                                 
                                  <%
                                     System.out.println("CHANGED TEAMLEADER  2: " + repTeamleaders.size());
@@ -720,7 +717,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                     <tr class=TableTextNote>
                         <td>Governorate</td>
                         <td>
-                            <select id="<%=SCMInterfaceKey.GOVERNORATE_ID%>" name="<%=SCMInterfaceKey.GOVERNORATE_ID%>" onchange="getRegion(2);">
+                            <select id="<%=SCMInterfaceKey.GOVERNORATE_ID%>" name="<%=SCMInterfaceKey.GOVERNORATE_ID%>" >
                                 <option value="">-----</option>
                                 <%
                                 System.out.println("governorateId "+governorateId+" and regionGovernorates "+regionGovernorates);
@@ -751,7 +748,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
 
                         <td>City</td>
                         <td>
-                            <select id="<%=SCMInterfaceKey.CITY_ID%>" name="<%=SCMInterfaceKey.CITY_ID%>" onchange="getRegion(3);">
+                            <select id="<%=SCMInterfaceKey.CITY_ID%>" name="<%=SCMInterfaceKey.CITY_ID%>" >
                                 <option value="">-----</option>
                                 <%
                                                                                  if (governorateCities != null && governorateCities.size() != 0) {
@@ -777,7 +774,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                     <tr class=TableTextNote>
                         <td>District</td>
                         <td>
-                            <select id="<%=SCMInterfaceKey.DISTRICT_ID%>" name="<%=SCMInterfaceKey.DISTRICT_ID%>" onchange="getRegion(4);">
+                            <select id="<%=SCMInterfaceKey.DISTRICT_ID%>" name="<%=SCMInterfaceKey.DISTRICT_ID%>">
                                 <option value="">-----</option>
                                 <%
                                     if (cityDistricts != null && cityDistricts.size() != 0) {
@@ -844,7 +841,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                     <tr class=TableTextNote>
                         <td>Team Leaders</td>
                         <td>
-                           <select id="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" onchange="" value="">
+                           <select id="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" >
                                 
                                <%
                                     System.out.println("CHANGED TEAMLEADER  : " + repTeamleaders.size());
