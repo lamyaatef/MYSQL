@@ -304,7 +304,8 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
       
         
     },
-    error: function (jqXHR, textStatus, errorThrown)
+    error: function (jqXHR, textStatus, errorThrown)size() != 0) {
+                                                for (int i = 0; i < re
     {
  
     }
@@ -540,7 +541,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 <%
                                 System.out.println("Rep LEVELS : "+repLevels.size());
                                 if (repLevels != null && repLevels.size() != 0) {
-                                                for (int i = 0; i < repLevels.size(); i++) {
+                                                for (int i = 0; i < reoptionpLevels.size(); i++) {
                                                     DCMUserLevelTypeModel level = (DCMUserLevelTypeModel) repLevels.get(i);
                                 %>
                                 <option value="<%=level.getUserLevelTypeId()%>"
