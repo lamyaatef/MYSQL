@@ -606,10 +606,11 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
         Vector placeDataList = new Vector();
         try {
             Statement stmt = con.createStatement();
-            String sqlString = "select REGION_ID , REGION_NAME , PARENT_REGION_ID , REGION_LEVEL_TYPE_ID from DCM_REGION where REGION_STATUS_TYPE_ID <> 3 and PARENT_REGION_ID='"+regionID+"' ORDER BY REGION_NAME ASC";
+            String sqlString = "select REGION_ID , REGION_NAME , PARENT_REGION_ID,REGION_LEVEL_TYPE_ID from DCM_REGION where REGION_STATUS_TYPE_ID <> 3 and PARENT_REGION_ID='"+regionID+"' ORDER BY REGION_NAME ASC";
+            System.out.println("REgions : "+sqlString);
             Utility.logger.debug(sqlString);
             ResultSet rs = stmt.executeQuery(sqlString);
-            rs = stmt.executeQuery(sqlString);
+            
             PlaceDataModel placeDataModel = null;
 
             while (rs.next()) {

@@ -24,8 +24,6 @@
 String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
                     +InterfaceKey.HASHMAP_KEY_ACTION+"="
                     +SCMInterfaceKey.ACTION_REGIONS; 
-
-System.out.println("form action "+formAction);
             //DECLERTION FOR PAGE DATA
             HashMap dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
             DCMUserModel dcmUser = (DCMUserModel) dataHashMap.get(SCMInterfaceKey.DCM_USER_MODEL);
@@ -38,8 +36,6 @@ System.out.println("form action "+formAction);
             Vector<RegionModel> cityDistricts = new Vector();
             Vector<RepSupervisorModel> repSupervisors=new Vector();
             Vector<RepTeamleaderModel> repTeamleaders=new Vector();
-            Vector allSupers=(Vector)dataHashMap.get("AllSupervisors"); 
-            Vector allTeams=(Vector)dataHashMap.get("AllTeamleaders"); 
             repSupervisors=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REP_SUPERVISORS);
             repTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REP_TEAMLEADS);
             RepSupervisorModel selectedRepSuper = (RepSupervisorModel) dataHashMap.get(SCMInterfaceKey.SELECTED_REP_SUPERVISOR);
@@ -187,36 +183,74 @@ System.out.println("form action "+formAction);
         <script src="../resources/js/jquery-1.11.3.js"></script>
         <script>
             $(document).ready(function(){ 
-                
 $("#<%=SCMInterfaceKey.REGION_ID%>").change(function(){
-  //console.log("aaaa ",$(this).val());
+  
   var regionid= $("#<%=SCMInterfaceKey.REGION_ID%>").val(); //value id of Option selected in the Select object
- // console.log("value id of option selected in Select object is : ",regionid);
-    
+ var supervisorHidden= $("#supervisorHidden").val();
+ alert("region "+regionid);
+ alert("hidden "+supervisorHidden);
+ 
+ 
+ 
+    if(supervisorHidden== "false")
+    {
+        ////////console.log("inside if supervisor is NOT hidden ",supervisorHidden);
     $.ajax({
     url : "<%out.print(formAction);%>",
     type: "POST",
     datatype: "JSON",
-    data : {regionid:regionid,type:"1"},
+    data : {regionid:regionid,type:"<%=SCMInterfaceKey.REGION_ID%>",arraySent:"4"},
     success: function(data, textStatus, jqXHR)
     {
         
       
-        $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").empty();
-        $("#<%=SCMInterfaceKey.CITY_ID%>").empty();
-        $("#<%=SCMInterfaceKey.DISTRICT_ID%>").empty();
-        
+        $("#selectSuper").empty();
+        $("#selectSuper").append($("<option/>").text("--"));
       
         
       
-    $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").append($("<option/>").text("--"));
+    
 
-        $.each(data.map.districts, function(k, v) {
+      $.each(data.map.users, function(k, v) {
             
             var option= $("<option/>").text(v).val(k);
  
-          //  console.log("data governorates ",option);
-            $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").append(option);
+          //  //////console.log("data teamleaders ",option);
+            $("#selectSuper").append(option);
+});
+
+},
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+}
+else {
+alert("ELSE");
+////////console.log("inside if supervisor hidden ",supervisorHidden);
+ $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    datatype: "JSON",
+    data : {regionid:regionid,type:"<%=SCMInterfaceKey.REGION_ID%>",arraySent:"5"},
+    success: function(data, textStatus, jqXHR)
+    {
+        
+      
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>").append($("<option/>").text("--"));
+      
+        
+      
+    
+
+      $.each(data.map.teams, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+          //  //////console.log("data teamleaders ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>").append(option);
 });
 
 },
@@ -226,91 +260,7 @@ $("#<%=SCMInterfaceKey.REGION_ID%>").change(function(){
     }
 });
 
-}); 
-
-
-//governorate
-$("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").change(function(){
-  
-  var governid= $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").val(); //value id of Option selected in the Select object
-  //console.log("value id of option selected in Select object is : ",id);
-    $.ajax({
-    url : "<%out.print(formAction);%>",
-    type: "POST",
-    data : {regionid:governid ,type:"2"/*,userLevel:4*/},
-    success: function(data, textStatus, jqXHR)
-    {
-         $("#<%=SCMInterfaceKey.CITY_ID%>").empty();
-        $("#<%=SCMInterfaceKey.DISTRICT_ID%>").empty();
-        
-        
-              
-    $("#<%=SCMInterfaceKey.CITY_ID%>").append($("<option/>").text("--"));
-    
-        $.each(data.map.districts, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
- 
-          //  console.log("data governorates ",option);
-            $("#<%=SCMInterfaceKey.CITY_ID%>").append(option);
-});
-        
-        
-       
-        
-        
-        
-    },
-    error: function (jqXHR, textStatus, errorThrown)
-    {
- 
-    }
-});
-
-}); 
-
-
-
-
-
-
-
-//city
-$("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
-  
-  var cityid= $("#<%=SCMInterfaceKey.CITY_ID%>").val(); //value id of Option selected in the Select object
-  //console.log("value id of option selected in Select object is : ",id);
-    $.ajax({
-    url : "<%out.print(formAction);%>",
-    type: "POST",
-    data : {regionid:cityid ,type:"3"/*,userLevel:4*/},
-    success: function(data, textStatus, jqXHR)
-    {
-        
-        $("#<%=SCMInterfaceKey.DISTRICT_ID%>").empty();
-        
-        
-            $("#<%=SCMInterfaceKey.DISTRICT_ID%>").append($("<option/>").text("--"));
-    
-        $.each(data.map.districts, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
- 
-           // console.log("data governorates ",option);
-            $("#<%=SCMInterfaceKey.DISTRICT_ID%>").append(option);
-});
-        
-      
-      
-        
-    },
-    error: function (jqXHR, textStatus, errorThrown)size() != 0) {
-                                                for (int i = 0; i < re
-    {
- 
-    }
-});
-
+}
 });
 });
   
@@ -541,7 +491,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 <%
                                 System.out.println("Rep LEVELS : "+repLevels.size());
                                 if (repLevels != null && repLevels.size() != 0) {
-                                                for (int i = 0; i < reoptionpLevels.size(); i++) {
+                                                for (int i = 0; i < repLevels.size(); i++) {
                                                     DCMUserLevelTypeModel level = (DCMUserLevelTypeModel) repLevels.get(i);
                                 %>
                                 <option value="<%=level.getUserLevelTypeId()%>"
@@ -635,37 +585,42 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         <td>
                            <select id="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" onchange="" value="">
                                 
-                                 <%
-                                    System.out.println("CHANGED TEAMLEADER  2: " + repTeamleaders.size());
-                                    
-                                    if (repTeamleaders!=null && repTeamleaders.size()!=0 && allTeams != null && allTeams.size() != 0) {
-                                        System.out.println("repTeamleaders.get(0).getTeamleadId() "+repTeamleaders.get(0).getTeamleadId());
-                                        for (int i = 0; i < allTeams.size(); i++) {
-                                            com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
-                                            String selected ="";
-                                            if(repTeamleaders.get(0).getTeamleadId().compareTo(teamleader.getTeamleaderId())==0){
-                                 
-                                                selected = "selected";
-                                            }
-                                            
-                                %>
-                                <option <%=selected%> value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderName()%></option>
-                                <%}
-                                        
-                                }
-                                    else if(repTeamleaders!=null && repTeamleaders.size()==0 && allTeams != null && allTeams.size() != 0){
-                                        for (int i = 0; i < allSupers.size(); i++) {
-                                         com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
-                                           %>
-                                    <option value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderId()%></option>
-                                <% 
-                                        }
-                                        
+                                <%
+                                   System.out.println("rep teamleaders jsp******  : "+repTeamleaders);
+                                    if(repTeamleaders!=null && repTeamleaders.size()!=0)
+                                    {
+                                        for (int i = 0; i < repTeamleaders.size(); i++)
+                                        {
+                                            RepTeamleaderModel repTeamlead = (RepTeamleaderModel) repTeamleaders.get(i);
+                                             System.out.println("rep teamleader "+((RepTeamleaderModel) repTeamleaders.get(i)).getRepId());
+                                            %>
+                                            <option value = "<%=repTeamlead.getTeamleadId()%>"><%=repTeamlead.getTeamleadName()%></option>
+                                        <%}
                                     }
-                                    else{   
+                                    else{
+                                    %>
+                                    <option value="">-----</option>
+                                     <%
+                                    }
+                                    System.out.println("Region TEAMLEADERS : "+regionTeamleaders.size());
+                                    if (regionTeamleaders != null && regionTeamleaders.size() != 0) {
+                                        for (int i = 0; i < regionTeamleaders.size(); i++) {
+                                            DCMUserModel regionTeamlead = (DCMUserModel) regionTeamleaders.get(i);
+                                            System.out.println("IDS for teamleader: " + teamleadId + " " + regionTeamlead.getDcmUserId());
+                                              if (/*teamleadId != null && */teamleadId.compareTo(regionTeamlead.getDcmUserId()) != 0) {
                                 %>
-                                <option>---</option>
-                                <%}%>
+                                <option value="<%=regionTeamlead.getDcmUserId()%>"
+                                  <%
+                                  System.out.println("regionTeamlead.getDcmUserId() and teamleadId : "+regionTeamlead.getDcmUserId()+"  "+teamleadId);
+                                           
+                                            
+                                  %>
+                                 ><%=regionTeamlead.getUserFullName()%></option>
+                                <%
+                                 }
+                                      }
+                                    }
+                                %>
                             </select>
                         </td>
                     </tr>
@@ -679,36 +634,38 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                             <select id="selectSuper" name="<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>" >
 
                                 <%
-                                    System.out.println("CHANGED SUPERVISOR  2: " + repSupervisors.size());
-                                    
-                                    if (repSupervisors!=null && repSupervisors.size()!=0 && allSupers != null && allSupers.size() != 0) {
-                                        System.out.println("repSupervisors.get(0).getSupId() "+repSupervisors.get(0).getSupId());
-                                        for (int i = 0; i < allSupers.size(); i++) {
-                                            com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
-                                            String selected ="";
-                                            if(repSupervisors.get(0).getSupId().compareTo(repSuper.getSupervisorId())==0){
-                                 
-                                                selected = "selected";
-                                            }
-                                            
+                                    System.out.println("rep supervisors jsp count ******  : " + repSupervisors.size());
+
+                                    if (repSupervisors != null && repSupervisors.size() != 0) {
+                                        for (int i = 0; i < repSupervisors.size(); i++) {
+                                            RepSupervisorModel repSuper = (RepSupervisorModel) repSupervisors.get(i);
+                                            System.out.println("rep supervisor " + ((RepSupervisorModel) repSupervisors.get(i)).getRepId());
                                 %>
-                                <option <%=selected%> value ="<%=repSuper.getSupervisorId()%>" ><%=repSuper.getSupervisorName()%></option>
+                                <option value ="<%=repSuper.getSupId()%>" ><%=repSuper.getSupName()%></option>
                                 <%}
-                                        
-                                }
-                                    else if(repSupervisors!=null && repSupervisors.size()==0 && allSupers != null && allSupers.size() != 0){
-                                        for (int i = 0; i < allSupers.size(); i++) {
-                                         com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
-                                           %>
-                                    <option value ="<%=repSuper.getSupervisorId()%>" ><%=repSuper.getSupervisorName()%></option>
-                                <% 
-                                        }
-                                        
-                                    }
-                                    else{   
+                                } else {
                                 %>
-                                <option>---</option>
-                                <%}%>
+                                <option value="">-----</option>
+                                <%
+                                    }
+                                    System.out.println("region supervisors jsp count ******  : " + regionSupervisors.size());
+                                    if (regionSupervisors != null && regionSupervisors.size() != 0) {
+                                        for (int i = 0; i < regionSupervisors.size(); i++) {
+                                            DCMUserModel regionSuper = (DCMUserModel) regionSupervisors.get(i);
+                                            System.out.println("IDS: " + supId + " " + regionSuper.getDcmUserId());
+                                            if (/*supId != null && */supId.compareTo(regionSuper.getDcmUserId()) != 0) {
+                                %>
+                                <option value="<%=regionSuper.getDcmUserId()%>"
+                                        <%
+                                            System.out.println("regionSuper.getDcmUserId() and supId : " + regionSuper.getDcmUserId() + "  " + supId);
+
+                                        %>
+                                        ><%=regionSuper.getUserFullName()%></option>
+                                <%
+                                            }
+                                        }
+                                    }
+                                %>
                             </select>
                         </td>
                     </tr>
@@ -721,7 +678,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                     <tr class=TableTextNote>
                         <td>Governorate</td>
                         <td>
-                            <select id="<%=SCMInterfaceKey.GOVERNORATE_ID%>" name="<%=SCMInterfaceKey.GOVERNORATE_ID%>" onchange="getRegion(2);">
+                            <select name="<%=SCMInterfaceKey.GOVERNORATE_ID%>" onchange="getRegion(2);">
                                 <option value="">-----</option>
                                 <%
                                 System.out.println("governorateId "+governorateId+" and regionGovernorates "+regionGovernorates);
@@ -752,7 +709,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
 
                         <td>City</td>
                         <td>
-                            <select id="<%=SCMInterfaceKey.CITY_ID%>" name="<%=SCMInterfaceKey.CITY_ID%>" onchange="getRegion(3);">
+                            <select name="<%=SCMInterfaceKey.CITY_ID%>" onchange="getRegion(3);">
                                 <option value="">-----</option>
                                 <%
                                                                                  if (governorateCities != null && governorateCities.size() != 0) {
@@ -778,7 +735,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                     <tr class=TableTextNote>
                         <td>District</td>
                         <td>
-                            <select id="<%=SCMInterfaceKey.DISTRICT_ID%>" name="<%=SCMInterfaceKey.DISTRICT_ID%>" onchange="getRegion(4);">
+                            <select name="<%=SCMInterfaceKey.DISTRICT_ID%>" onchange="getRegion(4);">
                                 <option value="">-----</option>
                                 <%
                                     if (cityDistricts != null && cityDistricts.size() != 0) {
@@ -809,36 +766,38 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                             <select id="selectSuper" name="<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>" >
 
                                 <%
-                                    System.out.println("CHANGED SUPERVISOR  : " + repSupervisors.size());
-                                    
-                                    if (repSupervisors!=null && repSupervisors.size()!=0 && allSupers != null && allSupers.size() != 0) {
-                                        System.out.println("repSupervisors.get(0).getSupId() "+repSupervisors.get(0).getSupId());
-                                        for (int i = 0; i < allSupers.size(); i++) {
-                                            com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
-                                            String selected ="";
-                                            if(repSupervisors.get(0).getSupId().compareTo(repSuper.getSupervisorId())==0){
-                                 
-                                                selected = "selected";
-                                            }
-                                            
+                                    System.out.println("rep supervisors jsp count ******  : " + repSupervisors.size());
+
+                                    if (repSupervisors != null && repSupervisors.size() != 0) {
+                                        for (int i = 0; i < repSupervisors.size(); i++) {
+                                            RepSupervisorModel repSuper = (RepSupervisorModel) repSupervisors.get(i);
+                                            System.out.println("rep supervisor " + ((RepSupervisorModel) repSupervisors.get(i)).getRepId());
                                 %>
-                                <option <%=selected%> value ="<%=repSuper.getSupervisorId()%>" ><%=repSuper.getSupervisorName()%></option>
+                                <option value ="<%=repSuper.getSupId()%>" ><%=repSuper.getSupName()%></option>
                                 <%}
-                                        
-                                }
-                                    else if(repSupervisors!=null && repSupervisors.size()==0 && allSupers != null && allSupers.size() != 0){
-                                        for (int i = 0; i < allSupers.size(); i++) {
-                                         com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
-                                           %>
-                                    <option value ="<%=repSuper.getSupervisorId()%>" ><%=repSuper.getSupervisorName()%></option>
-                                <% 
-                                        }
-                                        
-                                    }
-                                    else{   
+                                } else {
                                 %>
-                                <option>---</option>
-                                <%}%>
+                                <option value="">-----</option>
+                                <%
+                                    }
+                                    System.out.println("region supervisors jsp count ******  : " + regionSupervisors.size());
+                                    if (regionSupervisors != null && regionSupervisors.size() != 0) {
+                                        for (int i = 0; i < regionSupervisors.size(); i++) {
+                                            DCMUserModel regionSuper = (DCMUserModel) regionSupervisors.get(i);
+                                            System.out.println("IDS: " + supId + " " + regionSuper.getDcmUserId());
+                                            if (/*supId != null && */supId.compareTo(regionSuper.getDcmUserId()) != 0) {
+                                %>
+                                <option value="<%=regionSuper.getDcmUserId()%>"
+                                        <%
+                                            System.out.println("regionSuper.getDcmUserId() and supId : " + regionSuper.getDcmUserId() + "  " + supId);
+
+                                        %>
+                                        ><%=regionSuper.getUserFullName()%></option>
+                                <%
+                                            }
+                                        }
+                                    }
+                                %>
                             </select>
                         </td>
                     </tr>
@@ -847,37 +806,42 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         <td>
                            <select id="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" onchange="" value="">
                                 
-                               <%
-                                    System.out.println("CHANGED TEAMLEADER  : " + repTeamleaders.size());
-                                    
-                                    if (repTeamleaders!=null && repTeamleaders.size()!=0 && allTeams != null && allTeams.size() != 0) {
-                                        System.out.println("repTeamleaders.get(0).getTeamleadId() "+repTeamleaders.get(0).getTeamleadId());
-                                        for (int i = 0; i < allTeams.size(); i++) {
-                                            com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
-                                            String selected ="";
-                                            if(repTeamleaders.get(0).getTeamleadId().compareTo(teamleader.getTeamleaderId())==0){
-                                 
-                                                selected = "selected";
-                                            }
-                                            
-                                %>
-                                <option <%=selected%> value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderName()%></option>
-                                <%}
-                                        
-                                }
-                                    else if(repTeamleaders!=null && repTeamleaders.size()==0 && allTeams != null && allTeams.size() != 0){
-                                        for (int i = 0; i < allSupers.size(); i++) {
-                                         com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
-                                           %>
-                                    <option value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderId()%></option>
-                                <% 
-                                        }
-                                        
+                                <%
+                                   System.out.println("rep teamleaders jsp******  : "+repTeamleaders);
+                                    if(repTeamleaders!=null && repTeamleaders.size()!=0)
+                                    {
+                                        for (int i = 0; i < repTeamleaders.size(); i++)
+                                        {
+                                            RepTeamleaderModel repTeamlead = (RepTeamleaderModel) repTeamleaders.get(i);
+                                             System.out.println("rep teamleader "+((RepTeamleaderModel) repTeamleaders.get(i)).getRepId());
+                                            %>
+                                            <option value = "<%=repTeamlead.getTeamleadId()%>"><%=repTeamlead.getTeamleadName()%></option>
+                                        <%}
                                     }
-                                    else{   
+                                    else{
+                                    %>
+                                    <option value="">-----</option>
+                                     <%
+                                    }
+                                    System.out.println("Region TEAMLEADERS : "+regionTeamleaders.size());
+                                    if (regionTeamleaders != null && regionTeamleaders.size() != 0) {
+                                        for (int i = 0; i < regionTeamleaders.size(); i++) {
+                                            DCMUserModel regionTeamlead = (DCMUserModel) regionTeamleaders.get(i);
+                                            System.out.println("IDS for teamleader: " + teamleadId + " " + regionTeamlead.getDcmUserId());
+                                              if (/*teamleadId != null && */teamleadId.compareTo(regionTeamlead.getDcmUserId()) != 0) {
                                 %>
-                                <option>---</option>
-                                <%}%>
+                                <option value="<%=regionTeamlead.getDcmUserId()%>"
+                                  <%
+                                  System.out.println("regionTeamlead.getDcmUserId() and teamleadId : "+regionTeamlead.getDcmUserId()+"  "+teamleadId);
+                                           
+                                            
+                                  %>
+                                 ><%=regionTeamlead.getUserFullName()%></option>
+                                <%
+                                 }
+                                      }
+                                    }
+                                %>
                             </select>
                         </td>
                     </tr>

@@ -10,6 +10,7 @@ import com.mobinil.sds.core.system.scm.model.DCMUserDetailModel;
 import com.mobinil.sds.core.system.dcm.user.model.DCMUserModel;
 import com.mobinil.sds.core.system.gn.dcm.model.DCMModel;
 import com.mobinil.sds.core.system.regionReport.model.RegionPOSReportModel;
+import com.mobinil.sds.core.system.request.model.SupervisorModel;
 import com.mobinil.sds.core.system.sa.persons.model.PersonModel;
 import com.mobinil.sds.core.system.scm.model.DCMUserLevelTypeModel;
 import com.mobinil.sds.core.system.scm.model.POSGroupModel;
@@ -39,7 +40,8 @@ public class RepManagementDAO {
         
         Vector<RegionModel> regions=new Vector();
         String sqlStatement;
-        sqlStatement="SELECT REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_STATUS_TYPE_ID=1 AND REGION_LEVEL_TYPE_ID=(SELECT REGION_LEVEL_TYPE_ID FROM DCM_REGION_LEVEL_TYPE WHERE LOWER(REGION_LEVEL_TYPE_NAME) LIKE 'region' ) ORDER BY REGION_NAME ASC";
+        //sqlStatement="SELECT REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_STATUS_TYPE_ID=1 AND REGION_LEVEL_TYPE_ID=(SELECT REGION_LEVEL_TYPE_ID FROM DCM_REGION_LEVEL_TYPE WHERE LOWER(REGION_LEVEL_TYPE_NAME) LIKE 'region' ) ORDER BY REGION_NAME ASC";
+        sqlStatement="SELECT REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_STATUS_TYPE_ID=1 AND REGION_LEVEL_TYPE_ID=1";
         regions=DBUtil.executeSqlQueryMultiValue(sqlStatement, RegionModel.class, "fillForRepManagementSearch", con);
         return regions;
     }
@@ -375,6 +377,62 @@ public class RepManagementDAO {
     }
     
     
+     public static Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel> getSupervisors(Connection con){
+
+         Vector vec = new Vector();
+        System.out.println("getAllSupervisorsData ");
+        
+              
+        try {
+            Statement stat = con.createStatement();
+            String strSql1 = "select * from scm_supervisor order by supervisor_name";
+            System.out.println("get supervisors : "+strSql1);
+            
+            ResultSet res1 = stat.executeQuery(strSql1);
+            while (res1.next()) {
+               
+                vec.add(new com.mobinil.sds.core.system.scm.model.SupervisorModel(res1,false));
+                }
+            res1.close();
+            
+            stat.close();
+           // con.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return vec;
+    }
+     
+     public static Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel> getTeamleaders(Connection con){
+
+         Vector vec = new Vector();
+        System.out.println("getAllTeamleadersData ");
+        
+              
+        try {
+            Statement stat = con.createStatement();
+            String strSql1 = "select * from scm_teamleader order by teamleader_name";
+            System.out.println("get teamleaders : "+strSql1);
+            
+            ResultSet res1 = stat.executeQuery(strSql1);
+            while (res1.next()) {
+               
+                vec.add(new com.mobinil.sds.core.system.scm.model.TeamleaderModel(res1,false));
+                }
+            res1.close();
+            
+            stat.close();
+           // con.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return vec;
+    }
+    
     
     public static Vector getAllSupervisorsData(Connection con) {
         
@@ -485,29 +543,25 @@ public class RepManagementDAO {
     public static void addNewRepOrSupervisor(Connection con,DCMUserModel repOrSupervisor,DCMUserDetailModel userDetail,String userId){
         long dcmUserDetailId=DBUtil.getSequenceNextVal(con, "SEQ_DCM_USER_DETAIL_ID");
         long dcmUserId=DBUtil.getSequenceNextVal(con, "SEQ_DCM_USER_ID");
-        System.out.println("addNewRepOrSupervisor - detail id : "+dcmUserDetailId+" and id : "+dcmUserId+" and rep/user id : "+userId);
-        String checkDcmUserId = "select * from dcm_user where dcm_user_id = "+dcmUserId;
-        boolean idExists = DBUtil.executeSQLExistCheck(checkDcmUserId,con);
-        if (!idExists)
-        {
-            String insertDCMUserSqlStatement="insert into DCM_USER (DCM_USER_ID, USER_ID, MANAGER_DCM_USER_ID, USER_LEVEL_TYPE_ID, USER_DETAIL_ID, USER_STATUS_TYPE_ID, REGION_ID, USER_LEVEL_ID) " +
-                "values (?, ?, NULL, ?, ?, 1, ?, 0)";
-            String insertDCMUserDeatilSqlStatement="insert into SDS.DCM_USER_DETAIL " +
-                    "(USER_DETAIL_ID, USER_ID, USER_FULL_NAME, USER_ADDRESS, USER_EMAIL, USER_MOBILE, REGION_ID, USER_DETAIL_STATUS_ID, CREATION_TIMESTAMP, CREATION_USER_ID) " +
-                    "values (?, ?, ?, ?, ?, ?, ?, 1, sysdate, ?)";
+        System.out.println("addNewRepOrSupervisor - detail id : "+dcmUserDetailId+" and id (rep/supervisor/teamleader) : "+dcmUserId+" and system login id : "+userId);
+        
+        repOrSupervisor.setDcmUserId(Long.toString(dcmUserId));
+        repOrSupervisor.setUserDetailId(Long.toString(dcmUserDetailId));
+        repOrSupervisor.setUserId(userId);
+        userDetail.setUserId(Integer.valueOf(Long.toString(dcmUserId)));
             
-            DBUtil.executePreparedStatment(insertDCMUserSqlStatement, con, new Object[]{dcmUserId,repOrSupervisor.getUserId(),Integer.parseInt(repOrSupervisor.getUserLevelTypeId()),dcmUserDetailId,Integer.parseInt(repOrSupervisor.getRegionId())});
-            DBUtil.executePreparedStatment(insertDCMUserDeatilSqlStatement,con,new Object[]{dcmUserDetailId,dcmUserId,userDetail.getUserFullName(),userDetail.getUserAddress(),userDetail.getUserEmail(),userDetail.getUserMobile(),repOrSupervisor.getRegionId(),userId});
-        }
-        else if (idExists)
-        {
-            System.out.println("else: DCM ID Exists");
-            repOrSupervisor.setDcmUserId(Long.toString(dcmUserId));
-            repOrSupervisor.setUserDetailId(Long.toString(dcmUserDetailId));
-            repOrSupervisor.setUserId(userId);
-            userDetail.setUserId(Integer.valueOf(Long.toString(dcmUserId)));
-            updateRepOrSupervisor(con, repOrSupervisor, userDetail, userId);
-        }
+        String insertDCMUserSqlStatement="insert into DCM_USER (DCM_USER_ID, USER_ID, MANAGER_DCM_USER_ID, USER_LEVEL_TYPE_ID, USER_DETAIL_ID, USER_STATUS_TYPE_ID, REGION_ID, USER_LEVEL_ID) " +
+                "values (?, ?, NULL, ?, ?, 1, ?, 0)";
+        String insertDCMUserDeatilSqlStatement="insert into SDS.DCM_USER_DETAIL " +
+                    "(USER_DETAIL_ID, USER_ID, USER_FULL_NAME, USER_ADDRESS, USER_EMAIL, USER_MOBILE, REGION_ID, USER_DETAIL_STATUS_ID, CREATION_TIMESTAMP, CREATION_USER_ID) " +
+                    "values (?, ?, ?, ?, ?, ?, ?, 1, systimestamp, ?)";
+        String insertScmUserRegionSqlStatement="insert into scm_user_region " +
+                    "(region_id, USER_ID, USER_LEVEL_TYPE_ID,region_LEVEL_TYPE_ID) " +
+                    "values (?, ?, ?, 4)";    
+            //DBUtil.executePreparedStatment(insertDCMUserSqlStatement, con, new Object[]{dcmUserId,repOrSupervisor.getUserId(),Integer.parseInt(repOrSupervisor.getUserLevelTypeId()),dcmUserDetailId,Integer.parseInt(repOrSupervisor.getRegionId())});
+        DBUtil.executePreparedStatment(insertDCMUserSqlStatement, con, new Object[]{dcmUserId,/*repOrSupervisor.getUserId()*/userId,Integer.parseInt(repOrSupervisor.getUserLevelTypeId()),dcmUserDetailId,Integer.parseInt(repOrSupervisor.getRegionId())});
+        DBUtil.executePreparedStatment(insertDCMUserDeatilSqlStatement,con,new Object[]{dcmUserDetailId,dcmUserId,userDetail.getUserFullName(),userDetail.getUserAddress(),userDetail.getUserEmail(),userDetail.getUserMobile(),repOrSupervisor.getRegionId(),userId});
+        DBUtil.executePreparedStatment(insertScmUserRegionSqlStatement,con,new Object[]{Integer.parseInt(repOrSupervisor.getRegionId()),dcmUserId,Integer.parseInt(repOrSupervisor.getUserLevelTypeId())});
             
         
 
@@ -579,11 +633,39 @@ public class RepManagementDAO {
         String updateDCMUserSqlStatement="UPDATE DCM_USER SET USER_LEVEL_TYPE_ID=? , REGION_ID=?, USER_ID=? WHERE DCM_USER_ID=?";
         String updateDCMUserDetailSqlStatement="UPDATE DCM_USER_DETAIL SET USER_FULL_NAME=?, USER_ADDRESS=?, USER_EMAIL=?, USER_MOBILE=?, " +
                 "REGION_ID=? WHERE USER_DETAIL_ID=?";
-        System.out.println("updateDCMUserSqlStatement "+updateDCMUserSqlStatement);
-        System.out.println("params : user level type id "+dcmUser.getUserLevelTypeId()+" regionId "+dcmUser.getRegionId()+" user/rep id "+dcmUser.getUserId()+" where dcmUserId "+dcmUser.getDcmUserId());
+        String updateScmUserRegionSqlStatement="update scm_user_region " +
+                    " set region_id=?, USER_LEVEL_TYPE_ID=?,region_LEVEL_TYPE_ID=4 where user_id=? "; 
+        
         DBUtil.executePreparedStatment(updateDCMUserSqlStatement, con, new Object[]{dcmUser.getUserLevelTypeId(),dcmUser.getRegionId(),dcmUser.getUserId(),dcmUser.getDcmUserId()});
         DBUtil.executePreparedStatment(updateDCMUserDetailSqlStatement,con,new Object[]{dcmUserDetail.getUserFullName(),dcmUserDetail.getUserAddress(),dcmUserDetail.getUserEmail(),dcmUserDetail.getUserMobile(),dcmUser.getRegionId(),dcmUser.getUserDetailId()});
+        DBUtil.executePreparedStatment(updateScmUserRegionSqlStatement, con, new Object[]{dcmUser.getRegionId(),Integer.parseInt(dcmUser.getUserLevelTypeId()),dcmUser.getDcmUserId()});
     }
+    
+    
+    public static void updateSupervisor(Connection con,DCMUserModel dcmUser,DCMUserDetailModel dcmUserDetail){
+        
+        String updateSupervisorSqlStatement="UPDATE scm_supervisor SET supervisor_name=? , email=?, mobile=? ,creation_timestamp=systimestamp WHERE supervisor_id=?";
+        
+        DBUtil.executePreparedStatment(updateSupervisorSqlStatement, con, new Object[]{dcmUserDetail.getUserFullName(),dcmUserDetail.getUserEmail(),dcmUserDetail.getUserMobile(),dcmUser.getDcmUserId()});
+        
+    }
+    
+    public static void updateTeamleader(Connection con,DCMUserModel dcmUser,DCMUserDetailModel dcmUserDetail){
+        
+        String updateSupervisorSqlStatement="UPDATE scm_teamleader SET teamleader_name=? , email=?, mobile=? ,creation_timestamp=systimestamp WHERE teamleader_id=?";
+        
+        DBUtil.executePreparedStatment(updateSupervisorSqlStatement, con, new Object[]{dcmUserDetail.getUserFullName(),dcmUserDetail.getUserEmail(),dcmUserDetail.getUserMobile(),dcmUser.getDcmUserId()});
+        
+    }
+    
+    public static void updateSalesRep(Connection con,DCMUserModel dcmUser,DCMUserDetailModel dcmUserDetail){
+        
+        String updateSupervisorSqlStatement="UPDATE scm_salesrep SET salesrep_name=? , email=?, mobile=? ,creation_timestamp=systimestamp WHERE salesrep_id=?";
+        
+        DBUtil.executePreparedStatment(updateSupervisorSqlStatement, con, new Object[]{dcmUserDetail.getUserFullName(),dcmUserDetail.getUserEmail(),dcmUserDetail.getUserMobile(),dcmUser.getDcmUserId()});
+        
+    }
+    
 
     public static void deleteRepOrSupervisor(Connection con, String dcmUserId,String userLevelTypeId){
             String deleteDCMUserSqlStatement="UPDATE DCM_USER SET USER_STATUS_TYPE_ID=3 WHERE DCM_USER_ID="+dcmUserId;

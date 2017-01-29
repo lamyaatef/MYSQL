@@ -143,19 +143,39 @@ public class RepSupDAO {
     }
     public static void reassignRepToTeamleader(Connection con,String repId,String teamleadId,String userId){
         String sqlStatement;
-        sqlStatement="UPDATE SCM_REP_TEAMLEADERS SET REP_ID = "+repId+",TEAMLEAD_ID="+teamleadId+",CREATED_IN=sysdate,CREATED_BY="+userId;
+        sqlStatement="UPDATE SCM_REP_TEAMLEADERS SET REP_ID = "+repId+",TEAMLEAD_ID="+teamleadId+",CREATED_IN=systimestamp,CREATED_BY="+userId;
         DBUtil.executeSQL(sqlStatement, con);
     }
     public static void reassignRepToSupervisor(Connection con,String repId,String supId,String userId){
         String sqlStatement;
-        sqlStatement="UPDATE SCM_REP_SUPERVISORS SET REP_ID = "+repId+",SUP_ID="+supId+",CREATED_IN=sysdate,CREATED_BY = "+userId;
+        sqlStatement="UPDATE SCM_REP_SUPERVISORS SET REP_ID = "+repId+",SUP_ID="+supId+",CREATED_IN=systimestamp,CREATED_BY = "+userId;
         DBUtil.executeSQL(sqlStatement, con);
     }
     
     public static void addNewSupervisor(Connection con, DCMUserDetailModel userDetail,String supervisorId) 
     {
-        String strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+supervisorId+",'"+userDetail.getUserFullName()+"','"+userDetail.getUserEmail()+"','"+userDetail.getUserMobile()+"',sysdate)"; 
+        String strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+supervisorId+",'"+userDetail.getUserFullName()+"','"+userDetail.getUserEmail()+"','"+userDetail.getUserMobile()+"',systimestamp)"; 
         System.out.println("query1 addNewSupervisor"+strSql);
+        try{
+            Statement stat = con.createStatement();
+            stat.execute(strSql);   
+        }catch(Exception e){}
+         
+    }
+    public static void addNewSalesRep(Connection con, DCMUserDetailModel userDetail,String repId) 
+    {
+        String strSql = "insert into SCM_SALESREP ( SALESREP_ID, SALESREP_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+repId+",'"+userDetail.getUserFullName()+"','"+userDetail.getUserEmail()+"','"+userDetail.getUserMobile()+"',systimestamp)"; 
+        System.out.println("query1 addNewSalesRep"+strSql);
+        try{
+            Statement stat = con.createStatement();
+            stat.execute(strSql);   
+        }catch(Exception e){}
+         
+    }
+    public static void addNewTeamleader(Connection con, DCMUserDetailModel userDetail,String teamleaderId) 
+    {
+        String strSql = "insert into SCM_TEAMLEADER ( TEAMLEADER_ID, TEAMLEADER_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+teamleaderId+",'"+userDetail.getUserFullName()+"','"+userDetail.getUserEmail()+"','"+userDetail.getUserMobile()+"',systimestamp)"; 
+        System.out.println("query1 addNewTeamleader"+strSql);
         try{
             Statement stat = con.createStatement();
             stat.execute(strSql);   

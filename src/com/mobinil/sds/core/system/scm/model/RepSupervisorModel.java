@@ -121,4 +121,7 @@ public class RepSupervisorModel extends Model {
             Logger.getLogger(RepSupervisorModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    
 }

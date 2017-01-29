@@ -84,11 +84,6 @@
                 salesrep = 6;
                 break;
         }*/
-        System.out.println("LEVELS : "+levelsArr);
-    System.out.println("REGION ID : "+regionid);
-    System.out.println("MANAGER ID2 : "+managerid2);
-    System.out.println("USERLEVEL ID : "+userLevelId);
-    System.out.println("TYPE OF REGION: "+type);
         
     }
     HashMap dataHashMap = new HashMap(100);
