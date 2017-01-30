@@ -112,6 +112,7 @@ public class SCMInterfaceKey {
     public static final String VECTOR_ALL_REGIONS = "regions";
     public static final String VECTOR_REP_LEVEL_TYPES = "rep_levels";
     public static final String REGION_ID = "region_id";
+    public static final String REGION_LEVEL_TYPE_ID = "region_level_type_id";
     public static final String USER_LEVEL_TYPE_ID = "user_level_type_id";
     public static final String SEARCH_NAME = "search_name";
     public static final String ACTION_SEARCH_REP = "search_rep";

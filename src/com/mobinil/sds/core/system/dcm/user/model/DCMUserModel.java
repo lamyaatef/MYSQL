@@ -23,6 +23,7 @@ public class DCMUserModel extends Model implements Serializable
   String regionName;
   String userLevelId;
   Date creationTimeStamp;
+  private String regionLevelTypeId;
 
   public static final String DCM_USER_ID = "DCM_USER_ID";
   public static final String USER_ID = "USER_ID";
@@ -37,6 +38,7 @@ public class DCMUserModel extends Model implements Serializable
   public static final String REGION_ID = "REGION_ID";
   public static final String REGION_NAME = "REGION_NAME";
   public static final String USER_LEVEL_ID = "USER_LEVEL_ID";
+  public static final String REGION_LEVEL_TYPE_ID = "REGION_LEVEL_TYPE_ID";
 
   
   public DCMUserModel()
@@ -316,5 +318,19 @@ public void setCreationTimeStamp(Date passCreationTimeStamp) {
     @Override
     public void fillInstance(ResultSet res) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * @return the regionLevelTypeId
+     */
+    public String getRegionLevelTypeId() {
+        return regionLevelTypeId;
+    }
+
+    /**
+     * @param regionLevelTypeId the regionLevelTypeId to set
+     */
+    public void setRegionLevelTypeId(String regionLevelTypeId) {
+        this.regionLevelTypeId = regionLevelTypeId;
     }
 }

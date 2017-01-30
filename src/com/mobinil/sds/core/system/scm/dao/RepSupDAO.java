@@ -155,7 +155,7 @@ public class RepSupDAO {
     public static void addNewSupervisor(Connection con, DCMUserDetailModel userDetail,String supervisorId) 
     {
         String strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+supervisorId+",'"+userDetail.getUserFullName()+"','"+userDetail.getUserEmail()+"','"+userDetail.getUserMobile()+"',systimestamp)"; 
-        System.out.println("query1 addNewSupervisor"+strSql);
+        System.out.println("query1 addNewSupervisor "+strSql);
         try{
             Statement stat = con.createStatement();
             stat.execute(strSql);   

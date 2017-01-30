@@ -360,7 +360,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         alert('You must choose region for the supervisor.');
                     }else{
                         document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=buttonAction%>";
-                        
+                        //document.<%=formName%>.<%=SCMInterfaceKey.REGION_LEVEL_TYPE_ID%>.value="1";
                         document.<%=formName%>.submit();
                     }
                     return;
@@ -595,7 +595,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                             <select id="<%=SCMInterfaceKey.REGION_ID%>" name="<%=SCMInterfaceKey.REGION_ID%>" 
                                     <%
                                                 if (userLevelTypeId != null && !userLevelTypeId.trim().equals("") && userLevelTypeId.equals("4")) {
-                                                    out.print("onchange=\"getRegion(1);\"");
+                                                   // out.print("onchange=\"getRegion(1);\"");
                                                 }
 
                                     %>>
@@ -626,7 +626,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 if (userLevelTypeId == null || userLevelTypeId.trim().equals("") /*|| userLevelTypeId.equalsIgnoreCase("4") || userLevelTypeId.equalsIgnoreCase("5")*/ ) {
                                 } 
                                 else if (userLevelTypeId.equalsIgnoreCase("4")) { 
-                                    System.out.println("else 4");
+                                    
                                     %>
                                     <tr class=TableTextNote>
                                         <input type="hidden" id ="supervisorHidden" name="supervisorHidden"  value="true">
@@ -657,7 +657,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                         for (int i = 0; i < allSupers.size(); i++) {
                                          com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
                                            %>
-                                    <option value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderId()%></option>
+                                    <option value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderName()%></option>
                                 <% 
                                         }
                                         
@@ -809,7 +809,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                             <select id="selectSuper" name="<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>" >
 
                                 <%
-                                    System.out.println("CHANGED SUPERVISOR  : " + repSupervisors.size());
+                                    System.out.println("CHANGED SUPERVISOR  repSupSize : " + repSupervisors.size()+" allSupersSize : "+allSupers);
                                     
                                     if (repSupervisors!=null && repSupervisors.size()!=0 && allSupers != null && allSupers.size() != 0) {
                                         //System.out.println("repSupervisors.get(0).getSupId() "+repSupervisors.get(0).getSupId());
@@ -870,7 +870,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                         for (int i = 0; i < allSupers.size(); i++) {
                                          com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
                                            %>
-                                    <option value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderId()%></option>
+                                    <option value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderName()%></option>
                                 <% 
                                         }
                                         

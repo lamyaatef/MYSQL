@@ -540,7 +540,7 @@ public class RepManagementDAO {
         return count;
     }
 
-    public static void addNewRepOrSupervisor(Connection con,DCMUserModel repOrSupervisor,DCMUserDetailModel userDetail,String userId){
+    public static void addNewRepOrSupervisor(Connection con,String userRegionLevelTypeId,DCMUserModel repOrSupervisor,DCMUserDetailModel userDetail,String userId){
         long dcmUserDetailId=DBUtil.getSequenceNextVal(con, "SEQ_DCM_USER_DETAIL_ID");
         long dcmUserId=DBUtil.getSequenceNextVal(con, "SEQ_DCM_USER_ID");
         System.out.println("addNewRepOrSupervisor - detail id : "+dcmUserDetailId+" and id (rep/supervisor/teamleader) : "+dcmUserId+" and system login id : "+userId);
@@ -550,18 +550,18 @@ public class RepManagementDAO {
         repOrSupervisor.setUserId(userId);
         userDetail.setUserId(Integer.valueOf(Long.toString(dcmUserId)));
             
-        String insertDCMUserSqlStatement="insert into DCM_USER (DCM_USER_ID, USER_ID, MANAGER_DCM_USER_ID, USER_LEVEL_TYPE_ID, USER_DETAIL_ID, USER_STATUS_TYPE_ID, REGION_ID, USER_LEVEL_ID) " +
-                "values (?, ?, NULL, ?, ?, 1, ?, 0)";
+        String insertDCMUserSqlStatement="insert into DCM_USER (DCM_USER_ID, USER_ID, MANAGER_DCM_USER_ID, USER_LEVEL_TYPE_ID, USER_DETAIL_ID, USER_STATUS_TYPE_ID, /*REGION_ID,*/ USER_LEVEL_ID) " +
+                "values (?, ?, NULL, ?, ?, 1, 0)";
         String insertDCMUserDeatilSqlStatement="insert into SDS.DCM_USER_DETAIL " +
                     "(USER_DETAIL_ID, USER_ID, USER_FULL_NAME, USER_ADDRESS, USER_EMAIL, USER_MOBILE, REGION_ID, USER_DETAIL_STATUS_ID, CREATION_TIMESTAMP, CREATION_USER_ID) " +
                     "values (?, ?, ?, ?, ?, ?, ?, 1, systimestamp, ?)";
         String insertScmUserRegionSqlStatement="insert into scm_user_region " +
                     "(region_id, USER_ID, USER_LEVEL_TYPE_ID,region_LEVEL_TYPE_ID) " +
-                    "values (?, ?, ?, 4)";    
+                    "values (?, ?, ?, ?)";    
             //DBUtil.executePreparedStatment(insertDCMUserSqlStatement, con, new Object[]{dcmUserId,repOrSupervisor.getUserId(),Integer.parseInt(repOrSupervisor.getUserLevelTypeId()),dcmUserDetailId,Integer.parseInt(repOrSupervisor.getRegionId())});
-        DBUtil.executePreparedStatment(insertDCMUserSqlStatement, con, new Object[]{dcmUserId,/*repOrSupervisor.getUserId()*/userId,Integer.parseInt(repOrSupervisor.getUserLevelTypeId()),dcmUserDetailId,Integer.parseInt(repOrSupervisor.getRegionId())});
+        DBUtil.executePreparedStatment(insertDCMUserSqlStatement, con, new Object[]{dcmUserId,/*repOrSupervisor.getUserId()*/userId,Integer.parseInt(repOrSupervisor.getUserLevelTypeId()),dcmUserDetailId/*,Integer.parseInt(repOrSupervisor.getRegionId())*/});
         DBUtil.executePreparedStatment(insertDCMUserDeatilSqlStatement,con,new Object[]{dcmUserDetailId,dcmUserId,userDetail.getUserFullName(),userDetail.getUserAddress(),userDetail.getUserEmail(),userDetail.getUserMobile(),repOrSupervisor.getRegionId(),userId});
-        DBUtil.executePreparedStatment(insertScmUserRegionSqlStatement,con,new Object[]{Integer.parseInt(repOrSupervisor.getRegionId()),dcmUserId,Integer.parseInt(repOrSupervisor.getUserLevelTypeId())});
+        DBUtil.executePreparedStatment(insertScmUserRegionSqlStatement,con,new Object[]{Integer.parseInt(repOrSupervisor.getRegionId()),dcmUserId,Integer.parseInt(repOrSupervisor.getUserLevelTypeId()),userRegionLevelTypeId});
             
         
 
@@ -629,17 +629,17 @@ public class RepManagementDAO {
             return parentRegionId;
         }
 
-    public static void updateRepOrSupervisor(Connection con,DCMUserModel dcmUser,DCMUserDetailModel dcmUserDetail,String userId){
+    public static void updateRepOrSupervisor(Connection con,String userRegionLevelTypeId,DCMUserModel dcmUser,DCMUserDetailModel dcmUserDetail,String userId){
         //String updateDCMUserSqlStatement="UPDATE DCM_USER SET USER_LEVEL_TYPE_ID=? , REGION_ID=? WHERE DCM_USER_ID=?";
         String updateDCMUserSqlStatement="UPDATE DCM_USER SET USER_LEVEL_TYPE_ID=? , REGION_ID=?, USER_ID=? WHERE DCM_USER_ID=?";
         String updateDCMUserDetailSqlStatement="UPDATE DCM_USER_DETAIL SET USER_FULL_NAME=?, USER_ADDRESS=?, USER_EMAIL=?, USER_MOBILE=?, " +
                 "REGION_ID=? WHERE USER_DETAIL_ID=?";
         String updateScmUserRegionSqlStatement="update scm_user_region " +
-                    " set region_id=?, USER_LEVEL_TYPE_ID=?,region_LEVEL_TYPE_ID=4 where user_id=? "; 
+                    " set REGION_LEVEL_TYPE_ID=?, region_id=?, USER_LEVEL_TYPE_ID=? where user_id=? "; 
         
         DBUtil.executePreparedStatment(updateDCMUserSqlStatement, con, new Object[]{dcmUser.getUserLevelTypeId(),dcmUser.getRegionId(),dcmUser.getUserId(),dcmUser.getDcmUserId()});
         DBUtil.executePreparedStatment(updateDCMUserDetailSqlStatement,con,new Object[]{dcmUserDetail.getUserFullName(),dcmUserDetail.getUserAddress(),dcmUserDetail.getUserEmail(),dcmUserDetail.getUserMobile(),dcmUser.getRegionId(),dcmUser.getUserDetailId()});
-        DBUtil.executePreparedStatment(updateScmUserRegionSqlStatement, con, new Object[]{dcmUser.getRegionId(),Integer.parseInt(dcmUser.getUserLevelTypeId()),dcmUser.getDcmUserId()});
+        DBUtil.executePreparedStatment(updateScmUserRegionSqlStatement, con, new Object[]{userRegionLevelTypeId,dcmUser.getRegionId(),Integer.parseInt(dcmUser.getUserLevelTypeId()),dcmUser.getDcmUserId()});
     }
     
     
@@ -733,30 +733,47 @@ public class RepManagementDAO {
     public static DCMUserDetailModel getRepSupDetail(Connection con,String userLevelTypeId,String dcmUserId){
 
         DCMUserDetailModel dcmUserDetail=new DCMUserDetailModel();
-        String sqlStatement;
-        /*DCM_USER.REGION_ID=DCM_REGION.REGION_ID AND*/
-        sqlStatement="SELECT DCM_USER.DCM_USER_ID, DCM_USER.USER_LEVEL_TYPE_ID, DCM_USER.REGION_ID ,DCM_USER_DETAIL.USER_FULL_NAME,DCM_USER_DETAIL.USER_ADDRESS,DCM_USER_DETAIL.USER_EMAIL,DCM_USER_DETAIL.USER_MOBILE,DCM_REGION.REGION_NAME"
+        String sqlStatement="";
+        /*sqlStatement="SELECT DCM_USER.DCM_USER_ID, DCM_USER.USER_LEVEL_TYPE_ID, DCM_USER.REGION_ID ,DCM_USER_DETAIL.USER_FULL_NAME,DCM_USER_DETAIL.USER_ADDRESS,DCM_USER_DETAIL.USER_EMAIL,DCM_USER_DETAIL.USER_MOBILE,DCM_REGION.REGION_NAME"
                     +" FROM  DCM_USER,DCM_USER_DETAIL,DCM_REGION"
                     +" WHERE DCM_USER.USER_STATUS_TYPE_ID<>3 AND DCM_USER.DCM_USER_ID=DCM_USER_DETAIL.USER_ID AND"
-                    +"  DCM_USER.USER_LEVEL_TYPE_ID="+userLevelTypeId+" AND DCM_USER.DCM_USER_ID="+dcmUserId;
+                    +"  DCM_USER.USER_LEVEL_TYPE_ID="+userLevelTypeId+" AND DCM_USER.DCM_USER_ID="+dcmUserId;*/
+        sqlStatement="select salesrep_id as DCM_USER_ID,salesrep_name as USER_FULL_NAME, email as USER_EMAIL, mobile as USER_MOBILE, dcm_region.region_name from dcm_region,scm_salesrep, scm_user_region where dcm_region.region_id=scm_user_region.region_id and scm_salesrep.salesrep_id = scm_user_region.user_id and scm_user_region.user_level_type_id="+userLevelTypeId+" and scm_salesrep.salesrep_id="+dcmUserId;
 System.out.println("getRepSupDetail "+sqlStatement);
-           dcmUserDetail= DBUtil.executeSqlQuerySingleValue(sqlStatement, DCMUserDetailModel.class, "fillForRepSupDetail", con);
+           dcmUserDetail= DBUtil.executeSqlQuerySingleValue(sqlStatement, DCMUserDetailModel.class, "fillDetail", con);
            return dcmUserDetail;
     }
     public static DCMUserDetailModel getRepTeamleadDetail(Connection con,String userLevelTypeId,String dcmUserId){
 
         DCMUserDetailModel dcmUserDetail=new DCMUserDetailModel();
         String sqlStatement;
-        /*DCM_USER.REGION_ID=DCM_REGION.REGION_ID AND*/
-        sqlStatement="SELECT DCM_USER.DCM_USER_ID, DCM_USER.USER_LEVEL_TYPE_ID, DCM_USER.REGION_ID ,DCM_USER_DETAIL.USER_FULL_NAME,DCM_USER_DETAIL.USER_ADDRESS,DCM_USER_DETAIL.USER_EMAIL,DCM_USER_DETAIL.USER_MOBILE,DCM_REGION.REGION_NAME"
+        /*sqlStatement="SELECT DCM_USER.DCM_USER_ID, DCM_USER.USER_LEVEL_TYPE_ID, DCM_USER.REGION_ID ,DCM_USER_DETAIL.USER_FULL_NAME,DCM_USER_DETAIL.USER_ADDRESS,DCM_USER_DETAIL.USER_EMAIL,DCM_USER_DETAIL.USER_MOBILE,DCM_REGION.REGION_NAME"
                     +" FROM  DCM_USER,DCM_USER_DETAIL,DCM_REGION"
                     +" WHERE DCM_USER.USER_STATUS_TYPE_ID<>3 AND DCM_USER.DCM_USER_ID=DCM_USER_DETAIL.USER_ID AND"
-                    +" DCM_USER.USER_LEVEL_TYPE_ID="+userLevelTypeId+" AND DCM_USER.DCM_USER_ID="+dcmUserId;
-
-           dcmUserDetail= DBUtil.executeSqlQuerySingleValue(sqlStatement, DCMUserDetailModel.class, "fillForRepTeamleadDetail", con);
+                    +" DCM_USER.USER_LEVEL_TYPE_ID="+userLevelTypeId+" AND DCM_USER.DCM_USER_ID="+dcmUserId;*/
+sqlStatement="select teamleader_id as DCM_USER_ID,teamleader_name as USER_FULL_NAME, email as USER_EMAIL, mobile as USER_MOBILE, dcm_region.region_name from dcm_region,scm_teamleader, scm_user_region where dcm_region.region_id=scm_user_region.region_id and scm_teamleader.teamleader_id = scm_user_region.user_id and scm_user_region.user_level_type_id="+userLevelTypeId+" and scm_teamleader.teamleader_id="+dcmUserId;
+           dcmUserDetail= DBUtil.executeSqlQuerySingleValue(sqlStatement, DCMUserDetailModel.class, "fillDetail", con);
            return dcmUserDetail;
     }
 
+    
+    
+    
+    public static DCMUserDetailModel getSupDetail(Connection con,String userLevelTypeId,String dcmUserId){
+
+        DCMUserDetailModel dcmUserDetail=new DCMUserDetailModel();
+        String sqlStatement;
+        /*sqlStatement="SELECT DCM_USER.DCM_USER_ID, DCM_USER.USER_LEVEL_TYPE_ID, DCM_USER.REGION_ID ,DCM_USER_DETAIL.USER_FULL_NAME,DCM_USER_DETAIL.USER_ADDRESS,DCM_USER_DETAIL.USER_EMAIL,DCM_USER_DETAIL.USER_MOBILE,DCM_REGION.REGION_NAME"
+                    +" FROM  DCM_USER,DCM_USER_DETAIL,DCM_REGION"
+                    +" WHERE DCM_USER.USER_STATUS_TYPE_ID<>3 AND DCM_USER.DCM_USER_ID=DCM_USER_DETAIL.USER_ID AND"
+                    +" DCM_USER.USER_LEVEL_TYPE_ID="+userLevelTypeId+" AND DCM_USER.DCM_USER_ID="+dcmUserId;*/
+sqlStatement="select supervisor_id as DCM_USER_ID,supervisor_name as USER_FULL_NAME, email as USER_EMAIL, mobile as USER_MOBILE, dcm_region.region_name from dcm_region,scm_supervisor, scm_user_region where dcm_region.region_id=scm_user_region.region_id and scm_supervisor.supervisor_id = scm_user_region.user_id and scm_user_region.user_level_type_id="+userLevelTypeId+" and scm_supervisor.supervisor_id="+dcmUserId;
+           dcmUserDetail= DBUtil.executeSqlQuerySingleValue(sqlStatement, DCMUserDetailModel.class, "fillDetail", con);
+           return dcmUserDetail;
+    }
+    
+    
+    
     public static RepPOSGroupModel getRepPOSGroup(Connection con, String dcmUserId){
 
             RepPOSGroupModel repPOSGroup=new RepPOSGroupModel();
@@ -917,7 +934,7 @@ System.out.println("getRepSupDetail "+sqlStatement);
     
     public static Vector<PersonModel> searchGENPersons(Connection con,String personName){
         Vector<PersonModel> persons=new Vector();
-        String sqlStatement="SELECT GP.PERSON_ID,GP.PERSON_FULL_NAME, GP.PERSON_ADDRESS, GP.PERSON_EMAIL"
+        /*String sqlStatement="SELECT GP.PERSON_ID,GP.PERSON_FULL_NAME, GP.PERSON_ADDRESS, GP.PERSON_EMAIL"
                             +" FROM GEN_PERSON GP, GEN_USER GU"
                             +" WHERE GU.USER_ID=GP.PERSON_ID AND GU.USER_STATUS_ID=1 AND GP.PERSON_ID NOT IN ("
                             +" SELECT USER_ID FROM DCM_USER WHERE USER_STATUS_TYPE_ID <>3 AND USER_ID IS NOT NULL)";
@@ -925,12 +942,17 @@ System.out.println("getRepSupDetail "+sqlStatement);
            //sqlStatement+=" AND  LOWER(GP.PERSON_FULL_NAME) LIKE ?";
            //personName="'%"+personName.toLowerCase()+"%'";
            //persons=DBUtil.executePreparedSqlQueryMultiValue(sqlStatement, PersonModel.class, con,new Object[]{personName});
-            sqlStatement+=" AND  LOWER(GP.PERSON_FULL_NAME) LIKE '%"+personName.toLowerCase()+"%'";
+            sqlStatement+=" AND  LOWER(GP.PERSON_FULL_NAME) LIKE '%"+personName.toLowerCase()+"%'";*/
+        
+        String sqlStatement="SELECT dcm_user_detail.user_id as PERSON_ID, dcm_user_detail.user_full_name as PERSON_FULL_NAME, dcm_user_detail.user_address as PERSON_ADDRESS, dcm_user_detail.user_email as PERSON_EMAIL"
+                            +" FROM dcm_user_detail ";
+        if(personName!=null&& !personName.trim().equalsIgnoreCase("")){
+                            sqlStatement+= " WHERE LOWER(dcm_user_detail.user_full_name) LIKE '%"+personName.toLowerCase()+"%'";
             persons=DBUtil.executeSqlQueryMultiValue(sqlStatement, PersonModel.class, con);           
            
         }
         else{
-           sqlStatement+=" order by LOWER(GP.PERSON_FULL_NAME)";
+           sqlStatement+=" order by LOWER(dcm_user_detail.user_full_name)";
            persons=DBUtil.executeSqlQueryMultiValue(sqlStatement, PersonModel.class, con);
         }
 

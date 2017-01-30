@@ -191,36 +191,57 @@ public class DCMUserDetailModel extends Model {
         this.regionName = regionName;
     }
 
-    public void fillForRepSupDetail(ResultSet res){
+    
+    public void fillDetail(ResultSet res){
         try {
             this.setUserId(res.getInt("DCM_USER_ID"));
-            this.setUserLevelTypeId(res.getString("USER_LEVEL_TYPE_ID"));
+            //this.setUserLevelTypeId(res.getString("USER_LEVEL_TYPE_ID"));
             this.setRegionName(res.getString("REGION_NAME"));
             this.setUserFullName(res.getString("USER_FULL_NAME"));
-            this.setUserAddress(res.getString("USER_ADDRESS"));
+            //this.setUserAddress(res.getString("USER_ADDRESS"));
             this.setUserEmail(res.getString("USER_EMAIL"));
             this.setUserMobile(res.getString("USER_MOBILE"));
-            this.setRegionId(res.getString("REGION_ID"));
+            //this.setRegionId(res.getString("REGION_ID"));
 
         } catch (SQLException ex) {
             Logger.getLogger(DCMUserDetailModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    /*
+    public void fillForRepSupDetail(ResultSet res){
+        try {
+            this.setUserId(res.getInt("DCM_USER_ID"));
+            //this.setUserLevelTypeId(res.getString("USER_LEVEL_TYPE_ID"));
+            this.setRegionName(res.getString("REGION_NAME"));
+            this.setUserFullName(res.getString("USER_FULL_NAME"));
+            //this.setUserAddress(res.getString("USER_ADDRESS"));
+            this.setUserEmail(res.getString("USER_EMAIL"));
+            this.setUserMobile(res.getString("USER_MOBILE"));
+            //this.setRegionId(res.getString("REGION_ID"));
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DCMUserDetailModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
 
     public void fillForRepTeamleadDetail(ResultSet res){
         try {
             this.setUserId(res.getInt("DCM_USER_ID"));
-            this.setUserLevelTypeId(res.getString("USER_LEVEL_TYPE_ID"));
+            //this.setUserLevelTypeId(res.getString("USER_LEVEL_TYPE_ID"));
             this.setRegionName(res.getString("REGION_NAME"));
             this.setUserFullName(res.getString("USER_FULL_NAME"));
-            this.setUserAddress(res.getString("USER_ADDRESS"));
+            //this.setUserAddress(res.getString("USER_ADDRESS"));
             this.setUserEmail(res.getString("USER_EMAIL"));
             this.setUserMobile(res.getString("USER_MOBILE"));
-            this.setRegionId(res.getString("REGION_ID"));
+            //this.setRegionId(res.getString("REGION_ID"));
 
         } catch (SQLException ex) {
             Logger.getLogger(DCMUserDetailModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+*/
 }
