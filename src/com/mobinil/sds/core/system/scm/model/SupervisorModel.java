@@ -24,7 +24,7 @@ public class SupervisorModel {
     public SupervisorModel(){}
     public SupervisorModel(ResultSet res, boolean hasRegion) throws SQLException{
     
-        //supervisorId = String.valueOf(res.getInt("supervisor_id"));
+        supervisorId = String.valueOf(res.getInt("supervisor_id"));
         supervisorId = res.getString("supervisor_id");
             //supervisorAddress = res.getString("supervisor_address");
             supervisorEmail = res.getString("email");

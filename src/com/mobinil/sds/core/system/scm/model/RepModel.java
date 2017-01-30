@@ -33,7 +33,7 @@ public class RepModel {
     public RepModel(){}
     public RepModel(ResultSet res, boolean hasRegion) throws SQLException{
     
-        //repId = res.getString("salesrep_id");
+        repId = res.getString("salesrep_id");
         repName = res.getString("salesrep_name");
         repMobile = res.getString("mobile");
         //repAddress = res.getString("rep_address");

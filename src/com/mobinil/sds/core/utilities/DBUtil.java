@@ -712,6 +712,7 @@ public class DBUtil {
         PreparedStatement pStmt = null;
         try {
             pStmt = getPreparedStatement(sqlText, con, params);
+            
             pStmt.execute();
 
         } catch (Exception e) {

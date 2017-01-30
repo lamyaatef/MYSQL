@@ -99,7 +99,7 @@ System.out.println("form action "+formAction);
             String dcmUserMobile = "";
 
             if(dcmUser!=null){
-
+            System.out.println("DCM USER NOT NULL : - ");
             userLevelTypeId = dcmUser.getUserLevelTypeId()==null?"":dcmUser.getUserLevelTypeId();
             dcmUserId = dcmUser.getDcmUserId()==null?"":dcmUser.getDcmUserId();
             dcmUserName = dcmUserDetail.getUserFullName()==null?"":dcmUserDetail.getUserFullName();
@@ -112,18 +112,19 @@ System.out.println("form action "+formAction);
             if (dcmUserId == null || dcmUserId.trim().equals("") ) {
                 //NEW
                 System.out.println("USER USER ID "+dcmUserUserId);
+                System.out.println("NEW..");
                 pageHeader = "Add New Rep/Supervisor";
                 buttonValue = "Add";
                 buttonAction = SCMInterfaceKey.ACTION_ADD_NEW_REP_SUP;
 
             } else {
                 //UPDATE
-                System.out.println("UPDATE AGAIN");
+                System.out.println("UPDATE..");
                 pageHeader = "Update Rep/Supervisor";
                 buttonValue = "Update";
                 buttonAction = SCMInterfaceKey.ACTION_UPDATE_REP_SUP;
 
-                regionId = dcmUser.getRegionId();
+                regionId = dcmUser.getRegionId();// we don't set region id in dcm user anymore
                 System.out.println("region from action after UPDATE .."+regionId);
                 userLevelTypeId = dcmUser.getUserLevelTypeId();
         /*
@@ -145,9 +146,9 @@ System.out.println("form action "+formAction);
 
                         }
         */
-
+                        System.out.println("in if true - userLevelTypeId: "+userLevelTypeId+" and(T/F): "+RepManagementDAO.checkIfRegionIsDistrict(con, regionId));
                         if (userLevelTypeId.equalsIgnoreCase("6")&&RepManagementDAO.checkIfRegionIsDistrict(con, regionId)) {
-                            System.out.println("UPDATE AGAIN .... in IF");
+                            System.out.println("UPDATE AGAIN .... in IF TRUE");
                             districtId = regionId;
 
                             cityId = RepManagementDAO.getParentRegionId(con, districtId);
@@ -165,6 +166,8 @@ System.out.println("form action "+formAction);
                         }
             }
         }else{
+                System.out.println("DCM USER NULL : - ");
+                System.out.println("NEW..");
                 pageHeader = "Add New Rep/Supervisor";
                 buttonValue = "Add";
                 buttonAction = SCMInterfaceKey.ACTION_ADD_NEW_REP_SUP;
@@ -172,7 +175,7 @@ System.out.println("form action "+formAction);
         }
 
 
-            
+          System.out.println("userLevelTypeId JSP : "+userLevelTypeId);  
             
             
 
@@ -312,15 +315,14 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
   
             function submitForm(isSalesAgent)
             {
-                
-                ////////console.log("is salesrep ",isSalesAgent);
                 userName=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_FULL_NAME%>.value;
-                userAddress=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ADDRESS%>.value;
+                userAddress="none";//document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ADDRESS%>.value;
                 userEmail=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_EMAIL%>.value;
                 userMobile=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_MOBILE%>.value;
                 userLevelTypeId=document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_LEVEL_TYPE_ID%>.value;
              if(isSalesAgent=="true")
              {
+                 
                  document.<%=formName%>.<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>.value;
                 document.<%=formName%>.<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>.value;
             }
@@ -567,11 +569,12 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         <td>Full Name</td>
                         <td><input type="text" name="<%=SCMInterfaceKey.DCM_USER_FULL_NAME%>" value="<%=dcmUserName%>" style="width: 70%"></font></td>
                     </tr>
-
+<%--
                     <tr class=TableTextNote>
                         <td>Address</td>
                         <td><input type="text" name="<%=SCMInterfaceKey.DCM_USER_ADDRESS%>" value="<%=dcmUserAddress%>" style="width: 70%"></font></td>
                     </tr>
+--%>
                     <tr class=TableTextNote>
   
                         <td>Email</td>
@@ -591,7 +594,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         <td>
                             <select id="<%=SCMInterfaceKey.REGION_ID%>" name="<%=SCMInterfaceKey.REGION_ID%>" 
                                     <%
-                                                if (userLevelTypeId != null && !userLevelTypeId.trim().equals("") && userLevelTypeId.equals("3")) {
+                                                if (userLevelTypeId != null && !userLevelTypeId.trim().equals("") && userLevelTypeId.equals("4")) {
                                                     out.print("onchange=\"getRegion(1);\"");
                                                 }
 
@@ -635,10 +638,11 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                     System.out.println("CHANGED TEAMLEADER  2: " + repTeamleaders.size());
                                     
                                     if (repTeamleaders!=null && repTeamleaders.size()!=0 && allTeams != null && allTeams.size() != 0) {
-                                        System.out.println("repTeamleaders.get(0).getTeamleadId() "+repTeamleaders.get(0).getTeamleadId());
+                                        //System.out.println("repTeamleaders.get(0).getTeamleadId() "+repTeamleaders.get(0).getTeamleadId());
                                         for (int i = 0; i < allTeams.size(); i++) {
                                             com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
                                             String selected ="";
+                                           // System.out.println("teamleader.getTeamleaderId() "+teamleader.getTeamleaderId());
                                             if(repTeamleaders.get(0).getTeamleadId().compareTo(teamleader.getTeamleaderId())==0){
                                  
                                                 selected = "selected";
@@ -678,7 +682,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                     System.out.println("CHANGED SUPERVISOR  2: " + repSupervisors.size());
                                     
                                     if (repSupervisors!=null && repSupervisors.size()!=0 && allSupers != null && allSupers.size() != 0) {
-                                        System.out.println("repSupervisors.get(0).getSupId() "+repSupervisors.get(0).getSupId());
+                                        //System.out.println("repSupervisors.get(0).getSupId() "+repSupervisors.get(0).getSupId());
                                         for (int i = 0; i < allSupers.size(); i++) {
                                             com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
                                             String selected ="";
@@ -708,8 +712,8 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                             </select>
                         </td>
                     </tr>
-                                <% } else  {
-                                    System.out.println("ESLEsssssssss");
+                                <% } else if (userLevelTypeId.equalsIgnoreCase("6")) {
+                                    System.out.println("ESLEsssssssss : REP ");
 
                     %>
 
@@ -808,7 +812,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                     System.out.println("CHANGED SUPERVISOR  : " + repSupervisors.size());
                                     
                                     if (repSupervisors!=null && repSupervisors.size()!=0 && allSupers != null && allSupers.size() != 0) {
-                                        System.out.println("repSupervisors.get(0).getSupId() "+repSupervisors.get(0).getSupId());
+                                        //System.out.println("repSupervisors.get(0).getSupId() "+repSupervisors.get(0).getSupId());
                                         for (int i = 0; i < allSupers.size(); i++) {
                                             com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
                                             String selected ="";
@@ -847,10 +851,11 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                     System.out.println("CHANGED TEAMLEADER  : " + repTeamleaders.size());
                                     
                                     if (repTeamleaders!=null && repTeamleaders.size()!=0 && allTeams != null && allTeams.size() != 0) {
-                                        System.out.println("repTeamleaders.get(0).getTeamleadId() "+repTeamleaders.get(0).getTeamleadId());
+                                        //System.out.println("repTeamleaders.get(0).getTeamleadId() "+repTeamleaders.get(0).getTeamleadId());
                                         for (int i = 0; i < allTeams.size(); i++) {
                                             com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
                                             String selected ="";
+                                           // System.out.println("teamleader.getTeamleaderId() "+teamleader.getTeamleaderId());
                                             if(repTeamleaders.get(0).getTeamleadId().compareTo(teamleader.getTeamleaderId())==0){
                                  
                                                 selected = "selected";
@@ -877,56 +882,33 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                             </select>
                         </td>
                     </tr>
-<%--                    <tr class=TableTextNote>
-                        <td>Area</td>
-                        <td>
-                            <select name="<%=SCMInterfaceKey.AREA_ID%>">
-                                <option value="">-----</option>
-                                <%
-                                                                                 if (districtAreas != null && districtAreas.size() != 0) {
-                                                                                     for (int i = 0; i < districtAreas.size(); i++) {
-                                                                                         RegionModel area = (RegionModel) districtAreas.get(i);
-                                %>
-                                <option value="<%=area.getRegionId()%>"
-                                        <%
-                                                                                                if (areaId != null && areaId.equalsIgnoreCase(area.getRegionId())) {
-                                                                                                    out.print("selected");
-                                                                                                }
-                                        %>
-                                        ><%=area.getRegionName()%></option>
-                                <%
-                                                                                     }
-                                                                                 }
-                                %>
-                            </select>
-
-                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px;color: red">*</font>
-
-                        </td>
-                    </tr>--%>
                     <%           
                     }
                     }
                     %>
                     <tr>
                         <td colspan="2" align="center">
-                            <%
-                            if(confMessage==null ||(confMessage!=null && !confMessage.equalsIgnoreCase("Invalid, This user already created before."))){
+                            
+                           
+                    <%--
+                            
+                            // if(confMessage==null ||(confMessage!=null && !confMessage.equalsIgnoreCase("Invalid, This user was created.")))
+                            //{
+                            <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm('empty');">&nbsp;
+                            }else
+                            --%>
+                            <% System.out.println("BEFORE SUBMITFORM BUTTON - userLevelTypeId: "+userLevelTypeId);
+                               if (userLevelTypeId != null &&(userLevelTypeId.equalsIgnoreCase("") || userLevelTypeId.equalsIgnoreCase("4") || userLevelTypeId.equalsIgnoreCase("5") )){
                             %>
                             
-                            <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm('empty');">&nbsp;
-                            <%
-                            }else if (userLevelTypeId != null || !userLevelTypeId.trim().equals("") || userLevelTypeId.equalsIgnoreCase("4") || userLevelTypeId.equalsIgnoreCase("5") ){
-                            %>
-                            <div style="display:none">
                              <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm('false');">
-                            </div>
+                          
                             <%
-                            } else {
+                            } else if (userLevelTypeId != null && userLevelTypeId.equalsIgnoreCase("6")){
                             %>
-                            <div style="display:none">
+                          
                              <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm('true');">
-                            </div>
+                           
                             <% 
                             }
                             %>

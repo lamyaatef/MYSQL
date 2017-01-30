@@ -24,7 +24,7 @@ public class TeamleaderModel {
     public TeamleaderModel(){}
     public TeamleaderModel(ResultSet res, boolean hasRegion) throws SQLException{
     
-            //teamleaderId = res.getString("teamleader_id");
+            teamleaderId = res.getString("teamleader_id");
             //teamleaderAddress = res.getString("teamleader_address");
             teamleaderEmail = res.getString("email");
             teamleaderMobile = res.getString("mobile");

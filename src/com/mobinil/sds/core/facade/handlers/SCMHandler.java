@@ -1633,7 +1633,7 @@ public class SCMHandler {
                     String dcmUserId = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_ID);
                     String supervisorId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_SUP_ID);
                     String teamleaderId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID);
-                    System.out.println("DCM USER ID "+dcmUserId+" MY SUPERVISOR "+supervisorId+" MY REGION ID "+userRegionId+" MY TEAMLEADER "+teamleaderId);
+                    System.out.println("REP ID "+dcmUserId+" SUPERVISOR ID "+supervisorId+" REGION ID "+userRegionId+" TEAMLEADER ID "+teamleaderId);
 
                     
                     //////////////////////////////////////////////
@@ -1697,26 +1697,33 @@ public class SCMHandler {
                     
                     
                     if (userLevelTypeId.equalsIgnoreCase("4")) {
+                        System.out.println("in 4");
                         RepManagementDAO.updateSupervisor(con, dcmUserOld,dcmUserDetatil);
                             RepManagementDAO.updateRepOrSupervisor(con, /*dcmUser*/dcmUserOld, dcmUserDetatil, systemUserId);
                             RepSupDAO.assignTeamleaderToSupervisor(con, teamleaderId, supervisorId, systemUserId);
-                        
+                        System.out.println("finished 4");
                     }
                     
                     if (userLevelTypeId.equalsIgnoreCase("5")) {
+                        System.out.println("in 5");
                         RepManagementDAO.updateTeamleader(con, dcmUserOld,dcmUserDetatil);
                             RepManagementDAO.updateRepOrSupervisor(con, /*dcmUser*/dcmUserOld, dcmUserDetatil, systemUserId);
                             RepSupDAO.assignTeamleaderToSupervisor(con, teamleaderId, supervisorId, systemUserId);
-                        
+                        System.out.println("finished 5");
                     }
                     
                     if (userLevelTypeId.equalsIgnoreCase("6")) {
+                        System.out.println("in 6");
                         RepManagementDAO.updateSalesRep(con, dcmUserOld,dcmUserDetatil);
+                        System.out.println("in 6 - finished updateSalesRep");
                             RepManagementDAO.updateRepOrSupervisor(con, /*dcmUser*/dcmUserOld, dcmUserDetatil, systemUserId);
+                            System.out.println("in 6 - finished updateRepOrSupervisor");
                             RepSupDAO.assignRepToTeamleader(con, dcmUserId, teamleaderId, systemUserId);
+                            System.out.println("in 6 - finished assignRepToTeamleader");
                             RepSupDAO.assignTeamleaderToSupervisor(con, teamleaderId, supervisorId,systemUserId);
+                            System.out.println("in 6 - finished assignTeamleaderToSupervisor");
                             RepSupDAO.assignRepToSupervisor(con, dcmUserId, supervisorId, systemUserId);
-                        
+                        System.out.println("in 6- finished assignRepToSupervisor -- END");
                     }
                     
                     

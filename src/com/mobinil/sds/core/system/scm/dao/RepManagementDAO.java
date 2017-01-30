@@ -607,6 +607,7 @@ public class RepManagementDAO {
 
         String sqlStatement;
         sqlStatement="SELECT DCM_USER_ID, USER_DETAIL_ID, USER_ID, REGION_ID, USER_LEVEL_TYPE_ID FROM DCM_USER WHERE DCM_USER_ID="+dcmUserId;
+        System.out.println("getDcmUser sqlStatement : "+sqlStatement);
         DCMUserModel dcmUser=(DCMUserModel)DBUtil.executeSqlQuerySingleValue(sqlStatement, DCMUserModel.class, "fillRepDcmUserModel", con);
         return dcmUser;
 
@@ -660,6 +661,7 @@ public class RepManagementDAO {
     
     public static void updateSalesRep(Connection con,DCMUserModel dcmUser,DCMUserDetailModel dcmUserDetail){
         
+        System.out.println("dcmUserDetail.getUserFullName() "+dcmUserDetail.getUserFullName());
         String updateSupervisorSqlStatement="UPDATE scm_salesrep SET salesrep_name=? , email=?, mobile=? ,creation_timestamp=systimestamp WHERE salesrep_id=?";
         
         DBUtil.executePreparedStatment(updateSupervisorSqlStatement, con, new Object[]{dcmUserDetail.getUserFullName(),dcmUserDetail.getUserEmail(),dcmUserDetail.getUserMobile(),dcmUser.getDcmUserId()});
