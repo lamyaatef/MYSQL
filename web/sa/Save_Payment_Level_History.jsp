@@ -49,8 +49,42 @@ Save Payment Level History
 <center>
 <%
    HashMap dataHashMap = (HashMap)request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
-   String userID = request.getSession().getValue(InterfaceKey.HASHMAP_KEY_USER_ID).toString();//(String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+   
+   /*String userID = request.getSession().getValue(InterfaceKey.HASHMAP_KEY_USER_ID).toString();//(String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+   dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, userID);*/
+   
+   String userID = "";
+   
+   String str1 = (String)dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
+   String str2 = (String)dataHashMap.get("USER_ID");
+   String str3 = (String) request.getSession().getAttribute(InterfaceKey.HASHMAP_KEY_USER_ID);
+   
+   System.out.println("in Show Crosstab JSP : HASHMAP_KEY_USER_ID "+str1+" and USER_ID "+str2+" session HASHMAP_KEY_USER_ID "+str3);
+   
+   if(str1==null)
+   {
+       if(str2==null)
+       {
+           if(str3==null)
+           {
+               userID = "";
+           }
+           else
+               userID = str3;
+       }
+       else
+           userID = str2;
+   }
+   else
+       userID = str1;
+       
+   System.out.println("user id in crosstab jsp is Finally : "+userID);
    dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, userID);
+   
+   
+   
+   
+   
    String monthsYears = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_LIST_COLLECTION);
    //Hashtable revenueTable = (Hashtable) dataHashMap.get(InterfaceKey.HASHMAP_KEY_COLLECTION);
    //DCMDto dcmDto = (DCMDto) dataHashMap.get(InterfaceKey.HASHMAP_KEY_ADDITIONAL_COLLECTION);

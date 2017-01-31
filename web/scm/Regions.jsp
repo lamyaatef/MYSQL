@@ -154,7 +154,7 @@
     
     
     HashMap<String,HashMap> map = new HashMap();
-    HashMap regs = drawSelectRegions(out,regionid);
+    HashMap regs = drawSelectRegions(out,regionid,type);
     HashMap supers = drawSelectSupervisors(out,regionid,supervisor);
     HashMap leads = drawSelectSupervisors(out,regionid,teamleader);
     HashMap reps = drawSelectSupervisors(out,regionid,salesrep);
@@ -176,7 +176,7 @@
    
         
         <%!
-        private HashMap drawSelectRegions(JspWriter out,int idd) throws Exception {
+        private HashMap drawSelectRegions(JspWriter out,int idd,String type) throws Exception {
 
             
             HashMap<String,String> region = new HashMap();
@@ -185,7 +185,7 @@
         if(idd!=-1)
         {
             System.out.println("IN DRAW regions: "+idd);
-            Vector <PlaceDataModel> children= RequestDao.getAllRegionDataListChild(con, idd);
+            Vector <PlaceDataModel> children= RequestDao.getAllRegionDataListChild(con, idd,type);
             if (children != null && !children.isEmpty()) {
                //   out.println("<option value=''>--</option>");
 

@@ -875,6 +875,7 @@ sqlStatement="select supervisor_id as DCM_USER_ID,supervisor_name as USER_FULL_N
                                 +" FROM DCM_USER_DETAIL UD,SCM_TEAMLEADER_SUPERVISORS TL WHERE TL.TEAMLEAD_ID=UD.USER_ID"
                                 +" AND TL.SUP_ID="+dcmUserId;*/
             String sqlStatement = "select dcm_user.user_id, scm_teamleader.*,scm_supervisor.supervisor_id,scm_supervisor.supervisor_name from dcm_user,scm_teamleader,scm_supervisor where dcm_user.dcm_user_id=scm_teamleader.teamleader_id and dcm_user.user_level_type_id=5 and scm_supervisor.supervisor_id="+dcmUserId+" and scm_teamleader.sup_id=scm_supervisor.supervisor_id";
+            System.out.println("Supervisor Teamleaders "+sqlStatement);
             supervisorTeamleaders=DBUtil.executeSqlQueryMultiValue(sqlStatement, SupervisorTeamleadersModel.class, con);
             
             return supervisorTeamleaders;

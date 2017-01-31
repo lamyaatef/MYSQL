@@ -65,9 +65,10 @@
                     $('#export_row').hide();
             
 });
-            function submitEditForm(dcmUserId){
+            function submitEditForm(dcmUserId,userLevelTypeId){
             document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ID%>.value=dcmUserId;
             document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_EDIT_REP_SUP%>";
+            document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
             document.<%=formName%>.submit();
 
             }
@@ -290,7 +291,7 @@
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><a href="javascript:viewDetail(<%=rep.getDcmUserId()%>,<%=rep.getUserLevelTypeId()%>);"><%=rep.getUserFullName()%></a></td>
                         <td align="center"  style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=rep.getRegionName() %></td>
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=rep.getUserLevelTypeName()%></td>
-                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><input type="button" class="button" value="Edit" onclick="submitEditForm(<%=rep.getDcmUserId()%>);"></td>
+                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><input type="button" class="button" value="Edit" onclick="submitEditForm(<%=rep.getDcmUserId()%>,<%=rep.getUserLevelTypeId()%>);"></td>
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><input type="button" class="button" value="Delete" onclick="confirmDelete(<%=rep.getDcmUserId()%>,<%=rep.getUserLevelTypeId()%>);"></td>
                     </tr>
 

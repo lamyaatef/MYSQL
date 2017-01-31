@@ -601,12 +601,12 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
         return userLevelList;
     }
 
-    public static Vector getAllRegionDataListChild(Connection con, int regionID) {
+    public static Vector getAllRegionDataListChild(Connection con, int regionID,String type) {
         System.out.println("ALLLLLLL :"+regionID);
         Vector placeDataList = new Vector();
         try {
             Statement stmt = con.createStatement();
-            String sqlString = "select REGION_ID , REGION_NAME , PARENT_REGION_ID,REGION_LEVEL_TYPE_ID from DCM_REGION where REGION_STATUS_TYPE_ID <> 3 and PARENT_REGION_ID='"+regionID+"' ORDER BY REGION_NAME ASC";
+            String sqlString = "select REGION_ID , REGION_NAME , PARENT_REGION_ID,REGION_LEVEL_TYPE_ID from DCM_REGION where REGION_STATUS_TYPE_ID <> 3 and region_level_type_id='"+type+"'and PARENT_REGION_ID='"+regionID+"' ORDER BY REGION_NAME ASC";
             System.out.println("REgions : "+sqlString);
             Utility.logger.debug(sqlString);
             ResultSet rs = stmt.executeQuery(sqlString);

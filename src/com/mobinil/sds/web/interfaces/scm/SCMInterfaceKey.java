@@ -151,6 +151,8 @@ public class SCMInterfaceKey {
     
     public static final String VECTOR_ALL_REP_SUPERVISORS = "rep_supervisors";
     public static final String VECTOR_ALL_REP_TEAMLEADS = "rep_teamleaders";
+    public static final String VECTOR_ALL_SUPERVISOR_TEAMLEADERS = "supervisors_teamleaders";
+    public static final String VECTOR_ALL_TEAMLEADER_SUPERVISORS = "teamleader_supervisors";
     public static final String REP_POS_GROUP = "rep_pos_group";
     public static final String REP_SUP_DETAILS = "rep_sup_details";
     public static final String REP_TEAMLEAD_DETAILS = "rep_teamlead_details";

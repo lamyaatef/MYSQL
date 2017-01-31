@@ -38,6 +38,8 @@ System.out.println("form action "+formAction);
             Vector<RegionModel> cityDistricts = new Vector();
             Vector<RepSupervisorModel> repSupervisors=new Vector();
             Vector<RepTeamleaderModel> repTeamleaders=new Vector();
+            Vector<SupervisorTeamleadersModel> superTeamleaders=new Vector();
+            Vector<TeamleaderSupervisorsModel> teamSupervisors=new Vector();
             Vector allSupers=(Vector)dataHashMap.get("AllSupervisors"); 
             Vector allTeams=(Vector)dataHashMap.get("AllTeamleaders"); 
             repSupervisors=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REP_SUPERVISORS);
@@ -48,6 +50,8 @@ System.out.println("form action "+formAction);
             Vector<DCMUserModel> regionTeamleaders=new Vector();
             regionSupervisors=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS);
             regionTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_TEAMLEADERS);
+            superTeamleaders = (Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_SUPERVISOR_TEAMLEADERS);
+            teamSupervisors = (Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_TEAMLEAD_SUPERVISORS);
             System.out.println("region supers ///// "+regionSupervisors);
             System.out.println("region leaders ///// "+regionTeamleaders);
 //            Vector<RegionModel> districtAreas = new Vector();
@@ -200,7 +204,7 @@ $("#<%=SCMInterfaceKey.REGION_ID%>").change(function(){
     url : "<%out.print(formAction);%>",
     type: "POST",
     datatype: "JSON",
-    data : {regionid:regionid,type:"1"},
+    data : {regionid:regionid,type:"2"},
     success: function(data, textStatus, jqXHR)
     {
         
@@ -240,7 +244,7 @@ $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").change(function(){
     $.ajax({
     url : "<%out.print(formAction);%>",
     type: "POST",
-    data : {regionid:governid ,type:"2"},
+    data : {regionid:governid ,type:"3"},
     success: function(data, textStatus, jqXHR)
     {
        $("#<%=SCMInterfaceKey.CITY_ID%>").empty();
@@ -282,7 +286,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
     $.ajax({
     url : "<%out.print(formAction);%>",
     type: "POST",
-    data : {regionid:cityid ,type:"3"/*,userLevel:4*/},
+    data : {regionid:cityid ,type:"4"/*,userLevel:4*/},
     success: function(data, textStatus, jqXHR)
     {
         
@@ -635,15 +639,15 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                            <select id="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" >
                                 
                                  <%
-                                    System.out.println("CHANGED TEAMLEADER  2: " + repTeamleaders.size());
-                                    
-                                    if (repTeamleaders!=null && repTeamleaders.size()!=0 && allTeams != null && allTeams.size() != 0) {
+                                    System.out.println("CHANGED TEAMLEADER  under update SUPERVISOR my teams: " + superTeamleaders);
+                                    System.out.println("CHANGED TEAMLEADER  under update SUPERVISOR all teams: " + allTeams.size());
+                                    if (superTeamleaders!=null && superTeamleaders.size()!=0 && allTeams != null && allTeams.size() != 0) {
                                         //System.out.println("repTeamleaders.get(0).getTeamleadId() "+repTeamleaders.get(0).getTeamleadId());
                                         for (int i = 0; i < allTeams.size(); i++) {
                                             com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
                                             String selected ="";
                                            // System.out.println("teamleader.getTeamleaderId() "+teamleader.getTeamleaderId());
-                                            if(repTeamleaders.get(0).getTeamleadId().compareTo(teamleader.getTeamleaderId())==0){
+                                            if(superTeamleaders.get(0).getTeamleadId().compareTo(teamleader.getTeamleaderId())==0){
                                  
                                                 selected = "selected";
                                             }
@@ -653,7 +657,9 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 <%}
                                         
                                 }
-                                    else if(repTeamleaders!=null && repTeamleaders.size()==0 && allTeams != null && allTeams.size() != 0){
+                                    
+                                    else if(allTeams != null && allTeams.size() != 0){
+                                        
                                         for (int i = 0; i < allSupers.size(); i++) {
                                          com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
                                            %>
@@ -679,14 +685,14 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                             <select id="selectSuper" name="<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>" >
 
                                 <%
-                                    System.out.println("CHANGED SUPERVISOR  2: " + repSupervisors.size());
+                                    System.out.println("CHANGED SUPERVISOR  2: " + teamSupervisors+" all supers "+allSupers.size());
                                     
-                                    if (repSupervisors!=null && repSupervisors.size()!=0 && allSupers != null && allSupers.size() != 0) {
+                                    if (teamSupervisors!=null && teamSupervisors.size()!=0 && allSupers != null && allSupers.size() != 0) {
                                         //System.out.println("repSupervisors.get(0).getSupId() "+repSupervisors.get(0).getSupId());
                                         for (int i = 0; i < allSupers.size(); i++) {
                                             com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
                                             String selected ="";
-                                            if(repSupervisors.get(0).getSupId().compareTo(repSuper.getSupervisorId())==0){
+                                            if(teamSupervisors.get(0).getSupId().compareTo(repSuper.getSupervisorId())==0){
                                  
                                                 selected = "selected";
                                             }
@@ -696,7 +702,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 <%}
                                         
                                 }
-                                    else if(repSupervisors!=null && repSupervisors.size()==0 && allSupers != null && allSupers.size() != 0){
+                                    else if(allSupers != null && allSupers.size() != 0){
                                         for (int i = 0; i < allSupers.size(); i++) {
                                          com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
                                            %>
@@ -826,7 +832,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 <%}
                                         
                                 }
-                                    else if(repSupervisors!=null && repSupervisors.size()==0 && allSupers != null && allSupers.size() != 0){
+                                    else if(allSupers != null && allSupers.size() != 0){
                                         for (int i = 0; i < allSupers.size(); i++) {
                                          com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
                                            %>
@@ -866,8 +872,8 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 <%}
                                         
                                 }
-                                    else if(repTeamleaders!=null && repTeamleaders.size()==0 && allTeams != null && allTeams.size() != 0){
-                                        for (int i = 0; i < allSupers.size(); i++) {
+                                    else if(allTeams != null && allTeams.size() != 0){
+                                        for (int i = 0; i < allTeams.size(); i++) {
                                          com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
                                            %>
                                     <option value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderName()%></option>
