@@ -42,17 +42,19 @@
 
         <script language="JavaScript">
 
-            function SubmitToAssignRep(){
+            function SubmitToAssignRep(userLevelTypeId){
 
             document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_TEAMLEADER_REP_ASSIGN%>";
+            document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
             document.<%=formName%>.submit();
 
             }
             
             
-            function SubmitToAssignSup(){
+            function SubmitToAssignSup(userLevelTypeId){
 
             document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_TEAMLEADER_SUPERVISOR_ASSIGN%>";
+            document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
             document.<%=formName%>.submit();
 
             }
@@ -76,14 +78,16 @@
                         document.<%=formName%>.submit();
             }
             //to be done now: change to unassign sup from teamlead
-            function unAssignSup(supId){
+            function unAssignSup(supId,userLevelTypeId){
                 document.<%=formName%>.<%=SCMInterfaceKey.SUP_ID%>.value=supId;
                 document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_UNASSIGN_SUP_FROM_TEAMLEAD%>";
+                document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
                 document.<%=formName%>.submit();
             }
-            function unAssignRep(repId){
+            function unAssignRep(repId,userLevelTypeId){
                 document.<%=formName%>.<%=SCMInterfaceKey.REP_ID%>.value=repId;
                 document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_UNASSIGN_REP_TO_TEAMLEADER%>";
+                document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
                 document.<%=formName%>.submit();
             }
 
@@ -151,7 +155,7 @@
                                            TeamleaderRepsModel repTeamleader=new TeamleaderRepsModel();
                                             repTeamleader=(TeamleaderRepsModel)teamleaderReps.get(i);
                                     %>
-                                    <li><a href="javascript:showRepDetail(<%=repTeamleader.getRepId()%>,3);"><%=repTeamleader.getRepName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignRep(<%=repTeamleader.getRepId()%>);">Unassign</a></font></li>
+                                    <li><a href="javascript:showRepDetail(<%=repTeamleader.getRepId()%>,3);"><%=repTeamleader.getRepName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignRep(<%=repTeamleader.getRepId()%>,5);">Unassign</a></font></li>
                                     <%
                                     }
                                         %>
@@ -182,7 +186,7 @@
                                             teamleadSupervisor=(TeamleaderSupervisorsModel)teamleaderSupers.get(i);
                                     
                                     %>
-                                    <li><a href="javascript:showSupDetail(<%=teamleadSupervisor.getSupId()%>,4);"><%=teamleadSupervisor.getSupName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignSup(<%=teamleadSupervisor.getSupId()%>);">Unassign</a></font></li>
+                                    <li><a href="javascript:showSupDetail(<%=teamleadSupervisor.getSupId()%>,4);"><%=teamleadSupervisor.getSupName()%></a>&nbsp;&nbsp;<font style="font-size: 9px;font-family: tahoma;line-height: 15px"><a href="javascript:unAssignSup(<%=teamleadSupervisor.getSupId()%>,5);">Unassign</a></font></li>
                                     <%
                                     }
                                         %>
@@ -201,9 +205,9 @@
                     
                     <tr>
                         <td colspan="2" align="center">
-                            <input type="button" name="submitButton" class="button" value="Assign Rep" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="SubmitToAssignRep();">
+                            <input type="button" name="submitButton" class="button" value="Assign Rep" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="SubmitToAssignRep(5);">
                             &nbsp;
-                            <input type="button" name="submitButton" class="button" value="Assign Supervisor" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="SubmitToAssignSup();">
+                            <input type="button" name="submitButton" class="button" value="Assign Supervisor" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="SubmitToAssignSup(5);">
                             &nbsp;
                             <input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="doBack();"></td>
                     </tr>

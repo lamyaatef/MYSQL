@@ -204,6 +204,7 @@ public class RepSupDAO {
     public static void unassignRepFromSupervisor(Connection con,String repId,String supId){
         String sqlStatement;
         sqlStatement="update scm_salesrep set sup_id=null where salesrep_id="+repId;
+        System.out.println("unassignRepFromSupervisor : "+sqlStatement);
         DBUtil.executeSQL(sqlStatement, con);   
     }
     public static void unassignTeamleadFromSupervisor(Connection con,String teamleadId,String supId){

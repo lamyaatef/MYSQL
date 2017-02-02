@@ -51,9 +51,12 @@ System.out.println("form action "+formAction);
             regionSupervisors=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS);
             regionTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_TEAMLEADERS);
             superTeamleaders = (Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_SUPERVISOR_TEAMLEADERS);
-            teamSupervisors = (Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_TEAMLEAD_SUPERVISORS);
-            System.out.println("region supers ///// "+regionSupervisors);
-            System.out.println("region leaders ///// "+regionTeamleaders);
+            teamSupervisors = (Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_TEAMLEADER_SUPERVISORS);
+            System.out.println(" supers for a teamleader ///// "+teamSupervisors);
+            System.out.println(" leaders for a supervisor ///// "+superTeamleaders);
+            
+            String teamleaderIdComapre = (String)dataHashMap.get(SCMInterfaceKey.TEAMLEAD_ID);
+            String supervisorIdComapre = (String)dataHashMap.get(SCMInterfaceKey.SUP_ID);
 //            Vector<RegionModel> districtAreas = new Vector();
 
 
@@ -646,9 +649,9 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                         for (int i = 0; i < allTeams.size(); i++) {
                                             com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
                                             String selected ="";
-                                           // System.out.println("teamleader.getTeamleaderId() "+teamleader.getTeamleaderId());
-                                            if(superTeamleaders.get(0).getTeamleadId().compareTo(teamleader.getTeamleaderId())==0){
-                                 
+                                            System.out.println("teamleaderIdComapre:-- "+teamleaderIdComapre);
+                                            //if(superTeamleaders.get(0).getTeamleadId().compareTo(teamleader.getTeamleaderId())==0){
+                                            if(teamleaderIdComapre!=null && teamleaderIdComapre.compareTo(teamleader.getTeamleaderId())==0){
                                                 selected = "selected";
                                             }
                                             
@@ -692,8 +695,8 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                         for (int i = 0; i < allSupers.size(); i++) {
                                             com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
                                             String selected ="";
-                                            if(teamSupervisors.get(0).getSupId().compareTo(repSuper.getSupervisorId())==0){
-                                 
+                                            //if(teamSupervisors.get(0).getSupId().compareTo(repSuper.getSupervisorId())==0){
+                                            if(supervisorIdComapre!=null && supervisorIdComapre.compareTo(repSuper.getSupervisorId())==0){
                                                 selected = "selected";
                                             }
                                             

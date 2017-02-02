@@ -38,17 +38,18 @@
 
         <script language="JavaScript">
 
-            function submitAssignForm(){
+            function submitAssignForm(userLevelTypeId){
                 supId=document.<%=formName%>.<%=SCMInterfaceKey.TEAMLEAD_ID%>.value
 
-            if(supId==""){
-                alert("Please, choose teamleader.")
-                return;
-            }
-            document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_ASSIGN_TEAMLEAD_TO_SUPERVISOR%>";
-            document.<%=formName%>.submit();
+                if(supId==""){
+                    alert("Please, choose teamleader.")
+                    return;
+                }
+                document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_ASSIGN_TEAMLEAD_TO_SUPERVISOR%>";
+                document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
+                document.<%=formName%>.submit();
 
-            }
+                }
 
             function doBack(){
             document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_SUP_DETAIL%>";
@@ -62,7 +63,7 @@
     <div align="center">
             <br>
             <br>
-            <h2>Assign Rep to Teamleader</h2>
+            <h2>Assign Team Leader to Supervisor</h2>
             <br>
             <br>
 
@@ -99,7 +100,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="center" ><input type="button" class="button" value="Assign Teamleader" onclick="submitAssignForm();">&nbsp;<input type="button" class="button" value="Back" onclick="doBack();"></td>
+                        <td align="center" ><input type="button" class="button" value="Assign Teamleader" onclick="submitAssignForm(4);">&nbsp;<input type="button" class="button" value="Back" onclick="doBack();"></td>
                     </tr>
                 </table>
             </form>

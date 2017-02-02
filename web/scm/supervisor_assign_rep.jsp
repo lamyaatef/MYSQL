@@ -38,15 +38,16 @@
 
         <script language="JavaScript">
 
-            function submitAssignForm(){
+            function submitAssignForm(userLevelTypeId){
                 supId=document.<%=formName%>.<%=SCMInterfaceKey.REP_ID%>.value
 
-            if(supId==""){
-                alert("Please, choose rep.")
-                return;
-            }
-            document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_ASSIGN_REP_TO_SUPERVISOR%>";
-            document.<%=formName%>.submit();
+                if(supId==""){
+                    alert("Please, choose rep.")
+                    return;
+                }
+                document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_ASSIGN_REP_TO_SUPERVISOR%>";
+                document.<%=formName%>.<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
+                document.<%=formName%>.submit();
 
             }
 
@@ -99,7 +100,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="center" ><input type="button" class="button" value="Assign Rep" onclick="submitAssignForm();">&nbsp;<input type="button" class="button" value="Back" onclick="doBack();"></td>
+                        <td align="center" ><input type="button" class="button" value="Assign Rep" onclick="submitAssignForm(4);">&nbsp;<input type="button" class="button" value="Back" onclick="doBack();"></td>
                     </tr>
                 </table>
             </form>

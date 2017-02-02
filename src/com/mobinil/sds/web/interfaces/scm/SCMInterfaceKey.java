@@ -180,6 +180,9 @@ public class SCMInterfaceKey {
     public static final String ACTION_ASSIGN_REP_TO_SUP = "assign_rep_to_sup";
     public static final String ACTION_ASSIGN_REP_TO_TEAMLEAD = "assign_rep_to_teamlead";
     public static final String ACTION_UNASSIGN_REP_FROM_SUP = "unassign_rep_from_sup";
+    
+    public static final String ACTION_UNASSIGN_TEAMLEAD_FROM_SUP = "unassign_rep_from_sup";
+    
     public static final String ACTION_UNASSIGN_SUP_FROM_TEAMLEAD = "unassign_sup_from_teamlead";
    //public static final String ACTION_UNASSIGN_REP_FROM_TEAM = "unassign_rep_from_teamlead";
     public static final String ACTION_UNASSIGN_REP_FROM_TEAMLEAD = "unassign_rep_from_teamlead";

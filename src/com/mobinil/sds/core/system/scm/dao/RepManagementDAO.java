@@ -768,7 +768,8 @@ sqlStatement="select teamleader_id as DCM_USER_ID,teamleader_name as USER_FULL_N
                     +" WHERE DCM_USER.USER_STATUS_TYPE_ID<>3 AND DCM_USER.DCM_USER_ID=DCM_USER_DETAIL.USER_ID AND"
                     +" DCM_USER.USER_LEVEL_TYPE_ID="+userLevelTypeId+" AND DCM_USER.DCM_USER_ID="+dcmUserId;*/
 sqlStatement="select supervisor_id as DCM_USER_ID,supervisor_name as USER_FULL_NAME, email as USER_EMAIL, mobile as USER_MOBILE, dcm_region.region_name from dcm_region,scm_supervisor, scm_user_region where dcm_region.region_id=scm_user_region.region_id and scm_supervisor.supervisor_id = scm_user_region.user_id and scm_user_region.user_level_type_id="+userLevelTypeId+" and scm_supervisor.supervisor_id="+dcmUserId;
-           dcmUserDetail= DBUtil.executeSqlQuerySingleValue(sqlStatement, DCMUserDetailModel.class, "fillDetail", con);
+System.out.println("getSupDetail "+sqlStatement);
+dcmUserDetail= DBUtil.executeSqlQuerySingleValue(sqlStatement, DCMUserDetailModel.class, "fillDetail", con);
            return dcmUserDetail;
     }
     
@@ -874,7 +875,7 @@ sqlStatement="select supervisor_id as DCM_USER_ID,supervisor_name as USER_FULL_N
             /*String sqlStatement="SELECT TL.TEAMLEAD_ID,TL.SUP_ID,UD.USER_FULL_NAME TEAMLEAD_NAME,TL.CREATED_BY,TL.CREATED_IN "
                                 +" FROM DCM_USER_DETAIL UD,SCM_TEAMLEADER_SUPERVISORS TL WHERE TL.TEAMLEAD_ID=UD.USER_ID"
                                 +" AND TL.SUP_ID="+dcmUserId;*/
-            String sqlStatement = "select dcm_user.user_id, scm_teamleader.*,scm_supervisor.supervisor_id,scm_supervisor.supervisor_name from dcm_user,scm_teamleader,scm_supervisor where dcm_user.dcm_user_id=scm_teamleader.teamleader_id and dcm_user.user_level_type_id=5 and scm_supervisor.supervisor_id="+dcmUserId+" and scm_teamleader.sup_id=scm_supervisor.supervisor_id";
+            String sqlStatement = "select dcm_user.user_id, scm_teamleader.*,scm_supervisor.supervisor_id,scm_supervisor.supervisor_name from dcm_user,scm_teamleader,scm_supervisor where dcm_user.dcm_user_id=scm_teamleader.teamleader_id and dcm_user.user_level_type_id=5 and scm_supervisor.supervisor_id="+dcmUserId+" and scm_teamleader.sup_id=scm_supervisor.supervisor_id order by scm_teamleader.creation_timestamp desc";
             System.out.println("Supervisor Teamleaders "+sqlStatement);
             supervisorTeamleaders=DBUtil.executeSqlQueryMultiValue(sqlStatement, SupervisorTeamleadersModel.class, con);
             
