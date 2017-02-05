@@ -399,11 +399,11 @@ public class DCMIIHandler {
               System.out.println("entityName "+entityName+ " entityLevel "+entityLevel);
               System.out.println("baseDirectory "+baseDirectory);
               /*add a function to get the region's parent level..need to be level 1 to export*/
-              String entityLevelName = RegionPOSReportDAO.getRegionLevel(con, entityName, entityLevel);
+              //String entityLevelName = RegionPOSReportDAO.getRegionLevel(con, entityName, entityLevel);
               
-                  Vector files =RegionPOSReportDAO.getRegionPOSData(con/*,entityLevelName,entityName,entityName*/);
-                  String excelLink = PoiWriteExcelFile.exportExcelSheetForRegionPOSData(/*dataVec*/files, baseDirectory);
-                  dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
+              Vector files =RegionPOSReportDAO.getRegionPOSData(con/*,entityLevelName,entityName,entityName*/);
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForRegionPOSData(/*dataVec*/files, baseDirectory);
+              dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
               
               
           }

@@ -225,18 +225,24 @@ String Slach = System.getProperty("file.separator");
             alert("You must select level");
             return;
         }
-        document.DCMform.action=document.DCMform.action+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='
+
+        document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='
             +'<%=DCMInterfaceKey.ACTION_SEARCH_REGION%>'+"&"+'<%=InterfaceKey.HASHMAP_KEY_USER_ID%>'+'='
             +<%=strUserID%>;
+    
+
         document.DCMform.submit();
     }
     function deleteregion(i)
     {
         var row=i;
    
-        document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.DELETE_REGION);%>'+
+        /*document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.DELETE_REGION);%>'+
             '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
 
+*/
+        document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.DELETE_REGION);%>'+
+            '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
 
         document.DCMform.submit();
     }
@@ -244,49 +250,62 @@ String Slach = System.getProperty("file.separator");
     function addchilds(i)
     {
         var row=i;
-        document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ADD_CHILDS_TO_REGION);%>'+
+    /*    document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ADD_CHILDS_TO_REGION);%>'+
             '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
-
+*/
+            document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ADD_CHILDS_TO_REGION);%>'+
+            '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
         document.DCMform.submit();
     }
 
     function viewparent(i)
     {
         var row=i;
+        /*
         document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_REGION_PARENT);%>'+
             '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
-
+*/
+        document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_REGION_PARENT);%>'+
+            '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
         document.DCMform.submit();
     }
     function editParent()
     {
      
-        document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_EDIT_PARENT);%>'+
-            '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>
+        /*document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_EDIT_PARENT);%>'+
+            '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>*/
 
+        document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_EDIT_PARENT);%>'+
+            '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>    
         document.DCMform.submit();
     }
     function viewchilds(i)
     {
         var row=i;
-        document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_REGION_CHILDS);%>'+
+  /*      document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_REGION_CHILDS);%>'+
             '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
-
+*/
+        document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_REGION_CHILDS);%>'+
+            '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
         document.DCMform.submit();
     }
     function exportData(base)
     {
         
-        document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_EXPORT_REGION_POS_REPORT);%>'
-        document.DCMform.baseDirectory.value=base;
+        /*document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_EXPORT_REGION_POS_REPORT);%>'
+    alert("document.DCMform.action "+document.DCMform.action);    */
+    document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_EXPORT_REGION_POS_REPORT);%>'
+    document.DCMform.baseDirectory.value=base;
         document.DCMform.submit();
     }
     function viewDetails(i)
     {
         var row=i;
-        document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_REGION_DETAILS);%>'+
+  /*      document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_REGION_DETAILS);%>'+
             '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
-
+*/
+        document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_REGION_DETAILS);%>'+
+            '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
         document.DCMform.submit();
     }
 </script>
