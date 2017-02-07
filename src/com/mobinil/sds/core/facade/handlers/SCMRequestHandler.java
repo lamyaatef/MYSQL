@@ -28,6 +28,7 @@ import com.mobinil.sds.core.system.sa.importdata.DataImportEngine;
 import com.mobinil.sds.core.system.sa.importdata.dao.DataImportTableDefDAO;
 import com.mobinil.sds.core.system.scm.dao.POSDAO;
 import com.mobinil.sds.core.system.scm.dao.PoiWriteExcelFile;
+import com.mobinil.sds.core.system.scm.dao.RepManagementDAO;
 import com.mobinil.sds.core.system.scm.dao.STKDAO;
 import com.mobinil.sds.core.system.scm.model.POSSearchExcelModel;
 import com.mobinil.sds.core.utilities.GetUploadedFile;
@@ -1088,6 +1089,15 @@ public class SCMRequestHandler {
                     IDTypeVector = gmDAO.getModels(con, IDTypeModel);
                     regions = RequestDao.getAllRegionDataList(con);
                     
+                    
+                    Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel> allSupervisors = RepManagementDAO.getSupervisors(con);
+                    Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel> allTeamleaders = RepManagementDAO.getTeamleaders(con);
+                    Vector<com.mobinil.sds.core.system.scm.model.RepModel> allReps = RepManagementDAO.getReps(con);
+                    
+                    dataHashMap.put("AllSupervisors", allSupervisors);
+                    dataHashMap.put("AllTeamleaders", allTeamleaders);
+                    dataHashMap.put("AllReps", allReps);
+                    
                     dataHashMap.put(SCMInterfaceKey.CHANNEL_VECTOR, RequestDao.getChannelList(con));
                     dataHashMap.put(SCMInterfaceKey.LEVEL_VECTOR, RequestDao.getLevelList(con));
                     dataHashMap.put(SCMInterfaceKey.PAYMENT_LEVEL_VECTOR, RequestDao.getPaymentList(con));
@@ -1127,6 +1137,7 @@ public class SCMRequestHandler {
                     dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_PAYMENT_METHOD, "");
                     dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_POS_STATUS, "");
                     loadListsPosManagement(con, dataHashMap, paramHashMap, false);
+                    System.out.println("allSupers "+allSupervisors);
                 }
                 break;
 

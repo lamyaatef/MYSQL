@@ -112,7 +112,8 @@
                 <table class="sortable" style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1">
                     <tr>
                         <td class=TableHeader nowrap align=center >Name</td>
-                        <td  class=TableHeader nowrap align=center>Address</td>
+                        <td class=TableHeader nowrap align=center >Level Type</td>
+                        
                         <td class=TableHeader nowrap align=center>Email</td>
                         <td class=TableHeader nowrap align=center>Select</td>
                     </tr>
@@ -127,7 +128,8 @@
 
                     <tr>
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=person.getPersonFullName()%></td>
-                        <td align="center"  style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=person.getPersonAddress()%></td>
+                        <td align="center"  style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=person.getM_strUserLevelTypeName()%></td>
+                        
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=person.getPersonEMail()%></td>
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><input type="button" class="button" value="Select" onclick="selectPerson(<%=person.getPersonID()%>,'<%=person.getPersonFullName()%>','<%=person.getPersonEMail()%>','<%=person.getPersonAddress()%>');"></td>
 

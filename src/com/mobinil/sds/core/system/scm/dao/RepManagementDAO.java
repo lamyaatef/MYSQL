@@ -142,6 +142,7 @@ public class RepManagementDAO {
 "    --AND DCM_USER.REGION_ID           =DCM_REGION.REGION_ID\n" +
 "    AND scm_user_region.REGION_ID           =DCM_REGION.REGION_ID\n" +
 "    AND    scm_user_region.USER_ID         =DCM_USER_DETAIL.USER_ID\n" +
+"    AND    scm_user_region.region_level_type_id         =4\n" +
 "    AND scm_user_region.USER_LEVEL_TYPE_ID IN(3,4,5,6)) x"
             +" "+sqlSearch +"   "
             +" ) ORDER BY LOWER(USER_FULL_NAME) ";
@@ -433,6 +434,33 @@ public class RepManagementDAO {
         return vec;
     }
     
+    public static Vector<com.mobinil.sds.core.system.scm.model.RepModel> getReps(Connection con){
+
+         Vector vec = new Vector();
+        System.out.println("getReps ");
+        
+              
+        try {
+            Statement stat = con.createStatement();
+            String strSql1 = "select * from scm_salesrep order by salesrep_name";
+            System.out.println("get reps : "+strSql1);
+            
+            ResultSet res1 = stat.executeQuery(strSql1);
+            while (res1.next()) {
+               
+                vec.add(new com.mobinil.sds.core.system.scm.model.RepModel(res1,false));
+                }
+            res1.close();
+            
+            stat.close();
+           // con.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return vec;
+    }
     
     public static Vector getAllSupervisorsData(Connection con) {
         
@@ -946,10 +974,10 @@ dcmUserDetail= DBUtil.executeSqlQuerySingleValue(sqlStatement, DCMUserDetailMode
            //persons=DBUtil.executePreparedSqlQueryMultiValue(sqlStatement, PersonModel.class, con,new Object[]{personName});
             sqlStatement+=" AND  LOWER(GP.PERSON_FULL_NAME) LIKE '%"+personName.toLowerCase()+"%'";*/
         
-        String sqlStatement="SELECT dcm_user_detail.user_id as PERSON_ID, dcm_user_detail.user_full_name as PERSON_FULL_NAME, dcm_user_detail.user_address as PERSON_ADDRESS, dcm_user_detail.user_email as PERSON_EMAIL"
-                            +" FROM dcm_user_detail ";
+        String sqlStatement="SELECT dcm_user_level_type.user_level_type_name ,dcm_user_detail.user_id as PERSON_ID, dcm_user_detail.user_full_name as PERSON_FULL_NAME, dcm_user_detail.user_address as PERSON_ADDRESS, dcm_user_detail.user_email as PERSON_EMAIL"
+                            +" FROM dcm_user_level_type,dcm_user,dcm_user_detail where dcm_user.user_level_type_id = dcm_user_level_type.user_level_type_id and dcm_user.dcm_user_id = dcm_user_detail.user_id and dcm_user.user_detail_id=dcm_user_detail.user_detail_id ";
         if(personName!=null&& !personName.trim().equalsIgnoreCase("")){
-                            sqlStatement+= " WHERE LOWER(dcm_user_detail.user_full_name) LIKE '%"+personName.toLowerCase()+"%'";
+                            sqlStatement+= " and LOWER(dcm_user_detail.user_full_name) LIKE '%"+personName.toLowerCase()+"%'";
             persons=DBUtil.executeSqlQueryMultiValue(sqlStatement, PersonModel.class, con);           
            
         }
@@ -957,7 +985,7 @@ dcmUserDetail= DBUtil.executeSqlQuerySingleValue(sqlStatement, DCMUserDetailMode
            sqlStatement+=" order by LOWER(dcm_user_detail.user_full_name)";
            persons=DBUtil.executeSqlQueryMultiValue(sqlStatement, PersonModel.class, con);
         }
-
+        System.out.println("searchGENPersons "+sqlStatement);
         return persons;
     }
     public static boolean checkIfUserAlreadyCreated(Connection con,String personId){

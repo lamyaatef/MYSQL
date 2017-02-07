@@ -42,7 +42,7 @@ public class PersonModel extends Model implements Serializable
   private int m_nPersonTypeStatusID;
   private String m_strPersonTypeStatusName;
   private String m_strPersonEMail;
-
+  private String m_strUserLevelTypeName;
 
   public PersonModel(){
       super();
@@ -212,9 +212,22 @@ public class PersonModel extends Model implements Serializable
             this.setPersonFullName(res.getString("PERSON_FULL_NAME"));
             this.setPersonAddress(res.getString("PERSON_ADDRESS"));
             this.setPersonEMail(res.getString("PERSON_EMAIL"));
+            this.setM_strUserLevelTypeName(res.getString("user_level_type_name"));
         } catch (SQLException ex) {
             Logger.getLogger(PersonModel.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    
+    public String getM_strUserLevelTypeName() {
+        return m_strUserLevelTypeName;
+    }
+
+    /**
+     * @param m_strUserLevelTypeName the m_strUserLevelTypeName to set
+     */
+    public void setM_strUserLevelTypeName(String m_strUserLevelTypeName) {
+        this.m_strUserLevelTypeName = m_strUserLevelTypeName;
     }
 
 }

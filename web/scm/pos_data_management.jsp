@@ -73,8 +73,14 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     int returnedRegionID = -1;
     Vector <PlaceDataModel> children = new Vector();
     Connection con = Utility.getConnection();
+    
+    
+    
     //lamya
     dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
+    Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel> allSupers=(Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel>)dataHashMap.get("AllSupervisors"); 
+    Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel> allTeams=(Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel>)dataHashMap.get("AllTeamleaders"); 
+    Vector<com.mobinil.sds.core.system.scm.model.RepModel> allReps=(Vector<com.mobinil.sds.core.system.scm.model.RepModel>)dataHashMap.get("AllReps"); 
     String strUserID = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
     String alert = (String) dataHashMap.get(SCMInterfaceKey.REP_KIT_Alert);
     Vector regions = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_REGIONS);
@@ -390,7 +396,21 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                         </td>
                         <td>Supervisor Name</td>
                         <td align="left">
-                            <% drawSelectSupervisors(out, SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR);%>
+                            <%-- <% drawSelectSupervisors(out, SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR);%> --%>
+                            <select id="<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>" >
+                                <option>---</option>
+                                 <%
+                                        for (int i = 0; i < allSupers.size(); i++) {
+                                            com.mobinil.sds.core.system.scm.model.SupervisorModel supervisor = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
+                                            
+                                            
+                                %>
+                                
+                                <option  value ="<%=supervisor.getSupervisorId()%>" ><%=supervisor.getSupervisorName()%></option>
+                                <%}
+                                        
+                                %>
+                            </select>
                             <input type=hidden id="<%=SCMInterfaceKey.INPUT_HIDDEN_USER_ID%>" name="<%=SCMInterfaceKey.INPUT_HIDDEN_USER_ID%>" value="" >
                             <input type=hidden id="<%=SCMInterfaceKey.INPUT_HIDDEN_SUPERVISOR_NAME%>" name="<%=SCMInterfaceKey.INPUT_HIDDEN_SUPERVISOR_NAME%>" value="" >
                         </td>
@@ -402,15 +422,44 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                     <tr class=TableTextNote>
                         <td>Team Leader Name</td>
                         <td align="left">
-                            <% drawSelectSupervisors(out, SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER);%>
-                            <input type=hidden id="<%=SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_ID%>" name="<%=SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_ID%>" value="" >
+                          <%--  <% drawSelectSupervisors(out, SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER);%> --%>
+                          
+                          <input type=hidden id="<%=SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_ID%>" name="<%=SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_ID%>" value="" >
                             <input type=hidden id="<%=SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_NAME%>" name="<%=SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_NAME%>" value="" >
+                            <select id="<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>" >
+                                <option>---</option>
+                                 <%
+                                        for (int i = 0; i < allTeams.size(); i++) {
+                                            com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
+                                            
+                                            
+                                %>
+                                
+                                <option  value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderName()%></option>
+                                <%}
+                                        
+                                %>
+                            </select>
                         </td>
                         <td>Sales Rep Name</td>
                         <td align="left">
-                            <% drawSelectSupervisors(out, SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP);%>
+                            <%--<% drawSelectSupervisors(out, SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP);%>--%>
                             <input type=hidden id="<%=SCMInterfaceKey.INPUT_HIDDEN_SALESREP_ID%>" name="<%=SCMInterfaceKey.INPUT_HIDDEN_SALESREP_ID%>" value="" >
                             <input type=hidden id="<%=SCMInterfaceKey.INPUT_HIDDEN_SALESREP_NAME%>" name="<%=SCMInterfaceKey.INPUT_HIDDEN_SALESREP_NAME%>" value="" >
+                            <select id="<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>" >
+                                <option>---</option>
+                                 <%
+                                        for (int i = 0; i < allReps.size(); i++) {
+                                            com.mobinil.sds.core.system.scm.model.RepModel rep = (com.mobinil.sds.core.system.scm.model.RepModel) allReps.get(i);
+                                            
+                                            
+                                %>
+                                
+                                <option  value ="<%=rep.getRepId()%>" ><%=rep.getRepName()%></option>
+                                <%}
+                                        
+                                %>
+                            </select>
                         </td>
                         
                     </tr>
@@ -641,7 +690,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     
     
     
-    
+    $(document).ready(function(){ 
    //region     
   $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_REGION%>").change(function(){
   //console.log("aaaa ",$(this).val());
@@ -652,7 +701,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     url : "<%out.print(formAction);%>",
     type: "POST",
     datatype: "JSON",
-    data : {regionid:regionid,type:"<%=SCMInterfaceKey.CONTROL_TEXT_POS_REGION%>"},
+    data : {regionid:regionid,type:"2"},
     success: function(data, textStatus, jqXHR)
     {
         
@@ -684,6 +733,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
 }); 
 
 
+
 //governorate
 $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").change(function(){
   
@@ -692,7 +742,7 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").change(function(){
     $.ajax({
     url : "<%out.print(formAction);%>",
     type: "POST",
-    data : {regionid:governid ,type:"<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>"/*,userLevel:4*/},
+    data : {regionid:governid ,type:"3"/*,userLevel:4*/},
     success: function(data, textStatus, jqXHR)
     {
          $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").empty();
@@ -738,7 +788,7 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").change(function(){
     $.ajax({
     url : "<%out.print(formAction);%>",
     type: "POST",
-    data : {regionid:cityid ,type:"<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>"/*,userLevel:4*/},
+    data : {regionid:cityid ,type:"4"/*,userLevel:4*/},
     success: function(data, textStatus, jqXHR)
     {
         
@@ -780,15 +830,15 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").change(function(){
     url : "<%out.print(formAction);%>",
     type: "POST",
     datatype: "JSON",
-    data : {regionid:districtid ,type:"<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>",arraySent:str},
+    data : {regionid:districtid ,type:"5"}, //arraySent:str
     success: function(data, textStatus, jqXHR)
     {
         
       
         $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").empty();
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").empty();
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").empty();
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").empty();
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").empty();
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").empty();
         $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").append($("<option/>").text("--"));
         $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").append($("<option/>").text("--"));
         $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append($("<option/>").text("--"));
@@ -802,29 +852,29 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").change(function(){
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").append(option);
 });
  
- $.each(data.map.users, function(k, v) {
+/* $.each(data.map.users, function(k, v) {
             
             var option= $("<option/>").text(v).val(k);
  
          //   console.log("data supervisors ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").append(option);
-});
+});*/
  
- $.each(data.map.teams, function(k, v) {
+/* $.each(data.map.teams, function(k, v) {
             
             var option= $("<option/>").text(v).val(k);
  
           //  console.log("data teamleaders ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append(option);
-});
+});*/
 
- $.each(data.map.sales, function(k, v) {
+ /*$.each(data.map.sales, function(k, v) {
             
             var option= $("<option/>").text(v).val(k);
  
             //console.log("data salesrep ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append(option);
-});
+});*/
 
 
 
@@ -838,7 +888,7 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").change(function(){
 }); 
 
 
-
+/*
 
 $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").change(function(){
    $("#<%= SCMInterfaceKey.INPUT_HIDDEN_USER_ID%>").val($("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%> option:selected").val());
@@ -855,9 +905,9 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").change(function(){
       
         
         $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").empty();
-     /*   $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").empty();*/
+     //   $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").empty();
         $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append($("<option/>").text("--"));
-      /*  $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append($("<option/>").text("--"));*/
+      //  $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append($("<option/>").text("--"));*
     
 
 $.each(data.map.superChildren, function(k, v) {
@@ -929,19 +979,6 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").change(function() {
 });
 
 
-/*$(function () {
-    $('input').on('click', function () {
-        var Status = $(this).val();
-        $.ajax({
-            url: 'Ajax/StatusUpdate.php',
-            data: {
-                text: $("textarea[name=Status]").val(),
-                Status: Status
-            },
-            dataType : 'json'
-        });
-    });
-});*/
 
 
 $("#formPosMangement").submit(function(){
@@ -971,9 +1008,9 @@ $("#formPosMangement").submit(function(){
             return false;
 
         });
-        
-
-
+       
+*/
+}); 
 
 </script>
         </form>
