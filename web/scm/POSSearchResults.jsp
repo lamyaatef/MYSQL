@@ -88,6 +88,12 @@
 //String distinationPage = (String) request.getParameter("distinationPage");
     //String totalPageNumbers = (String) request.getParameter("totalPageNumbers");
     
+                    String teamleadId = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER);
+                    String superId = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR);
+                    String repId = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP);
+                    System.out.println("supervisor: "+superId+" teamleader: "+teamleadId+" rep: "+repId);
+                    
+                    
                     String posDataName = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_NAME);
                     String posDataCode = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_CODE);
                     String posDataRegion = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_REGION);
@@ -147,12 +153,9 @@
                             posDataCity.trim(), 
                             posDataOwnerName.trim(), 
                             posDataOwnerIdNum.trim(),
-                            userDataId.trim(),
-                            userDataName.trim(),
+                            superId.trim(),
                             teamleaderId.trim(),
-                            teamleaderName.trim(),
                             salesrepId.trim(),
-                            salesrepName.trim(),
                             destinationPage, 
                             Level, 
                             Payment, 

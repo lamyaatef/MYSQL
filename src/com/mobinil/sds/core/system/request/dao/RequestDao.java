@@ -2521,7 +2521,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
         return DBUtil.getMap(con, "select " + fields + " from " + table);
     }
 
-    private static String[] appendFromWhereStrs(String posDataOwnerIdType, String posDataDocNum, String posDataManagerName, String posDataStkNum, String posDataManagerIdType, String posDataProposedDoc, String posDataManagerIdNum, String posDataName, String posDataCode, String posDataRegion, String posDataGover, String posDataDistrict, String posDataArea, String posDataCity, String posDataOwnerName, String posDataOwnerIdNum, String level, String payment, String channel, String posStatusId, String stkStatusId, String paymentStatusId, String posPhone, String englishAdress, String strSurvDate, String docLocation,String supervisorId,String supervisorName, String teamleaderId, String teamleaderName, String salesrepId, String salesrepName) {
+    private static String[] appendFromWhereStrs(String posDataOwnerIdType, String posDataDocNum, String posDataManagerName, String posDataStkNum, String posDataManagerIdType, String posDataProposedDoc, String posDataManagerIdNum, String posDataName, String posDataCode, String posDataRegion, String posDataGover, String posDataDistrict, String posDataArea, String posDataCity, String posDataOwnerName, String posDataOwnerIdNum, String level, String payment, String channel, String posStatusId, String stkStatusId, String paymentStatusId, String posPhone, String englishAdress, String strSurvDate, String docLocation,String supervisorId, String teamleaderId, String salesrepId) {
         StringBuilder fromStr = new StringBuilder();
         StringBuilder whereStr = new StringBuilder();
         String[] queryStrings = new String[2];
@@ -2529,12 +2529,19 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
             fromStr.append(" , GEN_DCM ");//dcm as alias was removed coz it caused column ambiguity and throws " column ambiguously defined"
             whereStr.append(" and dcm.DCM_ID = detail.pos_id and dcm.DCM_STATUS_ID=" + posStatusId);
         }
-        
-        if (supervisorId != null && supervisorId.compareTo("-1") != 0 && supervisorId.compareTo("") != 0) {
-            fromStr.append(" , dcm_user_detail");
+        fromStr.append(" , dcm_user_detail");
+        if (supervisorId != null && supervisorId.compareTo("-1") != 0 && supervisorId.compareTo("") != 0 && supervisorId.compareTo("---") != 0) {
+            
             whereStr.append(" and dcm_user_detail.USER_ID = detail.supervisor_id and detail.supervisor_id=" + supervisorId);
         }
-        
+        if (teamleaderId != null && teamleaderId.compareTo("-1") != 0 && teamleaderId.compareTo("") != 0 && teamleaderId.compareTo("---") != 0) {
+            
+            whereStr.append(" and dcm_user_detail.USER_ID = detail.teamleader_id and detail.teamleader_id=" + teamleaderId);
+        }
+        if (salesrepId != null && salesrepId.compareTo("-1") != 0 && salesrepId.compareTo("") != 0 && salesrepId.compareTo("---") != 0) {
+            
+            whereStr.append(" and dcm_user_detail.USER_ID = detail.salesrep_id and detail.salesrep_id=" + salesrepId);
+        }
         
         if (stkStatusId != null && stkStatusId.compareTo("-1") != 0 && stkStatusId.compareTo("") != 0) {
             fromStr.append(" , SCM_STK_OWNER stkowner");
@@ -2687,7 +2694,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
 
     }
 
-    public static Vector searchPosData(Connection con, String posDataOwnerIdType, String posDataDocNum, String posDataManagerName, String posDataStkNum, String posDataManagerIdType, String posDataProposedDoc, String posDataManagerIdNum, String posDataName, String posDataCode, String posDataRegion, String posDataGover, String posDataDistrict, String posDataArea, String posDataCity, String posDataOwnerName, String posDataOwnerIdNum, String supervisorId, String supervisorName, String teamleaderId, String teamleaderName, String salesrepId, String salesrepName,String rowNum, String level, String payment, String channel, String posStatusId, String stkStatusId, String paymentStatusId, String posPhone, String englishAdress, String strSurvDate, String docLocation) throws SQLException {
+    public static Vector searchPosData(Connection con, String posDataOwnerIdType, String posDataDocNum, String posDataManagerName, String posDataStkNum, String posDataManagerIdType, String posDataProposedDoc, String posDataManagerIdNum, String posDataName, String posDataCode, String posDataRegion, String posDataGover, String posDataDistrict, String posDataArea, String posDataCity, String posDataOwnerName, String posDataOwnerIdNum, String supervisorId, String teamleaderId, String salesrepId, String rowNum, String level, String payment, String channel, String posStatusId, String stkStatusId, String paymentStatusId, String posPhone, String englishAdress, String strSurvDate, String docLocation) throws SQLException {
 
         System.out.println("searchPosData");
         Vector<POSDetailModel> posDetailVec = new Vector<POSDetailModel>();
@@ -2701,7 +2708,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
         }
         
 
-        String[] queryStrings = appendFromWhereStrs(posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, level, payment, channel, posStatusId, stkStatusId, paymentStatusId, posPhone, englishAdress, strSurvDate, docLocation,supervisorId,supervisorName,teamleaderId, teamleaderName, salesrepId, salesrepName);
+        String[] queryStrings = appendFromWhereStrs(posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, level, payment, channel, posStatusId, stkStatusId, paymentStatusId, posPhone, englishAdress, strSurvDate, docLocation,supervisorId,teamleaderId, salesrepId);
         fromStr += queryStrings[0];
         whereStr += queryStrings[1];
 
@@ -2832,7 +2839,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
         query.append(" AND blcase.stk_id(+) = stock.stk_id ");
 
 
-        String[] queryStrings = appendFromWhereStrs(posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, level, payment, channel, posStatusId, stkStatusId, paymentStatusId, posPhone, englishAdress, strSurvDate, docLocation,supervisorId,supervisorName, teamleaderId, teamleaderName, salesrepId, salesrepName);
+        String[] queryStrings = appendFromWhereStrs(posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, level, payment, channel, posStatusId, stkStatusId, paymentStatusId, posPhone, englishAdress, strSurvDate, docLocation,supervisorId, teamleaderId, salesrepId);
 
 
         String queryStr = query.toString() + queryStrings[1];

@@ -1145,11 +1145,11 @@ public class SCMRequestHandler {
 /*NOT SURE*/
                     String userDataId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_USER_ID);
                     userDataName = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_SUPERVISOR_NAME);
-                    String teamleaderId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_ID);
+                    /*String teamleaderId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_ID);
                     String teamleaderName = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_NAME);
                     String salesrepId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_SALESREP_ID);
                     String salesrepName = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_SALESREP_NAME);
-                    
+                    */
                     System.out.println("SUPERVISOR in search "+userDataName);
                     String destinationPage = (String) paramHashMap.get(SCMInterfaceKey.DESTINATION_PAGE);
                     if (destinationPage == null) {
@@ -1168,7 +1168,10 @@ public class SCMRequestHandler {
                     dataHashMap.put(SCMInterfaceKey.DOC_VECTOR, RequestDao.getDocList(con));
 
 
-
+                    String teamleadId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER);
+                    String superId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR);
+                    String repId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP);
+                    System.out.println("supervisor: "+superId+" teamleader: "+teamleadId+" rep: "+repId);
                     String posDataName = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_NAME);
                     String posDataCode = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_CODE);
                     String posDataRegion = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_REGION);
@@ -1226,12 +1229,9 @@ public class SCMRequestHandler {
                             posDataCity.trim(), 
                             posDataOwnerName.trim(), 
                             posDataOwnerIdNum.trim(),
-                            userDataId.trim(),
-                            userDataName.trim(),
-                            teamleaderId.trim(),
-                            teamleaderName.trim(),
-                            salesrepId.trim(),
-                            salesrepName.trim(),
+                            superId.trim(),
+                            teamleadId.trim(),
+                            repId.trim(),
                             destinationPage, 
                             Level, 
                             Payment, 
@@ -1286,9 +1286,9 @@ public class SCMRequestHandler {
 
                 case show_detail_pos_data_management:
                     String posDetailId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_POS_ID);
-                    String supervisorDetailId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_USER_ID);
-                    String teamleaderDetailId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_ID);
-                    String salesrepDetailId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_SALESREP_ID);
+                    String supervisorDetailId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR);
+                    String teamleaderDetailId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER);
+                    String salesrepDetailId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP);
                    // String userDataName = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_USER_ID);
                     System.out.println("Action in code is show_detail_pos_data_management, and posDetailId is : "+posDetailId+" and supervisor detail id is : "+supervisorDetailId+" and teamleader id : "+teamleaderDetailId+" and salesrep id : "+salesrepDetailId);
                     
@@ -1321,11 +1321,11 @@ public class SCMRequestHandler {
                     teamleaderData = RequestDao.getUserDataByDetailId(con, posDetailModel.getTeamleaderName());
                     salesrepData = RequestDao.getUserDataByDetailId(con, posDetailModel.getSalesrepName());
                     
-                    if (supervisorDetailId!=null && supervisorDetailId.compareTo("")!=0)
+                    if (supervisorDetailId!=null && supervisorDetailId.compareTo("")!=0 && supervisorDetailId.compareTo("---")!=0)
                         userData = RequestDao.getUserDataByDetailId(con, supervisorDetailId);
-                    if (teamleaderDetailId!=null && teamleaderDetailId.compareTo("")!=0)
+                    if (teamleaderDetailId!=null && teamleaderDetailId.compareTo("")!=0 && teamleaderDetailId.compareTo("---")!=0)
                         teamleaderData = RequestDao.getUserDataByDetailId(con, teamleaderDetailId);
-                    if (salesrepDetailId!=null && salesrepDetailId.compareTo("")!=0)
+                    if (salesrepDetailId!=null && salesrepDetailId.compareTo("")!=0 && salesrepDetailId.compareTo("---")!=0)
                         salesrepData = RequestDao.getUserDataByDetailId(con, salesrepDetailId);
                     
                     

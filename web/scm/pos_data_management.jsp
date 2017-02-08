@@ -77,6 +77,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     
     
     //lamya
+    
     dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
     Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel> allSupers=(Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel>)dataHashMap.get("AllSupervisors"); 
     Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel> allTeams=(Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel>)dataHashMap.get("AllTeamleaders"); 
@@ -552,11 +553,12 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                 <input type="hidden" name="<%= SCMInterfaceKey.INPUT_HIDDEN_POS_ID%>" id="<%= SCMInterfaceKey.INPUT_HIDDEN_POS_ID%>">
                 <br>
                 <br>
-          <%-- 
+    <%--
                 <input class=button  type="button"  value="Search" onclick="searchRequest()">
-          --%>
+    --%>
   
-            <input class=button  type="submit"  value="Search" id="mySearch">
+        
+          <input class=button  type="submit"  value="Search" id="mySearch">
 
                 <input class=button  type="button"  value="Export to excel" onclick="buildActionStr()">
                 <br>
@@ -636,13 +638,15 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     }
     function searchRequest()
     {
+        alert("..request..");
 
-        if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_CODE%>.value") == "")
+        if(eval("document.formPosMangement.<%=SCMInterfaceKey.CONTROL_TEXT_POS_CODE%>.value") == "")
         {
             alert("Please Enter POS Code ..");
         }
         else
         {
+            alert("..POS Code ..");
             document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value  = '<%=SCMInterfaceKey.ACTION_SEARCH_POS_DATA_MANAGEMENT%>';
             document.formPosMangement.submit();
         }
@@ -979,7 +983,7 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").change(function() {
 });
 
 
-
+*/
 
 $("#formPosMangement").submit(function(){
             var Status = $(this).val();
@@ -1009,7 +1013,7 @@ $("#formPosMangement").submit(function(){
 
         });
        
-*/
+
 }); 
 
 </script>
