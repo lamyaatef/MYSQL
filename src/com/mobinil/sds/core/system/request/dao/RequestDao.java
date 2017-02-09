@@ -2694,7 +2694,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
 
     }
 
-    public static Vector searchPosData(Connection con, String posDataOwnerIdType, String posDataDocNum, String posDataManagerName, String posDataStkNum, String posDataManagerIdType, String posDataProposedDoc, String posDataManagerIdNum, String posDataName, String posDataCode, String posDataRegion, String posDataGover, String posDataDistrict, String posDataArea, String posDataCity, String posDataOwnerName, String posDataOwnerIdNum, String supervisorId, String teamleaderId, String salesrepId, String rowNum, String level, String payment, String channel, String posStatusId, String stkStatusId, String paymentStatusId, String posPhone, String englishAdress, String strSurvDate, String docLocation) throws SQLException {
+    public static Vector<POSDetailModel> searchPosData(Connection con, String posDataOwnerIdType, String posDataDocNum, String posDataManagerName, String posDataStkNum, String posDataManagerIdType, String posDataProposedDoc, String posDataManagerIdNum, String posDataName, String posDataCode, String posDataRegion, String posDataGover, String posDataDistrict, String posDataArea, String posDataCity, String posDataOwnerName, String posDataOwnerIdNum, String supervisorId, String teamleaderId, String salesrepId, String rowNum, String level, String payment, String channel, String posStatusId, String stkStatusId, String paymentStatusId, String posPhone, String englishAdress, String strSurvDate, String docLocation) throws SQLException {
 
         System.out.println("searchPosData");
         Vector<POSDetailModel> posDetailVec = new Vector<POSDetailModel>();

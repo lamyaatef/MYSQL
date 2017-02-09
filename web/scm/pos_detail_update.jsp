@@ -83,9 +83,9 @@
             System.out.println("USER DATA , teamleader data, salesrep data "+userData+"  "+teamleaderData+"  "+salesrepData);
             String userID = request.getParameter(InterfaceKey.HASHMAP_KEY_USER_ID);
             String posDetailId = request.getParameter(SCMInterfaceKey.INPUT_HIDDEN_POS_ID);
-            String supervisorDetail = request.getParameter(SCMInterfaceKey.INPUT_HIDDEN_USER_ID);
-            String teamleaderDetail = request.getParameter(SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_ID);
-            String salesrepDetail = request.getParameter(SCMInterfaceKey.INPUT_HIDDEN_SALESREP_ID);
+            String supervisorDetail = request.getParameter(SCMInterfaceKey.INPUT_HIDDEN_SUPERVISOR_NAME);
+            String teamleaderDetail = request.getParameter(SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_NAME);
+            String salesrepDetail = request.getParameter(SCMInterfaceKey.INPUT_HIDDEN_SALESREP_NAME);
             System.out.println("possssssssssss detaaaaaaaaaaaaail : "+posDetailId);
             System.out.println("supervisor id JSP : "+supervisorDetail);
             System.out.println("teamleader id JSP : "+teamleaderDetail);

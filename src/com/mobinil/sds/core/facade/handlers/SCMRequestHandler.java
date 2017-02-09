@@ -8,6 +8,7 @@ import com.mobinil.sds.core.system.dcm.genericModel.GenericModel;
 import com.mobinil.sds.core.system.dcm.pos.model.POSDetailModel;
 import com.mobinil.sds.core.system.dcm.region.model.RegionModel;
 import com.mobinil.sds.core.system.payment.model.PaymentModel;
+import com.mobinil.sds.core.system.regionPOSReport.dao.RegionPOSReportDAO;
 import com.mobinil.sds.core.system.request.model.PaymentMethodModel;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -2547,12 +2548,21 @@ public class SCMRequestHandler {
                     
                     
                     
-                    Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
-                    System.out.println("dataVec size " + dataVec.size());
+                    //Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
+                    //System.out.println("dataVec size " + dataVec.size());
                     String Slach = System.getProperty("file.separator");
                     String baseDirectory = (String) paramHashMap.get(SCMInterfaceKey.BASE_DIRECTION);
-                    String excelLink = PoiWriteExcelFile.exportExcelSheetForPOSSearch(dataVec, baseDirectory);
+                    //String excelLink = PoiWriteExcelFile.exportExcelSheetForPOSSearch(dataVec, baseDirectory);
+                    /*instead:*/
+                    Vector files =RegionPOSReportDAO.getRegionPOSData(con/*,entityLevelName,entityName,entityName*/);
+                    String excelLink = PoiWriteExcelFile.exportExcelSheetForRegionPOSData(/*dataVec*/files, baseDirectory);
+              
+                    /*end*/
                     dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
+                    
+                    
+                    
+                    
 //                    dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_POS_NAME, posDataName);
 //                    dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_POS_CODE, posDataCode);
 //                    dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_POS_REGION, posDataRegion);

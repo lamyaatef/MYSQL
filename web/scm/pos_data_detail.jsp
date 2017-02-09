@@ -90,8 +90,8 @@ String appName = request.getContextPath();
       out.println("</TD>");
       out.println("</tr>");
       out.println("<TR class=TableTextNote>");
-      out.println("      <TD colspan=2>");
-      out.println("      <table border=0 align='center' width='100%'>");
+      out.println("<TD colspan=2>");
+      out.println("<table border=0 align='center' width='100%'>");
       out.println("<TR class=TableTextNote>");
 
 
@@ -282,7 +282,7 @@ String appName = request.getContextPath();
 
 
       out.println("<TR>");
-      out.println("<TD class=TableTextNote>Owner Data ");
+      out.println("<TD class='TableTextNote' colspan=2><br><hr><strong>Owner Data</strong><hr> " );
 
       out.println("</TD>");
       out.println("</tr>");
@@ -347,7 +347,7 @@ String appName = request.getContextPath();
 
       ///////////////////////////////////////
       out.println("<TR>");
-      out.println("<TD class=TableTextNote>Supervisor Data");
+      out.println("<TD class='TableTextNote' colspan=2><br><hr><strong>Supervisor Data</strong><hr>");
 
       out.println("</TD>");
       out.println("</tr>");
@@ -365,19 +365,13 @@ String appName = request.getContextPath();
       out.println("</tr>");
       
       out.println("<TR>");
-      out.println("  <TD class=TableTextNote vAlign=top width='40%'>Supervisor Mobile Phone</TD>");
+      out.println("  <TD class=TableTextNote vAlign=top width='40%'>Supervisor Mobile</TD>");
       if (userData.getUserMobile()!=null)
             out.println("  <TD width='60%' class=TableTextNote align=left>" + userData.getUserMobile() + "</td></tr>");
       else
           out.println("  <TD width='60%' class=TableTextNote align=left> </td></tr>");
     
-      out.println("<TR class=TableTextNote>");
-      out.println("      <TD class=TableTextNote>Supervisor Address</TD>");
-      if (userData.getUserAddress()!=null)
-            out.println("      <TD class=TableTextNote>" + userData.getUserAddress() + "</TD>");
-      else
-            out.println("      <TD class=TableTextNote> </TD>");
-      out.println("</tr>");
+      
       out.println("<TR class=TableTextNote>");
       out.println("      <TD class=TableTextNote>Supervisor Email</TD>");
       if (userData.getUserEmail()!=null)
@@ -400,7 +394,7 @@ String appName = request.getContextPath();
       
       ///////////////////////////////////////
       out.println("<TR>");
-      out.println("<TD class=TableTextNote>Teamleader Data");
+      out.println("<TD class='TableTextNote' colspan=2><br><hr><strong>Teamleader Data</strong><hr>");
 
       out.println("</TD>");
       out.println("</tr>");
@@ -418,19 +412,13 @@ String appName = request.getContextPath();
       out.println("</tr>");
       
       out.println("<TR>");
-      out.println("  <TD class=TableTextNote vAlign=top width='40%'>Supervisor Mobile Phone</TD>");
+      out.println("  <TD class=TableTextNote vAlign=top width='40%'>Teamleader Mobile</TD>");
       if (userData.getUserMobile()!=null)
             out.println("  <TD width='60%' class=TableTextNote align=left>" + teamleaderData.getUserMobile() + "</td></tr>");
       else
           out.println("  <TD width='60%' class=TableTextNote align=left> </td></tr>");
     
-      out.println("<TR class=TableTextNote>");
-      out.println("      <TD class=TableTextNote>Teamleader Address</TD>");
-      if (userData.getUserAddress()!=null)
-            out.println("      <TD class=TableTextNote>" + teamleaderData.getUserAddress() + "</TD>");
-      else
-            out.println("      <TD class=TableTextNote> </TD>");
-      out.println("</tr>");
+      
       out.println("<TR class=TableTextNote>");
       out.println("      <TD class=TableTextNote>Teamleader Email</TD>");
       if (userData.getUserEmail()!=null)
@@ -450,7 +438,7 @@ String appName = request.getContextPath();
       
       ///////////////////////////////////////
       out.println("<TR>");
-      out.println("<TD class=TableTextNote>Salesrep Data");
+      out.println("<TD class='TableTextNote' colspan=2><br><hr><strong>Salesrep Data</strong><hr>");
 
       out.println("</TD>");
       out.println("</tr>");
@@ -468,19 +456,13 @@ String appName = request.getContextPath();
       out.println("</tr>");
       
       out.println("<TR>");
-      out.println("  <TD class=TableTextNote vAlign=top width='40%'>Salesrep Mobile Phone</TD>");
+      out.println("  <TD class=TableTextNote vAlign=top width='40%'>Salesrep Mobile</TD>");
       if (userData.getUserMobile()!=null)
             out.println("  <TD width='60%' class=TableTextNote align=left>" + salesrepData.getUserMobile() + "</td></tr>");
       else
           out.println("  <TD width='60%' class=TableTextNote align=left> </td></tr>");
     
-      out.println("<TR class=TableTextNote>");
-      out.println("      <TD class=TableTextNote>Salesrep Address</TD>");
-      if (userData.getUserAddress()!=null)
-            out.println("      <TD class=TableTextNote>" + salesrepData.getUserAddress() + "</TD>");
-      else
-            out.println("      <TD class=TableTextNote> </TD>");
-      out.println("</tr>");
+      
       out.println("<TR class=TableTextNote>");
       out.println("      <TD class=TableTextNote>Salesrep Email</TD>");
       if (userData.getUserEmail()!=null)
@@ -500,7 +482,7 @@ String appName = request.getContextPath();
       
       
       out.println("<TR>");
-      out.println("<TD class=TableTextNote>Manager Data ");
+      out.println("<TD class='TableTextNote' colspan=2><br><hr><strong>Manager Data</strong><hr>");
 
       out.println("</TD>");
       out.println("</tr>");

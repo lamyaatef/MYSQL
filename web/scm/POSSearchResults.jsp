@@ -31,7 +31,159 @@
 
 
 
+<%
+    
 
+String appName = request.getContextPath();
+
+String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.ACTION_REGIONS; //action=
+String formAction3 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.ACTION_POS_SERCH;
+
+String formAction4 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.SEARCH_POS_EXCEL;
+
+String formAction5 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.ACTION_POS_DATA_EDIT;
+
+String formAction6 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.ACTION_POS_DATA_VIEW_HISTORY;
+
+String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.ACTION_SHOW_DETAIL_POS_DATA_MANAGEMENT;
+
+%>
+
+     <script>
+    
+        function pulldownChanged(){
+            
+      
+    }
+        function DevChangePageActionWithSubmit(action)
+        {
+
+            document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value =  document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value =action
+            document.formPosMangement.submit();
+        }
+
+
+        function Download()
+        {
+
+            document.getElementById("download").disabled=true;
+            document.GenerateSheet.submit();
+
+        }
+    
+    function Sheet()
+    {
+        document.GenerateSheet.Submit.disabled=true;
+        document.GenerateSheet.submit();
+
+
+    }
+    function exportExcel()
+    {
+        document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value  = '<%=SCMInterfaceKey.IMPORT_TEMPLATE_DATES_FOR_POS%>';
+        document.getElementById("tempDown").disabled=true;
+        document.formPosMangement.submit();
+    }
+    function preRequestDataEntryWithoutStk()
+    {
+        document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value  = '<%=SCMInterfaceKey.ACTION_POS_DATA_ENTRY%>';
+        document.formPosMangement.submit();
+    }
+    function preRequestDataEntryWithStk()
+    {
+
+        document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value  = '<%=SCMInterfaceKey.ACTION_POS_DATA_ENTRY_WITH_STK%>';
+        document.formPosMangement.submit();
+    }
+
+    function detailRequest(id)
+    {
+        document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_POS_ID%>.value  = id;
+        document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value  = '<%=SCMInterfaceKey.ACTION_SHOW_DETAIL_POS_DATA_MANAGEMENT%>';
+    $("#formPosMangement").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction7);%>");    
+    document.formPosMangement.submit();
+    }
+
+
+    function editRequest(id,repid,teamid,superid)
+    {
+        alert(id);
+        document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_POS_ID%>.value  = id;
+        document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_SALESREP_NAME%>.value  = repid;
+        document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_NAME%>.value  = teamid;
+        document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_SUPERVISOR_NAME%>.value  = superid;
+                   
+        document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%=SCMInterfaceKey.ACTION_POS_DATA_EDIT%>';
+        document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_USER_ID%>.value;
+        $("#formPosMangement").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction5);%>");
+        document.formPosMangement.submit();
+    }
+    function searchRequest()
+    {
+        alert("..request..");
+
+        if(eval("document.formPosMangement.<%=SCMInterfaceKey.CONTROL_TEXT_POS_CODE%>.value") == "")
+        {
+            alert("Please Enter POS Code ..");
+        }
+        else
+        {
+            alert("..POS Code ..");
+            document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value  = '<%=SCMInterfaceKey.ACTION_SEARCH_POS_DATA_MANAGEMENT%>';
+            document.formPosMangement.submit();
+        }
+    
+        
+    }
+    function buildActionStr (){
+        
+
+        
+        document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value  = '<%=SCMInterfaceKey.SEARCH_POS_EXCEL%>';
+        //console.log("parameter action : ",document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value);
+        $("#formPosMangement").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction4);%>");
+       // console.log("form action new : ",$("#formPosMangement").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>"));
+        document.formPosMangement.submit();
+       
+    }
+
+    function searchExcel()
+    {
+        if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_CODE%>.value") == "")
+        {
+            alert("Please Enter POS Code ..");
+        }
+        else
+        {
+            document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value  = '<%=SCMInterfaceKey.SEARCH_POS_EXCEL%>';
+            document.formPosMangement.submit();
+        }
+    
+
+        
+        
+    }
+    
+    function viewHistory(id)
+    {
+        document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_POS_ID%>.value  = id;
+        document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%=SCMInterfaceKey.ACTION_POS_DATA_VIEW_HISTORY%>';
+        $("#formPosMangement").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction6);%>");
+        document.formPosMangement.submit();
+    }
+</script>
 
 
         <%!
@@ -136,7 +288,7 @@
 //                    Integer totalSearch=RequestDao.searchPosDataTotal(con ,posDataOwnerIdType.trim() , posDataDocNum.trim() , posDataManagerName.trim() , posDataStkNum.trim() , posDataManagerIdType.trim() , posDataProposedDoc.trim() , posDataManagerIdNum.trim() , posDataName.trim() , posDataCode.trim() , posDataRegion.trim() , posDataGover.trim() , posDataDistrict.trim() , posDataArea.trim() ,posDataCity.trim() , posDataOwnerName.trim() ,posDataOwnerIdNum.trim(),Level,Payment,Channel);
                     System.out.println("before search pos data");
                     
-                    Vector dataVec = RequestDao.searchPosData(con, 
+                    Vector<POSDetailModel> dataVec = RequestDao.searchPosData(con, 
                             posDataOwnerIdType.trim(), 
                             posDataDocNum.trim(), 
                             posDataManagerName.trim(), 
@@ -247,6 +399,7 @@
                         for (int i = 0; i < posDataVec.size(); i++) {
                     %>
                     <tr>
+                    
                         <% if (posDataVec.get(i).getPosName() == null) {
                                 posDataVec.get(i).setPosName("");
                             }%>
@@ -273,7 +426,7 @@
 
                             <%--    <input class=button  type="button"  value="Edit" disabled readonly> --%>
                             <%} else {%>
-                            <input class=button  type="button"  value="Edit" onclick="editRequest((<%=posDataVec.get(i).getPosID()%>))">
+                            <input class=button  type="button"  value="Edit" onclick="editRequest(<%=posDataVec.get(i).getPosID()%>,<%=posDataVec.get(i).getSalesrepName()%>,<%=posDataVec.get(i).getTeamleaderName()%>,<%=posDataVec.get(i).getSupervisorName()%>)">
                             <%}%>
                         </td>
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"> <input class=button  type="button"  value="View History" onclick="viewHistory((<%=posDataVec.get(i).getPosID()%>))"></td>
