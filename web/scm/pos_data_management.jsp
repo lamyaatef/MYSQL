@@ -638,7 +638,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     }
     function searchRequest()
     {
-        alert("..request..");
+        
 
         if(eval("document.formPosMangement.<%=SCMInterfaceKey.CONTROL_TEXT_POS_CODE%>.value") == "")
         {
@@ -646,7 +646,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
         }
         else
         {
-            alert("..POS Code ..");
+         
             document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value  = '<%=SCMInterfaceKey.ACTION_SEARCH_POS_DATA_MANAGEMENT%>';
             document.formPosMangement.submit();
         }

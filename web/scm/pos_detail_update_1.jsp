@@ -44,20 +44,13 @@
 
 <%
     String appName = request.getContextPath();
-    %>
-    
+%>
 <SCRIPT language=JavaScript>
     function checkbeforSubmit()
     {
 
         document.formDataView.submit();
     }
-    
-    
-    
-    
-    
-    
 </SCRIPT>
 <html>
 
@@ -74,35 +67,7 @@
     </head>
 
     <body >
-        <%
-    
-    
-
-
-String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
-                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
-                    +SCMInterfaceKey.ACTION_REGIONS; //action=
-String formAction3 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
-                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
-                    +SCMInterfaceKey.ACTION_POS_SERCH;
-
-String formAction4 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
-                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
-                    +SCMInterfaceKey.SEARCH_POS_EXCEL;
-
-String formAction5 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
-                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
-                    +SCMInterfaceKey.ACTION_POS_DATA_EDIT;
-
-String formAction6 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
-                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
-                    +SCMInterfaceKey.ACTION_POS_DATA_VIEW_HISTORY;
-
-String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
-                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
-                    +SCMInterfaceKey.ACTION_SHOW_DETAIL_POS_DATA_MANAGEMENT;
-    
-    String formAction8 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+        <%String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
                     +InterfaceKey.HASHMAP_KEY_ACTION+"="
                     +SCMInterfaceKey.ACTION_POS_DATA_EDIT_STORE;%>
         <%
@@ -115,21 +80,9 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
             UserDataModel userData = (UserDataModel) dataHashMap.get(SCMInterfaceKey.SIMILAR_USER_LIST);
             UserDataModel teamleaderData = (UserDataModel) dataHashMap.get(SCMInterfaceKey.SIMILAR_TEAMLEADER_LIST);
             UserDataModel salesrepData = (UserDataModel) dataHashMap.get(SCMInterfaceKey.SIMILAR_SALESREP_LIST);
-            
-            String region = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_REGION);
-    String governrate = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_GOVER);
-    String area = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_AREA);
-    String city = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_CITY);
-    String district = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT);
-    
-            System.out.println("region "+region+" gov "+governrate+" area "+area+" city "+city+" district "+district);
-            
             System.out.println("USER DATA , teamleader data, salesrep data "+userData+"  "+teamleaderData+"  "+salesrepData);
             String userID = request.getParameter(InterfaceKey.HASHMAP_KEY_USER_ID);
             String posDetailId = request.getParameter(SCMInterfaceKey.INPUT_HIDDEN_POS_ID);
-            
-            String regionId = request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_REGION);
-            System.out.println("REGIONNNNNNNN "+regionId);
             String supervisorDetail = request.getParameter(SCMInterfaceKey.INPUT_HIDDEN_SUPERVISOR_NAME);
             String teamleaderDetail = request.getParameter(SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_NAME);
             String salesrepDetail = request.getParameter(SCMInterfaceKey.INPUT_HIDDEN_SALESREP_NAME);
@@ -199,9 +152,6 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                     + userID;
 
 
-            
-       
-            
 
 
             out.println("<CENTER>");
@@ -214,330 +164,6 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
 
             out.println("<form id='formDataView' onsubmit=\"mySubmit.disabled = true;\" name='formDataView' action='' method='post'>");
         %>
-        <script>
-            
-    $(document).ready(function(){ 
-   //region     
-  $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_REGION%>").change(function(){
-  //console.log("aaaa ",$(this).val());
-  var regionid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_REGION%>").val(); //value id of Option selected in the Select object
- // console.log("value id of option selected in Select object is : ",regionid);
-    
-    $.ajax({
-    url : "<%out.print(formAction);%>",
-    type: "POST",
-    datatype: "JSON",
-    data : {regionid:regionid,type:"2"},
-    success: function(data, textStatus, jqXHR)
-    {
-        
-      
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").empty();
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").empty();
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").empty();
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
-      
-        
-      
-    $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").append($("<option/>").text("--"));
-
-        $.each(data.map.districts, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
- 
-          //  console.log("data governorates ",option);
-            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").append(option);
-});
-
-},
-    error: function (jqXHR, textStatus, errorThrown)
-    {
- 
-    }
-});
-
-}); 
-
-
-
-//governorate
-$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").change(function(){
-  
-  var governid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").val(); //value id of Option selected in the Select object
-  //console.log("value id of option selected in Select object is : ",id);
-    $.ajax({
-    url : "<%out.print(formAction);%>",
-    type: "POST",
-    data : {regionid:governid ,type:"3"/*,userLevel:4*/},
-    success: function(data, textStatus, jqXHR)
-    {
-         $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").empty();
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").empty();
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
-        
-              
-    $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").append($("<option/>").text("--"));
-    
-        $.each(data.map.districts, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
- 
-          //  console.log("data governorates ",option);
-            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").append(option);
-});
-        
-        
-       
-        
-        
-        
-    },
-    error: function (jqXHR, textStatus, errorThrown)
-    {
- 
-    }
-});
-
-}); 
-
-
-
-
-
-
-
-//city
-$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").change(function(){
-  
-  var cityid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").val(); //value id of Option selected in the Select object
-  //console.log("value id of option selected in Select object is : ",id);
-    $.ajax({
-    url : "<%out.print(formAction);%>",
-    type: "POST",
-    data : {regionid:cityid ,type:"4"/*,userLevel:4*/},
-    success: function(data, textStatus, jqXHR)
-    {
-        
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").empty();
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
-        
-            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").append($("<option/>").text("--"));
-    
-        $.each(data.map.districts, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
- 
-           // console.log("data governorates ",option);
-            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").append(option);
-});
-        
-      
-      
-        
-    },
-    error: function (jqXHR, textStatus, errorThrown)
-    {
- 
-    }
-});
-
-}); 
-         
-   //district
-$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").change(function(){
-  
-  var districtid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").val(); //value id of Option selected in the Select object
-  var array=[3];
-    array[0]= 4;
-    array[1] = 5;
-    array[2] = 6;
-    var str = JSON.stringify(array);
-    $.ajax({
-    url : "<%out.print(formAction);%>",
-    type: "POST",
-    datatype: "JSON",
-    data : {regionid:districtid ,type:"5"}, //arraySent:str
-    success: function(data, textStatus, jqXHR)
-    {
-        
-      
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
-        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").empty();
-        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").empty();
-        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").empty();
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").append($("<option/>").text("--"));
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").append($("<option/>").text("--"));
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append($("<option/>").text("--"));
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append($("<option/>").text("--"));
-    
-        $.each(data.map.districts, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
- 
-        //    console.log("data governorates ",option);
-            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").append(option);
-});
- 
-/* $.each(data.map.users, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
- 
-         //   console.log("data supervisors ",option);
-            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").append(option);
-});*/
- 
-/* $.each(data.map.teams, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
- 
-          //  console.log("data teamleaders ",option);
-            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append(option);
-});*/
-
- /*$.each(data.map.sales, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
- 
-            //console.log("data salesrep ",option);
-            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append(option);
-});*/
-
-
-
-},
-    error: function (jqXHR, textStatus, errorThrown)
-    {
- 
-    }
-});
-
-}); 
-
-
-/*
-
-$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").change(function(){
-   $("#<%= SCMInterfaceKey.INPUT_HIDDEN_USER_ID%>").val($("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%> option:selected").val());
-   $("#<%= SCMInterfaceKey.INPUT_HIDDEN_SUPERVISOR_NAME%>").val($("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%> option:selected").text());
-  var managerid2= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").val(); //value id of Option selected in the Select object
-  var regionid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").val(); //value id of Option selected in the Select object
-    $.ajax({
-    url : "<%out.print(formAction);%>",
-    type: "POST",
-    data : {managerid2:managerid2 ,regionid:regionid,type:"<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>",userLevel:5},
-    success: function(data, textStatus, jqXHR)
-    {
-        
-      
-        
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").empty();
-     //   $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").empty();
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append($("<option/>").text("--"));
-      //  $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append($("<option/>").text("--"));*
-    
-
-$.each(data.map.superChildren, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
- 
-            //console.log("data supervisors ",option);
-            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append(option);
-          
-});
-
-
-
-
-     
-        
-    },
-    error: function (jqXHR, textStatus, errorThrown)
-    {
- 
-    }
-});
-
-});  
-
-
-
-
-
-
-$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").change(function(){
-   $("#<%= SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_ID%>").val($("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%> option:selected").val());
-   $("#<%= SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_NAME%>").val($("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%> option:selected").text());
-  var managerid2= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").val(); //value id of Option selected in the Select object
-  var regionid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").val(); //value id of Option selected in the Select object
-    $.ajax({
-    url : "<%out.print(formAction);%>",
-    type: "POST",
-    data : {managerid2:managerid2 ,regionid:regionid,type:"<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>",userLevel:6},
-    success: function(data, textStatus, jqXHR)
-    {
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").empty();
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append($("<option/>").text("--"));
-    
-
-$.each(data.map.superChildren, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
- 
-           // console.log("data supervisors ",option);
-            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append(option);
-          
-});
-     
-        
-    },
-    error: function (jqXHR, textStatus, errorThrown)
-    {
- 
-    }
-});
-
-});  
-
-
-$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").change(function() {
-  $("#<%= SCMInterfaceKey.INPUT_HIDDEN_SALESREP_ID%>").val($("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%> option:selected").val());
-  $("#<%= SCMInterfaceKey.INPUT_HIDDEN_SALESREP_NAME%>").val($("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%> option:selected").text());
-});
-
-
-*/
-
-$("#formPosMangement").submit(function(){
-            var Status = $(this).val();
-            //data=$(this).serialize();
-            data=$("#formPosMangement").serialize();
-              $.ajax({
-                  url : "<%out.print(formAction3);%>",
-                  type: "POST",
-                  data: data,
-               //   dataType: 'json',
-
-          success: function(data, textStatus, jqXHR)
-          {
-              $("#result").html(data);
-             
-              //console.log("lamya success");
-          },
-          error: function (jqXHR, textStatus, errorThrown)
-          {
-               console.log("lamya error",textStatus);
-               console.log("text",jqXHR);
-               
-          }
-    
-        });
-            return false;
-
-        });
-       
-
-}); 
-        </script>
         <input type="hidden" name="<%= SCMInterfaceKey.CONTROL_REGION_PARENT_ID%>" id="<%= SCMInterfaceKey.CONTROL_REGION_PARENT_ID%>" value="<%=parentIdstr%>" />
         <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_ACTION%>" >
         <input type="hidden" id="<%=SCMInterfaceKey.INPUT_HIDDEN_POS_ID%>" name="<%=SCMInterfaceKey.INPUT_HIDDEN_POS_ID%>" value="<%=posDetailId%>" >
@@ -932,16 +558,14 @@ $("#formPosMangement").submit(function(){
         out.println("<TR>");
         out.println("      <TD class=TableTextNote width='40%'>Governrate</TD>");
         out.println("      <TD>");
-        //drowRegionChild(out, regionsChilds, "2", SCMInterfaceKey.CONTROL_TEXT_POS_GOVER, posData.getGovernateId() + "");
-        drawSelectRegions(out, (Vector<PlaceDataModel>) regions, SCMInterfaceKey.CONTROL_TEXT_POS_GOVER, governrate, 2/*,disabled*/);
+        drowRegionChild(out, regionsChilds, "2", SCMInterfaceKey.CONTROL_TEXT_POS_GOVER, posData.getGovernateId() + "");
         out.println("</TD>");
         out.println("</tr>");
 
         out.println("<TR>");
         out.println("      <TD class=TableTextNote width='40%'>City</TD>");
         out.println("      <TD>");
-        //drowRegionChild(out, regionsChilds, "3", SCMInterfaceKey.CONTROL_TEXT_POS_CITY, posData.getCityId() + "");
-        drawSelectRegions(out, (Vector<PlaceDataModel>) regions, SCMInterfaceKey.CONTROL_TEXT_POS_CITY, city, 3/*,disabled*/);
+        drowRegionChild(out, regionsChilds, "3", SCMInterfaceKey.CONTROL_TEXT_POS_CITY, posData.getCityId() + "");
         out.println("&nbsp;&nbsp;");
         out.println("<input class='button' " + disabledStrCity + " type='button' name='similar_city' id='similar_city' value='All POS in City'  onclick=similarCity(); />");
         out.println("</TD>");
@@ -951,16 +575,14 @@ $("#formPosMangement").submit(function(){
         out.println("<TR>");
         out.println("      <TD class=TableTextNote width='40%'>District</TD>");
         out.println("      <TD>");
-        //drowRegionChild(out, regionsChilds, "4", SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT, posData.getDistrictId() + "");
-        drawSelectRegions(out, (Vector<PlaceDataModel>) regions, SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT, district, 4/*,disabled*/);
+        drowRegionChild(out, regionsChilds, "4", SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT, posData.getDistrictId() + "");
         out.println("</TD>");
         out.println("</tr>");
 
         out.println("<TR>");
         out.println("      <TD class=TableTextNote width='40%'>Area</TD>");
         out.println("<TD>");
-        //drowRegionChild(out, regionsChilds, "5", SCMInterfaceKey.CONTROL_TEXT_POS_AREA, posData.getAreaId() + "");
-        drawSelectRegions(out, (Vector<PlaceDataModel>) regions, SCMInterfaceKey.CONTROL_TEXT_POS_AREA, area, 5/*,disabled*/);
+        drowRegionChild(out, regionsChilds, "5", SCMInterfaceKey.CONTROL_TEXT_POS_AREA, posData.getAreaId() + "");
         out.println("&nbsp;&nbsp;");
         out.println("<input class='button' " + disabledStrArea + " name='similar_area' id='similar_area' type='button' value='All POS in Area'  onclick=similarArea(); />");
         out.println("</TD>");
@@ -993,6 +615,144 @@ $("#formPosMangement").submit(function(){
         
         
         /////////////////////////////////////////////////////////
+        out.println("<TR>");
+        out.println("<TD colspan=2 class=TableTextNote>Supervisor Data ");
+        out.println("</TD>");
+        out.println("</tr>");
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD colspan=2>");
+        out.println("      <table border=1 align='center' width='100%'>");
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD width='40%'>Supervisor Name</TD>");
+        out.println("      <TD><input type='text' value='" + userData.getUserFullName()+ "' name='" + SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_NAME + "' id='" + SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_NAME + "'></TD>");
+        
+        out.println("</tr>");
+
+
+
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD>Supervisor Mobile Phone</TD>");
+        out.println("<td>");
+        out.println("<input type='text' name='"+SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_MOBILE+"' id='"+SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_MOBILE+"' value=" +userData.getUserMobile()+ ">");
+        out.println("</td>");
+        out.println("</tr>");
+        
+        
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD>Supervisor Email</TD>");
+        out.println("<td>");
+        out.println("<input type='text' name='"+SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_EMAIL+"' id='"+SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_EMAIL+"' value=" +userData.getUserEmail()+ ">");
+        out.println("</td>");
+        out.println("</tr>");
+        
+        
+        
+        
+        ////added
+         out.println("</tr>");
+
+        out.println("      </table>");
+        out.println("      </TD>");
+        out.println("</tr>");
+        ///added - end
+        
+        
+        ///////////////////////////////////////////////////////
+        
+        //////////////////////////////////////////////////////////
+        out.println("<TR>");
+        out.println("<TD colspan=2 class=TableTextNote>TeamLeader Data ");
+        out.println("</TD>");
+        out.println("</tr>");
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD colspan=2>");
+        out.println("      <table border=1 align='center' width='100%'>");
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD width='40%'>TeamLeader Name</TD>");
+        out.println("      <TD><input type='text' value='" + teamleaderData.getUserFullName()+ "' name='" + SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_NAME + "' id='" + SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_NAME + "'></TD>");
+        out.println("</tr>");
+
+
+
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD>TeamLeader Mobile Phone</TD>");
+        out.println("<td>");
+        out.println("<input type='text' name='"+SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_MOBILE+"' id='"+SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_MOBILE+"' value=" +teamleaderData.getUserMobile()+ ">");
+        out.println("</td>");
+        out.println("</tr>");
+        
+        
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD>TeamLeader Email</TD>");
+        out.println("<td>");
+        out.println("<input type='text' name='"+SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_EMAIL+"' id='"+SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_EMAIL+"' value=" +teamleaderData.getUserEmail()+ ">");
+        out.println("</td>");
+        out.println("</tr>");
+        
+        
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD>TeamLeader Address</TD>");
+        out.println("<td>");
+        out.println("<input type='text' name='"+SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_ADDRESS+"' id='"+SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_ADDRESS+"' value=" +teamleaderData.getUserAddress()+ ">");
+        out.println("</td>");
+        out.println("</tr>");
+        
+        ////added
+         out.println("</tr>");
+
+        out.println("      </table>");
+        out.println("      </TD>");
+        out.println("</tr>");
+        ///added - end
+        ///////////////////////////////////////////////////////////
+        
+        
+        //////////////////////////////////////////////////////////////////////
+        out.println("<TR>");
+        out.println("<TD colspan=2 class=TableTextNote>Salesrep Data ");
+        out.println("</TD>");
+        out.println("</tr>");
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD colspan=2>");
+        out.println("      <table border=1 align='center' width='100%'>");
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD width='40%'>Salesrep Name</TD>");
+        out.println("      <TD><input type='text' value='" + salesrepData.getUserFullName()+ "' name='" + SCMInterfaceKey.CONTROL_TEXT_SALESREP_NAME + "' id='" + SCMInterfaceKey.CONTROL_TEXT_SALESREP_NAME + "'></TD>");
+        out.println("</tr>");
+
+
+
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD>Salesrep Mobile Phone</TD>");
+        out.println("<td>");
+        out.println("<input type='text' name='"+SCMInterfaceKey.CONTROL_TEXT_SALESREP_MOBILE+"' id='"+SCMInterfaceKey.CONTROL_TEXT_SALESREP_MOBILE+"' value=" +salesrepData.getUserMobile()+ ">");
+        out.println("</td>");
+        out.println("</tr>");
+        
+        
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD>Salesrep Email</TD>");
+        out.println("<td>");
+        out.println("<input type='text' name='"+SCMInterfaceKey.CONTROL_TEXT_SALESREP_EMAIL+"' id='"+SCMInterfaceKey.CONTROL_TEXT_SALESREP_EMAIL+"' value=" +salesrepData.getUserEmail()+ ">");
+        out.println("</td>");
+        out.println("</tr>");
+        
+        
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD>Salesrep Address</TD>");
+        out.println("<td>");
+        out.println("<input type='text' name='"+SCMInterfaceKey.CONTROL_TEXT_SALESREP_ADDRESS+"' id='"+SCMInterfaceKey.CONTROL_TEXT_SALESREP_ADDRESS+"' value=" +salesrepData.getUserAddress()+ ">");
+        out.println("</td>");
+        out.println("</tr>");
+        
+        ////added
+         out.println("</tr>");
+
+        out.println("      </table>");
+        out.println("      </TD>");
+        out.println("</tr>");
+        ///added - end
+        
         /////////////////////////////////////////////////////////////////////////
 
         out.println("<TR>");
@@ -1818,7 +1578,7 @@ $("#formPosMangement").submit(function(){
             document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_MOBILE%>.value=trimPhone(document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_MOBILE%>.value);
             document.formDataView.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%= SCMInterfaceKey.ACTION_POS_DATA_EDIT_STORE%>';
         
-            $("#formDataView").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction8);%>");
+            $("#formDataView").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction);%>");
             document.formDataView.submit();
         }
 
@@ -2136,38 +1896,5 @@ $("#formPosMangement").submit(function(){
 
 
 
-    }
-    %>
-
-<%!
-    private void drawSelectRegions(JspWriter out, Vector<PlaceDataModel> vec, String selectName, String selectedKey, int typeId/*, boolean isDisabled*/) throws Exception {
-
-        String isSelected = "selected";
-       /* if(isDisabled)
-            out.println("<select name=\"" + selectName + "\" id=\"" + selectName + "\" disabled>");
-        else*/
-        out.println("<select name=\"" + selectName + "\" id=\"" + selectName + "\">");
-        if(typeId==1)
-        {
-            out.println("<option " + (selectedKey == null || selectedKey.compareTo("") == 0 ? isSelected : "") + " value=\"\">--</option>"); 
-            if (vec != null && !vec.isEmpty()) {
-                for (PlaceDataModel placeDataModel : vec) {
-                    if (placeDataModel.getTypeId() == typeId) {
-                        out.println("<option value=" + placeDataModel.getRegionId() + (selectedKey.compareTo(placeDataModel.getRegionId() + "") == 0 ? " selected" : "") + ">" + placeDataModel.getRegionName() + "</option>");
-
-                    }
-
-                }
-
-
-            }
-        }
-        
-        out.println("</select>");
-     
-    }
-
-
-
-%>
+    }%>
 </html>

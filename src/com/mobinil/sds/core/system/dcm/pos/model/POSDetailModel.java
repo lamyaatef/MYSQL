@@ -27,6 +27,15 @@ public class POSDetailModel
     private String posStatusName;
     private int posRegionID;
     private String posRegionName;
+    
+    private int posAreaID;
+    private String posAreaName;
+
+    
+    private int posGovID;
+    private String posGovName;
+
+    
     private String posLegalFormName;
     private int posLegalFormID;
     private int posPlaceTypeID;
@@ -946,6 +955,62 @@ public POSDetailModel(Connection con , ResultSet rs)
      */
     public void setPosStatus(String posStatus) {
         this.posStatus = posStatus;
+    }
+
+    /**
+     * @return the posAreaID
+     */
+    public int getPosAreaID() {
+        return posAreaID;
+    }
+
+    /**
+     * @param posAreaID the posAreaID to set
+     */
+    public void setPosAreaID(int posAreaID) {
+        this.posAreaID = posAreaID;
+    }
+
+    /**
+     * @return the posAreaName
+     */
+    public String getPosAreaName() {
+        return posAreaName;
+    }
+
+    /**
+     * @param posAreaName the posAreaName to set
+     */
+    public void setPosAreaName(String posAreaName) {
+        this.posAreaName = posAreaName;
+    }
+
+    /**
+     * @return the posGovID
+     */
+    public int getPosGovID() {
+        return posGovID;
+    }
+
+    /**
+     * @param posGovID the posGovID to set
+     */
+    public void setPosGovID(int posGovID) {
+        this.posGovID = posGovID;
+    }
+
+    /**
+     * @return the posGovName
+     */
+    public String getPosGovName() {
+        return posGovName;
+    }
+
+    /**
+     * @param posGovName the posGovName to set
+     */
+    public void setPosGovName(String posGovName) {
+        this.posGovName = posGovName;
     }
 
 }

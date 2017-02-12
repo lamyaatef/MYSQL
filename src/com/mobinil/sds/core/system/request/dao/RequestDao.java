@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class RequestDao {
@@ -384,6 +385,38 @@ public class RequestDao {
         rs.close();
 
         return cityList;
+    }
+    public static List<HashMap> getUsersByDistrictId(Connection con, String districtId) {
+        
+        String sqlString = "";
+        String userId="";
+        String userLevel="";
+        HashMap userInfo = new HashMap();
+        List users = new ArrayList();
+        int index=0;
+        try {
+            Statement stmt = con.createStatement();
+            sqlString = "select * from scm_user_region where region_id = "+districtId;
+            System.out.println("getUsersByDistrictId "+sqlString);
+            ResultSet rs = stmt.executeQuery(sqlString);
+            while (rs.next())
+            {
+                userInfo.put("ID", rs.getString("user_id"));
+                userInfo.put("LEVEL",rs.getString("user_level_type_id"));
+                users.add(index, userInfo);
+                index++;
+            }   
+            stmt.close();
+            rs.close();
+           
+            
+            
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDao.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+        return users;
     }
     
     public static UserDataModel getUserDataByDetailId(Connection con, String userDetailId) {
@@ -866,13 +899,39 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
 
     }
     
-    
-    public static void updateUserDetailData(Connection con, UserDataModel userDetail) {
-        System.out.println("UPDATE.....");
+    /*
+    public static void updateUserDetailData(Connection con, UserDataModel userDetail, String userLevel) {
+        String tableName="";
+        String fieldName1="";
+        String fieldName2="";
         try {
             Statement stmt = con.createStatement();
-            String update = "UPDATE dcm_user_detail SET user_full_name= '"+userDetail.getUserFullName()+"' , user_email = '"+userDetail.getUserEmail()+"' , user_address='" + userDetail.getUserAddress() + "' ,user_mobile='" + userDetail.getUserMobile() + "' WHERE user_detail_id='"+userDetail.getUserDetailId()+"'";
-            System.out.print("update supervisor data query : "+update);
+            
+            if(userLevel.compareTo("4")==0){
+                tableName = "scm_supervisor";
+                fieldName1 = "supervisor_id";
+                fieldName1 = "supervisor_name";
+            }
+            
+            if(userLevel.compareTo("5")==0){
+                tableName = "scm_teamleader";
+                fieldName1 = "teamleader_id";
+                fieldName1 = "teamleader_name";
+            }
+            
+            if(userLevel.compareTo("6")==0){
+                tableName = "scm_salesrep";
+                fieldName1 = "salesrep_id";
+                fieldName1 = "salesrep_name";
+            }
+        
+            String update = "UPDATE dcm_user_detail SET user_full_name= '"+userDetail.getUserFullName()+"' , user_email = '"+userDetail.getUserEmail()+"' , user_mobile='" + userDetail.getUserMobile() + "' WHERE user_id='"+userDetail.getUserId()+"'";
+            System.out.println("updateUserDetailData : update: "+update);
+            
+            String updateUser="update "+tableName+" set "+fieldName1+"="+userDetail.getUserId()+", "+fieldName2+"= '"+userDetail.getUserFullName()+"', email='"+userDetail.getUserEmail()+"', mobile='"+userDetail.getUserMobile()+"' , creation_timestamp = systimestamp";
+            
+            
+            
             stmt.execute(update);
             stmt.close();
         } catch (Exception ex) {
@@ -881,7 +940,7 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
 
     }
     
-    
+    */
     public static void insertUserDetailData(Connection con, UserDataModel userDetail, int userLevelTypeId, int managerId, int regionId) {
         System.out.println("lamya inside insertUserDetailData in RequestDao");
         String userId="";
@@ -1803,7 +1862,6 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
             String SurveyID = posModel.getPosDetailModel().getSurveyID();
             String posArabicName = posModel.getPosDetailModel().getPosArabicName();
             String posArabicAddress = posModel.getPosDetailModel().getPosArabicAddress();
-
 
 
 

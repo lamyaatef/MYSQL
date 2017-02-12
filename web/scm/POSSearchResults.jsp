@@ -119,11 +119,12 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
 
     function editRequest(id,repid,teamid,superid)
     {
-        alert(id);
+        
         document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_POS_ID%>.value  = id;
         document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_SALESREP_NAME%>.value  = repid;
         document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_NAME%>.value  = teamid;
         document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_SUPERVISOR_NAME%>.value  = superid;
+        /*document.formPosMangement.<%=SCMInterfaceKey.CONTROL_TEXT_POS_REGION%>.value  = regionid;*/
                    
         document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%=SCMInterfaceKey.ACTION_POS_DATA_EDIT%>';
         document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_USER_ID%>.value;
@@ -132,7 +133,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     }
     function searchRequest()
     {
-        alert("..request..");
+        
 
         if(eval("document.formPosMangement.<%=SCMInterfaceKey.CONTROL_TEXT_POS_CODE%>.value") == "")
         {
@@ -140,7 +141,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
         }
         else
         {
-            alert("..POS Code ..");
+            
             document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value  = '<%=SCMInterfaceKey.ACTION_SEARCH_POS_DATA_MANAGEMENT%>';
             document.formPosMangement.submit();
         }
@@ -425,10 +426,9 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                             <% if (posDataVec.get(i).getPosStatusName().contains("Stop")) {%>
 
                             <%--    <input class=button  type="button"  value="Edit" disabled readonly> --%>
-                            <%} else {%>
+                            <%} else { posDataRegion = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_REGION);System.out.println("pos regionnnn : "+posDataRegion);%>
                             <input class=button  type="button"  value="Edit" onclick="editRequest(<%=posDataVec.get(i).getPosID()%>,<%=posDataVec.get(i).getSalesrepName()%>,<%=posDataVec.get(i).getTeamleaderName()%>,<%=posDataVec.get(i).getSupervisorName()%>)">
-                            <%}%>
-                        </td>
+                            <%}%>                        </td>
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"> <input class=button  type="button"  value="View History" onclick="viewHistory((<%=posDataVec.get(i).getPosID()%>))"></td>
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=posDataVec.get(i).getPosStatusName()%></td>
 
