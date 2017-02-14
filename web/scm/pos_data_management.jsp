@@ -639,7 +639,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     function searchRequest()
     {
         
-
+        alert("searchRequest");
         if(eval("document.formPosMangement.<%=SCMInterfaceKey.CONTROL_TEXT_POS_CODE%>.value") == "")
         {
             alert("Please Enter POS Code ..");

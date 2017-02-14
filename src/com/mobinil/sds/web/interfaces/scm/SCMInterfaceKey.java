@@ -285,6 +285,10 @@ public class SCMInterfaceKey {
     public static final String VECTOR_POS_RESULT = "vector_pos_result";
     public static final String VECTOR_PLACE_TYPE = "vector_place_type";
     public static final String VECTOR_REGIONS = "vector_regions";
+    public static final String VECTOR_GOVERNS = "vector_governs";
+    public static final String VECTOR_CITIES = "vector_cities";
+    public static final String VECTOR_DISTRICTS = "vector_districts";
+    public static final String VECTOR_AREAS = "vector_areas";
     public static final String VECTOR_USER_LEVEL_TYPES = "vector_user_level_types";
     public static final String VECTOR_ID_TYPE = "vector_id_type";
     public static final String VECTOR_LEGAL_FORM = "vector_legal_form";

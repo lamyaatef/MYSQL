@@ -1214,7 +1214,7 @@ public class SCMRequestHandler {
 
 //                    Integer totalSearch=RequestDao.searchPosDataTotal(con ,posDataOwnerIdType.trim() , posDataDocNum.trim() , posDataManagerName.trim() , posDataStkNum.trim() , posDataManagerIdType.trim() , posDataProposedDoc.trim() , posDataManagerIdNum.trim() , posDataName.trim() , posDataCode.trim() , posDataRegion.trim() , posDataGover.trim() , posDataDistrict.trim() , posDataArea.trim() ,posDataCity.trim() , posDataOwnerName.trim() ,posDataOwnerIdNum.trim(),Level,Payment,Channel);
                     System.out.println("before search pos data");
-                    Vector dataVec = RequestDao.searchPosData(con, 
+                    Vector<POSDetailModel> dataVec = RequestDao.searchPosData(con, 
                             posDataOwnerIdType.trim(), 
                             posDataDocNum.trim(), 
                             posDataManagerName.trim(), 
@@ -1837,9 +1837,13 @@ public class SCMRequestHandler {
                     else
                         salesrepData = RequestDao.getUserDataByDetailId(con, posGeneralData.getPosDetailModel().getSalesrepName()/*salesrepDetailId*/);
                     
-                    
+                    System.out.println("action_pos_data_edit: posData.getPosDetailModel().getPosRegionID() "+posGeneralData.getPosDetailModel().getPosRegionID());
                     dataHashMap.put(SCMInterfaceKey.SIMILAR_POS_LIST, posGeneralData);
                     Vector regions = new Vector();
+                    Vector governs = new Vector();
+                    Vector cities = new Vector();
+                    Vector districts = new Vector();
+                    Vector areas = new Vector();
                     Vector IDTypeVector = new Vector();
                     Vector legalFormVec = new Vector();
                     Vector placeTypeVec = new Vector();
@@ -1853,11 +1857,20 @@ public class SCMRequestHandler {
                     IDTypeModel = gmDAO.getColumns(con, "DCM_ID_TYPE");
                     IDTypeVector = gmDAO.getModels(con, IDTypeModel);
 
-                    regions = RequestDao.getAllRegionDataList(con);
+                    regions = RequestDao.getAllRegions(con,"1");
+                    governs = RequestDao.getAllRegions(con,"2");
+                    cities = RequestDao.getAllRegions(con,"3");
+                    districts = RequestDao.getAllRegions(con,"4");
+                    areas = RequestDao.getAllRegions(con,"5");
 
                     dataHashMap.put(SCMInterfaceKey.VECTOR_ID_TYPE, IDTypeVector);
 
                     dataHashMap.put(SCMInterfaceKey.VECTOR_REGIONS, regions);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_GOVERNS, governs);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_CITIES, cities);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_DISTRICTS, districts);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_AREAS, areas);
+                    
                     dataHashMap.put(SCMInterfaceKey.DCM_SAVE_POS_TYPE, SCMInterfaceKey.DCM_SAVE_POS_TYPE_NEW);
 
                     dataHashMap.put(SCMInterfaceKey.RATE_VECTOR, RequestDao.getPlaceList(con));

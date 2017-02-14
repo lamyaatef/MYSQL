@@ -244,7 +244,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                     String teamleadId = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER);
                     String superId = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR);
                     String repId = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP);
-                    System.out.println("supervisor: "+superId+" teamleader: "+teamleadId+" rep: "+repId);
+                    System.out.println("jsp: supervisor: "+superId+" teamleader: "+teamleadId+" rep: "+repId);
                     
                     
                     String posDataName = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_NAME);
@@ -287,7 +287,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                        posDataCity=""; 
 
 //                    Integer totalSearch=RequestDao.searchPosDataTotal(con ,posDataOwnerIdType.trim() , posDataDocNum.trim() , posDataManagerName.trim() , posDataStkNum.trim() , posDataManagerIdType.trim() , posDataProposedDoc.trim() , posDataManagerIdNum.trim() , posDataName.trim() , posDataCode.trim() , posDataRegion.trim() , posDataGover.trim() , posDataDistrict.trim() , posDataArea.trim() ,posDataCity.trim() , posDataOwnerName.trim() ,posDataOwnerIdNum.trim(),Level,Payment,Channel);
-                    System.out.println("before search pos data");
+                    System.out.println("posDataGover "+posDataGover);
                     
                     Vector<POSDetailModel> dataVec = RequestDao.searchPosData(con, 
                             posDataOwnerIdType.trim(), 
@@ -307,8 +307,8 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                             posDataOwnerName.trim(), 
                             posDataOwnerIdNum.trim(),
                             superId.trim(),
-                            teamleaderId.trim(),
-                            salesrepId.trim(),
+                            teamleadId.trim(),
+                            repId.trim(),
                             destinationPage, 
                             Level, 
                             Payment, 

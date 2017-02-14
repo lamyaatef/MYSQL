@@ -579,6 +579,34 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
         return userDataList;
     }
 
+public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
+        Vector placeDataList = new Vector();
+        try {
+            Statement stmt = con.createStatement();
+            String sqlString = "select * from DCM_REGION where REGION_LEVEL_TYPE_ID='"+regionLevelTypeId+"' and REGION_STATUS_TYPE_ID <> 3 ORDER BY REGION_NAME ASC";
+            Utility.logger.debug(sqlString);
+            ResultSet rs = stmt.executeQuery(sqlString);
+            rs = stmt.executeQuery(sqlString);
+            PlaceDataModel placeDataModel = null;
+
+            while (rs.next()) {
+                placeDataModel = new PlaceDataModel();
+                placeDataModel.setRegionId(rs.getInt("REGION_ID"));
+                placeDataModel.setRegionName(rs.getString("REGION_NAME"));
+                placeDataModel.setTypeId(rs.getInt("REGION_LEVEL_TYPE_ID"));
+                placeDataModel.setParentId(rs.getInt("PARENT_REGION_ID"));
+                placeDataList.add(placeDataModel);
+            }
+            stmt.close();
+            rs.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDao.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+        return placeDataList;
+    }
+
 
     public static Vector getAllRegionDataList(Connection con) {
         Vector placeDataList = new Vector();
@@ -2587,7 +2615,15 @@ public static Vector getUserChildDataList(Connection con, int managerId, int reg
             fromStr.append(" , GEN_DCM ");//dcm as alias was removed coz it caused column ambiguity and throws " column ambiguously defined"
             whereStr.append(" and dcm.DCM_ID = detail.pos_id and dcm.DCM_STATUS_ID=" + posStatusId);
         }
-        fromStr.append(" , dcm_user_detail");
+        
+        System.out.println("IDs to append ... "+supervisorId+" "+teamleaderId+" "+salesrepId);
+        if ((supervisorId != null && supervisorId.compareTo("---") != 0) || (teamleaderId != null && teamleaderId.compareTo("---") != 0) || (salesrepId != null && salesrepId.compareTo("---") != 0) )
+        //if (supervisorId.compareTo("---") != 0 || teamleaderId.compareTo("---") != 0 || salesrepId.compareTo("---") != 0)
+        {
+            System.out.println("APPEND...");
+            fromStr.append(" , dcm_user_detail");
+        }
+        
         if (supervisorId != null && supervisorId.compareTo("-1") != 0 && supervisorId.compareTo("") != 0 && supervisorId.compareTo("---") != 0) {
             
             whereStr.append(" and dcm_user_detail.USER_ID = detail.supervisor_id and detail.supervisor_id=" + supervisorId);
