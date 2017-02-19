@@ -1525,6 +1525,8 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
           cellCount = 40;
       if(regionLevel.compareTo("5")==0)
           cellCount = 39;
+      else if(regionLevel.compareTo("")==0)
+          cellCount=45;
       java.util.Date dateNow = new java.util.Date();
         int imonth = dateNow.getMonth() + 1;
         int iyear = dateNow.getYear() + 1900;
@@ -1600,6 +1602,25 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                       }
                                       if(regionLevel.compareTo("5")==0)
                                       {
+                                          cells.get(header).get(0).setCellValue("AreaCode");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("Area");
+                                          header++;
+                                      }
+                                      else if(regionLevel.compareTo("")==0)
+                                      {
+                                          cells.get(header).get(0).setCellValue("SalesRegion");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("City");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("Governorate");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("DistrictID");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("District");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("ImDistrict");
+                                          header++;
                                           cells.get(header).get(0).setCellValue("AreaCode");
                                           header++;
                                           cells.get(header).get(0).setCellValue("Area");
@@ -1717,6 +1738,25 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                 
                                 if(regionLevel.compareTo("5")==0)
                                 {
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getAreaCode());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getArea());
+                                    j++;
+                                }
+                                else if(regionLevel.compareTo("")==0)
+                                {
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getRegion());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getCity());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getGovernorate());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDistrictCodeId());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDisctrict());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getImageDistrict());
+                                    j++;
                                     cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getAreaCode());
                                     j++;
                                     cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getArea());

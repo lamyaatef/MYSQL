@@ -109,25 +109,35 @@ public RegionPOSReportModel(ResultSet res, String regionLevel/*,String superviso
                     ownerName= res.getString("pos_owner_name");
                     IdNumber= res.getString("pos_owner_id_number");
                     IdType= res.getString("id_type_name");
-                    if(regionLevel.compareTo("1")==0)
+                    if(regionLevel.compareTo("")==0)
+                    {
+                        region= res.getString("region_name");
+                        city= res.getString("city_name");
+                        disctrict= res.getString("district_name");
+                        districtCodeId= res.getString("district_code");
+                        governorate= res.getString("govern_name");
+                        areaCode= res.getString("area_code");
+                        area= res.getString("area_name");//salesrep_area_name,POS_AREA_ID
+                    }
+                    else if(regionLevel.compareTo("1")==0)
                     {
                         region= res.getString("region_name");
                     }//region_id , supervisor_region_id
-                    if(regionLevel.compareTo("3")==0)
+                    else if(regionLevel.compareTo("3")==0)
                     {
                         city= res.getString("city_name");
                     }//POS_CITY_ID , supervisor_city_id
-                    if(regionLevel.compareTo("4")==0)
+                    else if(regionLevel.compareTo("4")==0)
                     {
                         disctrict= res.getString("district_name");
                         districtCodeId= res.getString("district_code");
                     }//POS_DISTRICT_ID, salesrep_district_id
                     
-                    if(regionLevel.compareTo("2")==0)
+                    else if(regionLevel.compareTo("2")==0)
                     {
                         governorate= res.getString("govern_name");
                     }//POS_GOVERNRATE , supervisor_govern_id
-                    if(regionLevel.compareTo("5")==0)
+                    else if(regionLevel.compareTo("5")==0)
                     {
                         areaCode= res.getString("area_code");
                         area= res.getString("area_name");//salesrep_area_name,POS_AREA_ID
