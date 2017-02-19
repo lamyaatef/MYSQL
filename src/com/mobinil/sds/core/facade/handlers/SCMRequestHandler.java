@@ -2464,7 +2464,7 @@ public class SCMRequestHandler {
                     String baseDirectory = (String) paramHashMap.get(SCMInterfaceKey.BASE_DIRECTION);
                     //String excelLink = PoiWriteExcelFile.exportExcelSheetForPOSSearch(dataVec, baseDirectory);
                     /*instead:*/
-                    Vector files =RegionPOSReportDAO.getRegionPOSData(con,"","",""/*,entityLevelName,entityName,entityName*/);
+                    Vector files =RegionPOSReportDAO.getRegionPOSDataAll(con);
                     String excelLink = PoiWriteExcelFile.exportExcelSheetForRegionPOSData(/*dataVec*/files, baseDirectory,"");
               
                     /*end*/
