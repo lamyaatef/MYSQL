@@ -31,6 +31,7 @@ import com.mobinil.sds.core.system.regionPOSReport.dao.RegionPOSReportDAO;
 import com.mobinil.sds.core.system.scm.dao.PoiWriteExcelFile;
 import com.mobinil.sds.web.interfaces.scm.SCMInterfaceKey;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 public class DCMIIHandler {
 
@@ -69,6 +70,7 @@ public class DCMIIHandler {
     static final int generate_excel_template = 34;
     static final int action_upload_generated_file = 35;
     static final int action_export_region_pos_report = 36;
+    static final int action_export_specific_region_report= 37;
 
     public static HashMap handle(String action, HashMap paramHashMap, java.sql.Connection con) throws Exception {
         String strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
@@ -168,6 +170,9 @@ public class DCMIIHandler {
             }
             else if (action.equals(DCMInterfaceKey.ACTION_EXPORT_REGION_POS_REPORT)) {
                 actionType = action_export_region_pos_report;
+            }
+            else if (action.equals(DCMInterfaceKey.ACTION_EXPORT_SPECIFIC_REGION_REPORT)) {
+                actionType = action_export_specific_region_report;
             }
 
 
@@ -394,21 +399,40 @@ public class DCMIIHandler {
               String Slach = System.getProperty("file.separator");
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
+              String entityNameSearch = (String) paramHashMap.get("selectedEntityName");
               String entityName = (String) paramHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_NAME);
               String entityLevel = (String) paramHashMap.get(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME);
-              System.out.println("entityName "+entityName+ " entityLevel "+entityLevel);
+              
+              System.out.println("entityName "+entityName+ " entityLevel "+entityLevel+" entityNameSearch "+entityNameSearch);
               System.out.println("baseDirectory "+baseDirectory);
               /*add a function to get the region's parent level..need to be level 1 to export*/
               //String entityLevelName = RegionPOSReportDAO.getRegionLevel(con, entityName, entityLevel);
               
-              Vector files =RegionPOSReportDAO.getRegionPOSData(con/*,entityLevelName,entityName,entityName*/);
-              String excelLink = PoiWriteExcelFile.exportExcelSheetForRegionPOSData(/*dataVec*/files, baseDirectory);
+              Vector files =RegionPOSReportDAO.getRegionPOSData(con,entityLevel,entityName,entityNameSearch);
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForRegionPOSData(/*dataVec*/files, baseDirectory,entityLevel);
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
               
               
           }
           break;  
             
+          case action_export_specific_region_report:
+          {
+             // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
+            System.out.println("action_export_specific_region_report");
+              String Slach = System.getProperty("file.separator");
+              System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
+              String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
+              Vector<RegionModel> regions =(Vector<RegionModel>)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("region_search_vector"));
+              String entityLevel = (String) paramHashMap.get(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME);
+              Vector files =RegionPOSReportDAO.getRegionSearchData(con,entityLevel,regions);
+              String excelLink = PoiWriteExcelFile.exportExcelSheetForRegionPOSData(files, baseDirectory,entityLevel);
+              dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
+              
+              
+          }
+          break;    
+              
                     
                     
                     

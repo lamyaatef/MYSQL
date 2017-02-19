@@ -1,4 +1,6 @@
 
+<%@page import="com.mobinil.sds.web.interfaces.scm.SCMInterfaceKey"%>
+<%@page import="com.mobinil.sds.core.system.dcm.user.model.DCMUserModel"%>
 <%@page import="com.mobinil.sds.core.utilities.DBUtil"%>
 <%@ page contentType="text/html;charset=windows-1252"%>
 <%@ page import ="com.mobinil.sds.core.utilities.Utility"
@@ -21,7 +23,12 @@
 String Slach = System.getProperty("file.separator");
     String base = request.getRealPath(Slach + "scm" + Slach + "upload" + Slach);
 
-
+//Vector<DCMUserModel> searchResults=new Vector();
+//searchResults=(Vector)objDataHashMap.get(SCMInterfaceKey.VECTOR_REP_SEARCH_RESULTS);
+           
+         //   request.setAttribute("search_vector", searchResults);
+          //  request.getSession().setAttribute("search_vector", searchResults);
+            
     Boolean checkbox = false;
 
     if ((String) objDataHashMap.get(DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX) != null) {
@@ -31,6 +38,8 @@ String Slach = System.getProperty("file.separator");
 
     String strUserID = (String) objDataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
     Vector<RegionModel> regions = (Vector) objDataHashMap.get(DCMInterfaceKey.SEARCH_REGION_RESULT);
+       //   request.setAttribute("search_vector", searchResults);
+            request.getSession().setAttribute("region_search_vector", regions);
     Vector dcmRegionlevels = (Vector) objDataHashMap.get(DCMInterfaceKey.VECTOR_ALL_REGIONS_LEVELS);
     String appName = request.getContextPath();
     String DCMFormAction = appName + "/servlet/com.mobinil.sds.web.controller.WebControllerServlet?";
@@ -50,13 +59,65 @@ String Slach = System.getProperty("file.separator");
 </style>
 <html>
     <body>
+        <script src="../resources/js/jquery-1.11.3.js"></script>
         <script language=javascript type='text/javascript'>
+            
+            
+            
+                      $( document ).ready(function() {
+           
+                if($('#<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>').val()== "")
+                    $('#export_row').hide();
+            
+});
+     
+            
             function DevChangePageActionWithSubmit(action)
             {
 
                 document.DCMform.action=document.DCMform.action+'<%=InterfaceKey.HASHMAP_KEY_ACTION%>'+'='+action
                 document.DCMform.submit();
             }
+            
+            function exportSearchData(base,level)
+            {
+                //document.DCMform.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_TEAMLEADERS);%>'
+               
+                document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_EXPORT_SPECIFIC_REGION_REPORT);%>'
+                document.DCMform.baseDirectory.value=base;
+                //document.DCMform.SearchResults.value=results;
+                document.DCMform.region_select.value=level;
+                
+                document.DCMform.submit();
+            }
+            
+            
+            
+            function change(noResults) {
+            var export_but = document.getElementById("export_but");
+                var export_row = document.getElementById("export_row");
+            if(noResults=="false")                
+            {
+                $('#export_row').show();
+                
+        document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='
+            +'<%=DCMInterfaceKey.ACTION_SEARCH_REGION%>'+"&"+'<%=InterfaceKey.HASHMAP_KEY_USER_ID%>'+'='
+            +<%=strUserID%>;
+    
+
+        document.DCMform.submit();
+              //  document.DCMform.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_SEARCH_REP%>";
+               // document.DCMform.submit();
+            }
+            if(noResults=="true")        
+                $('#export_row').hide();
+                   /* export_but.style.display = "block";
+                    export_row.style.display = "block";
+                    export_but.style.visibility = 'visible';   
+                    export_row.style.visibility = 'visible';   */
+               
+            }
+            
         </script>
         <%
     if (!Message.equals("") && !Message.equals("first")) {%>
@@ -75,6 +136,9 @@ String Slach = System.getProperty("file.separator");
     </center>
     <form name='DCMform' id='DCMform' action='<%=DCMFormAction%>' method='post' >
         <input type="hidden" name="baseDirectory" id="baseDirectory" value=""/>
+        <input type="hidden" name="selectedEntityName" id="selectedEntityName" value=""/>
+        <input type="hidden" name="SearchResults" id="SearchResults" value=""/>
+        <input type="hidden" name="region_select" id="region_select" value=""/>
         <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1" align="center">
             <tr class=TableHeader>
                 <td align = "center" colspan=5>Search Region</td>
@@ -85,7 +149,7 @@ String Slach = System.getProperty("file.separator");
             </tr>
             <tr class=TableTextNote>
                 <td align=middle>Entity level</td>
-                <td align=middle><select name='<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>' id='<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>'>
+                <td align=middle><select name='<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>' id='<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>' onchange="change('false')">
                         <option value=''></option>
                         <%
                        
@@ -110,6 +174,14 @@ String Slach = System.getProperty("file.separator");
                     <input type="button" name="Submit" value="search" onclick="viewsearch();"/>
                 </td>
             </tr>
+            
+            <tr   id="export_row">        
+                    <td colspan="6" align="center">
+                       <input align="middle"  id="export_but" type="button"  class="button" name="Export"  value="Export List" onclick="exportSearchData('<%=base%>','<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>');">
+                         
+                    </td>
+                    </tr>
+            
         </table>
         <br>
 
@@ -172,7 +244,7 @@ String Slach = System.getProperty("file.separator");
                 </td>
                 
                 
-                <td align="center" ><input type="button" name="export_data" value="Export" onclick="exportData('<%=base%>')" /> 
+                <td align="center" ><input type="button" name="export_data" value="Export" onclick="exportData('<%=base%>','<%=regions.get(i).getRegionName()%>')" /> 
                 </td>
                 
                 
@@ -289,13 +361,14 @@ String Slach = System.getProperty("file.separator");
             '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
         document.DCMform.submit();
     }
-    function exportData(base)
+    function exportData(base,name)
     {
         
         /*document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_EXPORT_REGION_POS_REPORT);%>'
     alert("document.DCMform.action "+document.DCMform.action);    */
     document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_EXPORT_REGION_POS_REPORT);%>'
     document.DCMform.baseDirectory.value=base;
+    document.DCMform.selectedEntityName.value=name;
         document.DCMform.submit();
     }
     function viewDetails(i)

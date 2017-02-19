@@ -2,6 +2,7 @@ package com.mobinil.sds.core.system.scm.dao;
 
 import com.mobinil.sds.core.system.authenticationResult.dao.AuthResDAO;
 import com.mobinil.sds.core.system.commission.model.RatedFileError;
+import com.mobinil.sds.core.system.dcm.region.model.RegionModel;
 import com.mobinil.sds.core.system.monthListFile.model.MonthListFileModel;
 import com.mobinil.sds.core.system.paymentHistory.model.PaymentHistoryFileModel;
 import com.mobinil.sds.core.system.regionReport.model.RegionPOSReportModel;
@@ -1514,14 +1515,21 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
   
   
   
-  public static String exportExcelSheetForRegionPOSData(Vector<RegionPOSReportModel> RegionResults,String directionFile)
+  public static String exportExcelSheetForRegionPOSData(Vector<RegionPOSReportModel> RegionResults,String directionFile, String regionLevel)
   {
       System.out.println("inside exportExcelSheetForRegionPOSData");
+      int cellCount=0;
+      if(regionLevel.compareTo("1")==0 || regionLevel.compareTo("2")==0 || regionLevel.compareTo("3")==0)
+          cellCount = 38;
+      if(regionLevel.compareTo("4")==0)
+          cellCount = 40;
+      if(regionLevel.compareTo("5")==0)
+          cellCount = 39;
       java.util.Date dateNow = new java.util.Date();
         int imonth = dateNow.getMonth() + 1;
         int iyear = dateNow.getYear() + 1900;
         String strdate = (new StringBuffer("[")).append(dateNow.getDate()).append("-").append(imonth).append("-").append(iyear).append("]-").append(dateNow.getHours()).append(".").append(dateNow.getMinutes()).append(".").append(dateNow.getSeconds()).append("_").toString();
-        String fileName = strdate+"region_pos_file_report.xls";
+        String fileName = strdate+"region_"+regionLevel+"_pos_file_report.xls";
        FileOutputStream fileOut;
         try {
             fileOut = new FileOutputStream(directionFile + Slach + fileName);
@@ -1532,7 +1540,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 					ArrayList<HSSFRow> rows = new ArrayList<HSSFRow>();
                                         ArrayList<ArrayList<HSSFCell>> cells=new ArrayList<ArrayList<HSSFCell>>();
 					//42 //45
-                                        for(int i=1; i<=45;i++){
+                                        for(int i=1; i<=cellCount;i++){
                                         ArrayList<HSSFCell> cell = new ArrayList<HSSFCell>();
                                             cells.add(cell);
                                         }
@@ -1543,7 +1551,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 
                                             rows.add(worksheet.createRow(i));
                                              //42
-                                            for(int cellno=0;cellno<45;cellno++){
+                                            for(int cellno=0;cellno<cellCount;cellno++){
                                                 
                                                 cells.get(cellno).add(rows.get(i).createCell((short) cellno));
                                             }
@@ -1566,22 +1574,38 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                       header++;
                                       cells.get(header).get(0).setCellValue("IDType");
                                       header++;
-                                      cells.get(header).get(0).setCellValue("SalesRegion");
-                                      header++;
-                                      cells.get(header).get(0).setCellValue("City");
-                                      header++;
-                                      cells.get(header).get(0).setCellValue("Governorate");
-                                      header++;
-                                      cells.get(header).get(0).setCellValue("DistrictID");
-                                      header++;
-                                      cells.get(header).get(0).setCellValue("District");
-                                      header++;
-                                      cells.get(header).get(0).setCellValue("ImDistrict");
-                                      header++;
-                                      cells.get(header).get(0).setCellValue("AreaCode");
-                                      header++;
-                                      cells.get(header).get(0).setCellValue("Area");
-                                      header++;
+                                      if(regionLevel.compareTo("1")==0)
+                                      {
+                                          cells.get(header).get(0).setCellValue("SalesRegion");
+                                          header++;
+                                      }
+                                      if(regionLevel.compareTo("3")==0)
+                                      {
+                                          cells.get(header).get(0).setCellValue("City");
+                                          header++;
+                                      }
+                                      if(regionLevel.compareTo("2")==0)
+                                      {
+                                          cells.get(header).get(0).setCellValue("Governorate");
+                                          header++;
+                                      }
+                                      if(regionLevel.compareTo("4")==0)
+                                      {
+                                          cells.get(header).get(0).setCellValue("DistrictID");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("District");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("ImDistrict");
+                                          header++;
+                                      }
+                                      if(regionLevel.compareTo("5")==0)
+                                      {
+                                          cells.get(header).get(0).setCellValue("AreaCode");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("Area");
+                                          header++;
+                                      }
+                                      
                                       cells.get(header).get(0).setCellValue("Address");
                                       header++;
                                       cells.get(header).get(0).setCellValue("DocNumber");
@@ -1666,22 +1690,39 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                 j++;
                                 cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getIdType());
                                 j++;
-                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getRegion());
-                                j++;
-                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getCity());
-                                j++;
-                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getGovernorate());
-                                j++;
-                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDistrictCodeId());
-                                j++;
-                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDisctrict());
-                                j++;
-                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getImageDistrict());
-                                j++;
-                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getAreaCode());
-                                j++;
-                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getArea());
-                                j++;
+                                if(regionLevel.compareTo("1")==0)
+                                {
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getRegion());
+                                    j++;
+                                }
+                                if(regionLevel.compareTo("3")==0)
+                                {
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getCity());
+                                    j++;
+                                }
+                                if(regionLevel.compareTo("2")==0)
+                                {
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getGovernorate());
+                                    j++;
+                                }
+                                if(regionLevel.compareTo("4")==0)
+                                {
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDistrictCodeId());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDisctrict());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getImageDistrict());
+                                    j++;
+                                }
+                                
+                                if(regionLevel.compareTo("5")==0)
+                                {
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getAreaCode());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getArea());
+                                    j++;
+                                }
+                                
                                 cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getAddress());
                                 j++;
                                 cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDocumentNumber());
@@ -1763,6 +1804,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 
 
   }
+  
   
   public static String exportExcelSheetForAllRepsData(Vector<RepExcelModel> RepResults,String directionFile, boolean isSearch)
   {

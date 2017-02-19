@@ -382,6 +382,8 @@ public interface DCMInterfaceKey {
     public static final String ACTION_VIEW_REGION_PARENT = "action_view_region_parent";
     public static final String ACTION_VIEW_REGION_CHILDS = "action_view_region_childs";
     public static final String ACTION_EXPORT_REGION_POS_REPORT = "action_export_region_pos_report";
+    public static final String ACTION_EXPORT_SPECIFIC_REGION_REPORT = "action_export_specific_region_report";
+    
     //public static final String ACTION_SHOW_HISTORY_FILE ="show_history";
     public static final String VECTOR_REGION_CHILDS = "vector_region_childs";
     public static final String VECTOR_REGION_PARENTS = "vector_region_parents";

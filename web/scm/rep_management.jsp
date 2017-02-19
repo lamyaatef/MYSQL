@@ -14,7 +14,7 @@
 <%
             HashMap dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
             String Slach = System.getProperty("file.separator");
-    String base = request.getRealPath(Slach + "scm" + Slach + "upload" + Slach);
+            String base = request.getRealPath(Slach + "scm" + Slach + "upload" + Slach);
             Vector<RegionModel> regions=new Vector();
             Vector<DCMUserModel> searchResults=new Vector();
             Vector<DCMUserLevelTypeModel> repLevels=new Vector();
@@ -117,7 +117,7 @@
                 document.repManagement.baseDirectory.value=base;
                 document.repManagement.SearchResults.value=results;
                 document.repManagement.region_select.value=regionSelected;
-                console.log("Results ",results);
+                
                 document.repManagement.submit();
             }
             /*function exportUsers(results)
