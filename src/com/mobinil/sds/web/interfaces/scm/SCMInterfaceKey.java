@@ -41,6 +41,7 @@ public class SCMInterfaceKey {
     public static final String CONTROL_HIDDEN_STOCK_ID = "control_hidden_stock_id";
     public static final String CONTROL_TEXT_SUP_ID = "control_text_sup_id";
     public static final String CONTROL_TEXT_TEAMLEAD_ID = "control_text_teamlead_id";
+    public static final String CONTROL_TEXT_REP_ID = "control_text_rep_id";
     public static final String HASHMAP_STOCKS_ = "hashmap_stocks_";
     public static final String QUERY_STRING_OPERATION = "operation";
     public static final String INSERT_OPERATION = "INSERT";
@@ -109,6 +110,9 @@ public class SCMInterfaceKey {
     //POS Group Assign/Unassign --Start
     //Rep Management --Start
     public static final String ACTION_VIEW_REP_MANAGEMENT = "view_rep_management";
+    
+    
+    
     public static final String VECTOR_ALL_REGIONS = "regions";
     public static final String VECTOR_REP_LEVEL_TYPES = "rep_levels";
     public static final String REGION_ID = "region_id";

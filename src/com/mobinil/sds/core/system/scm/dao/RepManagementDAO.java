@@ -687,6 +687,23 @@ public class RepManagementDAO {
         
     }
     
+    
+    
+    public static void updateUsersForARegion(Connection con,String regionId,String supervisorId,String teamleaderId,String repId){
+        
+        String sqlString="UPDATE scm_teamleader set sup_id = "+supervisorId+" where teamleader_id = "+teamleaderId;
+        String sqlString2="UPDATE scm_salesrep set sup_id = "+supervisorId+" , teamlead_id ="+teamleaderId+" where salesrep_id = "+repId;
+        String sqlString3 = "update scm_user_region set user_id= "+supervisorId+" where user_level_type_id=4 and region_id = "+regionId;
+        String sqlString4 = "update scm_user_region set user_id= "+teamleaderId+" where user_level_type_id=5 and region_id = "+regionId;
+        String sqlString5 = "update scm_user_region set user_id= "+repId+" where user_level_type_id=6 and region_id = "+regionId;
+        DBUtil.executeSQL(sqlString, con);
+        DBUtil.executeSQL(sqlString2, con);
+        DBUtil.executeSQL(sqlString3, con);
+        DBUtil.executeSQL(sqlString4, con);
+        DBUtil.executeSQL(sqlString5, con);
+    }
+    
+    
     public static void updateSalesRep(Connection con,DCMUserModel dcmUser,DCMUserDetailModel dcmUserDetail){
         
         System.out.println("dcmUserDetail.getUserFullName() "+dcmUserDetail.getUserFullName());

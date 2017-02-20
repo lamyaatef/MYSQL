@@ -1,4 +1,5 @@
 
+<%@page import="com.mobinil.sds.web.interfaces.dcm.DCMInterfaceKey"%>
 <%@page import="com.mobinil.sds.core.system.scm.dao.RepSupDAO"%>
 <%--
     Document   : new_edit_rep_sup
@@ -36,24 +37,29 @@ System.out.println("form action "+formAction);
             Vector<RegionModel> regionGovernorates = new Vector();
             Vector<RegionModel> governorateCities = new Vector();
             Vector<RegionModel> cityDistricts = new Vector();
-            Vector<RepSupervisorModel> repSupervisors=new Vector();
-            Vector<RepTeamleaderModel> repTeamleaders=new Vector();
+            
             Vector<SupervisorTeamleadersModel> superTeamleaders=new Vector();
             Vector<TeamleaderSupervisorsModel> teamSupervisors=new Vector();
-            Vector allSupers=(Vector)dataHashMap.get("AllSupervisors"); 
-            Vector allTeams=(Vector)dataHashMap.get("AllTeamleaders"); 
+            
+            Vector<RepSupervisorModel> repSupervisors=new Vector();
+            Vector<RepTeamleaderModel> repTeamleaders=new Vector();
             repSupervisors=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REP_SUPERVISORS);
             repTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REP_TEAMLEADS);
             RepSupervisorModel selectedRepSuper = (RepSupervisorModel) dataHashMap.get(SCMInterfaceKey.SELECTED_REP_SUPERVISOR);
             RepTeamleaderModel selectedRepTeamlead = (RepTeamleaderModel) dataHashMap.get(SCMInterfaceKey.SELECTED_REP_TEAMLEADER);
-            Vector<DCMUserModel> regionSupervisors=new Vector();
-            Vector<DCMUserModel> regionTeamleaders=new Vector();
-            regionSupervisors=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS);
-            regionTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_TEAMLEADERS);
-            superTeamleaders = (Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_SUPERVISOR_TEAMLEADERS);
-            teamSupervisors = (Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_TEAMLEADER_SUPERVISORS);
-            System.out.println(" supers for a teamleader ///// "+teamSupervisors);
-            System.out.println(" leaders for a supervisor ///// "+superTeamleaders);
+            
+
+////////////////////////////////////////////////////////////////
+            String regionID=(String)dataHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_ID);
+            Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel> allSupers=(Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel>)dataHashMap.get("AllSupervisors"); 
+            Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel> allTeams=(Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel>)dataHashMap.get("AllTeamleaders"); 
+            Vector<com.mobinil.sds.core.system.scm.model.RepModel> allReps=(Vector<com.mobinil.sds.core.system.scm.model.RepModel>)dataHashMap.get("AllReps"); 
+            Vector<DCMUserModel> regionSupervisors=(Vector<DCMUserModel>)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS);
+            Vector<DCMUserModel> regionTeamleaders=(Vector<DCMUserModel>)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_TEAMLEADERS);
+            Vector<DCMUserModel> regionReps=(Vector<DCMUserModel>)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REGION_REPS);
+            ////////////////////////////////////////////////////////
+            
+            
             
             String teamleaderIdComapre = (String)dataHashMap.get(SCMInterfaceKey.TEAMLEAD_ID);
             String supervisorIdComapre = (String)dataHashMap.get(SCMInterfaceKey.SUP_ID);
@@ -193,7 +199,7 @@ System.out.println("form action "+formAction);
         <LINK REL=STYLESHEET TYPE="text/css" HREF="<%=appName%>/resources/css/Template1.css">
         <SCRIPT language=JavaScript src="<%=appName%>/resources/js/validation.js" type="text/javascript"></SCRIPT>
 
-        <title>New/Edit User </title>
+        <title>Update Region Users</title>
         <script src="../resources/js/jquery-1.11.3.js"></script>
         <script>
             $(document).ready(function(){ 
@@ -319,6 +325,16 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
 });
 
 });
+            function submitUpdate()
+            {
+                document.<%=formName%>.supervisorHidden.value = document.getElementById("<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>").value;
+                document.<%=formName%>.teamleaderHidden.value = document.getElementById("<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>").value;
+                document.<%=formName%>.repHidden.value = document.getElementById("<%=SCMInterfaceKey.CONTROL_TEXT_REP_ID%>").value;
+                document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=DCMInterfaceKey.UPDATE_USERS_TO_REGION%>";
+                document.<%=formName%>.submit();
+
+
+            }
   
             function submitForm(isSalesAgent)
             {
@@ -389,11 +405,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
 
             }
             function doBack(){
-                buttonValue=document.<%=formName%>.submitButton.value;
-                if(buttonValue=="Add")
-                document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_GEN_USER_SEARCH%>";
-                else
-                document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_VIEW_REP_MANAGEMENT%>";
+                document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=DCMInterfaceKey.ACTION_DCM_REGIONAL_MANAGEMENT_TREE%>";
                 document.<%=formName%>.submit();
             }
 
@@ -520,7 +532,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
         <div align="center">
             <br>
             <br>
-            <h2><%=pageHeader%></h2>
+            <h2>Update Region Users</h2>
             <br>
             <br>
 
@@ -529,182 +541,44 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                 <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_USER_ID%>" value="<%=userId%>">
                 <input type="hidden" id ="<%=SCMInterfaceKey.DCM_USER_ID%>" name="<%=SCMInterfaceKey.DCM_USER_ID%>" value="<%=dcmUserId%>">
                 <input type="hidden" id ="<%=SCMInterfaceKey.PERSON_ID%>" name="<%=SCMInterfaceKey.PERSON_ID%>"  value="<%=dcmUserUserId%>">
-                
+                <input type="hidden" id ="region_id" name="region_id"  value="<%=regionID%>">
                 
                 
                 <input type="hidden" name="<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>" value="-1">
                 
                 <table style="BORDER-COLLAPSE: collapse" cellSpacing="3" cellPadding="3" width="80%" border="1">
-                    <%
-                    if(confMessage==null ||(confMessage!=null && !confMessage.equalsIgnoreCase("Invalid, This user already created before."))){
-                    %>
-                    <tr class=TableTextNote>
-                        <td>User Level</td>
-                        <td>
-                            <select name="<%=SCMInterfaceKey.DCM_USER_LEVEL_TYPE_ID%>" onchange="checkIfSalesAgentLetHimChooseArea(this);">
-                                <option value="">-----</option>
-                                <%
-                                System.out.println("Rep LEVELS : "+repLevels.size());
-                                if (repLevels != null && repLevels.size() != 0) {
-                                                for (int i = 0; i < repLevels.size(); i++) {
-                                                    DCMUserLevelTypeModel level = (DCMUserLevelTypeModel) repLevels.get(i);
-                                %>
-                                <option value="<%=level.getUserLevelTypeId()%>"
-                                        <%
-                                            if (userLevelTypeId != null && !userLevelTypeId.trim().equals("") && level.getUserLevelTypeId() == Integer.parseInt(userLevelTypeId)) {
-                                                   System.out.println("SELECTED ..."+level.getUserLevelTypeName());
-                                                    out.print("selected");
-                                                }
-                                        %>
-
-                                        ><%=level.getUserLevelTypeName()%></option>
-                                <%
-                                                }
-                                            }
-                                %>
-                            </select>
-
-                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px;color: red">*</font>
-
-                        </td>
-                    </tr>
-
-                    <tr class=TableTextNote>
-                        <%
-                                System.out.println("user name "+dcmUserName);
-                        %>
-                        <td>Full Name</td>
-                        <td><input type="text" name="<%=SCMInterfaceKey.DCM_USER_FULL_NAME%>" value="<%=dcmUserName%>" style="width: 70%"></font></td>
-                    </tr>
-<%--
-                    <tr class=TableTextNote>
-                        <td>Address</td>
-                        <td><input type="text" name="<%=SCMInterfaceKey.DCM_USER_ADDRESS%>" value="<%=dcmUserAddress%>" style="width: 70%"></font></td>
-                    </tr>
---%>
-                    <tr class=TableTextNote>
-  
-                        <td>Email</td>
-                        <!--
-                        <font style="font-size: 11px;font-family: tahoma;line-height: 15px" ><%=dcmUserEmail%></font>
-                        -->
+                
                         
-                        <td><input type="text" name="<%=SCMInterfaceKey.DCM_USER_EMAIL%>" value="<%=dcmUserEmail%>" style="width: 70%"></td>
-                    </tr>
                     <tr class=TableTextNote>
-                        <td>Mobile No.</td>
-                        <td><input type="text" onkeyup="return checkJavascriptInjection(this)" name="<%=SCMInterfaceKey.DCM_USER_MOBILE%>" value="<%=dcmUserMobile%>" style="width: 70%"><font style="font-size: 11px;font-family: tahoma;line-height: 15px;color: red">*</font></td>
-                    </tr>
-
-                    <tr class=TableTextNote>
-                        <td>Region</td>
-                        <td>
-                            <select id="<%=SCMInterfaceKey.REGION_ID%>" name="<%=SCMInterfaceKey.REGION_ID%>" 
-                                    <%
-                                                if (userLevelTypeId != null && !userLevelTypeId.trim().equals("") && userLevelTypeId.equals("4")) {
-                                                   // out.print("onchange=\"getRegion(1);\"");
-                                                }
-
-                                    %>>
-                                <option value="">-----</option>
-                                <%
-                                            if (regions != null && regions.size() != 0) {
-                                                for (int i = 0; i < regions.size(); i++) {
-                                                    RegionModel region = (RegionModel) regions.get(i);
-                                %>
-                                <option value="<%=region.getRegionId()%>"
-                                        <%
-                                            if (regionId != null && regionId.equalsIgnoreCase(region.getRegionId())) {
-                                                out.print("selected");
-                                             }
-                                        %>
-                                        ><%=region.getRegionName()%></option>
-                                <%
-                                                }
-                                            }
-                                %>
-                            </select>
-
-                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px;color: red">*</font>
-                        </td>
-                    </tr>
-
-                    <%
-                                if (userLevelTypeId == null || userLevelTypeId.trim().equals("") /*|| userLevelTypeId.equalsIgnoreCase("4") || userLevelTypeId.equalsIgnoreCase("5")*/ ) {
-                                } 
-                                else if (userLevelTypeId.equalsIgnoreCase("4")) { 
-                                    
-                                    %>
-                                    <tr class=TableTextNote>
-                                        <input type="hidden" id ="supervisorHidden" name="supervisorHidden"  value="true">
-                        <td>Team Leaders</td>
-                        <td>
-                           <select id="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" >
-                                
-                                 <%
-                                    System.out.println("CHANGED TEAMLEADER  under update SUPERVISOR my teams: " + superTeamleaders);
-                                    System.out.println("CHANGED TEAMLEADER  under update SUPERVISOR all teams: " + allTeams.size());
-                                    if (superTeamleaders!=null && superTeamleaders.size()!=0 && allTeams != null && allTeams.size() != 0) {
-                                        //System.out.println("repTeamleaders.get(0).getTeamleadId() "+repTeamleaders.get(0).getTeamleadId());
-                                        for (int i = 0; i < allTeams.size(); i++) {
-                                            com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
-                                            String selected ="";
-                                            System.out.println("teamleaderIdComapre:-- "+teamleaderIdComapre);
-                                            //if(superTeamleaders.get(0).getTeamleadId().compareTo(teamleader.getTeamleaderId())==0){
-                                            if(teamleaderIdComapre!=null && teamleaderIdComapre.compareTo(teamleader.getTeamleaderId())==0){
-                                                selected = "selected";
-                                            }
-                                            
-                                %>
-                                <option <%=selected%> value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderName()%></option>
-                                <%}
-                                        
-                                }
-                                    
-                                    else if(allTeams != null && allTeams.size() != 0){
-                                        
-                                        for (int i = 0; i < allTeams.size(); i++) {
-                                         com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
-                                           %>
-                                    <option value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderName()%></option>
-                                <% 
-                                        }
-                                        
-                                    }
-                                    else{   
-                                %>
-                                <option>---</option>
-                                <%}%>
-                            </select>
-                        </td>
-                    </tr>
-                    <%       } else if (userLevelTypeId.equalsIgnoreCase("5")) { 
-                                    %>
-                                   
-                    <tr class=TableTextNote>
-                        <input type="hidden" id ="supervisorHidden" name="supervisorHidden"  value="false">
+                      
                         <td>Supervisors</td>
                         <td>
-                            <select id="selectSuper" name="<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>" >
+                            <input type="hidden" id ="supervisorHidden" name="supervisorHidden"  value="">
+                            <select id="<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>" >
 
                                 <%
-                                    System.out.println("CHANGED SUPERVISOR  2: " + teamSupervisors+" all supers "+allSupers.size());
-                                    
-                                    if (teamSupervisors!=null && teamSupervisors.size()!=0 && allSupers != null && allSupers.size() != 0) {
+                                    String selected ="";
+                                    if (regionSupervisors!=null && regionSupervisors.size()!=0 && allSupers != null && allSupers.size() != 0) {
                                         //System.out.println("repSupervisors.get(0).getSupId() "+repSupervisors.get(0).getSupId());
                                         for (int i = 0; i < allSupers.size(); i++) {
                                             com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
-                                            String selected ="";
+                                            
                                             //if(teamSupervisors.get(0).getSupId().compareTo(repSuper.getSupervisorId())==0){
-                                            if(supervisorIdComapre!=null && supervisorIdComapre.compareTo(repSuper.getSupervisorId())==0){
+                                            if(regionSupervisors.get(0).getDcmUserId().compareTo(repSuper.getSupervisorId())==0){
                                                 selected = "selected";
-                                            }
+                                            
                                             
                                 %>
-                                <option <%=selected%> value ="<%=repSuper.getSupervisorId()%>" ><%=repSuper.getSupervisorName()%></option>
+                                <option <%=selected%> value ="<%=regionSupervisors.get(0).getDcmUserId()%>" ><%=regionSupervisors.get(0).getUserFullName()%></option>
                                 <%}
-                                        
+                                    else {
+                                
+                                %>
+                                            <option <%=selected%> value ="<%=repSuper.getSupervisorId()%>" ><%=repSuper.getSupervisorName()%></option>
+                                            <%}
+                                            
                                 }
+                                    }
                                     else if(allSupers != null && allSupers.size() != 0){
                                         for (int i = 0; i < allSupers.size(); i++) {
                                          com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
@@ -718,168 +592,92 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 %>
                                 <option>---</option>
                                 <%}%>
+                                
                             </select>
                         </td>
                     </tr>
-                                <% } else if (userLevelTypeId.equalsIgnoreCase("6")) {
-                                    System.out.println("ESLEsssssssss : REP ");
-
-                    %>
-
-
                     <tr class=TableTextNote>
-                        <td>Governorate</td>
+                  
+                        <td>Team Leaders</td>
                         <td>
-                            <select id="<%=SCMInterfaceKey.GOVERNORATE_ID%>" name="<%=SCMInterfaceKey.GOVERNORATE_ID%>" >
-                                <option value="">-----</option>
-                                <%
-                                System.out.println("governorateId "+governorateId+" and regionGovernorates "+regionGovernorates);
-                                if (regionGovernorates != null && regionGovernorates.size() != 0) {
-                                                                                     for (int i = 0; i < regionGovernorates.size(); i++) {
-                                                                                         RegionModel governorate = (RegionModel) regionGovernorates.get(i);
-                                                                                        
+                            <input type="hidden" id ="teamleaderHidden" name="teamleaderHidden"  value="">
+                           <select id="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" >
+                                 <%
+                                    if (regionTeamleaders!=null && regionTeamleaders.size()!=0 && allTeams != null && allTeams.size() != 0) {
+                                        for (int i = 0; i < allTeams.size(); i++) {
+                                            com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
+                                            
+                                            if(regionTeamleaders.get(0).getDcmUserId().compareTo(teamleader.getTeamleaderId())==0){
+                                                selected = "selected";
+                                            
+                                            
                                 %>
-                                <option value="<%=governorate.getRegionId()%>"
-                                        <%
-                                                                                                if (governorateId != null && governorateId.equalsIgnoreCase(governorate.getRegionId())) {
-                                                                                                    out.print("selected");
-                                                                                                }
-                                        %>
-                                        ><%=governorate.getRegionName()%></option>
-                                <%
-                                                                                     }
-                                                                                 }
+                                <option <%=selected%> value ="<%=regionTeamleaders.get(0).getDcmUserId()%>" ><%=regionTeamleaders.get(0).getUserFullName()%></option>
+                                <%}
+                                            else {
+                                
                                 %>
-                            </select>
-
-                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px;color: red">*</font>
-
-                        </td>
-                    </tr>
-                    <tr class=TableTextNote>
-
-
-                        <td>City</td>
-                        <td>
-                            <select id="<%=SCMInterfaceKey.CITY_ID%>" name="<%=SCMInterfaceKey.CITY_ID%>" >
-                                <option value="">-----</option>
-                                <%
-                                                                                 if (governorateCities != null && governorateCities.size() != 0) {
-                                                                                     for (int i = 0; i < governorateCities.size(); i++) {
-                                                                                         RegionModel city = (RegionModel) governorateCities.get(i);
-                                %>
-                                <option value="<%=city.getRegionId()%>"
-                                        <%
-                                                                                                if (cityId != null && cityId.equalsIgnoreCase(city.getRegionId())) {
-                                                                                                    out.print("selected");
-                                                                                                }
-                                        %>
-                                        ><%=city.getRegionName()%></option>
-                                <%
-                                                                                     }
-                                                                                 }
-                                %>
-                            </select>
-
-                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px;color: red">*</font>
-                        </td>
-                    </tr>
-                    <tr class=TableTextNote>
-                        <td>District</td>
-                        <td>
-                            <select id="<%=SCMInterfaceKey.DISTRICT_ID%>" name="<%=SCMInterfaceKey.DISTRICT_ID%>">
-                                <option value="">-----</option>
-                                <%
-                                    if (cityDistricts != null && cityDistricts.size() != 0) {
-                                        for (int i = 0; i < cityDistricts.size(); i++) {
-                                            RegionModel district = (RegionModel) cityDistricts.get(i);
-                                %>
-                                <option value="<%=district.getRegionId()%>"
-                                  <%
-                                            if (districtId != null && districtId.equalsIgnoreCase(district.getRegionId())) {
-                                                out.print("selected");
-                                             }
-                                  %>
-                                 ><%=district.getRegionName()%></option>
-                                <%
-                                      }
+                                            <option <%=selected%> value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderName()%></option>
+                                            <%}
+                                        
+                                }
                                     }
+                                    else if(allTeams != null && allTeams.size() != 0){
+                                        
+                                        for (int i = 0; i < allTeams.size(); i++) {
+                                         com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
+                                           %>
+                                    <option  value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderName()%></option>
+                                <% 
+                                        }
+                                        
+                                    }
+                                    else{   
                                 %>
+                                <option>---</option>
+                                <%}%>
                             </select>
-
-                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px;color: red">*</font>
-
                         </td>
                     </tr>
+                         
+                                
                     
                     <tr class=TableTextNote>
-                        <td>Supervisors</td>
+                  
+                        <td>Reps</td>
                         <td>
-                            <select id="selectSuper" name="<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>" >
-
-                                <%
-                                    System.out.println("CHANGED SUPERVISOR  repSupSize : " + repSupervisors.size()+" allSupersSize : "+allSupers);
-                                    
-                                    if (repSupervisors!=null && repSupervisors.size()!=0 && allSupers != null && allSupers.size() != 0) {
-                                        //System.out.println("repSupervisors.get(0).getSupId() "+repSupervisors.get(0).getSupId());
-                                        for (int i = 0; i < allSupers.size(); i++) {
-                                            com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
-                                            String selected ="";
-                                            if(repSupervisors.get(0).getSupId().compareTo(repSuper.getSupervisorId())==0){
-                                 
-                                                selected = "selected";
-                                            }
-                                            
-                                %>
-                                <option <%=selected%> value ="<%=repSuper.getSupervisorId()%>" ><%=repSuper.getSupervisorName()%></option>
-                                <%}
-                                        
-                                }
-                                    else if(allSupers != null && allSupers.size() != 0){
-                                        for (int i = 0; i < allSupers.size(); i++) {
-                                         com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
-                                           %>
-                                    <option value ="<%=repSuper.getSupervisorId()%>" ><%=repSuper.getSupervisorName()%></option>
-                                <% 
-                                        }
-                                        
-                                    }
-                                    else{   
-                                %>
-                                <option>---</option>
-                                <%}%>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr class=TableTextNote>
-                        <td>Team Leaders</td>
-                        <td>
-                           <select id="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_TEAMLEAD_ID%>" >
+                            <input type="hidden" id ="repHidden" name="repHidden"  value="">
+                           <select id="<%=SCMInterfaceKey.CONTROL_TEXT_REP_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_REP_ID%>" >
                                 
-                               <%
-                                    System.out.println("CHANGED TEAMLEADER  : " + repTeamleaders.size());
-                                    
-                                    if (repTeamleaders!=null && repTeamleaders.size()!=0 && allTeams != null && allTeams.size() != 0) {
-                                        //System.out.println("repTeamleaders.get(0).getTeamleadId() "+repTeamleaders.get(0).getTeamleadId());
-                                        for (int i = 0; i < allTeams.size(); i++) {
-                                            com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
-                                            String selected ="";
-                                           // System.out.println("teamleader.getTeamleaderId() "+teamleader.getTeamleaderId());
-                                            if(repTeamleaders.get(0).getTeamleadId().compareTo(teamleader.getTeamleaderId())==0){
-                                 
+                                <%
+                                
+                                    if (regionReps!=null && regionReps.size()!=0 && allReps != null && allReps.size() != 0) {
+                                        System.out.println("in ifffff "+regionReps.get(0).getDcmUserId());
+                                        for (int i = 0; i < allReps.size(); i++) {
+                                            com.mobinil.sds.core.system.scm.model.RepModel rep = (com.mobinil.sds.core.system.scm.model.RepModel) allReps.get(i);
+                                            System.out.println("in forrrrr "+rep.getRepId());
+                                            if(regionReps.get(0).getDcmUserId().compareTo(rep.getRepId())==0){
+                                                System.out.println("equal names");
                                                 selected = "selected";
-                                            }
+                                            
                                             
                                 %>
-                                <option <%=selected%> value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderName()%></option>
+                                <option <%=selected%> value ="<%=regionReps.get(0).getDcmUserId()%>" ><%=regionReps.get(0).getUserFullName()%></option>
                                 <%}
-                                        
+                                            else {
+                                
+                                %>
+                                            <option <%=selected%> value ="<%=rep.getRepId()%>" ><%=rep.getRepName()%></option>
+                                            <%}
+                                        }      
                                 }
-                                    else if(allTeams != null && allTeams.size() != 0){
-                                        for (int i = 0; i < allTeams.size(); i++) {
-                                         com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
+                                    
+                                    else if(allReps != null && allReps.size() != 0){
+                                        
+                                        for (int i = 0; i < allReps.size(); i++) {
+                                         com.mobinil.sds.core.system.scm.model.RepModel rep = (com.mobinil.sds.core.system.scm.model.RepModel) allReps.get(i);
                                            %>
-                                    <option value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderName()%></option>
+                                    <option value ="<%=rep.getRepId()%>" ><%=rep.getRepName()%></option>
                                 <% 
                                         }
                                         
@@ -888,39 +686,18 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 %>
                                 <option>---</option>
                                 <%}%>
+                                
                             </select>
                         </td>
                     </tr>
-                    <%           
-                    }
-                    }
-                    %>
+                
+                    
+                   
+               
                     <tr>
                         <td colspan="2" align="center">
-                            
+                             <input type="button" name="submitButton" class="button" value="Update" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitUpdate();">
                            
-                    <%--
-                            
-                            // if(confMessage==null ||(confMessage!=null && !confMessage.equalsIgnoreCase("Invalid, This user was created.")))
-                            //{
-                            <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm('empty');">&nbsp;
-                            }else
-                            --%>
-                            <% System.out.println("BEFORE SUBMITFORM BUTTON - userLevelTypeId: "+userLevelTypeId);
-                               if (userLevelTypeId != null &&(userLevelTypeId.equalsIgnoreCase("") || userLevelTypeId.equalsIgnoreCase("4") || userLevelTypeId.equalsIgnoreCase("5") )){
-                            %>
-                            
-                             <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm('false');">
-                          
-                            <%
-                            } else if (userLevelTypeId != null && userLevelTypeId.equalsIgnoreCase("6")){
-                            %>
-                          
-                             <input type="button" name="submitButton" class="button" value="<%=buttonValue%>" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitForm('true');">
-                           
-                            <% 
-                            }
-                            %>
 
                             <input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="doBack();"></td>
                     </tr>

@@ -28,7 +28,10 @@ import com.mobinil.sds.core.system.dcm.chain.dao.*;
 import com.mobinil.sds.core.system.dcm.chain.model.*;
 import com.mobinil.sds.core.system.paymentHistory.dao.PaymentHistoryFileDAO;
 import com.mobinil.sds.core.system.regionPOSReport.dao.RegionPOSReportDAO;
+import com.mobinil.sds.core.system.request.dao.RequestDao;
 import com.mobinil.sds.core.system.scm.dao.PoiWriteExcelFile;
+import com.mobinil.sds.core.system.scm.dao.RepManagementDAO;
+import com.mobinil.sds.core.system.scm.dao.RepSupDAO;
 import com.mobinil.sds.web.interfaces.scm.SCMInterfaceKey;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -71,6 +74,8 @@ public class DCMIIHandler {
     static final int action_upload_generated_file = 35;
     static final int action_export_region_pos_report = 36;
     static final int action_export_specific_region_report= 37;
+    static final int edit_users_to_region = 38;
+    static final int update_users_to_region = 39;
 
     public static HashMap handle(String action, HashMap paramHashMap, java.sql.Connection con) throws Exception {
         String strUserID = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
@@ -174,9 +179,60 @@ public class DCMIIHandler {
             else if (action.equals(DCMInterfaceKey.ACTION_EXPORT_SPECIFIC_REGION_REPORT)) {
                 actionType = action_export_specific_region_report;
             }
-
+            else if (action.equals(DCMInterfaceKey.EDIT_USERS_TO_REGION)) {
+                actionType = edit_users_to_region;
+            }
+            else if (action.equals(DCMInterfaceKey.UPDATE_USERS_TO_REGION)) {
+                            actionType = update_users_to_region;
+                        }
 
             switch (actionType) {
+                case update_users_to_region:
+                    String regionID=(String)paramHashMap.get("region_id");
+                    String superID=(String)paramHashMap.get("supervisorHidden");
+                    String teamID=(String)paramHashMap.get("teamleaderHidden");
+                    String repID=(String)paramHashMap.get("repHidden");
+                    System.out.println("region id "+regionID+" super id "+superID+" team id "+teamID+" rep id "+repID);
+                    RepManagementDAO.updateUsersForARegion(con, regionID, superID, teamID, repID);
+                    dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE, "Data Updated Successfuly.");
+                    
+                    
+                    Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel> allSupervisors = RepManagementDAO.getSupervisors(con);
+                    Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel> allTeamleaders = RepManagementDAO.getTeamleaders(con);
+                    Vector<com.mobinil.sds.core.system.scm.model.RepModel> allReps = RepManagementDAO.getReps(con);
+                    
+                    
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_TEAMLEADERS, RepSupDAO.getRegionTeamleaders(con, regionID));
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS, RepSupDAO.getRegionSupervisors(con, regionID));
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_REPS, RepSupDAO.getRegionReps(con, regionID));
+                    
+                    dataHashMap.put("AllSupervisors", allSupervisors);
+                    dataHashMap.put("AllTeamleaders", allTeamleaders);
+                    dataHashMap.put("AllReps", allReps);
+                    dataHashMap.put(DCMInterfaceKey.INPUT_TEXT_REGION_ID, regionID);
+                    
+                    
+                    break;
+                
+                case edit_users_to_region:
+                    
+                    regionID=(String)paramHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_ID);
+                    System.out.println("edit_users_to_region - region id: "+regionID);
+                    allSupervisors = RepManagementDAO.getSupervisors(con);
+                    allTeamleaders = RepManagementDAO.getTeamleaders(con);
+                    allReps = RepManagementDAO.getReps(con);
+                    
+                    
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_TEAMLEADERS, RepSupDAO.getRegionTeamleaders(con, regionID));
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_SUPERVISORS, RepSupDAO.getRegionSupervisors(con, regionID));
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_ALL_REGION_REPS, RepSupDAO.getRegionReps(con, regionID));
+                    
+                    dataHashMap.put("AllSupervisors", allSupervisors);
+                    dataHashMap.put("AllTeamleaders", allTeamleaders);
+                    dataHashMap.put("AllReps", allReps);
+                    dataHashMap.put(DCMInterfaceKey.INPUT_TEXT_REGION_ID, regionID);
+                    break;
+                
                 case DCM_POS_SAVE_DETAIL:
                     try {
                         dataHashMap = new HashMap();

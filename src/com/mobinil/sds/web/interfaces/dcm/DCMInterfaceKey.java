@@ -109,7 +109,9 @@ public interface DCMInterfaceKey {
     public static final String ACTION_DCM_CREATE_NEW_CASE_FROM_ACTUAL_VISIT_FOR_SERVICE_REQUEST = "dcm_create_new_case_from_actual_visit_for_service_request";
     public static final String ACTION_DCM_SUPER_ADMIN_POS_LIST = "dcm_super_admin_pos_list";
     public static final String ACTION_DCM_POS_SAVE_DETAIL = "dcm_pos_save_detail";
-    ///list of constants
+    public static final String ACTION_VIEW_REGION_MANAGEMENT = "view_region_management";
+
+///list of constants
     public static final String CONST_REGIONAL_MANAGER_ROLE_ID = "68";
     public static final String CONST_MANAGER_ROLE_ID = "69";
     public static final String CONST_SALES_AGENT_ROLE_ID = "70";
@@ -378,6 +380,10 @@ public interface DCMInterfaceKey {
     public static final String ACTION_SEARCH_REGION = "action_search_region";
     public static final String SEARCH_REGION_RESULT = "search_region_result";
     public static final String ADD_CHILDS_TO_REGION = "add_childs_to_region";
+    
+    public static final String EDIT_USERS_TO_REGION = "edit_users_to_region";
+    public static final String UPDATE_USERS_TO_REGION = "update_users_to_region";
+    
     public static final String DELETE_REGION = "delete_region";
     public static final String ACTION_VIEW_REGION_PARENT = "action_view_region_parent";
     public static final String ACTION_VIEW_REGION_CHILDS = "action_view_region_childs";

@@ -197,13 +197,19 @@ String Slach = System.getProperty("file.separator");
                 <td align = "center" >Select Entity</td>
                 <td align = "center" >Entity Name</td>
                 <td align = "center" >Entity level</td>
-                <td align = "center" >Add Childs</td>
+                <td align = "center" >Edit Users</td>
+                <td align = "center" >Add Children</td>
                 <td align = "center" >Delete Region</td>
                 <td align = "center" >View Parents</td>
-                <td align = "center" >View Childs</td>
+                <td align = "center" >View Children</td>
                 <td align = "center" >Export Region</td>
                 <% Integer childnum = 0;
-                    if (childnum.parseInt(regions.get(0).getRegionLevelTypeId()) == max) {
+                
+                String disabled="";
+                if (Level.compareTo("4")!=0)
+                    disabled = "disabled";
+                
+                if (childnum.parseInt(regions.get(0).getRegionLevelTypeId()) == max) {
                 %>
                 <td align = "center" >View Details</td>
                 <%}%>
@@ -217,6 +223,7 @@ String Slach = System.getProperty("file.separator");
                 </td>
                 <td align="center" ><%=regions.get(i).getRegionName()%></td>
                 <td align="center" ><%=regions.get(i).getRegionLevelTypeName()%></td>
+                <td align="center" ><input type="button" name="edit_user" id="edit_user" value="Edit" <%=disabled%> onclick="edit('<%=regions.get(i).getRegionId()%>')"></td>
                 <td align="center" ><input type="button" <%
                     Integer num = 0;
                     if (num.parseInt(regions.get(i).getRegionLevelTypeId()) == max) {
@@ -326,6 +333,19 @@ String Slach = System.getProperty("file.separator");
             '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
 */
             document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ADD_CHILDS_TO_REGION);%>'+
+            '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
+        document.DCMform.submit();
+    }
+
+
+
+    function edit(i)
+    {
+        var row=i;
+    /*    document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ADD_CHILDS_TO_REGION);%>'+
+            '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
+*/
+            document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.EDIT_USERS_TO_REGION);%>'+
             '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
         document.DCMform.submit();
     }
