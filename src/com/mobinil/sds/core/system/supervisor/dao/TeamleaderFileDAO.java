@@ -13,6 +13,7 @@ import com.mobinil.sds.core.system.nomadFile.model.NomadLabelModel;
 import com.mobinil.sds.core.utilities.DBUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import oracle.net.nt.ConnOption;
 
 
 public class TeamleaderFileDAO{
@@ -157,10 +158,18 @@ public static final String PHONE_NUMBER = "0900";
             System.out.println("teamleader name found");
             strUserSql = "update SCM_TEAMLEADER set TEAMLEADER_NAME='"+lineFields[0]+"', EMAIL='"+lineFields[1]+"', mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where teamleader_id ="+rs.getLong("teamleader_id");
             System.out.println("query2 "+strUserSql);
-            stat.execute(strUserSql);
+            con.close();
+            stat.close();
+            System.out.println("close con ");
+            Connection con2 = Utility.getConnection();
+            System.out.println("new con2 ");
+            Statement st2 = con2.createStatement();
+            System.out.println("con2 create st2 ");
+            st2.executeUpdate(strUserSql);
+            System.out.println("st2 exec ");
             strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+rs.getLong("teamleader_id");
             System.out.println("query3 inner "+strUserDetailSql);
-            stat.execute(strUserDetailSql);
+            st2.execute(strUserDetailSql);
             
         } 
  

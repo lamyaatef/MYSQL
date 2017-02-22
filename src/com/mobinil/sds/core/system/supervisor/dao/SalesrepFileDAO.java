@@ -132,6 +132,9 @@ public static final String PHONE_NUMBER = "0900";
         System.out.println("insertSalesrepData : go to record no. "+count);
                             
         try {
+            //Connection con2 = Utility.getConnection();
+            Statement st2 = con.createStatement();
+        
         for (int i=0; i<lineFields.length;i++)
         {
             System.out.println("linefield["+i+"] is "+lineFields[i]);
@@ -156,16 +159,20 @@ public static final String PHONE_NUMBER = "0900";
         String sqlCheckRepName = "select * from scm_salesrep where email= '"+lineFields[1]+"' ";
         System.out.println("check rep email "+sqlCheckRepName);
         ResultSet rs = stat.executeQuery(sqlCheckRepName);
-        
+        boolean found = false;
         if(rs.next())
+            found = true;
+        
+        if(found)
         {
             System.out.println("rep name found");
-            strUserSql = "update SCM_SALESREP set SALESREP_NAME='"+lineFields[0]+"', EMAIL='"+lineFields[1]+"', mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where salesrep_id ="+rs.getLong("salesrep_id");
+            strUserSql = "update SCM_SALESREP set teamlead_id='',sup_id='', CREATION_TIMESTAMP = SYSTIMESTAMP, SALESREP_NAME='"+lineFields[0]+"', EMAIL='"+lineFields[1]+"', mobile='"+lineFields[2]+"' where salesrep_id ="+rs.getLong("salesrep_id");
             System.out.println("query2 "+strUserSql);
-            stat.execute(strUserSql);
+            
+            st2.executeUpdate(strUserSql);
             strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+rs.getLong("salesrep_id");
             System.out.println("query3 inner "+strUserDetailSql);
-            stat.execute(strUserDetailSql);
+            st2.executeUpdate(strUserDetailSql);
             
         } 
             
@@ -177,12 +184,12 @@ public static final String PHONE_NUMBER = "0900";
             System.out.println("query2 "+strUserSql);
             strUserDetailSql = "insert into dcm_user_detail (REGION_ID,USER_DETAIL_STATUS_ID,user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values(-1,1,"+repDetailId.longValue()+","+repId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
             System.out.println("query3 "+strUserDetailSql);
-            stat.execute(strUserSql);
-            stat.execute(strUserDetailSql);
+            st2.executeUpdate(strUserSql);
+            st2.executeUpdate(strUserDetailSql);
             
             strSql = "insert into SCM_SALESREP ( SALESREP_ID, SALESREP_NAME, EMAIL, MOBILE, CREATION_TIMESTAMP) values ("+repId.longValue()+","+concatFields+",SYSTIMESTAMP)";
             System.out.println("query "+strSql);
-            stat.execute(strSql);
+            st2.executeUpdate(strSql);
         }
         
         
