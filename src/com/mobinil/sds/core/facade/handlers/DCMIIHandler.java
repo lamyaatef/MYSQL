@@ -210,8 +210,6 @@ public class DCMIIHandler {
                     dataHashMap.put("AllTeamleaders", allTeamleaders);
                     dataHashMap.put("AllReps", allReps);
                     dataHashMap.put(DCMInterfaceKey.INPUT_TEXT_REGION_ID, regionID);
-                    
-                    
                     break;
                 
                 case edit_users_to_region:

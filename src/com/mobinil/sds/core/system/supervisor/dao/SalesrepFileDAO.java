@@ -153,55 +153,39 @@ public static final String PHONE_NUMBER = "0900";
         Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
         
-        String sqlCheckDcmId = "select * from dcm_user where user_level_type_id=6 and dcm_user_id = "+repId.longValue();
-        ResultSet rs = stat.executeQuery(sqlCheckDcmId);
+        String sqlCheckRepName = "select * from scm_salesrep where email= '"+lineFields[1]+"' ";
+        System.out.println("check rep email "+sqlCheckRepName);
+        ResultSet rs = stat.executeQuery(sqlCheckRepName);
         
         if(rs.next())
         {
-            
-            strUserSql = "update dcm_user set user_id="+userId+",user_status_type_id=1,user_level_id=6,user_level_type_id=6 where dcm_user_id="+repId.longValue();
+            System.out.println("rep name found");
+            strUserSql = "update SCM_SALESREP set SALESREP_NAME='"+lineFields[0]+"', EMAIL='"+lineFields[1]+"', mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where salesrep_id ="+rs.getLong("salesrep_id");
             System.out.println("query2 "+strUserSql);
+            stat.execute(strUserSql);
+            strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+rs.getLong("salesrep_id");
+            System.out.println("query3 inner "+strUserDetailSql);
+            stat.execute(strUserDetailSql);
             
-            String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id in (select dcm_user_id from dcm_user where user_level_type_id=6 and dcm_user_id="+repId.longValue()+")";
-            ResultSet rs2 = stat.executeQuery(sqlCheckDcmDetailId);
-            if(rs2.next())
-            {
-                strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+repId.longValue();
-                System.out.println("query3 inner "+strUserDetailSql);
-                stat.execute(strUserDetailSql);
-            }
-            else
-            {
-                //Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
-                strUserDetailSql = "insert into dcm_user_detail (REGION_ID,USER_DETAIL_STATUS_ID,user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values(-1,1"+repDetailId.longValue()+","+repId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
-                System.out.println("query3 inner "+strUserDetailSql);
-                stat.execute(strUserDetailSql);
-            }
         } 
             
         else
         {
             //Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+            System.out.println("rep name NOT found");
             strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+repId.longValue()+","+userId+",6,"+repDetailId.longValue()+",1,6)";
             System.out.println("query2 "+strUserSql);
             strUserDetailSql = "insert into dcm_user_detail (REGION_ID,USER_DETAIL_STATUS_ID,user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values(-1,1,"+repDetailId.longValue()+","+repId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
             System.out.println("query3 "+strUserDetailSql);
             stat.execute(strUserSql);
             stat.execute(strUserDetailSql);
+            
+            strSql = "insert into SCM_SALESREP ( SALESREP_ID, SALESREP_NAME, EMAIL, MOBILE, CREATION_TIMESTAMP) values ("+repId.longValue()+","+concatFields+",SYSTIMESTAMP)";
+            System.out.println("query "+strSql);
+            stat.execute(strSql);
         }
         
         
-        
-        
-        
-        
-        /*if(isemptyField)   
-            strSql = "insert into SCM_SALESREP ( SALESREP_ID, MOBILE, SALESREP_NAME, CREATION_TIMESTAMP) values ("+repId.longValue()+","+concatFields+",SYSTIMESTAMP)";
-        else*/
-            strSql = "insert into SCM_SALESREP ( SALESREP_ID, SALESREP_NAME, EMAIL, MOBILE, CREATION_TIMESTAMP) values ("+repId.longValue()+","+concatFields+",SYSTIMESTAMP)";
-        
-        System.out.println("query "+strSql);
-        stat.execute(strSql);
            
             System.out.println("............INSERTED........"+count);
 

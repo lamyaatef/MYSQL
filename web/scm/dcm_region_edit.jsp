@@ -557,29 +557,32 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                             <select id="<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>" name="<%=SCMInterfaceKey.CONTROL_TEXT_SUP_ID%>" >
 
                                 <%
-                                    String selected ="";
+                                    
                                     if (regionSupervisors!=null && regionSupervisors.size()!=0 && allSupers != null && allSupers.size() != 0) {
-                                        //System.out.println("repSupervisors.get(0).getSupId() "+repSupervisors.get(0).getSupId());
+                                        System.out.println("if region supers NOT empty");
                                         for (int i = 0; i < allSupers.size(); i++) {
                                             com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
-                                            
+                                            String selected1 = "";
                                             //if(teamSupervisors.get(0).getSupId().compareTo(repSuper.getSupervisorId())==0){
                                             if(regionSupervisors.get(0).getDcmUserId().compareTo(repSuper.getSupervisorId())==0){
-                                                selected = "selected";
+                                                selected1 = "selected";
+                                                System.out.println("inner if names are equal");
                                             
                                             
                                 %>
-                                <option <%=selected%> value ="<%=regionSupervisors.get(0).getDcmUserId()%>" ><%=regionSupervisors.get(0).getUserFullName()%></option>
+                                <option <%=selected1%> value ="<%=regionSupervisors.get(0).getDcmUserId()%>" ><%=regionSupervisors.get(0).getUserFullName()%></option>
                                 <%}
                                     else {
+                                                System.out.println("inner else names are NOT equal");
                                 
                                 %>
-                                            <option <%=selected%> value ="<%=repSuper.getSupervisorId()%>" ><%=repSuper.getSupervisorName()%></option>
+                                            <option <%=selected1%> value ="<%=repSuper.getSupervisorId()%>" ><%=repSuper.getSupervisorName()%></option>
                                             <%}
                                             
                                 }
                                     }
-                                    else if(allSupers != null && allSupers.size() != 0){
+                                    else if(allSupers != null && allSupers.size() != 0 && (regionSupervisors==null || (regionSupervisors!=null && regionSupervisors.size()==0))){
+                                        System.out.println("if region supers empty");
                                         for (int i = 0; i < allSupers.size(); i++) {
                                          com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
                                            %>
@@ -606,23 +609,24 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                     if (regionTeamleaders!=null && regionTeamleaders.size()!=0 && allTeams != null && allTeams.size() != 0) {
                                         for (int i = 0; i < allTeams.size(); i++) {
                                             com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
-                                            
+                                            String selected2 = "";
                                             if(regionTeamleaders.get(0).getDcmUserId().compareTo(teamleader.getTeamleaderId())==0){
-                                                selected = "selected";
+                                                selected2 = "selected";
+                                                System.out.println("regionTeamleaders.get(0).getDcmUserId() "+regionTeamleaders.get(0).getDcmUserId()+" teamleader.getTeamleaderId() "+teamleader.getTeamleaderId());
                                             
                                             
                                 %>
-                                <option <%=selected%> value ="<%=regionTeamleaders.get(0).getDcmUserId()%>" ><%=regionTeamleaders.get(0).getUserFullName()%></option>
+                                <option <%=selected2%> value ="<%=regionTeamleaders.get(0).getDcmUserId()%>" ><%=regionTeamleaders.get(0).getUserFullName()%></option>
                                 <%}
                                             else {
                                 
                                 %>
-                                            <option <%=selected%> value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderName()%></option>
+                                            <option <%=selected2%> value ="<%=teamleader.getTeamleaderId()%>" ><%=teamleader.getTeamleaderName()%></option>
                                             <%}
                                         
                                 }
                                     }
-                                    else if(allTeams != null && allTeams.size() != 0){
+                                    else if(allTeams != null && allTeams.size() != 0 && (regionTeamleaders==null || (regionTeamleaders!=null && regionTeamleaders.size()==0))){
                                         
                                         for (int i = 0; i < allTeams.size(); i++) {
                                          com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
@@ -652,27 +656,27 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 <%
                                 
                                     if (regionReps!=null && regionReps.size()!=0 && allReps != null && allReps.size() != 0) {
-                                        System.out.println("in ifffff "+regionReps.get(0).getDcmUserId());
                                         for (int i = 0; i < allReps.size(); i++) {
                                             com.mobinil.sds.core.system.scm.model.RepModel rep = (com.mobinil.sds.core.system.scm.model.RepModel) allReps.get(i);
-                                            System.out.println("in forrrrr "+rep.getRepId());
+                                            //System.out.println("in forrrrr "+rep.getRepId());
+                                            String selected3="";
                                             if(regionReps.get(0).getDcmUserId().compareTo(rep.getRepId())==0){
                                                 System.out.println("equal names");
-                                                selected = "selected";
+                                                selected3 = "selected";
                                             
                                             
                                 %>
-                                <option <%=selected%> value ="<%=regionReps.get(0).getDcmUserId()%>" ><%=regionReps.get(0).getUserFullName()%></option>
+                                <option <%=selected3%> value ="<%=regionReps.get(0).getDcmUserId()%>" ><%=regionReps.get(0).getUserFullName()%></option>
                                 <%}
                                             else {
                                 
                                 %>
-                                            <option <%=selected%> value ="<%=rep.getRepId()%>" ><%=rep.getRepName()%></option>
+                                            <option <%=selected3%> value ="<%=rep.getRepId()%>" ><%=rep.getRepName()%></option>
                                             <%}
                                         }      
                                 }
                                     
-                                    else if(allReps != null && allReps.size() != 0){
+                                    else if(allReps != null && allReps.size() != 0 && (regionReps==null || (regionReps!=null && regionReps.size()==0))){
                                         
                                         for (int i = 0; i < allReps.size(); i++) {
                                          com.mobinil.sds.core.system.scm.model.RepModel rep = (com.mobinil.sds.core.system.scm.model.RepModel) allReps.get(i);

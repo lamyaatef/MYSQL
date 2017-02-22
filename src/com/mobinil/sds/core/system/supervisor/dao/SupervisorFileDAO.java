@@ -149,69 +149,36 @@ public static final String PHONE_NUMBER = "0900";
         Long supId = Utility.getSequenceNextVal(con, "SEQ_DCM_USER_ID");
         Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
-        String sqlCheckDcmId = "select * from dcm_user where user_level_type_id=4 and dcm_user_id = "+supId.longValue();
-        System.out.println("check supervisor in dcm_user "+sqlCheckDcmId);
-        ResultSet rs = stat.executeQuery(sqlCheckDcmId);
+        String sqlCheckSupervisorName = "select * from scm_supervisor where email= '"+lineFields[1]+"' ";
+        System.out.println("check supervisor email "+sqlCheckSupervisorName);
+        ResultSet rs = stat.executeQuery(sqlCheckSupervisorName);
         
         if(rs.next())
         {
-            
-            strUserSql = "update dcm_user set user_id="+userId+",user_status_type_id=1,user_level_id=4,user_level_type_id=4 where dcm_user_id="+supId;
-            System.out.println("query2 "+strUserSql);
-            stat.execute(strUserSql);
-            String sqlCheckDcmDetailId = "select * from dcm_user_detail where user_id in (select dcm_user_id from dcm_user where dcm_user_id = "+supId.longValue()+" and user_level_type_id=4) ";
-            ResultSet rs2 = stat.executeQuery(sqlCheckDcmDetailId);
-            if(rs2.next())
-            {
-                //strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+supId.longValue();
-                strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+supId.longValue();
-                System.out.println("query3 inner "+strUserDetailSql);
-                stat.execute(strUserDetailSql);
-            }
-          /*  USER_DETAIL_ID             NUMBER        
-USER_ID                    NUMBER        
-USER_FULL_NAME             VARCHAR2(50)  
-USER_ADDRESS               VARCHAR2(100) 
-USER_EMAIL                 VARCHAR2(250) 
-USER_MOBILE                VARCHAR2(50)  
-REGION_ID                  NUMBER        
-USER_DETAIL_STATUS_ID      NUMBER        
-CREATION_TIMESTAMP         DATE          
-CREATION_USER_ID*/
-            else
-            {
-                //Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
-                strUserDetailSql = "insert into dcm_user_detail (USER_MOBILE,REGION_ID,USER_DETAIL_STATUS_ID,user_detail_id, user_id,creation_user_id,user_full_name,user_email,CREATION_TIMESTAMP) values('null',-1,1,"+supDetailId.longValue()+","+supId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
-                System.out.println("query3 inner "+strUserDetailSql);
-                stat.execute(strUserDetailSql);
-            }
+            System.out.println("supervisor name found");
+            strSql = "update SCM_SUPERVISOR set CREATION_TIMESTAMP = SYSTIMESTAMP, SUPERVISOR_NAME = '"+lineFields[0]+"', EMAIL='"+lineFields[1]+"' where supervisor_id="+rs.getLong("supervisor_id"); 
+            System.out.println("query1 "+strSql);
+            stat.execute(strSql);  
+            strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+supId.longValue();
+            stat.execute(strUserDetailSql);
             
         } 
-        
-        /*USER_DETAIL_ID             NUMBER        
-USER_ID                    NUMBER        
-USER_FULL_NAME             VARCHAR2(50)  
-USER_ADDRESS               VARCHAR2(100) 
-USER_EMAIL                 VARCHAR2(250) 
-USER_MOBILE                VARCHAR2(50)  
-REGION_ID                  NUMBER        
-USER_DETAIL_STATUS_ID      NUMBER        
-CREATION_TIMESTAMP         DATE          
-CREATION_USER_ID*/
+     
             
         else
         {
-            //Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
+            System.out.println("supervisor name NOT found");
             strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+supId.longValue()+","+userId+",4,"+supDetailId.longValue()+",1,4)";
             System.out.println("query2 "+strUserSql);
             strUserDetailSql = "insert into dcm_user_detail (USER_MOBILE,REGION_ID,USER_DETAIL_STATUS_ID,user_detail_id, user_id,creation_user_id,user_full_name,user_email,CREATION_TIMESTAMP) values('null',-1,1,"+supDetailId.longValue()+","+supId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
             System.out.println("query3 "+strUserDetailSql);
             stat.execute(strUserSql);
             stat.execute(strUserDetailSql);
+            strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, /*MOBILE ,*/CREATION_TIMESTAMP) values ("+supId.longValue()+","+concatFields+",SYSTIMESTAMP)"; 
+            System.out.println("query1 "+strSql);
+            stat.execute(strSql);  
         }
-        strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, /*MOBILE ,*/CREATION_TIMESTAMP) values ("+supId.longValue()+","+concatFields+",SYSTIMESTAMP)"; 
-        System.out.println("query1 "+strSql);
-        stat.execute(strSql);   
+         
          
             System.out.println("............INSERTED........"+count);
 
