@@ -237,7 +237,9 @@
                         <td colspan="4" align="center">
                             <input type="button" class="button" value="Search" onclick="submitSearchForm();">
                             &nbsp;
-                            <input type="button" class="button" value="Add New" onclick="submitAddNewForm();">
+                            
+                            <input type="hidden" class="button" value="Add New" onclick="submitAddNewForm();">
+                            
                         </td>
                         
                     </tr>

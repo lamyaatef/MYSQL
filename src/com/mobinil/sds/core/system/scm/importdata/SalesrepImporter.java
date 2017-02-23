@@ -153,8 +153,8 @@ public class SalesrepImporter {
                        
 
                     }
-                    System.out.println("count isssssss      " + count--);
-                    this.numberOfRowsInserted = SalesrepFileDAO.getSalesrepDataRecords(con, stat, fileID);
+                    System.out.println("count isssssss  with header    " + count);
+                    this.numberOfRowsInserted = --count;//SalesrepFileDAO.getSalesrepDataRecords(con, stat, fileID);
                     System.out.println("rows %%%% "+this.numberOfRowsInserted);
 
                 } catch (Exception e) {

@@ -1,4 +1,5 @@
 
+<%@page import="com.mobinil.sds.core.system.scm.dao.RepManagementDAO"%>
 <%@page import="com.mobinil.sds.web.interfaces.scm.SCMInterfaceKey"%>
 <%@page import="com.mobinil.sds.core.system.dcm.user.model.DCMUserModel"%>
 <%@page import="com.mobinil.sds.core.utilities.DBUtil"%>
@@ -37,13 +38,16 @@ String Slach = System.getProperty("file.separator");
 
 
     String strUserID = (String) objDataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
-    Vector<RegionModel> regions = (Vector) objDataHashMap.get(DCMInterfaceKey.SEARCH_REGION_RESULT);
+    Connection con = Utility.getConnection();
+    Vector<RegionModel> regions =  RepManagementDAO.getRegions(con);
        //   request.setAttribute("search_vector", searchResults);
             request.getSession().setAttribute("region_search_vector", regions);
     Vector dcmRegionlevels = (Vector) objDataHashMap.get(DCMInterfaceKey.VECTOR_ALL_REGIONS_LEVELS);
     String appName = request.getContextPath();
     String DCMFormAction = appName + "/servlet/com.mobinil.sds.web.controller.WebControllerServlet?";
-
+String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.ACTION_REGIONS; 
 
     String distinationPage = (String) objDataHashMap.get(DCMInterfaceKey.INPUT_CONTROL_PAGE_NUMBER);
     String totalPageNumbers = (String) objDataHashMap.get(DCMInterfaceKey.STRING_OF_TOTAL_PAGE_NUMBER);
@@ -70,6 +74,136 @@ String Slach = System.getProperty("file.separator");
                     $('#export_row').hide();
             
 });
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+         $(document).ready(function(){ 
+                
+$("#<%=SCMInterfaceKey.REGION_ID%>").change(function(){
+  //console.log("aaaa ",$(this).val());
+  var regionid= $("#<%=SCMInterfaceKey.REGION_ID%>").val(); //value id of Option selected in the Select object
+ // console.log("value id of option selected in Select object is : ",regionid);
+    
+    $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    datatype: "JSON",
+    data : {regionid:regionid,type:"2"},
+    success: function(data, textStatus, jqXHR)
+    {
+        
+      
+        $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").empty();
+        $("#<%=SCMInterfaceKey.CITY_ID%>").empty();
+        $("#<%=SCMInterfaceKey.DISTRICT_ID%>").empty();
+        
+      
+        
+      
+    $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").append($("<option/>").text("--"));
+
+        $.each(data.map.districts, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+          //  console.log("data governorates ",option);
+            $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").append(option);
+});
+
+},
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+
+}); 
+
+
+//governorate
+$("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").change(function(){
+  
+  var governid= $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").val(); //value id of Option selected in the Select object
+  //console.log("value id of option selected in Select object is : ",id);
+    $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    data : {regionid:governid ,type:"3"},
+    success: function(data, textStatus, jqXHR)
+    {
+       $("#<%=SCMInterfaceKey.CITY_ID%>").empty();
+      $("#<%=SCMInterfaceKey.DISTRICT_ID%>").empty();
+        
+        
+              
+    $("#<%=SCMInterfaceKey.CITY_ID%>").append($("<option/>").text("--"));
+    
+        $.each(data.map.districts, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+          //  console.log("data governorates ",option);
+            $("#<%=SCMInterfaceKey.CITY_ID%>").append(option);
+                      });
+        
+  
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+
+    }
+});
+
+}); 
+
+
+
+
+
+
+
+//city
+$("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
+  
+  var cityid= $("#<%=SCMInterfaceKey.CITY_ID%>").val(); //value id of Option selected in the Select object
+  //console.log("value id of option selected in Select object is : ",id);
+    $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    data : {regionid:cityid ,type:"4"/*,userLevel:4*/},
+    success: function(data, textStatus, jqXHR)
+    {
+        
+        $("#<%=SCMInterfaceKey.DISTRICT_ID%>").empty();
+        
+        
+            $("#<%=SCMInterfaceKey.DISTRICT_ID%>").append($("<option/>").text("--"));
+    
+        $.each(data.map.districts, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+           // console.log("data governorates ",option);
+            $("#<%=SCMInterfaceKey.DISTRICT_ID%>").append(option);
+});
+        
+      
+      
+        
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+
+});
+
+});
+
+
+
      
             
             function DevChangePageActionWithSubmit(action)
@@ -169,6 +303,81 @@ String Slach = System.getProperty("file.separator");
                     </select>
                 </td>
             </tr>
+            
+            
+            
+            
+        <tr class=TableTextNote>
+                        <td align=middle>Region</td>
+                        <td>
+                            <select id="<%=SCMInterfaceKey.REGION_ID%>" name="<%=SCMInterfaceKey.REGION_ID%>">
+                                <option value="">-----</option>
+                                <%
+                                            if (regions != null && regions.size() != 0) {
+                                                for (int i = 0; i < regions.size(); i++) {
+                                                    RegionModel region = (RegionModel) regions.get(i);
+                                %>
+                                <option value="<%=region.getRegionId()%>"><%=region.getRegionName()%></option>
+                                <%
+                                                }
+                                            }
+                                %>
+                            </select>
+
+                            
+                        </td>
+                    </tr>
+                    
+                            <tr class=TableTextNote>
+                        <td align=middle>Governorate</td>
+                        <td>
+                            <select id="<%=SCMInterfaceKey.REGION_ID%>" name="<%=SCMInterfaceKey.REGION_ID%>">
+                                <option value="">-----</option>
+                                
+                            </select>
+
+                            
+                        </td>
+                    </tr>
+                            <tr class=TableTextNote>
+                        <td align=middle>City</td>
+                        <td>
+                            <select id="<%=SCMInterfaceKey.REGION_ID%>" name="<%=SCMInterfaceKey.REGION_ID%>">
+                                <option value="">-----</option>
+                                
+                            </select>
+
+                            
+                        </td>
+                    </tr>
+                            <tr class=TableTextNote>
+                        <td align=middle>District</td>
+                        <td>
+                            <select id="<%=SCMInterfaceKey.REGION_ID%>" name="<%=SCMInterfaceKey.REGION_ID%>">
+                                <option value="">-----</option>
+                                
+                            </select>
+
+                            
+                        </td>
+                    </tr>
+                    
+                      </tr>
+                            <tr class=TableTextNote>
+                        <td align=middle>Area</td>
+                        <td>
+                            <select id="<%=SCMInterfaceKey.REGION_ID%>" name="<%=SCMInterfaceKey.REGION_ID%>">
+                                <option value="">-----</option>
+                                
+                            </select>
+
+                            
+                        </td>
+                    </tr>
+            
+            
+            
+            
             <tr>
                 <td align="center" colspan="2">
                     <input type="button" name="Submit" value="search" onclick="viewsearch();"/>
@@ -187,7 +396,7 @@ String Slach = System.getProperty("file.separator");
 
         <%if (regions != null && regions.size() != 0) {%>
         <%
-            Connection con = Utility.getConnection();
+            
             int max = DBUtil.executeQuerySingleValueInt("SELECT MAX(REGION_LEVEL_TYPE_ID) FROM DCM_REGION_LEVEL_TYPE", "MAX(REGION_LEVEL_TYPE_ID)", con);
             int min = DBUtil.executeQuerySingleValueInt("SELECT MIN(REGION_LEVEL_TYPE_ID) FROM DCM_REGION_LEVEL_TYPE", "MIN(REGION_LEVEL_TYPE_ID)", con);
         %>
