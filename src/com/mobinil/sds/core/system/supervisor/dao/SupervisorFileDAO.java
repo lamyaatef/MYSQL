@@ -132,6 +132,7 @@ public static final String PHONE_NUMBER = "0900";
         System.out.println("insertSupervisorData : go to record no. "+count);
                             
         try {
+            Statement st2 = con.createStatement();
         for (int i=0; i<lineFields.length;i++)
         {
             concatFields += "'"+lineFields[i]+"'"+",";
@@ -149,7 +150,7 @@ public static final String PHONE_NUMBER = "0900";
         Long supId = Utility.getSequenceNextVal(con, "SEQ_DCM_USER_ID");
         Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
-        String sqlCheckSupervisorName = "select * from scm_supervisor where email= '"+lineFields[1]+"' ";
+        String sqlCheckSupervisorName = "select * from scm_supervisor where LOWER(email)= LOWER('"+lineFields[1]+"') ";
         System.out.println("check supervisor email "+sqlCheckSupervisorName);
         ResultSet rs = stat.executeQuery(sqlCheckSupervisorName);
         
@@ -158,9 +159,10 @@ public static final String PHONE_NUMBER = "0900";
             System.out.println("supervisor name found");
             strSql = "update SCM_SUPERVISOR set CREATION_TIMESTAMP = SYSTIMESTAMP, SUPERVISOR_NAME = '"+lineFields[0]+"', EMAIL='"+lineFields[1]+"' where supervisor_id="+rs.getLong("supervisor_id"); 
             System.out.println("query1 "+strSql);
-            stat.execute(strSql);  
+            st2.executeUpdate(strSql);  
             strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+supId.longValue();
-            stat.execute(strUserDetailSql);
+            System.out.println("query2 "+strUserDetailSql);
+            st2.executeUpdate(strUserDetailSql);
             
         } 
      
@@ -172,14 +174,14 @@ public static final String PHONE_NUMBER = "0900";
             System.out.println("query2 "+strUserSql);
             strUserDetailSql = "insert into dcm_user_detail (USER_MOBILE,REGION_ID,USER_DETAIL_STATUS_ID,user_detail_id, user_id,creation_user_id,user_full_name,user_email,CREATION_TIMESTAMP) values('null',-1,1,"+supDetailId.longValue()+","+supId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
             System.out.println("query3 "+strUserDetailSql);
-            stat.execute(strUserSql);
-            stat.execute(strUserDetailSql);
+            st2.executeUpdate(strUserSql);
+            st2.executeUpdate(strUserDetailSql);
             strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, /*MOBILE ,*/CREATION_TIMESTAMP) values ("+supId.longValue()+","+concatFields+",SYSTIMESTAMP)"; 
             System.out.println("query1 "+strSql);
-            stat.execute(strSql);  
+            st2.executeUpdate(strSql);  
         }
          
-         
+            st2.close();
             System.out.println("............INSERTED........"+count);
 
         } catch (Exception e) {

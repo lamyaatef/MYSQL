@@ -132,7 +132,7 @@ public static final String PHONE_NUMBER = "0900";
         System.out.println("insertSalesrepData : go to record no. "+count);
                             
         try {
-            //Connection con2 = Utility.getConnection();
+            
             Statement st2 = con.createStatement();
         
         for (int i=0; i<lineFields.length;i++)
@@ -156,7 +156,7 @@ public static final String PHONE_NUMBER = "0900";
         Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
         
-        String sqlCheckRepName = "select * from scm_salesrep where email= '"+lineFields[1]+"' ";
+        String sqlCheckRepName = "select * from scm_salesrep where LOWER(email)= LOWER('"+lineFields[1]+"') ";
         System.out.println("check rep email "+sqlCheckRepName);
         ResultSet rs = stat.executeQuery(sqlCheckRepName);
         boolean found = false;
@@ -166,7 +166,7 @@ public static final String PHONE_NUMBER = "0900";
         if(found)
         {
             System.out.println("rep name found");
-            strUserSql = "update SCM_SALESREP set teamlead_id='',sup_id='', CREATION_TIMESTAMP = SYSTIMESTAMP, SALESREP_NAME='"+lineFields[0]+"', EMAIL='"+lineFields[1]+"', mobile='"+lineFields[2]+"' where salesrep_id ="+rs.getLong("salesrep_id");
+            strUserSql = "update SCM_SALESREP set CREATION_TIMESTAMP = SYSTIMESTAMP, SALESREP_NAME='"+lineFields[0]+"', EMAIL='"+lineFields[1]+"', mobile='"+lineFields[2]+"' where salesrep_id ="+rs.getLong("salesrep_id");
             System.out.println("query2 "+strUserSql);
             
             st2.executeUpdate(strUserSql);
@@ -192,7 +192,8 @@ public static final String PHONE_NUMBER = "0900";
             st2.executeUpdate(strSql);
         }
         
-        
+        //stat.close();
+        st2.close();
            
             System.out.println("............INSERTED........"+count);
 

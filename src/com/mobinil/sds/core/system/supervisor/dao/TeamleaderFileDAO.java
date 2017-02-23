@@ -134,6 +134,9 @@ public static final String PHONE_NUMBER = "0900";
         System.out.println("insertTeamleaderData : go to record no. "+count);
                             
         try {
+            Statement st2 = con.createStatement();
+            
+            
         for (int i=0; i<lineFields.length;i++)
         {
            /* if(isemptyField)
@@ -149,27 +152,21 @@ public static final String PHONE_NUMBER = "0900";
         Long teamId = Utility.getSequenceNextVal(con, "SEQ_DCM_USER_ID");
         Long teamDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
-        String sqlCheckTeamleaderName = "select * from scm_teamleader where email= '"+lineFields[1]+"' ";
+        String sqlCheckTeamleaderName = "select * from scm_teamleader where LOWER(email)= LOWER('"+lineFields[1]+"') ";
         System.out.println("check teamleader email "+sqlCheckTeamleaderName);
         ResultSet rs = stat.executeQuery(sqlCheckTeamleaderName);
-        
+        boolean found = false;
         if(rs.next())
+            found = true;
+        if(found)
         {
             System.out.println("teamleader name found");
             strUserSql = "update SCM_TEAMLEADER set TEAMLEADER_NAME='"+lineFields[0]+"', EMAIL='"+lineFields[1]+"', mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where teamleader_id ="+rs.getLong("teamleader_id");
             System.out.println("query2 "+strUserSql);
-            con.close();
-            stat.close();
-            System.out.println("close con ");
-            Connection con2 = Utility.getConnection();
-            System.out.println("new con2 ");
-            Statement st2 = con2.createStatement();
-            System.out.println("con2 create st2 ");
-            st2.executeUpdate(strUserSql);
-            System.out.println("st2 exec ");
             strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+rs.getLong("teamleader_id");
             System.out.println("query3 inner "+strUserDetailSql);
-            st2.execute(strUserDetailSql);
+            st2.executeUpdate(strUserSql);
+            st2.executeUpdate(strUserDetailSql);
             
         } 
  
@@ -182,18 +179,18 @@ public static final String PHONE_NUMBER = "0900";
             System.out.println("query2 "+strUserSql);
             strUserDetailSql = "insert into dcm_user_detail (REGION_ID,USER_DETAIL_STATUS_ID,user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values(-1,1,"+teamDetailId.longValue()+","+teamId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
             System.out.println("query3 "+strUserDetailSql);
-            stat.execute(strUserSql);
-            stat.execute(strUserDetailSql);
+            st2.executeUpdate(strUserSql);
+            st2.executeUpdate(strUserDetailSql);
             
             strSql = "insert into SCM_TEAMLEADER ( TEAMLEADER_ID, TEAMLEADER_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+teamId.longValue()+","+concatFields+",SYSTIMESTAMP)";
             System.out.println("query1 "+strSql);
-            stat.execute(strSql);
+            st2.executeUpdate(strSql);
         }
         
         
         
            
-           
+           st2.close();
            
            System.out.println("............INSERTED........"+count);
 
