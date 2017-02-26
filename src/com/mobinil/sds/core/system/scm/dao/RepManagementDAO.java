@@ -42,10 +42,23 @@ public class RepManagementDAO {
         Vector<RegionModel> regions=new Vector();
         String sqlStatement;
         //sqlStatement="SELECT REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_STATUS_TYPE_ID=1 AND REGION_LEVEL_TYPE_ID=(SELECT REGION_LEVEL_TYPE_ID FROM DCM_REGION_LEVEL_TYPE WHERE LOWER(REGION_LEVEL_TYPE_NAME) LIKE 'region' ) ORDER BY REGION_NAME ASC";
-        sqlStatement="SELECT REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_STATUS_TYPE_ID=1 AND REGION_LEVEL_TYPE_ID=1";
+        sqlStatement="SELECT region_level_type_id, REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_STATUS_TYPE_ID=1 AND REGION_LEVEL_TYPE_ID=1";
         regions=DBUtil.executeSqlQueryMultiValue(sqlStatement, RegionModel.class, "fillForRepManagementSearch", con);
         return regions;
     }
+    
+    
+    public static Vector<RegionModel> getRegionChildrenBylevelAndName(Connection con, String regionName, String regionLevel){
+        System.out.println("getRegionChildrenBylevelAndName "+regionName+" "+regionLevel);
+        Vector<RegionModel> regions=new Vector();
+        String sqlStatement;
+        //sqlStatement="SELECT REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_STATUS_TYPE_ID=1 AND REGION_LEVEL_TYPE_ID=(SELECT REGION_LEVEL_TYPE_ID FROM DCM_REGION_LEVEL_TYPE WHERE LOWER(REGION_LEVEL_TYPE_NAME) LIKE 'region' ) ORDER BY REGION_NAME ASC";
+        sqlStatement="SELECT region_level_type_id, REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_STATUS_TYPE_ID=1 AND parent_region_id in (select region_id from dcm_region where region_name='"+regionName+"' and region_level_type_id="+regionLevel+")";
+        System.out.println("getRegionChildrenBylevelAndName sql"+sqlStatement);
+        regions=DBUtil.executeSqlQueryMultiValue(sqlStatement, RegionModel.class, "fillForRepManagementSearch", con);
+        return regions;
+    }
+    
 
     public static Vector<DCMUserLevelTypeModel>getUserLevelsForSupervisorAndRep(Connection con){
 

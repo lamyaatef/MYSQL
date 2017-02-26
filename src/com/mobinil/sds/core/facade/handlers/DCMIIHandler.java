@@ -501,7 +501,12 @@ public class DCMIIHandler {
                         dataHashMap.put(InterfaceKey.HASHMAP_KEY_ADDITIONAL_COLLECTION_2, dcmRegion);
                         ///////////// Removed to improve performance of loading page dcm_show_regions.jsp ////////////////
                         //dataHashMap.put(InterfaceKey.HASHMAP_KEY_COLLECTION, RegionDAO.getParentRegions(con));
-                        dataHashMap.put(DCMInterfaceKey.SEARCH_REGION_RESULT, null);
+                        ///////////////////////////////////lamya///////////
+                        Vector<RegionModel> regions =  RepManagementDAO.getRegions(con);
+                        dataHashMap.put("my_regions",regions);
+                        ///////////////////lamya///////////////////////
+                        dataHashMap.put(DCMInterfaceKey.SEARCH_REGION_RESULT,null);
+                        
                         dataHashMap.put(DCMInterfaceKey.INPUT_TEXT_REGION_NAME, "");
                         dataHashMap.put(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME, "");
                         dataHashMap.put(DCMInterfaceKey.Message, "first");
@@ -1060,16 +1065,36 @@ public class DCMIIHandler {
 
                 case search_region: {
                     dataHashMap.put(InterfaceKey.HASHMAP_KEY_USER_ID, strUserID);
-
+                    Vector<RegionModel> childRegions = new Vector<RegionModel>();
+                    Vector<RegionModel> regions = new Vector<RegionModel>();
+                    Integer totalpages = new Integer(0);
+                    
                     String destinationPage = (String) paramHashMap.get(SCMInterfaceKey.DESTINATION_PAGE);
                     if (destinationPage == null) {
                         destinationPage = "0";
                     }
                     String regionName = (String) paramHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_NAME);
                     String levelId = (String) paramHashMap.get(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME);
-                    Integer totalpages = RegionDAO.getRegionByNameCount(regionName, levelId, con);
-                    Vector<RegionModel> regions = RegionDAO.getRegionByName(regionName, levelId, con, destinationPage);
+                    
+                    
+                    String selectedRegionName = (String) paramHashMap.get("selected_region_name");
+                    String selectedRegionLevel = (String) paramHashMap.get("selected_region_level");
+                    
+                    Vector<RegionModel> myRegions =  RepManagementDAO.getRegions(con);
+                    
+                    if(selectedRegionLevel!=null && selectedRegionLevel.compareTo("")!=0 &&  selectedRegionName!=null && selectedRegionName.compareTo("")!=0)
+                        childRegions =  RepManagementDAO.getRegionChildrenBylevelAndName(con, selectedRegionName, selectedRegionLevel);
+                    
+                    if(regionName!=null && regionName.compareTo("")!=0 && levelId!=null && levelId.compareTo("")!=0){
+                        totalpages = RegionDAO.getRegionByNameCount(regionName, levelId, con);
+                        regions = RegionDAO.getRegionByName(regionName, levelId, con, destinationPage);
+                    }
+                    
+                    
+                    dataHashMap.put("my_regions",myRegions);
                     dataHashMap.put(DCMInterfaceKey.SEARCH_REGION_RESULT, regions);
+                    dataHashMap.put("child_regions", childRegions);
+                    
                     Vector<RegionLevelDto> levels = RegionDAO.getALLRegionlevels(con);
                     dataHashMap.put(DCMInterfaceKey.VECTOR_ALL_REGIONS_LEVELS, levels);
                     dataHashMap.put(DCMInterfaceKey.INPUT_TEXT_REGION_NAME, regionName);
