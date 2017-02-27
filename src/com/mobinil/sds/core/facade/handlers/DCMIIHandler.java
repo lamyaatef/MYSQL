@@ -1090,6 +1090,8 @@ public class DCMIIHandler {
                         regions = RegionDAO.getRegionByName(regionName, levelId, con, destinationPage);
                     }
                     
+                    System.out.println("destinationPage "+destinationPage);
+                    System.out.println("totalpages "+totalpages);
                     
                     dataHashMap.put("my_regions",myRegions);
                     dataHashMap.put(DCMInterfaceKey.SEARCH_REGION_RESULT, regions);

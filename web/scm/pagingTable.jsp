@@ -145,12 +145,12 @@
 
     }
     function checkBeforeSubmit(){
-       if (document.getElementById('<%=SCMInterfaceKey.INPUT_CONTROL_PAGE_NUMBER%>').value><%=stringTotalPageNumber%>)
+       if (document.getElementById('<%=SCMInterfaceKey.INPUT_CONTROL_PAGE_NUMBER%>').value > <%=stringTotalPageNumber%>)
        {
            alert('Page number greater than maximum pages.');
            return false;
        }
-       if (document.getElementById('<%=SCMInterfaceKey.INPUT_CONTROL_PAGE_NUMBER%>').value<=0)
+       if (document.getElementById('<%=SCMInterfaceKey.INPUT_CONTROL_PAGE_NUMBER%>').value <= 0)
        {
            alert('Page number less than 0.');
            return false;

@@ -3162,12 +3162,12 @@ public class SCMHandler {
     public static void searchRepOrSup(HashMap paramHashMap, HashMap dataHashMap, Connection con) {
         System.out.println("SEARCH");
         String destinationPage=(String) paramHashMap.get(SCMInterfaceKey.DESTINATION_PAGE);
-
+        
         if(destinationPage==null){
             destinationPage="0";
         }
 
-
+        System.out.println("destination "+destinationPage);
         String passedRegionId = (String) paramHashMap.get(SCMInterfaceKey.REGION_ID);
         String passedSearchName = (String) paramHashMap.get(SCMInterfaceKey.SEARCH_NAME);
         String passedUserLevelTypeId = (String) paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
@@ -3193,6 +3193,7 @@ public class SCMHandler {
         }
 
         String totalPageNumbers= RepManagementDAO.getAllRepsAndSupPageCount(con,searchName,regionId,userLevelTypeId);
+        System.out.println("totalPageNumbers "+totalPageNumbers);
         repSearchResults = RepManagementDAO.searchRepsAndSupervisor(con, searchName, regionId, userLevelTypeId,destinationPage);
         dataHashMap.put(SCMInterfaceKey.VECTOR_REP_SEARCH_RESULTS, repSearchResults);
         Vector<RegionModel> regions = new Vector();

@@ -159,7 +159,8 @@ public class RepManagementDAO {
 "    AND    scm_user_region.region_level_type_id         =4\n" +
 "    AND scm_user_region.USER_LEVEL_TYPE_ID IN(3,4,5,6)) x"
             +" "+sqlSearch +"   "
-            +" ) ORDER BY LOWER(USER_FULL_NAME) ";
+ +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";           
+// +" ) ORDER BY LOWER(USER_FULL_NAME) ";
         System.out.println("Search Rep Query : "+sqlStatement);
         dcmUser= DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class, "fillForRepManagementSearch", con);
 
