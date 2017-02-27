@@ -1085,7 +1085,7 @@ public class DCMIIHandler {
                     if(selectedRegionLevel!=null && selectedRegionLevel.compareTo("")!=0 &&  selectedRegionName!=null && selectedRegionName.compareTo("")!=0)
                         childRegions =  RepManagementDAO.getRegionChildrenBylevelAndName(con, selectedRegionName, selectedRegionLevel);
                     
-                    if(regionName!=null && regionName.compareTo("")!=0 && levelId!=null && levelId.compareTo("")!=0){
+                    if((regionName!=null && regionName.compareTo("")!=0) || (levelId!=null && levelId.compareTo("")!=0)){
                         totalpages = RegionDAO.getRegionByNameCount(regionName, levelId, con);
                         regions = RegionDAO.getRegionByName(regionName, levelId, con, destinationPage);
                     }

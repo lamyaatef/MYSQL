@@ -42,7 +42,7 @@ public class RepManagementDAO {
         Vector<RegionModel> regions=new Vector();
         String sqlStatement;
         //sqlStatement="SELECT REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_STATUS_TYPE_ID=1 AND REGION_LEVEL_TYPE_ID=(SELECT REGION_LEVEL_TYPE_ID FROM DCM_REGION_LEVEL_TYPE WHERE LOWER(REGION_LEVEL_TYPE_NAME) LIKE 'region' ) ORDER BY REGION_NAME ASC";
-        sqlStatement="SELECT region_level_type_id, REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_STATUS_TYPE_ID=1 AND REGION_LEVEL_TYPE_ID=1";
+        sqlStatement="SELECT dcm_region_level_type.REGION_LEVEL_TYPE_NAME,dcm_region.region_level_type_id, REGION_ID,REGION_NAME FROM dcm_region_level_type,DCM_REGION WHERE dcm_region.region_level_type_id = dcm_region_level_type.region_level_type_id and REGION_STATUS_TYPE_ID=1 AND dcm_region.REGION_LEVEL_TYPE_ID=1";
         regions=DBUtil.executeSqlQueryMultiValue(sqlStatement, RegionModel.class, "fillForRepManagementSearch", con);
         return regions;
     }
@@ -53,7 +53,7 @@ public class RepManagementDAO {
         Vector<RegionModel> regions=new Vector();
         String sqlStatement;
         //sqlStatement="SELECT REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_STATUS_TYPE_ID=1 AND REGION_LEVEL_TYPE_ID=(SELECT REGION_LEVEL_TYPE_ID FROM DCM_REGION_LEVEL_TYPE WHERE LOWER(REGION_LEVEL_TYPE_NAME) LIKE 'region' ) ORDER BY REGION_NAME ASC";
-        sqlStatement="SELECT region_level_type_id, REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_STATUS_TYPE_ID=1 AND parent_region_id in (select region_id from dcm_region where region_name='"+regionName+"' and region_level_type_id="+regionLevel+")";
+        sqlStatement="SELECT dcm_region_level_type.REGION_LEVEL_TYPE_NAME,dcm_region.region_level_type_id, REGION_ID,REGION_NAME FROM dcm_region_level_type,DCM_REGION WHERE dcm_region.region_level_type_id = dcm_region_level_type.region_level_type_id and REGION_STATUS_TYPE_ID=1 AND parent_region_id in (select region_id from dcm_region where region_name='"+regionName+"' and region_level_type_id="+regionLevel+")";
         System.out.println("getRegionChildrenBylevelAndName sql"+sqlStatement);
         regions=DBUtil.executeSqlQueryMultiValue(sqlStatement, RegionModel.class, "fillForRepManagementSearch", con);
         return regions;

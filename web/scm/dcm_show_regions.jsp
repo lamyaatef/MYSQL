@@ -322,7 +322,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
             
         <tr class=TableTextNote>
                         <td align=middle>Region</td>
-                        <td>
+                        <td align=middle>
                             <select id="<%=SCMInterfaceKey.REGION_ID%>" name="<%=SCMInterfaceKey.REGION_ID%>">
                                 <option value="">-----</option>
                                 <%
@@ -344,7 +344,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                     
                             <tr class=TableTextNote>
                         <td align=middle>Governorate</td>
-                        <td>
+                        <td align=middle>
                             <select id="<%=SCMInterfaceKey.GOVERNORATE_ID%>" name="<%=SCMInterfaceKey.GOVERNORATE_ID%>">
                                 <option value="">-----</option>
                                 
@@ -355,7 +355,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                     </tr>
                             <tr class=TableTextNote>
                         <td align=middle>City</td>
-                        <td>
+                        <td align=middle>
                             <select id="<%=SCMInterfaceKey.CITY_ID%>" name="<%=SCMInterfaceKey.CITY_ID%>">
                                 <option value="">-----</option>
                                 
@@ -366,7 +366,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                     </tr>
                             <tr class=TableTextNote>
                         <td align=middle>District</td>
-                        <td>
+                        <td align=middle>
                             <select id="<%=SCMInterfaceKey.DISTRICT_ID%>" name="<%=SCMInterfaceKey.DISTRICT_ID%>">
                                 <option value="">-----</option>
                                 
