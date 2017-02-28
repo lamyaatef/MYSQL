@@ -37,6 +37,18 @@ import java.util.Vector;
  */
 public class RepManagementDAO {
 
+    
+public static Vector<RegionModel> getSubRegions(Connection con, String regionId){
+        
+        Vector<RegionModel> regions=new Vector();
+        String sqlStatement;
+        sqlStatement="select region_id,region_name,region_level_type_id,parent_region_id from dcm_region where region_id="+regionId;
+        regions=DBUtil.executeSqlQueryMultiValue(sqlStatement, RegionModel.class, "fillForSubRegion", con);
+        return regions;
+    }
+    
+    
+    
     public static Vector<RegionModel> getRegions(Connection con){
         
         Vector<RegionModel> regions=new Vector();
@@ -157,7 +169,7 @@ public class RepManagementDAO {
 "    AND scm_user_region.REGION_ID           =DCM_REGION.REGION_ID\n" +
 "    AND    scm_user_region.USER_ID         =DCM_USER_DETAIL.USER_ID\n" +
 "    AND    scm_user_region.region_level_type_id         =4\n" +
-"    AND scm_user_region.USER_LEVEL_TYPE_ID IN(3,4,5,6)) x"
+"    AND scm_user_region.USER_LEVEL_TYPE_ID IN(4,5,6)) x"
             +" "+sqlSearch +"   "
  +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";           
 // +" ) ORDER BY LOWER(USER_FULL_NAME) ";
@@ -572,12 +584,15 @@ public class RepManagementDAO {
         }
 
         sqlStatement="SELECT CEIL(COUNT(*)/20) COUNT FROM (SELECT ROWNUM as row_num, DCM_USER.DCM_USER_ID, DCM_USER.USER_ID, DCM_USER.REGION_ID, DCM_USER.USER_LEVEL_TYPE_ID,DCM_USER_DETAIL.USER_FULL_NAME,DCM_REGION.REGION_NAME,DCM_USER_LEVEL_TYPE.USER_LEVEL_TYPE_NAME, DCM_USER_DETAIL.CREATION_TIMESTAMP"
-            +" FROM  DCM_USER,DCM_USER_DETAIL,DCM_REGION,DCM_USER_LEVEL_TYPE"
+            +" FROM  scm_user_region, DCM_USER,DCM_USER_DETAIL,DCM_REGION,DCM_USER_LEVEL_TYPE"
             +" WHERE DCM_USER.DCM_USER_ID=DCM_USER_DETAIL.USER_ID AND"
             +" DCM_USER.USER_LEVEL_TYPE_ID=DCM_USER_LEVEL_TYPE.USER_LEVEL_TYPE_ID"
-            +" AND DCM_USER.USER_STATUS_TYPE_ID=1 AND DCM_USER.REGION_ID=DCM_REGION.REGION_ID "+sqlStringSearch
-            +" ) ";
+            +" AND DCM_USER.USER_STATUS_TYPE_ID=1 /*AND DCM_USER.REGION_ID=DCM_REGION.REGION_ID*/ "+sqlStringSearch
+            +" and scm_user_region.region_id = dcm_region.region_id\n" +
+"  and scm_user_region.user_id = DCM_USER.DCM_USER_ID\n" +
+"  ) ";
 
+        System.out.println("sql : "+sqlStatement);
         String count="0";
         count=DBUtil.executeQuerySingleValueString(sqlStatement, "COUNT", con);
         return count;

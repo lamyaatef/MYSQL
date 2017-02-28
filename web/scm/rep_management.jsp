@@ -33,6 +33,8 @@
             //System.out.println("SEARCH RESULTS IN JSP : "+searchResults);
             String userLevelTypeId=(String)dataHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
             String regionId=(String)dataHashMap.get(SCMInterfaceKey.REGION_ID);
+            dataHashMap.put(SCMInterfaceKey.REGION_ID,regionId);
+            System.out.println("RepManagement Page - regionId "+regionId);
             String searchName=(String)dataHashMap.get(SCMInterfaceKey.SEARCH_NAME);
             System.out.println("Name JSP -> "+searchName);
             
@@ -65,10 +67,13 @@
                     $('#export_row').hide();
             
 });
-            function submitEditForm(dcmUserId,userLevelTypeId){
+            function submitEditForm(dcmUserId,userLevelTypeId,regionId,region_name){
+                
             document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ID%>.value=dcmUserId;
             document.<%=formName%>.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value="<%=SCMInterfaceKey.ACTION_EDIT_REP_SUP%>";
             document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_LEVEL_TYPE_ID%>.value=userLevelTypeId;
+            document.<%=formName%>.regionID.value=regionId;
+            document.<%=formName%>.regionName.value=region_name;
             document.<%=formName%>.submit();
 
             }
@@ -175,7 +180,8 @@
             <input type="hidden" name="<%=SCMInterfaceKey.DCM_USER_ID%>" value="-1">
             <input type="hidden" name="<%=SCMInterfaceKey.DCM_USER_LEVEL_TYPE_ID%>">
             <input type="hidden" id="SearchResults" name="<%=SCMInterfaceKey.VECTOR_REP_SEARCH_RESULTS%>" value="">
-
+            <input type="hidden" id="regionID" name="regionID" value="">
+            <input type="hidden" id="regionName" name="regionName" value="">
 
                 <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1">
                         
@@ -293,7 +299,7 @@
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><a href="javascript:viewDetail(<%=rep.getDcmUserId()%>,<%=rep.getUserLevelTypeId()%>);"><%=rep.getUserFullName()%></a></td>
                         <td align="center"  style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=rep.getRegionName() %></td>
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=rep.getUserLevelTypeName()%></td>
-                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><input type="button" class="button" value="Edit" onclick="submitEditForm(<%=rep.getDcmUserId()%>,<%=rep.getUserLevelTypeId()%>);"></td>
+                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><input type="button" class="button" value="Edit" onclick="submitEditForm(<%=rep.getDcmUserId()%>,<%=rep.getUserLevelTypeId()%>,<%=rep.getRegionId()%>,'<%=rep.getRegionName()%>');"></td>
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><input type="button" class="button" value="Delete" onclick="confirmDelete(<%=rep.getDcmUserId()%>,<%=rep.getUserLevelTypeId()%>);"></td>
                     </tr>
 

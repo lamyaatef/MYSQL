@@ -510,7 +510,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
         </div>
     </form>
     <%} 
-         if (childRegions != null && childRegions.size() != 0) {
+        else if (childRegions != null && childRegions.size() != 0) {
         
             System.out.println("child regions "+childRegions.size());
             int max = DBUtil.executeQuerySingleValueInt("SELECT MAX(REGION_LEVEL_TYPE_ID) FROM DCM_REGION_LEVEL_TYPE", "MAX(REGION_LEVEL_TYPE_ID)", con);

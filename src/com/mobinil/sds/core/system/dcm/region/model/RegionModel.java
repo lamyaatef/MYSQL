@@ -147,6 +147,18 @@ public class RegionModel extends Model implements Serializable
         }
 
   }
+  
+  public void fillForSubRegion(ResultSet res){
+        try {
+            this.setRegionLevelTypeId(res.getString("region_level_type_id"));
+            this.setParentRegionId(res.getString("parent_region_id"));
+            this.setRegionName(res.getString("region_name"));
+            this.setRegionId(res.getString("region_id"));
+        } catch (SQLException ex) {
+            Logger.getLogger(RegionModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+  }
 
     @Override
     public void fillInstance(ResultSet res) {

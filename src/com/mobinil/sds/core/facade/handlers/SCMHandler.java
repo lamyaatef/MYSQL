@@ -1809,7 +1809,43 @@ public class SCMHandler {
                     String userAddress = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_ADDRESS);
                     String userEmail = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_EMAIL);
                     String userMobile = (String) paramHashMap.get(SCMInterfaceKey.DCM_USER_MOBILE);
-                    String userRegionId = (String) paramHashMap.get(SCMInterfaceKey.REGION_ID);
+                    String userRegionId = (String) paramHashMap.get("regionID");
+                    String userRegionName = (String) paramHashMap.get("regionName");
+                    System.out.println("action_edit_rep_sup - region id and name "+userRegionId+" "+userRegionName);
+                    
+                    dataHashMap.put("districtName", userRegionName);
+                    dataHashMap.put("districtID", userRegionId);
+                    Vector<RegionModel> reg = RepManagementDAO.getSubRegions(con, userRegionId);
+                    int levelCount = Integer.valueOf(reg.get(0).getRegionLevelTypeId()).intValue();
+                    String parentRegionId = reg.get(0).getParentRegionId();
+                    
+                    while(levelCount>1)
+                    {
+                        Vector<RegionModel> tempRegion = RepManagementDAO.getSubRegions(con, parentRegionId);
+                        if(tempRegion.get(0).getRegionLevelTypeId().compareTo("3")==0)
+                        {
+                            dataHashMap.put("cityName", tempRegion.get(0).getRegionName());
+                            dataHashMap.put("cityID", tempRegion.get(0).getRegionId());
+                        }
+                        if(tempRegion.get(0).getRegionLevelTypeId().compareTo("2")==0)
+                        {
+                            dataHashMap.put("governName", tempRegion.get(0).getRegionName());
+                            dataHashMap.put("governID", tempRegion.get(0).getRegionId());
+                        }
+                        if(tempRegion.get(0).getRegionLevelTypeId().compareTo("1")==0)
+                        {
+                            dataHashMap.put("myRegionName", tempRegion.get(0).getRegionName());
+                            dataHashMap.put("myRegionID", tempRegion.get(0).getRegionId());
+                        }
+                        parentRegionId = tempRegion.get(0).getParentRegionId();
+                        --levelCount;
+                        
+                    }
+                    
+                    
+                    System.out.println("names of regions "+dataHashMap.get("districtName")+" "+dataHashMap.get("cityName")+" "+dataHashMap.get("governName")+" "+dataHashMap.get("myRegionName"));
+                    
+                    
                     String userRegionLevelTypeId = "";//(String) paramHashMap.get(SCMInterfaceKey.REGION_LEVEL_TYPE_ID);
                     String systemUserId = (String) paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
                     
@@ -1886,7 +1922,7 @@ public class SCMHandler {
                         System.out.println("in 4");
                         mySuperId = stDcmUserId;
                         myTeamId = teamleaderId;
-                        userRegionLevelTypeId = "1";
+                        userRegionLevelTypeId = "1"; //region level for supervisor
                         
                         superTeamleaders = RepManagementDAO.getSupervisorTeamleaders(con, mySuperId);
                     }
@@ -1895,7 +1931,7 @@ public class SCMHandler {
                         System.out.println("in 5");
                         myTeamId = stDcmUserId;
                         mySuperId = supervisorId;
-                        userRegionLevelTypeId = "1";
+                        userRegionLevelTypeId = "1"; //region level for teamleader
                         teamSupervisors = RepManagementDAO.getTeamleaderSupervisors(con, myTeamId);
                     }
                     
@@ -1904,7 +1940,7 @@ public class SCMHandler {
                         myRepId=stDcmUserId;
                         mySuperId=supervisorId;
                         myTeamId = teamleaderId;
-                        userRegionLevelTypeId = "4";
+                        userRegionLevelTypeId = "4"; //district level for rep
                         repSupervisors = RepManagementDAO.getRepSupervisors(con, myRepId);
                         repTeamleaders = RepManagementDAO.getRepTeamleaders(con, myRepId);
                     }
@@ -1969,7 +2005,7 @@ public class SCMHandler {
                     
 
                 }
-
+                
                 break;
 
                 case action_submit_user_level_type: {
@@ -3167,8 +3203,9 @@ public class SCMHandler {
             destinationPage="0";
         }
 
-        System.out.println("destination "+destinationPage);
+        
         String passedRegionId = (String) paramHashMap.get(SCMInterfaceKey.REGION_ID);
+        System.out.println("searchRepOrSup passed region id "+passedRegionId);
         String passedSearchName = (String) paramHashMap.get(SCMInterfaceKey.SEARCH_NAME);
         String passedUserLevelTypeId = (String) paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
 
@@ -3193,7 +3230,11 @@ public class SCMHandler {
         }
 
         String totalPageNumbers= RepManagementDAO.getAllRepsAndSupPageCount(con,searchName,regionId,userLevelTypeId);
+        
+        System.out.println("destination "+destinationPage);
         System.out.println("totalPageNumbers "+totalPageNumbers);
+        
+        
         repSearchResults = RepManagementDAO.searchRepsAndSupervisor(con, searchName, regionId, userLevelTypeId,destinationPage);
         dataHashMap.put(SCMInterfaceKey.VECTOR_REP_SEARCH_RESULTS, repSearchResults);
         Vector<RegionModel> regions = new Vector();

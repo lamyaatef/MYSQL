@@ -31,6 +31,16 @@ System.out.println("form action "+formAction);
             DCMUserModel dcmUser = (DCMUserModel) dataHashMap.get(SCMInterfaceKey.DCM_USER_MODEL);
             DCMUserDetailModel dcmUserDetail = (DCMUserDetailModel) dataHashMap.get(SCMInterfaceKey.DCM_USER_DETAIL_MODEL);
             System.out.println("dcmUserDetail "+dcmUserDetail);
+            
+            String selectedDistrictName = (String)dataHashMap.get("districtName");
+            String selectedCityName = (String)dataHashMap.get("cityName");
+            String selectedGovernName = (String)dataHashMap.get("governName");
+            String selectedRegionName = (String)dataHashMap.get("myRegionName");
+            String selectedDistrictID = (String)dataHashMap.get("districtID");
+            String selectedCityID = (String)dataHashMap.get("cityID");
+            String selectedGovernID = (String)dataHashMap.get("governID");
+            String selectedRegionID = (String)dataHashMap.get("myRegionID");
+            
             Vector<DCMUserLevelTypeModel> repLevels = new Vector();
             Vector<RegionModel> regions = new Vector();
             Vector<RegionModel> regionGovernorates = new Vector();
@@ -606,6 +616,35 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                                 }
 
                                     %>>
+                                <%
+                                                
+                                                if(selectedRegionName!=null){
+                                                    
+                                                
+                                %>
+                                <option  value="<%=selectedRegionID%>" selected><%=selectedRegionName%></option>
+                                <%
+                                                if (regions != null && regions.size() != 0) {
+                                                for (int i = 0; i < regions.size(); i++) {
+                                                    RegionModel region = (RegionModel) regions.get(i);
+                                                    if(selectedRegionID.compareToIgnoreCase(region.getRegionId())!=0){
+                                %>
+                                <option value="<%=region.getRegionId()%>"
+                                        <%
+                                            if (regionId != null && regionId.equalsIgnoreCase(region.getRegionId())) {
+                                                out.print("selected");
+                                             }
+                                        %>
+                                        ><%=region.getRegionName()%></option>
+                                <%
+                                                }
+                                                }
+                                            }
+                                                
+                                                
+                    }  
+                                                else{
+                                %>
                                 <option value="">-----</option>
                                 <%
                                             if (regions != null && regions.size() != 0) {
@@ -622,6 +661,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 <%
                                                 }
                                             }
+                                                }
                                 %>
                             </select>
 
@@ -731,6 +771,29 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         <td>Governorate</td>
                         <td>
                             <select id="<%=SCMInterfaceKey.GOVERNORATE_ID%>" name="<%=SCMInterfaceKey.GOVERNORATE_ID%>" >
+                                
+                                
+                                                                <%
+                                                
+                                                if(selectedGovernName!=null){
+                                                    
+                                                
+                                %>
+                                <option  value="<%=selectedGovernID%>" selected><%=selectedGovernName%></option>
+                                <%
+                                             
+                                                
+                                                
+                    }  
+                                                else{
+                                %>
+                                
+                                
+                                
+                                
+                                
+                                
+                                
                                 <option value="">-----</option>
                                 <%
                                 System.out.println("governorateId "+governorateId+" and regionGovernorates "+regionGovernorates);
@@ -749,6 +812,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 <%
                                                                                      }
                                                                                  }
+                                                }
                                 %>
                             </select>
 
@@ -762,6 +826,26 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         <td>City</td>
                         <td>
                             <select id="<%=SCMInterfaceKey.CITY_ID%>" name="<%=SCMInterfaceKey.CITY_ID%>" >
+                                
+                                
+                                <%
+                                                
+                                                if(selectedCityName!=null){
+                                                    
+                                                
+                                %>
+                                <option  value="<%=selectedCityID%>" selected><%=selectedCityName%></option>
+                                <%
+                                             
+                                                
+                                                
+                    }  
+                                                else{
+                                %>
+                                
+                                
+                                
+                                
                                 <option value="">-----</option>
                                 <%
                                                                                  if (governorateCities != null && governorateCities.size() != 0) {
@@ -778,6 +862,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 <%
                                                                                      }
                                                                                  }
+                                                }
                                 %>
                             </select>
 
@@ -788,6 +873,25 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         <td>District</td>
                         <td>
                             <select id="<%=SCMInterfaceKey.DISTRICT_ID%>" name="<%=SCMInterfaceKey.DISTRICT_ID%>">
+                                
+                                
+                                <%
+                                                
+                                                if(selectedDistrictName!=null){
+                                                    
+                                                
+                                %>
+                                <option  value="<%=selectedDistrictID%>" selected><%=selectedDistrictName%></option>
+                                <%
+                                             
+                                                
+                                                
+                    }  
+                                                else{
+                                %>
+                                
+                                
+                                
                                 <option value="">-----</option>
                                 <%
                                     if (cityDistricts != null && cityDistricts.size() != 0) {
@@ -804,6 +908,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 <%
                                       }
                                     }
+                                                }
                                 %>
                             </select>
 

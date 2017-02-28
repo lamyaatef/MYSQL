@@ -254,6 +254,7 @@ public void setCreationTimeStamp(Date passCreationTimeStamp) {
             this.setUserFullName(res.getString("USER_FULL_NAME"));
             this.setUserId(res.getString("USER_ID"));
             this.setRegionName(res.getString("REGION_NAME"));
+            this.setRegionId(res.getString("REGION_ID"));
             this.setUserLevelTypeName(res.getString("USER_LEVEL_TYPE_NAME"));
             this.setCreationTimeStamp(res.getDate("CREATION_TIMESTAMP"));
             this.setUserLevelTypeId(res.getString("USER_LEVEL_TYPE_ID"));
