@@ -282,6 +282,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
     <form name='DCMform' id='DCMform' action='<%=DCMFormAction%>' method='post' >
         <input type="hidden" name="baseDirectory" id="baseDirectory" value=""/>
         <input type="hidden" name="selectedEntityName" id="selectedEntityName" value=""/>
+        <input type="hidden" name="selectedEntityLevel" id="selectedEntityLevel" value=""/>
         <input type="hidden" name="SearchResults" id="SearchResults" value=""/>
         <input type="hidden" name="region_select" id="region_select" value=""/>
         <input type="hidden" name="selected_region_name" id="region_select" value=""/>
@@ -472,7 +473,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                 </td>
                 
                 
-                <td align="center" ><input type="button" name="export_data" value="Export" onclick="exportData('<%=base%>','<%=regions.get(i).getRegionName()%>')" /> 
+                <td align="center" ><input type="button" name="export_data" value="Export" onclick="exportData('<%=base%>','<%=regions.get(i).getRegionName()%>','<%=regions.get(i).getRegionLevelTypeId()%>')" /> 
                 </td>
                 
                 
@@ -585,7 +586,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                 </td>
                 
                 
-                <td align="center" ><input type="button" name="export_data" value="Export" onclick="exportData('<%=base%>','<%=childRegions.get(j).getRegionName()%>')" /> 
+                <td align="center" ><input type="button" name="export_data" value="Export" onclick="exportData('<%=base%>','<%=childRegions.get(j).getRegionName()%>','<%=childRegions.get(j).getRegionLevelTypeId()%>')" /> 
                 </td>
                 
                 
@@ -757,14 +758,14 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
             '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
         document.DCMform.submit();
     }
-    function exportData(base,name)
+    function exportData(base,name,level)
     {
-        
         /*document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_EXPORT_REGION_POS_REPORT);%>'
     alert("document.DCMform.action "+document.DCMform.action);    */
     document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_EXPORT_REGION_POS_REPORT);%>'
     document.DCMform.baseDirectory.value=base;
     document.DCMform.selectedEntityName.value=name;
+    document.DCMform.selectedEntityLevel.value=level;
         document.DCMform.submit();
     }
     function viewDetails(i)

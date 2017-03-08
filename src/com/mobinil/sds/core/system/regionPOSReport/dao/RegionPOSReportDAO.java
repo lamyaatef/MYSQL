@@ -19,7 +19,7 @@ import java.util.Vector;
  */
 public class RegionPOSReportDAO {
     
-    public static Vector getRegionPOSData(Connection con, String regionLevel, String regionName, String regionNameSearch) {
+    public static Vector getRegionPOSData(Connection con, String regionLevel, String regionName, String regionNameSearch,String regionLevelSearch) {
         
         Vector vec = new Vector();
         try {
@@ -33,24 +33,24 @@ public class RegionPOSReportDAO {
             strSql.append("  dcm_pos_owner.pos_owner_id_number,");
 
             strSql.append("  dcm_id_type.id_type_name," );
-            if(regionLevel.compareTo("1")==0)
+            if(regionLevel.compareTo("1")==0 || regionLevelSearch.compareTo("1")==0)
             {
                 strSql.append("  dcm_region.region_name," );
             }
-            if(regionLevel.compareTo("3")==0)
+            if(regionLevel.compareTo("3")==0 || regionLevelSearch.compareTo("3")==0)
             {
                 strSql.append("  city.region_name as city_name,");
             }
-            if(regionLevel.compareTo("2")==0)
+            if(regionLevel.compareTo("2")==0 || regionLevelSearch.compareTo("2")==0)
             {
                 strSql.append("  govern.region_name as govern_name," );
             }
-            if(regionLevel.compareTo("4")==0)
+            if(regionLevel.compareTo("4")==0 || regionLevelSearch.compareTo("4")==0)
             {
                 strSql.append("  dcm_pos_detail.district_code,");
                 strSql.append("  district.region_name as district_name,");
             }
-            if(regionLevel.compareTo("5")==0)
+            if(regionLevel.compareTo("5")==0 || regionLevelSearch.compareTo("5")==0)
             {
                 strSql.append("  area.region_code as area_code,");
                 strSql.append("  area.region_name as area_name," );
@@ -86,19 +86,19 @@ public class RegionPOSReportDAO {
             strSql.append("  dcm_pos_owner," );
             strSql.append("  dcm_id_type,");
             strSql.append("  dcm_region," );
-            if(regionLevel.compareTo("3")==0)
+            if(regionLevel.compareTo("3")==0 || regionLevelSearch.compareTo("3")==0)
             {
                 strSql.append("  dcm_region city,");
             }
-            if(regionLevel.compareTo("2")==0)
+            if(regionLevel.compareTo("2")==0 || regionLevelSearch.compareTo("2")==0)
             {
                 strSql.append("  dcm_region govern,");
             }
-            if(regionLevel.compareTo("4")==0)
+            if(regionLevel.compareTo("4")==0 || regionLevelSearch.compareTo("4")==0)
             {
                 strSql.append("  dcm_region district," );
             }
-            if(regionLevel.compareTo("5")==0)
+            if(regionLevel.compareTo("5")==0 || regionLevelSearch.compareTo("5")==0)
             {
                 strSql.append("  dcm_region area," );
             }
@@ -121,26 +121,26 @@ public class RegionPOSReportDAO {
             strSql.append(" AND dcm_pos_owner.pos_detail_id = dcm_pos_detail.pos_detail_id" );
             strSql.append(" AND dcm_pos_owner.pos_owner_id_type_id = dcm_id_type.id_type_id");
             strSql.append(" AND dcm_region.region_id = dcm_pos_detail.region_id");
-            if(regionLevel.compareTo("1")==0 && regionNameSearch!=null && regionNameSearch.compareTo("")!=0)
+            if((regionLevel.compareTo("1")==0 || regionLevelSearch.compareTo("1")==0) && regionNameSearch!=null && regionNameSearch.compareTo("")!=0)
             {
                 strSql.append(" AND LOWER(dcm_region.region_name) = LOWER('"+regionNameSearch+"')");
             }
-            if(regionLevel.compareTo("3")==0 && regionNameSearch!=null && regionNameSearch.compareTo("")!=0)
+            if((regionLevel.compareTo("3")==0 || regionLevelSearch.compareTo("3")==0) && regionNameSearch!=null && regionNameSearch.compareTo("")!=0)
             {
                 strSql.append(" AND city.region_id = dcm_pos_detail.pos_city_id");
                 strSql.append(" AND LOWER(city.region_name) = LOWER('"+regionNameSearch+"')");
             }
-            if(regionLevel.compareTo("2")==0 && regionNameSearch!=null && regionNameSearch.compareTo("")!=0)
+            if((regionLevel.compareTo("2")==0 || regionLevelSearch.compareTo("2")==0) && regionNameSearch!=null && regionNameSearch.compareTo("")!=0)
             {
                 strSql.append(" AND govern.region_id = dcm_pos_detail.pos_governrate");
                 strSql.append(" AND LOWER(govern.region_name) = LOWER('"+regionNameSearch+"')");
             }
-            if(regionLevel.compareTo("4")==0 && regionNameSearch!=null && regionNameSearch.compareTo("")!=0)
+            if((regionLevel.compareTo("4")==0 || regionLevelSearch.compareTo("4")==0) && regionNameSearch!=null && regionNameSearch.compareTo("")!=0)
             {
                 strSql.append(" AND district.region_id = dcm_pos_detail.pos_district_id");
                 strSql.append(" AND LOWER(district.region_name) = LOWER('"+regionNameSearch+"')");
             }
-            if(regionLevel.compareTo("5")==0 && regionNameSearch!=null && regionNameSearch.compareTo("")!=0)
+            if((regionLevel.compareTo("5")==0 || regionLevelSearch.compareTo("5")==0) && regionNameSearch!=null && regionNameSearch.compareTo("")!=0)
             {
                 strSql.append(" AND area.region_id = dcm_pos_detail.pos_area_id");
                 strSql.append(" AND LOWER(area.region_name) = LOWER('"+regionNameSearch+"')");
