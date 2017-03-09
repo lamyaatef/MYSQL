@@ -18,7 +18,8 @@ import oracle.net.nt.ConnOption;
 
 public class TeamleaderFileDAO{
 public static final String PHONE_NUMBER = "0900";
-
+public static final String ORANGE_EMAIL_SUFFIX = "@orange.com";
+public static final String ORANGE_EMAIL_PREFIX = "dummy.";
     public static Vector getallNomadfiles(Connection con, String userId) {
         Vector vec = new Vector();
         String personName="";
@@ -125,12 +126,13 @@ public static final String PHONE_NUMBER = "0900";
   }
     
     
-    public static void insertTeamleaderData(Connection con, Statement stat,String userId,boolean isemptyField,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) {
+    public static void insertTeamleaderData(Connection con, Statement stat,String userId,boolean isemptyField,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count,int mobileIndex, int emailIndex/*, String fileDate, int updatedIndex*/) {
         //System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
         String strSql = "";
         String strUserSql = "";
         String strUserDetailSql = "";
+        int emailCount=0;
         System.out.println("insertTeamleaderData : go to record no. "+count);
                             
         try {
@@ -141,6 +143,15 @@ public static final String PHONE_NUMBER = "0900";
         {
            /* if(isemptyField)
                 concatFields +="' '" + ",";*/
+            if(i==mobileIndex && lineFields[i].compareTo("")==0)
+            {
+                concatFields += PHONE_NUMBER+",";
+            }
+            if(i==emailIndex && lineFields[i].compareTo("")==0)
+            {
+                concatFields += ORANGE_EMAIL_PREFIX+emailCount+ORANGE_EMAIL_SUFFIX+",";
+            }
+           emailCount++;
             concatFields += "'"+lineFields[i]+"'"+",";
            
         }

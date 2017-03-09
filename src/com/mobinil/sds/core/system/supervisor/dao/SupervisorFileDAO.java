@@ -17,6 +17,8 @@ import java.text.SimpleDateFormat;
 
 public class SupervisorFileDAO{
 public static final String PHONE_NUMBER = "0900";
+public static final String ORANGE_EMAIL_SUFFIX = "@orange.com";
+public static final String ORANGE_EMAIL_PREFIX = "dummy.";
     public static Vector getallNomadfiles(Connection con, String userId) {
         Vector vec = new Vector();
         String personName="";
@@ -123,12 +125,14 @@ public static final String PHONE_NUMBER = "0900";
   }
     
     
-    public static void insertSupervisorData(Connection con, Statement stat,String userId,boolean isemptyField,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count/*, String fileDate, int updatedIndex*/) {
+    public static void insertSupervisorData(Connection con, Statement stat,String userId,boolean isemptyField,String[] lineFields,Long fileID, int sellerIndex,int statusIndex,int count, int mobileIndex, int emailIndex/*, String fileDate, int updatedIndex*/) {
         //System.out.println("FILE ID : "+fileID+" insertNomadData func (1) : "+lineFields.length+" seller index "+sellerIndex);
         String concatFields = "";
         String strSql = "";
         String strUserSql = "";
         String strUserDetailSql = "";
+        int emailCount=0;
+        boolean isMobile=false;
         System.out.println("insertSupervisorData : go to record no. "+count);
                             
         try {
@@ -139,6 +143,18 @@ public static final String PHONE_NUMBER = "0900";
             /*if(isemptyField)
                 concatFields +="' '" + ",";
             concatFields += "'"+lineFields[i]+"'"+",";*/
+            if(i==mobileIndex)
+            {
+                isMobile=true;
+                
+                if(lineFields[i].compareTo("")==0)
+                    concatFields += PHONE_NUMBER+",";
+            }
+            if(i==emailIndex && lineFields[i].compareTo("")==0)
+            {
+                concatFields += ORANGE_EMAIL_PREFIX+emailCount+ORANGE_EMAIL_SUFFIX+",";
+            }
+           emailCount++;
            
         }
         
@@ -157,10 +173,18 @@ public static final String PHONE_NUMBER = "0900";
         if(rs.next())
         {
             System.out.println("supervisor name found");
-            strSql = "update SCM_SUPERVISOR set CREATION_TIMESTAMP = SYSTIMESTAMP, SUPERVISOR_NAME = '"+lineFields[0]+"', EMAIL='"+lineFields[1]+"' where supervisor_id="+rs.getLong("supervisor_id"); 
+            if(isMobile){
+                strSql = "update SCM_SUPERVISOR set CREATION_TIMESTAMP = SYSTIMESTAMP, SUPERVISOR_NAME = '"+lineFields[0]+"', EMAIL='"+lineFields[1]+"',MOBILE='"+lineFields[mobileIndex]+"' where supervisor_id="+rs.getLong("supervisor_id"); 
+                strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[mobileIndex]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+supId.longValue();
+            }
+            else{
+                strSql = "update SCM_SUPERVISOR set CREATION_TIMESTAMP = SYSTIMESTAMP, SUPERVISOR_NAME = '"+lineFields[0]+"', EMAIL='"+lineFields[1]+"' where supervisor_id="+rs.getLong("supervisor_id"); 
+                strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+supId.longValue();
+            }
             System.out.println("query1 "+strSql);
             st2.executeUpdate(strSql);  
-            strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+supId.longValue();
+            
+            
             System.out.println("query2 "+strUserDetailSql);
             st2.executeUpdate(strUserDetailSql);
             
@@ -172,11 +196,17 @@ public static final String PHONE_NUMBER = "0900";
             System.out.println("supervisor name NOT found");
             strUserSql = "insert into dcm_user (dcm_user_id, user_id,user_level_type_id,user_detail_id,user_status_type_id,user_level_id) values("+supId.longValue()+","+userId+",4,"+supDetailId.longValue()+",1,4)";
             System.out.println("query2 "+strUserSql);
-            strUserDetailSql = "insert into dcm_user_detail (USER_MOBILE,REGION_ID,USER_DETAIL_STATUS_ID,user_detail_id, user_id,creation_user_id,user_full_name,user_email,CREATION_TIMESTAMP) values('null',-1,1,"+supDetailId.longValue()+","+supId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
+            if(isMobile)
+                strUserDetailSql = "insert into dcm_user_detail (REGION_ID,USER_DETAIL_STATUS_ID,user_detail_id, user_id,creation_user_id,user_full_name,user_email,user_mobile,CREATION_TIMESTAMP) values(-1,1,"+supDetailId.longValue()+","+supId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
+            else
+                strUserDetailSql = "insert into dcm_user_detail (USER_MOBILE,REGION_ID,USER_DETAIL_STATUS_ID,user_detail_id, user_id,creation_user_id,user_full_name,user_email,CREATION_TIMESTAMP) values('null',-1,1,"+supDetailId.longValue()+","+supId.longValue()+","+userId+","+concatFields+",SYSTIMESTAMP)";
             System.out.println("query3 "+strUserDetailSql);
             st2.executeUpdate(strUserSql);
             st2.executeUpdate(strUserDetailSql);
-            strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, /*MOBILE ,*/CREATION_TIMESTAMP) values ("+supId.longValue()+","+concatFields+",SYSTIMESTAMP)"; 
+            if(isMobile)
+                strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, MOBILE ,CREATION_TIMESTAMP) values ("+supId.longValue()+","+concatFields+",SYSTIMESTAMP)"; 
+            else
+                strSql = "insert into SCM_SUPERVISOR ( SUPERVISOR_ID, SUPERVISOR_NAME, EMAIL, /*MOBILE ,*/CREATION_TIMESTAMP) values ("+supId.longValue()+","+concatFields+",SYSTIMESTAMP)"; 
             System.out.println("query1 "+strSql);
             st2.executeUpdate(strSql);  
         }

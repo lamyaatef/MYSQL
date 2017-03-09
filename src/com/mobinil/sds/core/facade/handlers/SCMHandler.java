@@ -2850,6 +2850,7 @@ public class SCMHandler {
                   System.out.println("EXPORT - Data");
                   files =RepManagementDAO.getAllRepsData(con);
                   
+                  
               }
               else 
               {
@@ -2866,7 +2867,7 @@ public class SCMHandler {
          case action_export_supervisors:
           {
              // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
-            Vector searchResults =(Vector)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_vector"));
+            Vector<DCMUserModel> searchResults =(Vector)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_vector"));
             String searchName =(String)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_name"));
             String regionSelected = (String) paramHashMap.get("region_select");
             System.out.println("name = "+searchName+" region = "+regionSelected);
@@ -2885,7 +2886,7 @@ public class SCMHandler {
               else 
               {
                   System.out.println("EXPORT - Search");
-                  files =RepManagementDAO.getAllSupervisorsSearchData(con, searchResults);
+                  files =RepManagementDAO.getAllSupervisorsSearchData(con, searchResults.get(0).getDcmUserId());
                   isSearch = true;
               }
               
@@ -2901,7 +2902,7 @@ public class SCMHandler {
               String Slach = System.getProperty("file.separator");
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
-              Vector searchResults =(Vector)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_vector"));
+              Vector<DCMUserModel> searchResults =(Vector)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_vector"));
             String searchName =(String)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_name"));
             String regionSelected = (String) paramHashMap.get("region_select");
             System.out.println("name = "+searchName+" region = "+regionSelected);
@@ -2917,7 +2918,8 @@ public class SCMHandler {
               else 
               {
                   System.out.println("EXPORT - Search");
-                  files =RepManagementDAO.getAllTeamleadersSearchData(con, searchResults);
+                  files =RepManagementDAO.getAllTeamleadersSearchData(con, searchResults.get(0).getDcmUserId());
+                  System.out.println("files size "+files.size());
                   isSearch = true;
               }
               

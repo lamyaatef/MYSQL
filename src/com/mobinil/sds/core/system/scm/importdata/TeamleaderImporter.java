@@ -47,7 +47,8 @@ public class TeamleaderImporter {
      *  as a (basic) CSV.
      */
     private static final String UPDATED_ON="Update on";
-    
+    private static final String MOBILE="Mobile";
+    private static final String EMAIL="Email";
     private static final String SELLER_USERNAME="Seller Username";
     private static final String STATUS_NAME= "Status";
     private Long fileID;
@@ -81,6 +82,8 @@ public class TeamleaderImporter {
         int updateOn=-1;
         int sellerIndx = -1;
         int statusIndx = -1;
+         int mobileIndx = -1;
+        int emailIndx = -1;
         boolean isemptyField= false;
         this.fileID = fileID;
         this.filePath = filePath;
@@ -122,6 +125,37 @@ public class TeamleaderImporter {
                     while ((line = input.readLine()) != null) {
                         count++;
                        
+                        if (count == 1) {
+                           
+                            String tempLine = line;
+                            String[] fieldUpdatedOn=null;
+                            if(tempLine.contains(","))
+                                fieldUpdatedOn = tempLine.split(","); // \t
+                            else if (tempLine.contains("\t"))
+                                fieldUpdatedOn = tempLine.split("\t"); // \t
+                            if(fieldUpdatedOn!=null)
+                            {
+                                
+                                for(int i=0;i< fieldUpdatedOn.length;i++)
+                                {
+                                    if (fieldUpdatedOn[i].compareToIgnoreCase(MOBILE)==0)
+                                    { 
+                                        mobileIndx = i;
+
+                                    }
+                                    if (fieldUpdatedOn[i].compareToIgnoreCase(EMAIL)==0)
+                                    {
+                                        emailIndx = i;
+
+                                    }
+
+                                }
+                            }
+                            
+                        }
+                        
+                        
+                        
                          if (count > 1) {//!=0
                             System.out.println("^^^^^^^^^^start^^^^^^^^^\n");
                             String fields = line;
@@ -143,7 +177,7 @@ public class TeamleaderImporter {
                            
                             if (v1 == null) 
                                 v1 = "";
-                            TeamleaderFileDAO.insertTeamleaderData(con, stat,userId,isemptyField,lineFields,fileID,sellerIndx,statusIndx,count/*,fileDate,updateOn*/);
+                            TeamleaderFileDAO.insertTeamleaderData(con, stat,userId,isemptyField,lineFields,fileID,sellerIndx,statusIndx,count,mobileIndx,emailIndx/*,fileDate,updateOn*/);
                             System.out.println("^^^^^^^^^^end^^^^^^^^^");
                            
                            }  

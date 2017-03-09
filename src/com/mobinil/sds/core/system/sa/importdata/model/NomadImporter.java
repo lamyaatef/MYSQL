@@ -120,7 +120,7 @@ public class NomadImporter {
                         count++;
                         // first row titles
                         if (count == 1) {
-                           //System.out.println("inside count 1 ") ;
+                           
                             String tempLine = line;
                             String[] fieldUpdatedOn=null;
                             if(tempLine.contains(","))
@@ -132,10 +132,6 @@ public class NomadImporter {
                                 
                                 for(int i=0;i< fieldUpdatedOn.length;i++)
                                 {
-                              //      System.out.println("LOOP fieldUpdatedOn[i] : "+fieldUpdatedOn[i]);
-                                    //System.out.println("updated on = "+ UPDATED_ON);
-                                   // System.out.println("selleer user name ="+ SELLER_USERNAME);
-                                    //System.out.println("FIELD : --- "+fieldUpdatedOn[i]);
                                     if (fieldUpdatedOn[i].compareToIgnoreCase(UPDATED_ON)==0)
                                     { 
                                         updateOn = i;

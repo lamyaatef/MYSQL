@@ -38,16 +38,16 @@ public class RepExcelModel {
         repMobile = res.getString("mobile");
         //repAddress = res.getString("rep_address");
         repEmail = res.getString("email");
-        teamleaderName = res.getString("teamleader_name");
-        teamleaderEmail = res.getString("teamleader_email");
-        teamleaderMobile = res.getString("teamleader_mobile");
+        //teamleaderName = res.getString("teamleader_name");
+        //teamleaderEmail = res.getString("teamleader_email");
+        //teamleaderMobile = res.getString("teamleader_mobile");
         if (teamleaderMobile==null)
                 teamleaderMobile="null";
-        supervisorEmail = res.getString("supervisor_email");
-        supervisorMobile = res.getString("supervisor_mobile");
+        //supervisorEmail = res.getString("supervisor_email");
+        //supervisorMobile = res.getString("supervisor_mobile");
         if (supervisorMobile==null)
                 supervisorMobile="null";
-        supervisorName = res.getString("supervisor_name");
+        //supervisorName = res.getString("supervisor_name");
         
         if(hasRegion)
         {
