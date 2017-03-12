@@ -56,6 +56,7 @@ String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControl
     String totalPageNumbers = (String) objDataHashMap.get(DCMInterfaceKey.STRING_OF_TOTAL_PAGE_NUMBER);
     String regionName = (String) objDataHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_NAME);
     String Level = (String) objDataHashMap.get(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME);
+    System.out.println("LEVEL "+Level);
     String Message = (String) objDataHashMap.get(DCMInterfaceKey.Message);
 %>
 
@@ -420,6 +421,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                 <% Integer childnum = 0;
                 
                 String disabled="";
+                System.out.println("jsp regions LEVEL "+Level);
                 if (Level.compareTo("4")!=0)
                     disabled = "disabled";
                 
@@ -530,9 +532,8 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                 <td align = "center" >View Children</td>
                 <td align = "center" >Export Region</td>
                 <% Integer childnum = 0;
-                
                 String disabled="";
-                if (Level.compareTo("4")!=0)
+                if (childRegions.get(0).getRegionLevelTypeId().compareTo("4")!=0)
                     disabled = "disabled";
                 
                 if (childnum.parseInt(childRegions.get(0).getRegionLevelTypeId()) == max) {
@@ -645,35 +646,38 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
             
         
         
-        if(document.getElementById('<%=SCMInterfaceKey.DISTRICT_ID%>').value=="--" || document.getElementById('<%=SCMInterfaceKey.DISTRICT_ID%>').value=="-----"){
+        if(document.getElementById('<%=SCMInterfaceKey.DISTRICT_ID%>').value=="--" || document.getElementById('<%=SCMInterfaceKey.DISTRICT_ID%>').value=="-----" || document.getElementById('<%=SCMInterfaceKey.DISTRICT_ID%>').value==""){
             
             
-            if(document.getElementById('<%=SCMInterfaceKey.CITY_ID%>').value=="--" || document.getElementById('<%=SCMInterfaceKey.CITY_ID%>').value=="-----"){
-                if(document.getElementById('<%=SCMInterfaceKey.GOVERNORATE_ID%>').value=="--" || document.getElementById('<%=SCMInterfaceKey.GOVERNORATE_ID%>').value=="-----"){
-                    if(document.getElementById('<%=SCMInterfaceKey.REGION_ID%>').value=="--" || document.getElementById('<%=SCMInterfaceKey.REGION_ID%>').value=="-----"){
+            if(document.getElementById('<%=SCMInterfaceKey.CITY_ID%>').value=="--" || document.getElementById('<%=SCMInterfaceKey.CITY_ID%>').value=="-----" || document.getElementById('<%=SCMInterfaceKey.CITY_ID%>').value==""){
+                if(document.getElementById('<%=SCMInterfaceKey.GOVERNORATE_ID%>').value=="--" || document.getElementById('<%=SCMInterfaceKey.GOVERNORATE_ID%>').value=="-----" || document.getElementById('<%=SCMInterfaceKey.GOVERNORATE_ID%>').value==""){
+                    if(document.getElementById('<%=SCMInterfaceKey.REGION_ID%>').value=="--" || document.getElementById('<%=SCMInterfaceKey.REGION_ID%>').value=="-----" || document.getElementById('<%=SCMInterfaceKey.REGION_ID%>').value==""){
                 
                 
                     }
                     else{
+                       // alert("region not empty");
                         document.DCMform.selected_region_name.value=$("#<%=SCMInterfaceKey.REGION_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.REGION_ID%>').value;
                         document.DCMform.selected_region_level.value='1';
                     }
                 
                 }
                 else{
+               // alert("govern not empty");
                     document.DCMform.selected_region_name.value=$("#<%=SCMInterfaceKey.GOVERNORATE_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.GOVERNORATE_ID%>').value;
                     document.DCMform.selected_region_level.value='2';
                 }
                 
             }
             else{
-            
+            //alert("city not empty");
                 document.DCMform.selected_region_name.value=$("#<%=SCMInterfaceKey.CITY_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.CITY_ID%>').value;
                 document.DCMform.selected_region_level.value='3';
             }
             
         }
         else{
+       // alert("district not empty");
             document.DCMform.selected_region_name.value=$("#<%=SCMInterfaceKey.DISTRICT_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.DISTRICT_ID%>').value;
             document.DCMform.selected_region_level.value='4';
         }
@@ -719,11 +723,15 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
     function edit(i)
     {
         var row=i;
+        
     /*    document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ADD_CHILDS_TO_REGION);%>'+
             '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
 */
             document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.EDIT_USERS_TO_REGION);%>'+
-            '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row
+            '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>+'&'+'<%out.print(DCMInterfaceKey.INPUT_TEXT_REGION_ID + "");%>='+row;
+    
+    
+    
         document.DCMform.submit();
     }
 

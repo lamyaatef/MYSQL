@@ -18,6 +18,7 @@
         import="java.sql.Connection"
         import="java.util.*"
         %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
     
     String appName = request.getContextPath();
@@ -196,6 +197,8 @@ System.out.println("form action "+formAction);
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
+        
+        
         <LINK REL=STYLESHEET TYPE="text/css" HREF="<%=appName%>/resources/css/Template1.css">
         <SCRIPT language=JavaScript src="<%=appName%>/resources/js/validation.js" type="text/javascript"></SCRIPT>
 
@@ -559,21 +562,21 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 <%
                                     
                                     if (regionSupervisors!=null && regionSupervisors.size()!=0 && allSupers != null && allSupers.size() != 0) {
-                                        System.out.println("if region supers NOT empty");
+                                       // System.out.println("if region supers NOT empty");
                                         for (int i = 0; i < allSupers.size(); i++) {
                                             com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
                                             String selected1 = "";
                                             //if(teamSupervisors.get(0).getSupId().compareTo(repSuper.getSupervisorId())==0){
                                             if(regionSupervisors.get(0).getDcmUserId().compareTo(repSuper.getSupervisorId())==0){
                                                 selected1 = "selected";
-                                                System.out.println("inner if names are equal");
+                                                //System.out.println("inner if names are equal");
                                             
                                             
                                 %>
                                 <option <%=selected1%> value ="<%=regionSupervisors.get(0).getDcmUserId()%>" ><%=regionSupervisors.get(0).getUserFullName()%></option>
                                 <%}
                                     else {
-                                                System.out.println("inner else names are NOT equal");
+                                                //System.out.println("inner else names are NOT equal");
                                 
                                 %>
                                             <option <%=selected1%> value ="<%=repSuper.getSupervisorId()%>" ><%=repSuper.getSupervisorName()%></option>
@@ -582,7 +585,9 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 }
                                     }
                                     else if(allSupers != null && allSupers.size() != 0 && (regionSupervisors==null || (regionSupervisors!=null && regionSupervisors.size()==0))){
-                                        System.out.println("if region supers empty");
+                                        %>
+                                        <option>---</option>
+                                        <%
                                         for (int i = 0; i < allSupers.size(); i++) {
                                          com.mobinil.sds.core.system.scm.model.SupervisorModel repSuper = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
                                            %>
@@ -627,7 +632,9 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 }
                                     }
                                     else if(allTeams != null && allTeams.size() != 0 && (regionTeamleaders==null || (regionTeamleaders!=null && regionTeamleaders.size()==0))){
-                                        
+                                        %>
+                                        <option>---</option>
+                                        <%
                                         for (int i = 0; i < allTeams.size(); i++) {
                                          com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
                                            %>
@@ -636,10 +643,15 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                         }
                                         
                                     }
+                                    
+                                    
                                     else{   
                                 %>
                                 <option>---</option>
                                 <%}%>
+                                
+                                
+                                
                             </select>
                         </td>
                     </tr>
@@ -677,7 +689,9 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                 }
                                     
                                     else if(allReps != null && allReps.size() != 0 && (regionReps==null || (regionReps!=null && regionReps.size()==0))){
-                                        
+                                        %>
+                                        <option>---</option>
+                                        <%
                                         for (int i = 0; i < allReps.size(); i++) {
                                          com.mobinil.sds.core.system.scm.model.RepModel rep = (com.mobinil.sds.core.system.scm.model.RepModel) allReps.get(i);
                                            %>
@@ -702,8 +716,8 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         <td colspan="2" align="center">
                              <input type="button" name="submitButton" class="button" value="Update" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="submitUpdate();">
                            
-
-                            <input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px" onclick="doBack();"></td>
+<%-- onClick="history.go(-1)" --%>
+                            <input type="button" class="button" value="Back" style="font-size: 11px;font-family: tahoma;line-height: 15px"  onclick="doBack();" ></td>
                     </tr>
                 </table>
                 <div id="confMessage">

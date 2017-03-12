@@ -215,6 +215,8 @@ public class DCMIIHandler {
                 case edit_users_to_region:
                     
                     regionID=(String)paramHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_ID);
+                    //regionID=(String)paramHashMap.get("regionN");
+                    
                     System.out.println("edit_users_to_region - region id: "+regionID);
                     allSupervisors = RepManagementDAO.getSupervisors(con);
                     allTeamleaders = RepManagementDAO.getTeamleaders(con);
@@ -1076,10 +1078,11 @@ public class DCMIIHandler {
                     }
                     String regionName = (String) paramHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_NAME);
                     String levelId = (String) paramHashMap.get(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME);
-                    
+                    System.out.println("search_region levelId "+levelId);
                     
                     String selectedRegionName = (String) paramHashMap.get("selected_region_name");
                     String selectedRegionLevel = (String) paramHashMap.get("selected_region_level");
+                    System.out.println("selectedRegionName "+selectedRegionName+" selectedRegionLevel "+selectedRegionLevel);
                     
                     Vector<RegionModel> myRegions =  RepManagementDAO.getRegions(con);
                     
@@ -1101,7 +1104,13 @@ public class DCMIIHandler {
                     Vector<RegionLevelDto> levels = RegionDAO.getALLRegionlevels(con);
                     dataHashMap.put(DCMInterfaceKey.VECTOR_ALL_REGIONS_LEVELS, levels);
                     dataHashMap.put(DCMInterfaceKey.INPUT_TEXT_REGION_NAME, regionName);
-                    dataHashMap.put(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME, levelId);
+                    
+                    
+                    
+                    if(levelId==null || (levelId!=null && levelId.compareTo("")!=0))
+                        dataHashMap.put(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME, childRegions.get(0).getRegionLevelTypeId());
+                    else
+                        dataHashMap.put(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME, levelId);
                     dataHashMap.put(DCMInterfaceKey.INPUT_CONTROL_PAGE_NUMBER, destinationPage);
                     dataHashMap.put(DCMInterfaceKey.STRING_OF_TOTAL_PAGE_NUMBER, totalpages.toString());
                     dataHashMap.put(DCMInterfaceKey.Message, "");

@@ -737,48 +737,78 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
     public static void updateUsersForARegion(Connection con,String regionId,String supervisorId,String teamleaderId,String repId){
         
         try{
-        String sqlFindRegionSupervisor = "select * from scm_user_region where user_level_type_id=4 and user_id= "+supervisorId+" and region_id = "+regionId;
-        String sqlFindRegionTeamleader = "select * from scm_user_region where user_level_type_id=5 and user_id= "+teamleaderId+" and region_id = "+regionId;
-        String sqlFindRegionRep = "select * from scm_user_region where user_level_type_id=6 and user_id= "+repId+" and region_id = "+regionId;
-        
+        String sqlFindRegionSupervisor = "select * from scm_user_region where user_level_type_id=4 /*and user_id= "+supervisorId+"*/ and region_id = "+regionId;
+        String sqlFindRegionTeamleader = "select * from scm_user_region where user_level_type_id=5 /*and user_id= "+teamleaderId+"*/ and region_id = "+regionId;
+        String sqlFindRegionRep = "select * from scm_user_region where user_level_type_id=6 /*and user_id= "+repId+"*/ and region_id = "+regionId;
+        boolean supervisorExists = false;
+        boolean teamleaderExists = false;
+        boolean repExists = false;
         Statement stmt = con.createStatement();
+        System.out.println("sqlFindRegionSupervisor "+sqlFindRegionSupervisor);
+        System.out.println("sqlFindRegionTeamleader "+sqlFindRegionTeamleader);
+        System.out.println("sqlFindRegionRep "+sqlFindRegionRep);
         
         ResultSet rs1 = stmt.executeQuery(sqlFindRegionSupervisor);
-        ResultSet rs2 = stmt.executeQuery(sqlFindRegionTeamleader);
-        ResultSet rs3 = stmt.executeQuery(sqlFindRegionRep);
-        
         if (rs1.next())
+            supervisorExists = true;
+            
+        
+        if(supervisorExists)
         {
             String sqlString3 = "update scm_user_region set user_id= "+supervisorId+" where user_level_type_id=4 and region_id = "+regionId;
-            DBUtil.executeSQL(sqlString3, con);
+            System.out.println("rs1 true "+sqlString3);
+            //DBUtil.executeSQL(sqlString3, con);
+            stmt.executeUpdate(sqlString3);
         }
+            
         else{
             String sqlString3 = "insert into scm_user_region values ("+regionId+", "+supervisorId+" , 4 , 4)";
-            DBUtil.executeSQL(sqlString3, con);
+            //DBUtil.executeSQL(sqlString3, con);
+            System.out.println("rs1 false "+sqlString3);
+            stmt.executeUpdate(sqlString3);
         }
         
-        
-        
+        ResultSet rs2 = stmt.executeQuery(sqlFindRegionTeamleader);
         if (rs2.next())
+            teamleaderExists=true;
+            
+        
+        if(teamleaderExists)
         {
             String sqlString4 = "update scm_user_region set user_id= "+teamleaderId+" where user_level_type_id=5 and region_id = "+regionId;
-            DBUtil.executeSQL(sqlString4, con);
+            //DBUtil.executeSQL(sqlString4, con);
+            System.out.println("rs2 true "+sqlString4);
+            stmt.executeUpdate(sqlString4);
         }
         else{
             String sqlString4 = "insert into scm_user_region values ("+regionId+", "+teamleaderId+" , 5 , 4)";
-            DBUtil.executeSQL(sqlString4, con);
+            //DBUtil.executeSQL(sqlString4, con);
+            System.out.println("rs2 false "+sqlString4);
+            stmt.executeUpdate(sqlString4);
         }
         
+        
+        ResultSet rs3 = stmt.executeQuery(sqlFindRegionRep);
         if (rs3.next())
+            repExists=true;
+            
+        
+        if(repExists)
         {
             String sqlString5 = "update scm_user_region set user_id= "+repId+" where user_level_type_id=6 and region_id = "+regionId;
-            DBUtil.executeSQL(sqlString5, con);
+            //DBUtil.executeSQL(sqlString5, con);
+            System.out.println("rs3 true "+sqlString5);
+            stmt.executeUpdate(sqlString5);
         }
         else{
             String sqlString5 = "insert into scm_user_region values ("+regionId+", "+repId+" , 6 , 4)";
-            DBUtil.executeSQL(sqlString5, con);
+            //DBUtil.executeSQL(sqlString5, con);
+            System.out.println("rs3 false "+sqlString5);
+            stmt.executeUpdate(sqlString5);
         }
         
+        
+        stmt.close();
         }catch(SQLException e){System.out.println("sql exception "+e);}
         
         String sqlString="UPDATE scm_teamleader set sup_id = "+supervisorId+" where teamleader_id = "+teamleaderId;

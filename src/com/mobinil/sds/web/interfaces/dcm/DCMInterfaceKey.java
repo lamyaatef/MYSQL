@@ -243,7 +243,7 @@ public interface DCMInterfaceKey {
     public static final String INPUT_SEARCH_SELECT_EDIT_REGION = "search_select_edit_region";
     public static final String INPUT_TEXT_REGION_NAME = "region_name";
     public static final String INPUT_SEARCH_SELECT_REGION_LEVEL_NAME = "search_select_region_level_name";
-    public static final String INPUT_TEXT_REGION_ID = "region_id";
+    public static final String INPUT_TEXT_REGION_ID = "input_text_region_id";
     public static final String INPUT_TEXT_DCM_USER_ADDRESS = "text_dcm_user_address";
     public static final String INPUT_TEXT_DCM_USER_MOBILE = "text_dcm_user_mobile";
     public static final String INPUT_SEARCH_SELECT_DCM_USER_LIST_STATUS = "serach_select_dcm_user_list_status";
