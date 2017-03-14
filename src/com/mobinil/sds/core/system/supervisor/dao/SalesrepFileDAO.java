@@ -132,6 +132,7 @@ public static final String ORANGE_EMAIL_PREFIX = "dummy.";
         String strUserSql = "";
         String strUserDetailSql = "";
         int emailCount = 0;
+        String email="";
         System.out.println("insertSalesrepData : go to record no. "+count);
                             
         try {
@@ -150,13 +151,18 @@ public static final String ORANGE_EMAIL_PREFIX = "dummy.";
             
             if(i==mobileIndex && lineFields[i].compareTo("")==0)
             {
-                concatFields += PHONE_NUMBER+",";
+                concatFields += "'"+PHONE_NUMBER+"'"+",";
+                continue;
             }
             if(i==emailIndex && lineFields[i].compareTo("")==0)
             {
-                concatFields += ORANGE_EMAIL_PREFIX+emailCount+ORANGE_EMAIL_SUFFIX+",";
+                concatFields += "'"+ORANGE_EMAIL_PREFIX+emailCount+ORANGE_EMAIL_SUFFIX+"'"+",";
+                email="'"+ORANGE_EMAIL_PREFIX+emailCount+ORANGE_EMAIL_SUFFIX+"'";
+                System.out.println("email replaced "+email);
+                emailCount++;
+                continue;
             }
-           emailCount++;
+           
            concatFields += "'"+lineFields[i]+"'"+",";
            
         }
@@ -168,8 +174,11 @@ public static final String ORANGE_EMAIL_PREFIX = "dummy.";
         Long repId = Utility.getSequenceNextVal(con, "SEQ_DCM_USER_ID");
         Long repDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
-        
-        String sqlCheckRepName = "select * from scm_salesrep where LOWER(email)= LOWER('"+lineFields[1]+"') ";
+        String sqlCheckRepName ="";
+        if(email.compareTo("")==0)
+            sqlCheckRepName = "select * from scm_salesrep where LOWER(email)= LOWER('"+lineFields[1]+"') ";
+        else
+            sqlCheckRepName = "select * from scm_salesrep where LOWER(email)= LOWER("+email+") ";
         System.out.println("check rep email "+sqlCheckRepName);
         ResultSet rs = stat.executeQuery(sqlCheckRepName);
         boolean found = false;

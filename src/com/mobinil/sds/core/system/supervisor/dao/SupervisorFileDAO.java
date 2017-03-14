@@ -132,6 +132,7 @@ public static final String ORANGE_EMAIL_PREFIX = "dummy.";
         String strUserSql = "";
         String strUserDetailSql = "";
         int emailCount=0;
+        String email="";
         boolean isMobile=false;
         System.out.println("insertSupervisorData : go to record no. "+count);
                             
@@ -139,7 +140,7 @@ public static final String ORANGE_EMAIL_PREFIX = "dummy.";
             Statement st2 = con.createStatement();
         for (int i=0; i<lineFields.length;i++)
         {
-            concatFields += "'"+lineFields[i]+"'"+",";
+            
             /*if(isemptyField)
                 concatFields +="' '" + ",";
             concatFields += "'"+lineFields[i]+"'"+",";*/
@@ -148,13 +149,21 @@ public static final String ORANGE_EMAIL_PREFIX = "dummy.";
                 isMobile=true;
                 
                 if(lineFields[i].compareTo("")==0)
-                    concatFields += PHONE_NUMBER+",";
+                {
+                    concatFields += "'"+PHONE_NUMBER+"'"+",";
+                    continue;
+                }
             }
             if(i==emailIndex && lineFields[i].compareTo("")==0)
             {
-                concatFields += ORANGE_EMAIL_PREFIX+emailCount+ORANGE_EMAIL_SUFFIX+",";
+                concatFields += "'"+ORANGE_EMAIL_PREFIX+emailCount+ORANGE_EMAIL_SUFFIX+"'"+",";
+                email="'"+ORANGE_EMAIL_PREFIX+emailCount+ORANGE_EMAIL_SUFFIX+"'";
+                System.out.println("email replaced "+email);
+                emailCount++;
+                continue;
             }
-           emailCount++;
+           
+           concatFields += "'"+lineFields[i]+"'"+",";
            
         }
         
@@ -166,7 +175,11 @@ public static final String ORANGE_EMAIL_PREFIX = "dummy.";
         Long supId = Utility.getSequenceNextVal(con, "SEQ_DCM_USER_ID");
         Long supDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
-        String sqlCheckSupervisorName = "select * from scm_supervisor where LOWER(email)= LOWER('"+lineFields[1]+"') ";
+        String sqlCheckSupervisorName ="";
+        if (email.compareTo("")==0)
+            sqlCheckSupervisorName = "select * from scm_supervisor where LOWER(email)= LOWER('"+lineFields[1]+"') ";
+        else
+            sqlCheckSupervisorName = "select * from scm_supervisor where LOWER(email)= LOWER("+email+") ";
         System.out.println("check supervisor email "+sqlCheckSupervisorName);
         ResultSet rs = stat.executeQuery(sqlCheckSupervisorName);
         

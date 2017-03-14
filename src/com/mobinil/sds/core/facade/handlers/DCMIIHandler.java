@@ -1107,9 +1107,9 @@ public class DCMIIHandler {
                     
                     
                     
-                    if(levelId==null || (levelId!=null && levelId.compareTo("")!=0))
+                   /* if(levelId==null || (levelId!=null && levelId.compareTo("")!=0))
                         dataHashMap.put(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME, childRegions.get(0).getRegionLevelTypeId());
-                    else
+                    else*/
                         dataHashMap.put(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME, levelId);
                     dataHashMap.put(DCMInterfaceKey.INPUT_CONTROL_PAGE_NUMBER, destinationPage);
                     dataHashMap.put(DCMInterfaceKey.STRING_OF_TOTAL_PAGE_NUMBER, totalpages.toString());

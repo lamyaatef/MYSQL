@@ -133,6 +133,7 @@ public static final String ORANGE_EMAIL_PREFIX = "dummy.";
         String strUserSql = "";
         String strUserDetailSql = "";
         int emailCount=0;
+        String email="";
         System.out.println("insertTeamleaderData : go to record no. "+count);
                             
         try {
@@ -145,13 +146,19 @@ public static final String ORANGE_EMAIL_PREFIX = "dummy.";
                 concatFields +="' '" + ",";*/
             if(i==mobileIndex && lineFields[i].compareTo("")==0)
             {
-                concatFields += PHONE_NUMBER+",";
+                concatFields += "'"+PHONE_NUMBER+"'"+",";
+                continue;
+                
             }
             if(i==emailIndex && lineFields[i].compareTo("")==0)
             {
-                concatFields += ORANGE_EMAIL_PREFIX+emailCount+ORANGE_EMAIL_SUFFIX+",";
+                concatFields += "'"+ORANGE_EMAIL_PREFIX+emailCount+ORANGE_EMAIL_SUFFIX+"'"+",";
+                email="'"+ORANGE_EMAIL_PREFIX+emailCount+ORANGE_EMAIL_SUFFIX+"'";
+                System.out.println("email replaced "+email);
+                emailCount++;
+                continue;
             }
-           emailCount++;
+           
             concatFields += "'"+lineFields[i]+"'"+",";
            
         }
@@ -163,7 +170,11 @@ public static final String ORANGE_EMAIL_PREFIX = "dummy.";
         Long teamId = Utility.getSequenceNextVal(con, "SEQ_DCM_USER_ID");
         Long teamDetailId = Utility.getSequenceNextVal(con, "seq_dcm_user_detail_id");
         
-        String sqlCheckTeamleaderName = "select * from scm_teamleader where LOWER(email)= LOWER('"+lineFields[1]+"') ";
+        String sqlCheckTeamleaderName = "";
+        if (email.compareTo("")==0)
+            sqlCheckTeamleaderName = "select * from scm_teamleader where LOWER(email)= LOWER('"+lineFields[1]+"') ";
+        else
+            sqlCheckTeamleaderName = "select * from scm_teamleader where LOWER(email)= LOWER("+email+") ";
         System.out.println("check teamleader email "+sqlCheckTeamleaderName);
         ResultSet rs = stat.executeQuery(sqlCheckTeamleaderName);
         boolean found = false;
