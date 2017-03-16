@@ -1845,6 +1845,292 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 
   }
   
+  public static String exportExcelSheetForUserRegionPOSData(Vector<RegionPOSReportModel> RegionResults,String directionFile,boolean isSearch, String usersLevelType,String userFullName)
+  {
+      System.out.println("inside exportExcelSheetForUserRegionPOSData");
+      int cellCount=53;
+      java.util.Date dateNow = new java.util.Date();
+        int imonth = dateNow.getMonth() + 1;
+        int iyear = dateNow.getYear() + 1900;
+        String strdate = (new StringBuffer("[")).append(dateNow.getDate()).append("-").append(imonth).append("-").append(iyear).append("]-").append(dateNow.getHours()).append(".").append(dateNow.getMinutes()).append(".").append(dateNow.getSeconds()).append("_").toString();
+        String fileName = strdate+"user_"+usersLevelType+"_pos_region_file_report.xls";
+       
+        if(isSearch)
+            fileName = strdate+"_"+userFullName+"_"+usersLevelType+"_pos_region_file_report.xls";
+        FileOutputStream fileOut;
+        try {
+            fileOut = new FileOutputStream(directionFile + Slach + fileName);
+
+					HSSFWorkbook workbook = new HSSFWorkbook();
+					HSSFSheet worksheet = workbook.createSheet("POS Worksheet");
+
+					ArrayList<HSSFRow> rows = new ArrayList<HSSFRow>();
+                                        ArrayList<ArrayList<HSSFCell>> cells=new ArrayList<ArrayList<HSSFCell>>();
+					//42 //45
+                                        for(int i=1; i<=cellCount;i++){
+                                        ArrayList<HSSFCell> cell = new ArrayList<HSSFCell>();
+                                            cells.add(cell);
+                                        }
+
+                                       
+
+                                        for (int i=0;i<=RegionResults.size();i++){
+
+                                            rows.add(worksheet.createRow(i));
+                                             //42
+                                            for(int cellno=0;cellno<cellCount;cellno++){
+                                                
+                                                cells.get(cellno).add(rows.get(i).createCell((short) cellno));
+                                            }
+
+                                        }
+
+
+                                      int header=0;
+                                      cells.get(header).get(0).setCellValue("ChannelCode");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("PosCode");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("PosENm");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("ArabicName");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Owner");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("IDNumber");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("IDType");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("SalesRegion");
+                                          header++;
+                                      cells.get(header).get(0).setCellValue("City");
+                                          header++;
+                                      cells.get(header).get(0).setCellValue("Governorate");
+                                          header++;
+                                      cells.get(header).get(0).setCellValue("DistrictID");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("District");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("ImDistrict");
+                                          header++;
+                                      cells.get(header).get(0).setCellValue("AreaCode");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("Area");
+                                          header++;
+                                      cells.get(header).get(0).setCellValue("SalesRegion");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("City");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("Governorate");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("DistrictID");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("District");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("ImDistrict");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("AreaCode");
+                                          header++;
+                                          cells.get(header).get(0).setCellValue("Area");
+                                          header++;
+                                      cells.get(header).get(0).setCellValue("Address");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("DocNumber");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Documents");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("entryDt");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("PosStatus");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("OwnerPhone");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("LevelCode");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("RegionalName");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Teamleader");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("RepName");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("StkDialNo");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("StkStatus");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("StkActivationDate");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("IqrarReceiveDate");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("PayStatus");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("PayLevelName");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("ArabicAddress");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("IqrarReceived");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("VerifyOK");
+                                      header++;
+                                    
+                                      cells.get(header).get(0).setCellValue("DocumentLocation");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("SurveyID");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("POS_OWNER_PHONE_NUMBER");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("branch");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("MBB_Rep");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("ImDistCode");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("L1");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Ex");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("Sign");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("QC");
+                                      header++;
+                                      cells.get(header).get(0).setCellValue("CommercialGov");
+                                      
+                                      
+            try {
+                Connection con = Utility.getConnection();
+
+
+                             for(int i=1;i<=RegionResults.size();i++)
+                             {
+                                 RegionPOSReportModel ss = RegionResults.get(i-1);
+                                int j=0;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getChannelCode());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getPosCode());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getPosENName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getPosARName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getOwnerName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getIdNumber());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getIdType());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getRegion());
+                                    j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getCity());
+                                    j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getGovernorate());
+                                    j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDistrictCodeId());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDisctrict());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getImageDistrict());
+                                    j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getAreaCode());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getArea());
+                                    j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getRegion());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getCity());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getGovernorate());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDistrictCodeId());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDisctrict());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getImageDistrict());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getAreaCode());
+                                    j++;
+                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getArea());
+                                    j++;
+                               cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getAddress());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDocumentNumber());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDocuments());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getEntryDate());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getPosStatus());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getPosOwnerPhoneNumber());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getPosLevel());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getRegionSupervisor());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getRegionTeamleader());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getSalesRep());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getStkDialNumber());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getStkStatus());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getStkActivationDate());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getIqrarReceivedDate());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getPaymentStatus());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getPaymentLevelName());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getArAddress());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getIqrarReceived());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getVerifyOk());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDocumentLocation());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getSurveyId());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getPosOwnerPhoneNumber());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getBranch());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getMbbRep());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getImageDistrictCode());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getL1());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getEx());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getSign());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getQC());
+                                j++;
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getCommercialGov());
+                             }
+              con.close();
+ } catch (SQLException ex) {
+                Logger.getLogger(PoiWriteExcelFile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                                        workbook.write(fileOut);
+					fileOut.flush();
+					fileOut.close();
+					return fileName;
+
+                                } catch (FileNotFoundException e)
+				{
+					e.printStackTrace();
+					return "";
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+					return "";
+				}
+
+
+  }
+  
   
   public static String exportExcelSheetForAllRepsData(Vector<RepExcelModel> RepResults,String directionFile, boolean isSearch)
   {

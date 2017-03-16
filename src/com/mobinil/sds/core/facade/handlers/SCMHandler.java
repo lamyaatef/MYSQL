@@ -2845,21 +2845,28 @@ public class SCMHandler {
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
               
-              if(searchName.compareTo("")==0 && regionSelected==null)
+             /* if(searchName.compareTo("")==0 && regionSelected==null)
               {
                   System.out.println("EXPORT - Data");
                   files =RepManagementDAO.getAllRepsData(con);
                   
                   
               }
-              else 
+              else */
+              if(searchName.compareTo("")!=0 || regionSelected!=null)
               {
                   System.out.println("ELSE : EXPORT - Search");
-                  files =RepManagementDAO.getAllRepsSearchData(con, searchResults);
+                  //files =RepManagementDAO.getAllRepsSearchData(con, searchResults);
                   isSearch = true;
               }
               
-              String excelLink = PoiWriteExcelFile.exportExcelSheetForAllRepsData(/*dataVec*/files, baseDirectory,isSearch);
+              
+               files =RepManagementDAO.getUserRegionDataAll(con, "6", searchName);
+            
+              
+            String excelLink = PoiWriteExcelFile.exportExcelSheetForUserRegionPOSData(/*dataVec*/files, baseDirectory, isSearch,"reps",searchName);
+              
+              //String excelLink = PoiWriteExcelFile.exportExcelSheetForAllRepsData(/*dataVec*/files, baseDirectory,isSearch);
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
           }
           break;     
@@ -2877,21 +2884,27 @@ public class SCMHandler {
               String Slach = System.getProperty("file.separator");
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
-              if(searchName.compareTo("")==0 && regionSelected==null)
+              /*if(searchName.compareTo("")==0 && regionSelected==null)
               {
                   System.out.println("EXPORT - Data");
                   files =RepManagementDAO.getAllSupervisorsData(con);
                   
-              }
-              else 
+              }*/
+              //else 
+              if(searchName.compareTo("")!=0 || regionSelected!=null)
               {
                   System.out.println("EXPORT - Search");
-                  files =RepManagementDAO.getAllSupervisorsSearchData(con, searchResults.get(0).getDcmUserId());
+                //  files =RepManagementDAO.getAllSupervisorsSearchData(con, searchResults.get(0).getDcmUserId());
                   isSearch = true;
               }
               
+              files =RepManagementDAO.getUserRegionDataAll(con, "4", searchName);
+            
               
-              String excelLink = PoiWriteExcelFile.exportExcelSheetForAllSupervisorsData(/*dataVec*/files, baseDirectory, isSearch);
+            String excelLink = PoiWriteExcelFile.exportExcelSheetForUserRegionPOSData(/*dataVec*/files, baseDirectory, isSearch,"supervisors",searchName);
+              
+              
+             // String excelLink = PoiWriteExcelFile.exportExcelSheetForAllSupervisorsData(/*dataVec*/files, baseDirectory, isSearch);
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
           }
           break;   
@@ -2909,24 +2922,29 @@ public class SCMHandler {
             Vector files = new Vector();  
             boolean isSearch = false;
             
-            if(searchName.compareTo("")==0 && regionSelected==null)
+            
+            /*if(searchName.compareTo("")==0 && regionSelected==null)
               {
                   System.out.println("EXPORT - Data");
                   files =RepManagementDAO.getAllTeamleadersData(con);
                   
-              }
-              else 
+                  
+              }*/
+              //else
+              if(searchName.compareTo("")!=0 || regionSelected!=null)
               {
                   System.out.println("EXPORT - Search");
-                  files =RepManagementDAO.getAllTeamleadersSearchData(con, searchResults.get(0).getDcmUserId());
-                  System.out.println("files size "+files.size());
+                  //files =RepManagementDAO.getAllTeamleadersSearchData(con, searchResults.get(0).getDcmUserId());
+                  
+                  //System.out.println("files size "+files.size());
                   isSearch = true;
               }
               
-            
+            files =RepManagementDAO.getUserRegionDataAll(con, "5", searchName);
             
               
-              String excelLink = PoiWriteExcelFile.exportExcelSheetForAllTeamleadersData(/*dataVec*/files, baseDirectory,isSearch);
+              //String excelLink = PoiWriteExcelFile.exportExcelSheetForAllTeamleadersData(/*dataVec*/files, baseDirectory,isSearch);
+            String excelLink = PoiWriteExcelFile.exportExcelSheetForUserRegionPOSData(/*dataVec*/files, baseDirectory, isSearch,"teamleaders",searchName);
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
           }
           break;   

@@ -187,8 +187,9 @@ public static final String ORANGE_EMAIL_PREFIX = "dummy.";
             System.out.println("query2 "+strUserSql);
             strUserDetailSql = "update dcm_user_detail set creation_user_id="+userId+",user_full_name='"+lineFields[0]+"',user_email='"+lineFields[1]+"',user_mobile='"+lineFields[2]+"',CREATION_TIMESTAMP=SYSTIMESTAMP where user_id="+rs.getLong("teamleader_id");
             System.out.println("query3 inner "+strUserDetailSql);
-            st2.executeUpdate(strUserSql);
-            st2.executeUpdate(strUserDetailSql);
+            int updateReturn1 = st2.executeUpdate(strUserSql);
+            int updateReturn2 = st2.executeUpdate(strUserDetailSql);
+            System.out.println("updateReturn1 "+updateReturn1+" - updateReturn2 "+updateReturn2);
             
         } 
  
