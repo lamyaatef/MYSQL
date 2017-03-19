@@ -167,7 +167,7 @@ public class RegionPOSReportDAO {
             System.out.println("SQL ^^^ : \n"+ strSql);
             ResultSet res = stat.executeQuery(strSql.toString());
             while (res.next()) {
-               System.out.println("result POS Region : ");
+              // System.out.println("result POS Region : ");
                
                 vec.add(new RegionPOSReportModel(res,regionLevel/*,supervisorName,teamleaderName*/));
                 }
@@ -290,7 +290,7 @@ public class RegionPOSReportDAO {
             System.out.println("SQL ^^^ : \n"+ strSql);
             ResultSet res = stat.executeQuery(strSql.toString());
             while (res.next()) {
-               System.out.println("result POS Region : ");
+               //System.out.println("result POS Region : ");
                
                 vec.add(new RegionPOSReportModel(res,""/*,supervisorName,teamleaderName*/));
                 }
@@ -465,7 +465,7 @@ public class RegionPOSReportDAO {
             System.out.println("SQL ^^^ : \n"+ strSql);
             ResultSet res = stat.executeQuery(strSql.toString());
             while (res.next()) {
-               System.out.println("result POS Region : ");
+               //System.out.println("result POS Region : ");
                
                 vec.add(new RegionPOSReportModel(res,regionLevel/*,supervisorName,teamleaderName*/));
                 }

@@ -608,7 +608,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append(" AND govern.region_id = dcm_pos_detail.pos_governrate");
             
             strSql.append(" AND district.region_id = dcm_pos_detail.pos_district_id");
-            strSql.append("and scm_user_region.region_id = district.region_id");
+            strSql.append(" and scm_user_region.region_id = district.region_id");
             
             strSql.append(" AND area.region_id = dcm_pos_detail.pos_area_id");
             
@@ -622,20 +622,20 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append(" AND scm_salesrep.salesrep_id = dcm_pos_detail.salesrep_id");
             if(userLevelTypeId.compareTo("4")==0)
             {
-                strSql.append("and scm_user_region.user_id = scm_supervisor.supervisor_id and scm_user_region.user_level_type_id=4");
+                strSql.append(" and scm_user_region.user_id = scm_supervisor.supervisor_id and scm_user_region.user_level_type_id=4");
                  if(userFullName.compareTo("")!=0)
                     strSql.append(" AND scm_supervisor.supervisor_name = '"+userFullName+"'");
             }
             if(userLevelTypeId.compareTo("5")==0)
             {
-                strSql.append("and scm_user_region.user_id = scm_teamleader.teamleader_id and scm_user_region.user_level_type_id=5");
+                strSql.append(" and scm_user_region.user_id = scm_teamleader.teamleader_id and scm_user_region.user_level_type_id=5");
                 if(userFullName.compareTo("")!=0)
                     strSql.append(" AND scm_teamleader.teamleader_name = '"+userFullName+"'");
             }
                 
             if(userLevelTypeId.compareTo("6")==0)
             {
-                strSql.append("and scm_user_region.user_id = scm_salesrep.salesrep_id and scm_user_region.user_level_type_id=6");
+                strSql.append(" and scm_user_region.user_id = scm_salesrep.salesrep_id and scm_user_region.user_level_type_id=6");
                 if(userFullName.compareTo("")!=0)
                     strSql.append(" AND scm_salesrep.salesrep_name = '"+userFullName+"'");
             }
@@ -654,7 +654,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             System.out.println("SQL ^^^ : \n"+ strSql);
             ResultSet res = stat.executeQuery(strSql.toString());
             while (res.next()) {
-               System.out.println("result POS Region : ");
+               //System.out.println("result POS Region : ");
                
                 vec.add(new RegionPOSReportModel(res,""/*,supervisorName,teamleaderName*/));
                 }

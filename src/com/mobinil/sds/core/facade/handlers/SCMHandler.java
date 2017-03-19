@@ -2853,7 +2853,7 @@ public class SCMHandler {
                   
               }
               else */
-              if(searchName.compareTo("")!=0 || regionSelected!=null)
+              if((searchName!=null && searchName.compareTo("")!=0) || regionSelected!=null)
               {
                   System.out.println("ELSE : EXPORT - Search");
                   //files =RepManagementDAO.getAllRepsSearchData(con, searchResults);
@@ -2891,7 +2891,7 @@ public class SCMHandler {
                   
               }*/
               //else 
-              if(searchName.compareTo("")!=0 || regionSelected!=null)
+              if((searchName!=null && searchName.compareTo("")!=0) || regionSelected!=null)
               {
                   System.out.println("EXPORT - Search");
                 //  files =RepManagementDAO.getAllSupervisorsSearchData(con, searchResults.get(0).getDcmUserId());
@@ -2931,7 +2931,7 @@ public class SCMHandler {
                   
               }*/
               //else
-              if(searchName.compareTo("")!=0 || regionSelected!=null)
+              if((searchName!=null && searchName.compareTo("")!=0) || regionSelected!=null)
               {
                   System.out.println("EXPORT - Search");
                   //files =RepManagementDAO.getAllTeamleadersSearchData(con, searchResults.get(0).getDcmUserId());
