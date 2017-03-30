@@ -1244,6 +1244,7 @@ public class DCMIIHandler {
                         destinationPage = "0";
                     }
                     String regionId = (String) paramHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_ID);
+                    System.out.println("action_view_region_childs - region id: "+regionId);
                     Integer totalChilds = RegionDAO.getChildstotal(con, regionId);
                     Vector<RegionModel> regions = RegionDAO.getChilds(con, regionId, destinationPage);
                     dataHashMap.put(DCMInterfaceKey.VECTOR_REGION_CHILDS, regions);

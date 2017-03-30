@@ -153,13 +153,53 @@
     
     
     
-    HashMap<String,HashMap> map = new HashMap();
+    Map<String,Map> map = new HashMap();
     HashMap regs = drawSelectRegions(out,regionid,type);
+    System.out.println("Regions.jsp - regs before sorting: "+regs);
+    
+    //regs = sortHashMapByValue(regs);
+    TreeMap reggs = new TreeMap<String, String>();
+    reggs.putAll(regs);
+    
+    
+    
+    
+    System.out.println("Regions.jsp - regs after sorting: "+reggs);
+    
+    
+    /*TreeMap reggs = new TreeMap<String, String>();
+    reggs.putAll(regs);
+    System.out.println("Regions.jsp - reggs: "+reggs);
+    
+    SortedSet<String> names = new TreeSet<String>(regs.values());
+    SortedSet<String> keys = new TreeSet<String>(regs.keySet());
+    System.out.println("names : "+names+" keys : "+keys);
+    
+    String[] namesArray = names.toArray(new String[names.size()]);
+    String[] keysArray = keys.toArray(new String[keys.size()]);
+    
+    int j=0;
+    for (int i=0;i<keysArray.length;i++){
+        
+            while((i==j))
+            {
+                regs.put(keysArray[i],namesArray[j]);
+                j++;
+            }
+        }
+    
+    System.out.println("Regions.jsp - regs: "+regs);*/
+    
     HashMap supers = drawSelectSupervisors(out,regionid,supervisor);
+    supers = sortHashMapByValue(supers);
     HashMap leads = drawSelectSupervisors(out,regionid,teamleader);
+    leads = sortHashMapByValue(leads);
     HashMap reps = drawSelectSupervisors(out,regionid,salesrep);
+    reps = sortHashMapByValue(reps);
     HashMap superChildren = drawSelectSupervisorChildren(out, managerid2, regionid, userLevelId);
-    map.put("districts", regs);
+    superChildren = sortHashMapByValue(superChildren);
+    map.put("districts", reggs);
+    System.out.println("map : "+map.get("districts"));
     map.put("users", supers);
     map.put("teams", leads);
     map.put("sales",reps);
@@ -167,6 +207,7 @@
     
   JSONObject js = new JSONObject();
   js.put("map", map);
+  System.out.println("json : "+js.get("map"));
   response.setContentType("text/x-json;charset=UTF-8");           
   response.setHeader("Cache-Control", "no-cache");
   response.setContentType("application/json");
@@ -191,7 +232,9 @@
 
                 for (PlaceDataModel placeDataModel : children) {
                        // out.println("<option value=" + placeDataModel.getRegionId()+">"+placeDataModel.getRegionName()+"</option>");
-                  region.put(Integer.toString(placeDataModel.getRegionId()), placeDataModel.getRegionName());
+                  System.out.println("placeDataModel.getRegionName() Regions.jsp: "+placeDataModel.getRegionName());
+                    //region.put(Integer.toString(placeDataModel.getRegionId()), placeDataModel.getRegionName());
+                  region.put(placeDataModel.getRegionName(),Integer.toString(placeDataModel.getRegionId()));
                 }
 
 
@@ -262,6 +305,27 @@
         return children;
 
     }
+    public static <K, V extends Comparable<? super V>> HashMap<K, V> sortHashMapByValue( Map<K, V> map )
+    {
+        List<Map.Entry<K, V>> list = new LinkedList<Map.Entry<K, V>>(map.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<K, V>>()
+        {
+            public int compare(Map.Entry<K, V> obj1, Map.Entry<K, V> obj2 )
+            {
+                return (obj1.getValue()).compareTo( obj2.getValue());
+            }
+        } );
+
+        HashMap<K, V> result = new LinkedHashMap<K, V>();
+        for (Map.Entry<K, V> entry : list)
+        {
+            result.put( entry.getKey(), entry.getValue() );
+        }
+        return result;
+    }
+    
+   
+    
         
         %>
    

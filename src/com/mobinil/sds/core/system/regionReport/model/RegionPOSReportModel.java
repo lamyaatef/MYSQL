@@ -157,11 +157,11 @@ public RegionPOSReportModel(ResultSet res, String regionLevel/*,String superviso
                     stkDialNumber= res.getString("StkDialNo");
                     stkStatus= res.getString("stk_status");
                     stkActivationDate= res.getString("stk_activation_date");
-                    
                     iqrarReceivedDate= res.getString("iqrar_received_date");
-                    //iqrarReceived = res.getString("is_iqrar_received");
-            
-                    //verifyOk = res.getString("is_verified");
+                    
+                    iqrarReceived = res.getString("is_iqrar_received");
+                    verifyOk = res.getString("is_verified");
+                    
                     paymentStatus= res.getString("payment_status");//payment_status
                     paymentLevelName= res.getString("payment_level");
                     posOwnerPhoneNumber= res.getString("pos_owner_phone_number");

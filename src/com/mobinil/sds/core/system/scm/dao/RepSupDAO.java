@@ -309,8 +309,10 @@ public class RepSupDAO {
     public static Vector<RegionModel> getRegionDistricts(Connection con,String regionId){
         String sqlStatement;
         Vector <RegionModel> areas=new Vector();
+        System.out.println("getRegionDistricts - region id: "+regionId);
         sqlStatement="SELECT REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_LEVEL_TYPE_ID=(SELECT REGION_LEVEL_TYPE_ID FROM DCM_REGION_LEVEL_TYPE WHERE LOWER(REGION_LEVEL_TYPE_NAME) LIKE 'district' ) START WITH PARENT_REGION_ID="+regionId+" CONNECT BY PRIOR REGION_ID=PARENT_REGION_ID";
-        areas=DBUtil.executeSqlQueryMultiValue(sqlStatement, RegionModel.class,"fillForRepManagementSearch", con);
+//        areas=DBUtil.executeSqlQueryMultiValue(sqlStatement, RegionModel.class,"fillForRepManagementSearch", con);
+        areas=DBUtil.executeSqlQueryMultiValue(sqlStatement, RegionModel.class,"fillForRepManagementSearchMin", con);
         return areas;
 
     }

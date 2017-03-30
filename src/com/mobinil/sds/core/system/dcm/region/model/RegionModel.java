@@ -148,6 +148,19 @@ public class RegionModel extends Model implements Serializable
 
   }
   
+  
+  public void fillForRepManagementSearchMin(ResultSet res){
+        try {
+            this.setRegionId(res.getString("REGION_ID"));
+            this.setRegionName(res.getString("REGION_NAME"));
+           // this.setRegionLevelTypeId(res.getString("region_level_type_id"));
+           // this.setRegionLevelTypeName(res.getString("region_level_type_name"));
+        } catch (SQLException ex) {
+            Logger.getLogger(RegionModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+  }
+  
   public void fillForSubRegion(ResultSet res){
         try {
             this.setRegionLevelTypeId(res.getString("region_level_type_id"));

@@ -54,7 +54,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
         Vector<RegionModel> regions=new Vector();
         String sqlStatement;
         //sqlStatement="SELECT REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_STATUS_TYPE_ID=1 AND REGION_LEVEL_TYPE_ID=(SELECT REGION_LEVEL_TYPE_ID FROM DCM_REGION_LEVEL_TYPE WHERE LOWER(REGION_LEVEL_TYPE_NAME) LIKE 'region' ) ORDER BY REGION_NAME ASC";
-        sqlStatement="SELECT dcm_region_level_type.REGION_LEVEL_TYPE_NAME,dcm_region.region_level_type_id, REGION_ID,REGION_NAME FROM dcm_region_level_type,DCM_REGION WHERE dcm_region.region_level_type_id = dcm_region_level_type.region_level_type_id and REGION_STATUS_TYPE_ID=1 AND dcm_region.REGION_LEVEL_TYPE_ID=1";
+        sqlStatement="SELECT dcm_region_level_type.REGION_LEVEL_TYPE_NAME,dcm_region.region_level_type_id, REGION_ID,REGION_NAME FROM dcm_region_level_type,DCM_REGION WHERE dcm_region.region_level_type_id = dcm_region_level_type.region_level_type_id and REGION_STATUS_TYPE_ID=1 AND dcm_region.REGION_LEVEL_TYPE_ID=1 order by DCM_REGION.region_name";
         regions=DBUtil.executeSqlQueryMultiValue(sqlStatement, RegionModel.class, "fillForRepManagementSearch", con);
         return regions;
     }
@@ -102,9 +102,9 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
         }
 
         if(regionId!=null){
-            if(levelTypeId!=null||name!=null){
+            if(levelTypeId!=null||name!=null)
                 sqlSearch+=" AND";
-            }
+            
             Vector <RegionModel> areas=new Vector();
             StringBuffer areasId=new StringBuffer("");
 
@@ -566,8 +566,10 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append("  CAM_PAYMENT_cam_state.cam_status_for_payment as payment_status,");
             strSql.append("  gen_dcm_payment_level.dcm_payment_level_name as payment_level,");
             strSql.append("  dcm_pos_detail.pos_arabic_address,");
-            //strSql.append("  --scm_iqrar_receving_status.name as is_iqrar_received," );
-            //strSql.append("  --scm_verified_status.name as is_verified," );
+            
+            strSql.append("  scm_iqrar_receving_status.name as is_iqrar_received," );
+            strSql.append("  scm_verified_status.name as is_verified," );
+            
             strSql.append("  dcm_pos_detail.doc_location," );
             strSql.append("  dcm_pos_detail.survey_id,");
             strSql.append("  dcm_pos_detail.is_level_one as L1,");
@@ -593,10 +595,12 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append("  scm_stk_status,");
             strSql.append("  CAM_PAYMENT_SCM_STATUS," );
             strSql.append("  CAM_PAYMENT_cam_state,");
-            strSql.append("  gen_dcm_payment_level,scm_user_region " );
-            //strSql.append(" -- scm_stk_owner,");
-            //strSql.append(" -- scm_iqrar_receving_status,");
-            //strSql.append(" -- scm_verified_status");
+            strSql.append("  gen_dcm_payment_level,scm_user_region, " );
+            
+            strSql.append("  scm_stk_owner,");
+            strSql.append("  scm_iqrar_receving_status,");
+            strSql.append("  scm_verified_status");
+            
             strSql.append(" WHERE gen_dcm.dcm_id            = dcm_pos_detail.pos_id" );
             strSql.append(" AND gen_dcm.dcm_code            = dcm_pos_detail.pos_code" );
             strSql.append(" AND dcm_pos_owner.pos_detail_id = dcm_pos_detail.pos_detail_id" );
@@ -645,9 +649,11 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append(" AND CAM_PAYMENT_SCM_STATUS.scm_id = gen_dcm.dcm_id");
             strSql.append(" AND CAM_PAYMENT_cam_state.id = CAM_PAYMENT_SCM_STATUS.PAYMENT_cam_state_id" );
             strSql.append(" AND gen_dcm_payment_level.dcm_payment_level_id = dcm_pos_detail.dcm_payment_level_id " );
-            //strSql.append(" --AND scm_iqrar_receving_status.iqrar_receving_status_id = scm_stk_owner.iqrar_receving_status_id");
-            //strSql.append(" --AND scm_stk_owner.dcm_id = dcm_pos_detail.pos_id ");
-            //strSql.append("--AND scm_verified_status.dcm_verified_status_id = scm_stk_owner.dcm_verified_status_id");
+            
+            strSql.append(" AND scm_iqrar_receving_status.iqrar_receving_status_id = scm_stk_owner.iqrar_receving_status_id");
+            strSql.append(" AND scm_stk_owner.dcm_id = dcm_pos_detail.pos_id ");
+            strSql.append(" AND scm_verified_status.dcm_verified_status_id = scm_stk_owner.dcm_verified_status_id");
+            
             strSql.append(" AND dcm_pos_detail.flage       IS NULL ");
            /*AND dcm_region.region_name='Alexandria'*/ 
             

@@ -108,9 +108,14 @@ $("#<%=SCMInterfaceKey.REGION_ID%>").change(function(){
       
     $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").append($("<option/>").text("--"));
 
+
         $.each(data.map.districts, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);//val(k)
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+            console.log("value ",arr);
+            var option= $("<option/>").text(k).val(v);//val(k)
  
           
             $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").append(option);
