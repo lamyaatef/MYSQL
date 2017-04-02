@@ -1082,7 +1082,24 @@ public class DCMIIHandler {
                     
                     String selectedRegionName = (String) paramHashMap.get("selected_region_name");
                     String selectedRegionLevel = (String) paramHashMap.get("selected_region_level");
+                    
+                    String selectedRegion = (String) paramHashMap.get("Region");
+                    String selectedGovern = (String) paramHashMap.get("Governorate");
+                    String selectedCity = (String) paramHashMap.get("City");
+                    String selectedDistrict = (String) paramHashMap.get("District");
+                    
+                    
                     System.out.println("selectedRegionName "+selectedRegionName+" selectedRegionLevel "+selectedRegionLevel);
+                    /////
+                    dataHashMap.put("selected_region_name",selectedRegionName);
+                    dataHashMap.put("selected_region_level",selectedRegionLevel);
+                    
+                    dataHashMap.put("Region",selectedRegion);
+                    dataHashMap.put("Governorate",selectedGovern);
+                    dataHashMap.put("City",selectedCity);
+                    dataHashMap.put("District",selectedDistrict);
+                    /////
+                    
                     
                     Vector<RegionModel> myRegions =  RepManagementDAO.getRegions(con);
                     

@@ -462,12 +462,12 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                             <input class=button  type="button"  value="Create Data Entry " onclick="preRequestDataEntryWithoutStk();">
                         </td>
                         <td>
-                            <input class=button  type="button"  value="Create Data Entry and STK " onclick="preRequestDataEntryWithStk()">
+                            <input class=button  type="button"  value="Create Data Entry and STK " onclick="preRequestDataEntryWithStk()" disabled>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <input class=button id="tempDown" type="button"  value="Generate Excel Template " onclick="exportExcel()">
+                            <input class=button id="tempDown" type="button"  value="Generate Excel Template " onclick="exportExcel()" disabled>
                         </td>
 
                     </tr>

@@ -43,6 +43,19 @@ String Slach = System.getProperty("file.separator");
         Vector<RegionModel> regions = (Vector) objDataHashMap.get(DCMInterfaceKey.SEARCH_REGION_RESULT);
         Vector<RegionModel> myRegions = (Vector) objDataHashMap.get("my_regions");
         Vector<RegionModel> childRegions = (Vector) objDataHashMap.get("child_regions");
+        
+        
+        String selectedReg = (String) objDataHashMap.get("selected_region_name");
+        String selectedRegLev = (String) objDataHashMap.get("selected_region_level");
+        
+        String Region = (String) objDataHashMap.get("Region");
+        String Governorate = (String) objDataHashMap.get("Governorate");
+        String City = (String) objDataHashMap.get("City");
+        String District = (String) objDataHashMap.get("District");
+        
+        
+        System.out.println("all NAMESSS : "+Region+" "+Governorate+" "+City+" "+District);
+        
        //   request.setAttribute("search_vector", searchResults);
             request.getSession().setAttribute("region_search_vector", regions);
     Vector dcmRegionlevels = (Vector) objDataHashMap.get(DCMInterfaceKey.VECTOR_ALL_REGIONS_LEVELS);
@@ -73,8 +86,37 @@ String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControl
             
             
                       $( document ).ready(function() {
+                          
+                        if('<%=selectedRegLev%>'=='1')
+                          {
+                               $("#<%=SCMInterfaceKey.REGION_ID%>  option:selected").text('<%=Region%>');
+                          }  
+                        if('<%=selectedRegLev%>'=='2')
+                          {
+                               $("#<%=SCMInterfaceKey.REGION_ID%>  option:selected").text('<%=Region%>');
+                               $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>  option:selected").text('<%=Governorate%>');
+                               //console.log("name of selected parent region text : ",$("#<%=SCMInterfaceKey.REGION_ID%> option:selected").text());
+                          }
+                        if('<%=selectedRegLev%>'=='3')
+                          {
+                               $("#<%=SCMInterfaceKey.REGION_ID%>  option:selected").text('<%=Region%>');
+                               $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>  option:selected").text('<%=Governorate%>');
+                               $("#<%=SCMInterfaceKey.CITY_ID%>  option:selected").text('<%=City%>');
+                          }
+                        if('<%=selectedRegLev%>'=='4')
+                          {
+                               $("#<%=SCMInterfaceKey.REGION_ID%>  option:selected").text('<%=Region%>');
+                               $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>  option:selected").text('<%=Governorate%>');
+                               $("#<%=SCMInterfaceKey.CITY_ID%>  option:selected").text('<%=City%>');
+                               $("#<%=SCMInterfaceKey.DISTRICT_ID%>  option:selected").text('<%=District%>');
+                          }
+                    //console.log("name of selected region text in the element : ",$("#<%=SCMInterfaceKey.GOVERNORATE_ID%> option:selected").text());
+                            
            
-                if($('#<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>').val()== "")
+                
+    
+    
+    if($('#<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>').val()== "")
                     $('#export_row').hide();
             
 //});
@@ -98,7 +140,7 @@ $("#<%=SCMInterfaceKey.REGION_ID%>").change(function(){
     {
         
       
-        $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").empty();
+      $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").empty();
         $("#<%=SCMInterfaceKey.CITY_ID%>").empty();
         $("#<%=SCMInterfaceKey.DISTRICT_ID%>").empty();
         $("#<%=SCMInterfaceKey.AREA_ID%>").empty();
@@ -114,11 +156,18 @@ $("#<%=SCMInterfaceKey.REGION_ID%>").change(function(){
             arr.sort = function(a,b) {
                 return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
             };
-            console.log("value ",arr);
+           
             var option= $("<option/>").text(k).val(v);//val(k)
  
           
             $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").append(option);
+            
+            
+            
+            
+            
+            
+            //$("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").append("selected");
 });
 
 },
@@ -152,7 +201,12 @@ $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").change(function(){
     
         $.each(data.map.districts, function(k, v) {
             
-            var option= $("<option/>").text(v).val(k);
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+           // console.log("value ",arr);
+            var option= $("<option/>").text(k).val(v);//val(k)
  
           
             $("#<%=SCMInterfaceKey.CITY_ID%>").append(option);
@@ -194,9 +248,14 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
     
         $.each(data.map.districts, function(k, v) {
             
-            var option= $("<option/>").text(v).val(k);
+           var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+           // console.log("value ",arr);
+            var option= $("<option/>").text(k).val(v);//val(k)
  
-           // console.log("data governorates ",option);
+           
             $("#<%=SCMInterfaceKey.DISTRICT_ID%>").append(option);
 });
         
@@ -245,6 +304,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
             
             
             function change(noResults) {
+                
             var export_but = document.getElementById("export_but");
                 var export_row = document.getElementById("export_row");
             if(noResults=="false")                
@@ -290,9 +350,15 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
         <input type="hidden" name="selectedEntityName" id="selectedEntityName" value=""/>
         <input type="hidden" name="selectedEntityLevel" id="selectedEntityLevel" value=""/>
         <input type="hidden" name="SearchResults" id="SearchResults" value=""/>
-        <input type="hidden" name="region_select" id="region_select" value=""/>
-        <input type="hidden" name="selected_region_name" id="region_select" value=""/>
-        <input type="hidden" name="selected_region_level" id="region_select" value=""/>
+        <input type="hidden" name="region_select" id="region_select1" value=""/>
+        <input type="hidden" name="selected_region_name" id="region_select2" value=""/>
+        <input type="hidden" name="selected_region_level" id="region_select3" value=""/>
+        
+        <input type="hidden" name="Region" id="Region" value=""/>
+        <input type="hidden" name="Governorate" id="Governorate" value=""/>
+        <input type="hidden" name="City" id="City" value=""/>
+        <input type="hidden" name="District" id="District" value=""/>
+        
         <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1" align="center">
             <tr class=TableHeader>
                 <td align = "center" colspan=5>Search Region</td>
@@ -352,7 +418,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                             <tr class=TableTextNote>
                         <td align=middle>Governorate</td>
                         <td align=middle>
-                            <select id="<%=SCMInterfaceKey.GOVERNORATE_ID%>" name="<%=SCMInterfaceKey.GOVERNORATE_ID%>">
+                            <select id="<%=SCMInterfaceKey.GOVERNORATE_ID%>" name="<%=SCMInterfaceKey.GOVERNORATE_ID%>" selected=''>
                                 <option value="">-----</option>
                                 
                             </select>
@@ -452,15 +518,15 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         out.print("disabled=\"true\"");
                     }
                     
-                                           %> name="<%=regions.get(i).getRegionId()%>" name="<%=regions.get(i).getRegionId()%>" value="Add childs" onclick="addchilds(<%=regions.get(i).getRegionId()%>)" /> </td>
-                <td align="center" ><input  type="button" <%
+                                           %> name="<%=regions.get(i).getRegionId()%>"  value="Add childs" onclick="addchilds(<%=regions.get(i).getRegionId()%>)" /> </td>
+                <td align="center" ><input type="button" <%
                     Integer parentnum = 0;
                     
                     if (parentnum.parseInt(regions.get(i).getRegionLevelTypeId()) == min) {
                         out.print("disabled=\"true\"");
                     }
                     
-                                            %>name="<%=regions.get(i).getRegionId()%> name="<%=regions.get(i).getRegionId()%>" name="<%=regions.get(i).getRegionId()%>" value="Delete" onclick="deleteregion(<%=regions.get(i).getRegionId()%>)" /> </td>
+                                            %>name="<%=regions.get(i).getRegionId()%>" value="Delete" disabled onclick="deleteregion(<%=regions.get(i).getRegionId()%>)" /> </td>
                 <td align="center" ><input type="button" <%
                     Integer parentnum2 = 0;
                     
@@ -468,7 +534,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         out.print("disabled=\"true\"");
                     }
                     
-                                           %>name="<%=regions.get(i).getRegionId()%>" name="<%=regions.get(i).getRegionId()%>" value="View parent" onclick="viewparent(<%=regions.get(i).getRegionId()%>)" /> </td>
+                                           %>name="<%=regions.get(i).getRegionId()%>" value="View parent" onclick="viewparent(<%=regions.get(i).getRegionId()%>)" /> </td>
                 <td align="center" ><input type="button" <%
 
                  
@@ -476,7 +542,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         out.print("disabled=\"true\"");
                     }
                 
-                                           %>name="<%=regions.get(i).getRegionId()%>" name="<%=regions.get(i).getRegionId()%>" value="View childs" onclick="viewchilds(<%=regions.get(i).getRegionId()%>)" /> 
+                                           %>name="<%=regions.get(i).getRegionId()%>"  value="View childs" onclick="viewchilds(<%=regions.get(i).getRegionId()%>)" /> 
                 </td>
                 
                 
@@ -520,7 +586,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
     <%} 
         else if (childRegions != null && childRegions.size() != 0) {
         
-            System.out.println("child regions "+childRegions.size());
+          //  System.out.println("child regions "+childRegions.size());
             int max = DBUtil.executeQuerySingleValueInt("SELECT MAX(REGION_LEVEL_TYPE_ID) FROM DCM_REGION_LEVEL_TYPE", "MAX(REGION_LEVEL_TYPE_ID)", con);
             int min = DBUtil.executeQuerySingleValueInt("SELECT MIN(REGION_LEVEL_TYPE_ID) FROM DCM_REGION_LEVEL_TYPE", "MIN(REGION_LEVEL_TYPE_ID)", con);
         %>
@@ -548,7 +614,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
             </tr>
 
             <%for (int j = 0; j < childRegions.size(); j++) {
-                System.out.println("i "+j);
+               // System.out.println("i "+j);
             %>
             <tr class="TableTextNote">
                 <td align="center" >
@@ -564,7 +630,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         out.print("disabled=\"true\"");
                     }
                     
-                                           %> name="<%=childRegions.get(j).getRegionId()%>" name="<%=childRegions.get(j).getRegionId()%>" value="Add childs" onclick="addchilds(<%=childRegions.get(j).getRegionId()%>)" /> </td>
+                                           %> name="<%=childRegions.get(j).getRegionId()%>" value="Add childs" onclick="addchilds(<%=childRegions.get(j).getRegionId()%>)" /> </td>
                 <td align="center" ><input  type="button" <%
                     Integer parentnum = 0;
                     
@@ -572,7 +638,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         out.print("disabled=\"true\"");
                     }
                     
-                                            %>name="<%=childRegions.get(j).getRegionId()%> name="<%=childRegions.get(j).getRegionId()%>" name="<%=childRegions.get(j).getRegionId()%>" value="Delete" onclick="deleteregion(<%=childRegions.get(j).getRegionId()%>)" /> </td>
+                                            %>name="<%=childRegions.get(j).getRegionId()%>"  value="Delete" disabled onclick="deleteregion(<%=childRegions.get(j).getRegionId()%>)" /> </td>
                 <td align="center" ><input type="button" <%
                     Integer parentnum2 = 0;
                     
@@ -580,7 +646,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         out.print("disabled=\"true\"");
                     }
                     
-                                           %>name="<%=childRegions.get(j).getRegionId()%>" name="<%=childRegions.get(j).getRegionId()%>" value="View parent" onclick="viewparent(<%=childRegions.get(j).getRegionId()%>)" /> </td>
+                                           %>name="<%=childRegions.get(j).getRegionId()%>"  value="View parent" onclick="viewparent(<%=childRegions.get(j).getRegionId()%>)" /> </td>
                 <td align="center" ><input type="button" <%
 
                  
@@ -588,7 +654,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         out.print("disabled=\"true\"");
                     }
                 
-                                           %>name="<%=childRegions.get(j).getRegionId()%>" name="<%=childRegions.get(j).getRegionId()%>" value="View childs" onclick="viewchilds(<%=childRegions.get(j).getRegionId()%>)" /> 
+                                           %>name="<%=childRegions.get(j).getRegionId()%>"  value="View childs" onclick="viewchilds(<%=childRegions.get(j).getRegionId()%>)" /> 
                 </td>
                 
                 
@@ -608,7 +674,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
             </tr>
 
             <%
-                System.out.println("i end of for"+j);
+               // System.out.println("i end of for"+j);
     }%>
         </table>
 
@@ -645,6 +711,9 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
 <script>
     function viewsearch()
     {
+        
+        
+                
 
         if(document.getElementById('<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>').value=="")
         {
@@ -663,28 +732,57 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                     else{
                        // alert("region not empty");
                         document.DCMform.selected_region_name.value=$("#<%=SCMInterfaceKey.REGION_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.REGION_ID%>').value;
+                        document.DCMform.Region.value=$("#<%=SCMInterfaceKey.REGION_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.REGION_ID%>').value;
                         document.DCMform.selected_region_level.value='1';
+                     //   console.log(document.DCMform.Region.value);
+                    //var elm = document.getElementById("<%=SCMInterfaceKey.REGION_ID%>");
+                    //console.log(elm);
+                   // elm.setAttribute("selected", "selected");
                     }
                 
                 }
                 else{
                // alert("govern not empty");
                     document.DCMform.selected_region_name.value=$("#<%=SCMInterfaceKey.GOVERNORATE_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.GOVERNORATE_ID%>').value;
+                    document.DCMform.Governorate.value=$("#<%=SCMInterfaceKey.GOVERNORATE_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.GOVERNORATE_ID%>').value;
+                    document.DCMform.Region.value=$("#<%=SCMInterfaceKey.REGION_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.REGION_ID%>').value;
                     document.DCMform.selected_region_level.value='2';
+                    
+                    //console.log(document.DCMform.selected_region_name.value);
+                    //var elm = document.getElementById("<%=SCMInterfaceKey.GOVERNORATE_ID%>");
+                    //elm.setAttribute("selected", "selected");
+                    //elm.setAttribute("value",document.DCMform.selected_region_name.value);
+                    //console.log(elm);
+                    //$("#<%=SCMInterfaceKey.GOVERNORATE_ID%> option[value=18]").prop("selected", "selected");
                 }
                 
             }
             else{
             //alert("city not empty");
                 document.DCMform.selected_region_name.value=$("#<%=SCMInterfaceKey.CITY_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.CITY_ID%>').value;
+                document.DCMform.City.value=$("#<%=SCMInterfaceKey.CITY_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.CITY_ID%>').value;
+                document.DCMform.Governorate.value=$("#<%=SCMInterfaceKey.GOVERNORATE_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.GOVERNORATE_ID%>').value;
+                document.DCMform.Region.value=$("#<%=SCMInterfaceKey.REGION_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.REGION_ID%>').value;
                 document.DCMform.selected_region_level.value='3';
+                //console.log(document.DCMform.selected_region_name.value);
+                  //  var elm = document.getElementById("<%=SCMInterfaceKey.CITY_ID%>");
+                   // console.log(elm);
+                    //elm.setAttribute("selected", "selected");
             }
             
         }
         else{
        // alert("district not empty");
             document.DCMform.selected_region_name.value=$("#<%=SCMInterfaceKey.DISTRICT_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.DISTRICT_ID%>').value;
+            document.DCMform.District.value=$("#<%=SCMInterfaceKey.DISTRICT_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.DISTRICT_ID%>').value;
+            document.DCMform.City.value=$("#<%=SCMInterfaceKey.CITY_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.CITY_ID%>').value;
+            document.DCMform.Governorate.value=$("#<%=SCMInterfaceKey.GOVERNORATE_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.GOVERNORATE_ID%>').value;
+            document.DCMform.Region.value=$("#<%=SCMInterfaceKey.REGION_ID%> option:selected").text();//document.getElementById('<%=SCMInterfaceKey.REGION_ID%>').value;
             document.DCMform.selected_region_level.value='4';
+            //console.log(document.DCMform.selected_region_name.value);
+              //      var elm = document.getElementById("<%=SCMInterfaceKey.DISTRICT_ID%>");
+                //    console.log(elm);
+                  //  elm.setAttribute("selected", "selected");
         }
         }
         else{alert("You must select level");

@@ -199,7 +199,7 @@
     HashMap superChildren = drawSelectSupervisorChildren(out, managerid2, regionid, userLevelId);
     superChildren = sortHashMapByValue(superChildren);
     map.put("districts", reggs);
-    System.out.println("map : "+map.get("districts"));
+    //System.out.println("map : "+map.get("districts"));
     map.put("users", supers);
     map.put("teams", leads);
     map.put("sales",reps);
@@ -207,7 +207,7 @@
     
   JSONObject js = new JSONObject();
   js.put("map", map);
-  System.out.println("json : "+js.get("map"));
+  //System.out.println("json : "+js.get("map"));
   response.setContentType("text/x-json;charset=UTF-8");           
   response.setHeader("Cache-Control", "no-cache");
   response.setContentType("application/json");
@@ -232,7 +232,7 @@
 
                 for (PlaceDataModel placeDataModel : children) {
                        // out.println("<option value=" + placeDataModel.getRegionId()+">"+placeDataModel.getRegionName()+"</option>");
-                  System.out.println("placeDataModel.getRegionName() Regions.jsp: "+placeDataModel.getRegionName());
+                  //System.out.println("placeDataModel.getRegionName() Regions.jsp: "+placeDataModel.getRegionName());
                     //region.put(Integer.toString(placeDataModel.getRegionId()), placeDataModel.getRegionName());
                   region.put(placeDataModel.getRegionName(),Integer.toString(placeDataModel.getRegionId()));
                 }

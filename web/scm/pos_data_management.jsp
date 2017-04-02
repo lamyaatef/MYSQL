@@ -721,9 +721,15 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
 
         $.each(data.map.districts, function(k, v) {
             
-            var option= $("<option/>").text(v).val(k);
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+           
+            var option= $("<option/>").text(k).val(v);//val(k)
  
-          //  console.log("data governorates ",option);
+ 
+          
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").append(option);
 });
 
@@ -757,10 +763,13 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").change(function(){
     $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").append($("<option/>").text("--"));
     
         $.each(data.map.districts, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+           
+            var option= $("<option/>").text(k).val(v);//val(k)
  
-          //  console.log("data governorates ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").append(option);
 });
         
@@ -803,9 +812,14 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").change(function(){
     
         $.each(data.map.districts, function(k, v) {
             
-            var option= $("<option/>").text(v).val(k);
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+           
+            var option= $("<option/>").text(k).val(v);//val(k)
  
-           // console.log("data governorates ",option);
+ 
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").append(option);
 });
         
@@ -850,9 +864,13 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").change(function(){
     
         $.each(data.map.districts, function(k, v) {
             
-            var option= $("<option/>").text(v).val(k);
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+           
+            var option= $("<option/>").text(k).val(v);//val(k)
  
-        //    console.log("data governorates ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").append(option);
 });
  

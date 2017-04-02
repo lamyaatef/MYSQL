@@ -722,6 +722,7 @@ System.out.println("QUERY ... "+query);
 
     public static int getRegionLevelById(String regionId, Connection con) {
         String query = "select REGION_LEVEL_TYPE_ID FROM DCM_REGION where REGION_ID = '" + regionId + "'";
+        System.out.println("getRegionLevelById query: "+query);
         int level_Id = DBUtil.executeQuerySingleValueInt(query, "REGION_LEVEL_TYPE_ID", con);
         return level_Id;
 
