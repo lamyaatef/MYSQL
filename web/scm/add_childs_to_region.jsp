@@ -37,8 +37,8 @@ String region_ID=(String)dataHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_ID);
 String region_Type=(String)dataHashMap.get(DCMInterfaceKey.INPUT_HIDDEN_DCM_USER_LEVEL_TYPE_ID);
 String alert = (String)dataHashMap.get(DCMInterfaceKey.Message);
 Connection con= Utility.getConnection();
-Vector<Area_Level_Type_OriginalDto>Area_Level_Type_Original=RegionDAO.getAllOriginalsLevels(con);
-Vector<CovarageLevelDto>CovarageLevel=RegionDAO.getAllCovarageLevels(con);
+Vector<Area_Level_Type_OriginalDto>Area_Level_Type_Original=null;//RegionDAO.getAllOriginalsLevels(con);
+Vector<CovarageLevelDto>CovarageLevel=null;//RegionDAO.getAllCovarageLevels(con);
 String excelformAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
 +InterfaceKey.HASHMAP_KEY_ACTION+"="
 +DCMInterfaceKey.ACTION_ADD_CHILDS_TO_REGION_PROCESS+"&"+InterfaceKey.HASHMAP_KEY_USER_ID+"="
@@ -123,6 +123,8 @@ String EntryformAction = appName +"/servlet/com.mobinil.sds.web.controller.WebCo
       <td align=middle><select name='<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_COVARAGE_LEVEL_NAME%>' id='<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_COVARAGE_LEVEL_NAME%>'>
           <option value=''></option>
           <%
+          if(CovarageLevel!=null)
+          {
           for (int j=0; j<CovarageLevel.size(); j++)
           {
               CovarageLevelDto CovaragelevelModel = (CovarageLevelDto)CovarageLevel.get(j);
@@ -134,6 +136,7 @@ String EntryformAction = appName +"/servlet/com.mobinil.sds.web.controller.WebCo
           <option name='<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_COVARAGE_LEVEL_NAME%>' id='<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_COVARAGE_LEVEL_NAME%>' value='<%=levelId%>'><%=levelName%></option>
           <%
           }
+          }
           %>
           </select>
         </td>
@@ -143,6 +146,8 @@ String EntryformAction = appName +"/servlet/com.mobinil.sds.web.controller.WebCo
       <td align=middle><select name='<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_ORIGINAL_LEVEL_NAME%>' id='<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_ORIGINAL_LEVEL_NAME%>'>
           <option value=''></option>
           <%
+          if(Area_Level_Type_Original!=null)
+          {
           for (int j=0; j<Area_Level_Type_Original.size(); j++)
           {
               Area_Level_Type_OriginalDto originallevelModel = (Area_Level_Type_OriginalDto)Area_Level_Type_Original.get(j);
@@ -153,6 +158,7 @@ String EntryformAction = appName +"/servlet/com.mobinil.sds.web.controller.WebCo
           %>
           <option name='<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_ORIGINAL_LEVEL_NAME%>' id='<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_ORIGINAL_LEVEL_NAME%>' value='<%=levelId%>'><%=levelName%></option>
           <%
+          }
           }
           %>
           </select>

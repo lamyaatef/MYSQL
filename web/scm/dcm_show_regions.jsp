@@ -449,6 +449,21 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                         </td>
                     </tr>
                     
+                    
+                    
+                    <tr class=TableTextNote>
+                        <td align=middle>Image District</td>
+                        <td align=middle>
+                            <select id="<%=SCMInterfaceKey.DISTRICT_ID%>" name="<%=SCMInterfaceKey.DISTRICT_ID%>">
+                                <option value="">-----</option>
+                                
+                            </select>
+
+                            
+                        </td>
+                    </tr>
+                    
+                    
                       </tr>
                             
             

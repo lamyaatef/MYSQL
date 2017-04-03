@@ -230,7 +230,7 @@ public class RegionDAO {
                 + "," + levelid + ",'" + campas_Code + "','" + regionArabicName + "','" + regionCode + "')";
 
         DBUtil.executeSQL(query);
-        if (levelid == 5) {
+       /* if (levelid == 5) {
             String areaQuery = "INSERT INTO SDS.GEN_AREA_DETAILS ("
                     + "AREA_ID, CAPMAS_CODE, COVARAGE, "
                     + "POP, SCEARABICNAME, SCEENGLISHNAME, "
@@ -241,7 +241,7 @@ public class RegionDAO {
 
             DBUtil.executeSQL(areaQuery);
 
-        }
+        }*/
 
 
 
