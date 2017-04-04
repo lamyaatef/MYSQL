@@ -187,7 +187,7 @@ public class RegionDAO {
 
 
             Statement stmt = con.createStatement();
-            String sqlString = "select region_id ,region_name  from dcm_region where REGION_ID =" + labelIdKey + " order by dcm_region.region_name";
+            String sqlString = "select region_id ,region_name, parent_region_id  from dcm_region where REGION_ID =" + labelIdKey + " order by dcm_region.region_name";
 
             System.out.println(sqlString);
             ResultSet governorateRS = stmt.executeQuery(sqlString);
@@ -196,7 +196,8 @@ public class RegionDAO {
 
                 regionModel.setRegionId(governorateRS.getString("region_id"));
                 regionModel.setRegionName(governorateRS.getString("region_name"));
-
+                regionModel.setParentRegionId(governorateRS.getString("parent_region_id"));
+                System.out.println("governorateRS.getString(\"parent_region_id\") "+governorateRS.getString("parent_region_id"));
 
             }
             governorateRS.close();
@@ -210,6 +211,10 @@ public class RegionDAO {
 
         return regionModel;
     }
+    
+    
+    
+    
 //////////////////////////////////////////////////////////////////////    
 
     public static void insertNewChild(Connection con, String regionName, String parentRegionId, String campas_Code, String regionArabicName, String typeOriginalLevelId, String typeCovarageLevelId, String pop_Code, String SCEARABICNAME, String SCEENGLISHNAME, String family, String regionCode) {

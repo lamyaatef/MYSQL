@@ -93,7 +93,7 @@
                                 for (int i = 0; i < parentVec.size(); i++) {
                                     RegionModel model = (RegionModel) parentVec.get(i);
                             %>
-                            <option value="<%=model.getRegionId()%>"><%=model.getRegionName()%></option>
+                            <option value="<%=model.getRegionId()%>" ><%=model.getRegionName()%></option>
                             <%}
                             }%>
                         </select>

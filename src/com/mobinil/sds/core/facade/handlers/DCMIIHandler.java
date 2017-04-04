@@ -1221,6 +1221,8 @@ public class DCMIIHandler {
                             System.out.println("The label id issssssssssss " + labelIdKey);
 
                             selectedList.add(RegionDAO.selectedParent(con, labelIdKey));
+                            for(int j=0;j<selectedList.size();j++)
+                                System.out.println("selected list "+selectedList.get(j).getParentRegionId());
                             // RegionDAO.editParent(con, labelIdKey);
                             Vector paymentTypes = RegionDAO.editParent(con, labelIdKey);
                             dataHashMap.put(DCMInterfaceKey.VECTOR_PARENTS, paymentTypes);
