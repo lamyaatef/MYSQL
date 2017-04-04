@@ -52,6 +52,7 @@ System.out.println("form action "+formAction);
 
 ////////////////////////////////////////////////////////////////
             String regionID=(String)dataHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_ID);
+            String regionLevelTypeID=(String)dataHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_LEVEL_TYPE_ID);
             Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel> allSupers=(Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel>)dataHashMap.get("AllSupervisors"); 
             Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel> allTeams=(Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel>)dataHashMap.get("AllTeamleaders"); 
             Vector<com.mobinil.sds.core.system.scm.model.RepModel> allReps=(Vector<com.mobinil.sds.core.system.scm.model.RepModel>)dataHashMap.get("AllReps"); 
@@ -545,6 +546,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                 <input type="hidden" id ="<%=SCMInterfaceKey.DCM_USER_ID%>" name="<%=SCMInterfaceKey.DCM_USER_ID%>" value="<%=dcmUserId%>">
                 <input type="hidden" id ="<%=SCMInterfaceKey.PERSON_ID%>" name="<%=SCMInterfaceKey.PERSON_ID%>"  value="<%=dcmUserUserId%>">
                 <input type="hidden" id ="region_id" name="region_id"  value="<%=regionID%>">
+                <input type="hidden" id ="region_level_type_id" name="region_level_type_id"  value="<%=regionLevelTypeID%>">
                 
                 
                 <input type="hidden" name="<%=SCMInterfaceKey.USER_LEVEL_TYPE_ID%>" value="-1">

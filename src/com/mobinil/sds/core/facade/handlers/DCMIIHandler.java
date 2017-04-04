@@ -189,11 +189,12 @@ public class DCMIIHandler {
             switch (actionType) {
                 case update_users_to_region:
                     String regionID=(String)paramHashMap.get("region_id");
+                    String regionLevelTypeID=(String)paramHashMap.get("region_level_type_id");
                     String superID=(String)paramHashMap.get("supervisorHidden");
                     String teamID=(String)paramHashMap.get("teamleaderHidden");
                     String repID=(String)paramHashMap.get("repHidden");
-                    System.out.println("region id "+regionID+" super id "+superID+" team id "+teamID+" rep id "+repID);
-                    RepManagementDAO.updateUsersForARegion(con, regionID, superID, teamID, repID);
+                    System.out.println("region id "+regionID+" level type id " +regionLevelTypeID+" super id "+superID+" team id "+teamID+" rep id "+repID);
+                    RepManagementDAO.updateUsersForARegion(con, regionID, superID, teamID, repID,regionLevelTypeID);
                     dataHashMap.put(SCMInterfaceKey.CONFIRMATION_MESSAGE, "Data Updated Successfuly.");
                     
                     
@@ -215,9 +216,10 @@ public class DCMIIHandler {
                 case edit_users_to_region:
                     
                     regionID=(String)paramHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_ID);
+                    String regionLevelTypeId=(String)paramHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_LEVEL_TYPE_ID);
                     //regionID=(String)paramHashMap.get("regionN");
                     
-                    System.out.println("edit_users_to_region - region id: "+regionID);
+                    System.out.println("edit_users_to_region - region id: "+regionID+" level type id : "+regionLevelTypeId);
                     allSupervisors = RepManagementDAO.getSupervisors(con);
                     allTeamleaders = RepManagementDAO.getTeamleaders(con);
                     allReps = RepManagementDAO.getReps(con);
@@ -231,6 +233,7 @@ public class DCMIIHandler {
                     dataHashMap.put("AllTeamleaders", allTeamleaders);
                     dataHashMap.put("AllReps", allReps);
                     dataHashMap.put(DCMInterfaceKey.INPUT_TEXT_REGION_ID, regionID);
+                    dataHashMap.put(DCMInterfaceKey.INPUT_TEXT_REGION_LEVEL_TYPE_ID, regionLevelTypeId);
                     break;
                 
                 case DCM_POS_SAVE_DETAIL:
@@ -1087,6 +1090,7 @@ public class DCMIIHandler {
                     String selectedGovern = (String) paramHashMap.get("Governorate");
                     String selectedCity = (String) paramHashMap.get("City");
                     String selectedDistrict = (String) paramHashMap.get("District");
+                    String selectedImgDistrict = (String) paramHashMap.get("Image_District");
                     
                     
                     System.out.println("selectedRegionName "+selectedRegionName+" selectedRegionLevel "+selectedRegionLevel);
@@ -1098,6 +1102,7 @@ public class DCMIIHandler {
                     dataHashMap.put("Governorate",selectedGovern);
                     dataHashMap.put("City",selectedCity);
                     dataHashMap.put("District",selectedDistrict);
+                    dataHashMap.put("Image_District",selectedImgDistrict);
                     /////
                     
                     
@@ -1203,12 +1208,14 @@ public class DCMIIHandler {
                     Vector<RegionModel> selectedList = new Vector<RegionModel>();
 
                     for (int i = 0; i < paramHashMapSize; i++) {
+                        
                         String tempKey = (String) paramHashMap.keySet().toArray()[i];
+                        System.out.println("tempKey "+tempKey);
                         //System.out.println(paramHashMap.get(tempKey));
-//	                  String tempValue = (String)paramHashMap.get(tempKey);
+                        //String tempValue = (String)paramHashMap.get(tempKey);
                         //Utility.logger.debug("wwwwwww"+tempKey+"-----------------"+tempValue);
 
-                        if (tempKey.startsWith(DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX)) {
+                        if (tempKey!=null && tempKey.startsWith(DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX)) {
                             String labelIdKey = tempKey.substring((DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX).length());
                             //Utility.logger.debug(reportId);
                             System.out.println("The label id issssssssssss " + labelIdKey);

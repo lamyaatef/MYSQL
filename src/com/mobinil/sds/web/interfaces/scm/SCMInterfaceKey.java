@@ -142,6 +142,7 @@ public class SCMInterfaceKey {
     public static final String GOVERNORATE_ID = "governorate_id";
     public static final String CITY_ID = "city_id";
     public static final String DISTRICT_ID = "district_id";
+    public static final String IMAGE_DISTRICT_ID = "image_district_id";
     public static final String AREA_ID = "area_id";
     public static final String VECTOR_REGION_GOVERNORATES = "vector_regions_governorates";
     public static final String VECTOR_GOVERNORATE_CITIES = "vector_governorate_cities";

@@ -22,6 +22,7 @@
     dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
     String strUserID = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
     String regionId = (String) dataHashMap.get(DCMInterfaceKey.INPUT_TEXT_REGION_ID);
+    System.out.println("region id in edit parent jsp : "+regionId);//result is null
     String regionName = RegionDAO.getRegionName(regionId);
     Vector parentVec = (Vector) dataHashMap.get(DCMInterfaceKey.VECTOR_PARENTS);
     Vector<RegionModel> selectVec = (Vector) dataHashMap.get(DCMInterfaceKey.VECTOR_SELECTED);
@@ -68,9 +69,10 @@
 
                 </tr>
 
-                <%
+                <%if(selectVec!=null){
                     for (int j = 0; j < selectVec.size(); j++) {
                         System.out.println("Vec size is:" + selectVec.size());
+                
 
                 %>
                 <input type='hidden' name='<%=DCMInterfaceKey.CONTROL_HIDDEN_UPDATE_CHILDS + selectVec.get(j).getRegionId()%>' id='<%=DCMInterfaceKey.CONTROL_HIDDEN_UPDATE_CHILDS + selectVec.get(j).getRegionId()%>' value='<%=selectVec.get(j).getRegionId()%>'>
@@ -80,18 +82,20 @@
 
                     <td align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=model.getRegionName()%></td>
 
-                    <%}%>
+                    <%}
+                }%>
 
                     <td align=center ><select name="<%=DCMInterfaceKey.CONTROL_SHOW_PARENT_COMBOBOX%>" id="<%=DCMInterfaceKey.CONTROL_SHOW_PARENT_COMBOBOX%>">
 
 
                             <option value="" >--</option>
-                            <%
+                            <%if(parentVec!=null){
                                 for (int i = 0; i < parentVec.size(); i++) {
                                     RegionModel model = (RegionModel) parentVec.get(i);
                             %>
                             <option value="<%=model.getRegionId()%>"><%=model.getRegionName()%></option>
-                            <%}%>
+                            <%}
+                            }%>
                         </select>
                 </tr>
 

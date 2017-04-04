@@ -59,7 +59,7 @@ public class RegionDAO {
                 + " START WITH parent_region_id =" + RegionId
                 + " CONNECT BY PRIOR region_id = parent_region_id)WHERE row_num > = ('" + rowNum + "'*20)+1 AND row_num < = ('" + rowNum + "'+1)*20  ORDER BY ROWNUM";
 
-
+        System.out.println("getChilds - sql : "+strSql);
         Vector<RegionModel> childs = DBUtil.executeSqlQueryMultiValue(strSql, RegionModel.class, con);
 
 
@@ -151,7 +151,7 @@ public class RegionDAO {
 
 
             Statement stmt = con.createStatement();
-            String sqlString = "select region_id ,region_name , REGION_LEVEL_TYPE_ID from dcm_region where REGION_LEVEL_TYPE_ID = (select REGION_LEVEL_TYPE_ID from dcm_region where region_id =" + labelIdKey + ")-1 ";
+            String sqlString = "select region_id ,region_name , REGION_LEVEL_TYPE_ID from dcm_region where REGION_LEVEL_TYPE_ID = (select REGION_LEVEL_TYPE_ID from dcm_region where region_id =" + labelIdKey + ")-1 order by dcm_region.region_name";
 
             System.out.println(sqlString);
             ResultSet governorateRS = stmt.executeQuery(sqlString);
@@ -187,7 +187,7 @@ public class RegionDAO {
 
 
             Statement stmt = con.createStatement();
-            String sqlString = "select region_id ,region_name  from dcm_region where REGION_ID =" + labelIdKey + "";
+            String sqlString = "select region_id ,region_name  from dcm_region where REGION_ID =" + labelIdKey + " order by dcm_region.region_name";
 
             System.out.println(sqlString);
             ResultSet governorateRS = stmt.executeQuery(sqlString);
@@ -217,7 +217,7 @@ public class RegionDAO {
         String levelQuery = "SELECT REGION_LEVEL_TYPE_ID FROM  DCM_REGION WHERE REGION_ID =" + parentRegionId + "";
         int nextid = DBUtil.executeQuerySingleValueInt(maxIDquery, "MAX(REGION_ID)", con) + 1;
         int levelid = DBUtil.executeQuerySingleValueInt(levelQuery, "REGION_LEVEL_TYPE_ID", con);
-        if (levelid == 5) {
+        if (levelid == 5 || levelid == 6) {
             levelid = 5;
         } else {
             levelid++;
@@ -585,7 +585,7 @@ public class RegionDAO {
 
     public static Vector<RegionModel> getRegionByName(String regionName, String level, Connection con, String rowNum) {
         String query = "SELECT * FROM (SELECT ROWNUM as row_num ,REGION_NAME,REGION_ID,REGION_LEVEL_TYPE_NAME,dcm_region.REGION_LEVEL_TYPE_ID FROM DCM_REGION,DCM_REGION_LEVEL_TYPE WHERE REGION_STATUS_TYPE_ID<>3 "
-                + "AND DCM_REGION_LEVEL_TYPE.REGION_LEVEL_TYPE_ID=dcm_region.REGION_LEVEL_TYPE_ID)WHERE row_num > = ('" + rowNum + "'*20)+1 AND row_num < = ('" + rowNum + "'+1)*20  ORDER BY ROWNUM";
+                + "AND DCM_REGION_LEVEL_TYPE.REGION_LEVEL_TYPE_ID=dcm_region.REGION_LEVEL_TYPE_ID order by dcm_region.region_name)WHERE row_num > = ('" + rowNum + "'*20)+1 AND row_num < = ('" + rowNum + "'+1)*20  ORDER BY ROWNUM ";
 
         if (!regionName.equals(null) && !regionName.equals("")) {
 
@@ -593,8 +593,8 @@ public class RegionDAO {
                     + "(SELECT ROWNUM as row_num ,REGION_NAME,REGION_ID,REGION_LEVEL_TYPE_NAME,dcm_region.REGION_LEVEL_TYPE_ID FROM DCM_REGION,DCM_REGION_LEVEL_TYPE WHERE LOWER(REGION_NAME) LIKE LOWER('%" + regionName + "%')"
                     + " AND REGION_STATUS_TYPE_ID<>3"
                     + " AND DCM_REGION_LEVEL_TYPE.REGION_LEVEL_TYPE_ID=dcm_region.REGION_LEVEL_TYPE_ID"
-                    + " AND dcm_region.REGION_LEVEL_TYPE_ID =" + level + ")"
-                    + " WHERE row_num > = ('0'*20)+1 AND row_num < = ('0'+1)*20  ORDER BY ROWNUM";
+                    + " AND dcm_region.REGION_LEVEL_TYPE_ID =" + level + " order by dcm_region.region_name)"
+                    + " WHERE row_num > = ('0'*20)+1 AND row_num < = ('0'+1)*20  ORDER BY ROWNUM ";
 
 
         }
@@ -602,7 +602,7 @@ public class RegionDAO {
         if ((!level.equals(null) && !level.equals(""))) {
             if (regionName.equals(null) || regionName.equals("")) {
                 query = "SELECT * FROM (SELECT ROWNUM as row_num ,REGION_NAME,REGION_ID,REGION_LEVEL_TYPE_NAME,dcm_region.REGION_LEVEL_TYPE_ID FROM DCM_REGION,DCM_REGION_LEVEL_TYPE WHERE DCM_REGION.REGION_LEVEL_TYPE_ID =" + level + " AND REGION_STATUS_TYPE_ID<>3 "
-                        + "AND DCM_REGION_LEVEL_TYPE.REGION_LEVEL_TYPE_ID=dcm_region.REGION_LEVEL_TYPE_ID)WHERE row_num > = ('" + rowNum + "'*20)+1 AND row_num < = ('" + rowNum + "'+1)*20  ORDER BY ROWNUM";
+                        + "AND DCM_REGION_LEVEL_TYPE.REGION_LEVEL_TYPE_ID=dcm_region.REGION_LEVEL_TYPE_ID order by dcm_region.region_name)WHERE row_num > = ('" + rowNum + "'*20)+1 AND row_num < = ('" + rowNum + "'+1)*20  ORDER BY ROWNUM ";
             }
         }
 System.out.println("QUERY ... "+query);
