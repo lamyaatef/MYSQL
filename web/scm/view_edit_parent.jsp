@@ -27,7 +27,7 @@
     Vector parentVec = (Vector) dataHashMap.get(DCMInterfaceKey.VECTOR_PARENTS);
     Vector<RegionModel> selectVec = (Vector) dataHashMap.get(DCMInterfaceKey.VECTOR_SELECTED);
     String UpdateParentForm = appName + "/servlet/com.mobinil.sds.web.controller.WebControllerServlet?";
-
+    String selectedRegionParentId = "";
 %>
 <html>
     <head>
@@ -77,6 +77,7 @@
                 %>
                 <input type='hidden' name='<%=DCMInterfaceKey.CONTROL_HIDDEN_UPDATE_CHILDS + selectVec.get(j).getRegionId()%>' id='<%=DCMInterfaceKey.CONTROL_HIDDEN_UPDATE_CHILDS + selectVec.get(j).getRegionId()%>' value='<%=selectVec.get(j).getRegionId()%>'>
                 <% RegionModel model = (RegionModel) selectVec.get(j);
+                selectedRegionParentId = model.getParentRegionId();
                 %>
                 <tr>
 
@@ -90,12 +91,25 @@
 
                             <option value="" >--</option>
                             <%if(parentVec!=null){
+                                
                                 for (int i = 0; i < parentVec.size(); i++) {
                                     RegionModel model = (RegionModel) parentVec.get(i);
+                                   // System.out.println(i+" selectedRegionParentId "+selectedRegionParentId+" model.getRegionId() "+model.getRegionId());
+                                    if(selectedRegionParentId.compareTo(model.getRegionId())==0)
+                                    {
                             %>
-                            <option value="<%=model.getRegionId()%>" ><%=model.getRegionName()%></option>
+                            <option value="<%=model.getRegionId()%>" selected ><%=model.getRegionName()%></option>
                             <%}
-                            }%>
+                                    else{
+                                        %>
+                            <option value="<%=model.getRegionId()%>"  ><%=model.getRegionName()%></option>
+                            <%
+                                    }
+                                
+                                
+                                }
+                            }
+                            %>
                         </select>
                 </tr>
 

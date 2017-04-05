@@ -129,9 +129,16 @@ public RegionPOSReportModel(ResultSet res, String regionLevel/*,String superviso
                     }//POS_CITY_ID , supervisor_city_id
                     else if(regionLevel.compareTo("4")==0)
                     {
+                        imageDistrict= res.getString("image_district_name");
+                        
+                    }//POS_DISTRICT_ID, salesrep_district_id
+                    
+                    else if(regionLevel.compareTo("6")==0)
+                    {
                         disctrict= res.getString("district_name");
                         districtCodeId= res.getString("district_code");
-                    }//POS_DISTRICT_ID, salesrep_district_id
+                    }
+                    
                     
                     else if(regionLevel.compareTo("2")==0)
                     {

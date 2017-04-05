@@ -140,9 +140,9 @@ public class RegionDAO {
         return parentsvector;
     }
 
-    public static Vector<RegionModel> editParent(Connection con, String labelIdKey) {
+    public static Vector<RegionModel> editParent(Connection con, String labelIdKey,String selectedRegionLevelTypeId) {
 
-
+        String sqlString ="";
 
         Vector<RegionModel> parentsvector = new Vector<RegionModel>();
 
@@ -151,8 +151,13 @@ public class RegionDAO {
 
 
             Statement stmt = con.createStatement();
-            String sqlString = "select region_id ,region_name , REGION_LEVEL_TYPE_ID from dcm_region where REGION_LEVEL_TYPE_ID = (select REGION_LEVEL_TYPE_ID from dcm_region where region_id =" + labelIdKey + ")-1 order by dcm_region.region_name";
+            
+            if(selectedRegionLevelTypeId.compareTo("6")==0)
+                sqlString = "select region_id ,region_name , REGION_LEVEL_TYPE_ID from dcm_region where REGION_LEVEL_TYPE_ID = 4 order by dcm_region.region_name";
+            else
+                sqlString = "select region_id ,region_name , REGION_LEVEL_TYPE_ID from dcm_region where REGION_LEVEL_TYPE_ID = (select REGION_LEVEL_TYPE_ID from dcm_region where region_id =" + labelIdKey + ")-1 order by dcm_region.region_name";
 
+            
             System.out.println(sqlString);
             ResultSet governorateRS = stmt.executeQuery(sqlString);
             while (governorateRS.next()) {
@@ -187,7 +192,7 @@ public class RegionDAO {
 
 
             Statement stmt = con.createStatement();
-            String sqlString = "select region_id ,region_name, parent_region_id  from dcm_region where REGION_ID =" + labelIdKey + " order by dcm_region.region_name";
+            String sqlString = "select region_id ,region_name, parent_region_id, region_level_type_id  from dcm_region where REGION_ID =" + labelIdKey + " order by dcm_region.region_name";
 
             System.out.println(sqlString);
             ResultSet governorateRS = stmt.executeQuery(sqlString);
@@ -197,7 +202,8 @@ public class RegionDAO {
                 regionModel.setRegionId(governorateRS.getString("region_id"));
                 regionModel.setRegionName(governorateRS.getString("region_name"));
                 regionModel.setParentRegionId(governorateRS.getString("parent_region_id"));
-                System.out.println("governorateRS.getString(\"parent_region_id\") "+governorateRS.getString("parent_region_id"));
+                regionModel.setRegionLevelTypeId(governorateRS.getString("region_level_type_id"));
+                
 
             }
             governorateRS.close();

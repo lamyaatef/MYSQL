@@ -595,7 +595,10 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
             %>
             <tr class="TableTextNote">
                 <td align="center" >
+                    <!--
                     <input type="checkbox" name="<%=DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX + regions.get(i).getRegionId()%>" id="<%=DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX + regions.get(i).getRegionId()%>" value="<%=checkbox%>">
+                    -->
+                    <input type="checkbox" name="<%=DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX + regions.get(i).getRegionId()%>" id="check_box" value="<%=checkbox%>">
                 </td>
                 <td align="center" ><%=regions.get(i).getRegionName()%></td>
                 <td align="center" ><%=regions.get(i).getRegionLevelTypeName()%></td>
@@ -972,9 +975,18 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
         /*document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_EDIT_PARENT);%>'+
             '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>*/
 
-        document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_EDIT_PARENT);%>'+
-            '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>    
-        document.DCMform.submit();
+            if (document.getElementById('check_box').checked) {
+                    document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_EDIT_PARENT);%>'+
+                    '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>    
+                    
+                    document.DCMform.submit();
+            } else {
+                alert("Select a region before you edit parent.");
+            }
+
+
+
+        
     }
     function viewchilds(i)
     {

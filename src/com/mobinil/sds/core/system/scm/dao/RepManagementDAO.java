@@ -168,7 +168,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
 "    --AND DCM_USER.REGION_ID           =DCM_REGION.REGION_ID\n" +
 "    AND scm_user_region.REGION_ID           =DCM_REGION.REGION_ID\n" +
 "    AND    scm_user_region.USER_ID         =DCM_USER_DETAIL.USER_ID\n" +
-"    AND    scm_user_region.region_level_type_id         =4\n" +
+"    AND    scm_user_region.region_level_type_id         in (4,6)\n" +
 "    AND scm_user_region.USER_LEVEL_TYPE_ID IN(4,5,6)) x"
             +" "+sqlSearch +"   "
  +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";           
@@ -545,6 +545,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append("  govern.region_name as govern_name," );
             strSql.append("  dcm_pos_detail.district_code,");
             strSql.append("  district.region_name as district_name,");
+            strSql.append("  imgDist.region_name as image_district_name,");
             strSql.append("  area.region_code as area_code,");
             strSql.append("  area.region_name as area_name," );
  
@@ -584,6 +585,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append("  dcm_region city,");
             strSql.append("  dcm_region govern,");
             strSql.append("  dcm_region district," );
+            strSql.append("  dcm_region imgDist," );
             strSql.append("  dcm_region area," );
             strSql.append("  pos_documents," );
             strSql.append("  gen_dcm_status,");
@@ -612,7 +614,9 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append(" AND govern.region_id = dcm_pos_detail.pos_governrate");
             
             strSql.append(" AND district.region_id = dcm_pos_detail.pos_district_id");
+            strSql.append(" AND imgDist.region_id = dcm_pos_detail.pos_img_district_id");
             strSql.append(" and scm_user_region.region_id = district.region_id");
+            strSql.append(" and scm_user_region.region_id = imgDist.region_id");
             
             strSql.append(" AND area.region_id = dcm_pos_detail.pos_area_id");
             
@@ -655,7 +659,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append(" AND scm_verified_status.dcm_verified_status_id = scm_stk_owner.dcm_verified_status_id");
             
             strSql.append(" AND dcm_pos_detail.flage       IS NULL ");
-           /*AND dcm_region.region_name='Alexandria'*/ 
+           
             
             System.out.println("SQL ^^^ : \n"+ strSql);
             ResultSet res = stat.executeQuery(strSql.toString());

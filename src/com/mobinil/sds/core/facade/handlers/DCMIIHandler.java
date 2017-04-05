@@ -15,8 +15,6 @@ import com.mobinil.sds.core.system.sa.importdata.dao.*;
 import com.mobinil.sds.core.system.dcm.pos.model.*;
 import com.mobinil.sds.core.system.dcm.pos.dao.*;
 import com.mobinil.sds.core.system.dcm.user.dao.*;
-
-
 import com.mobinil.sds.core.system.dcm.genericModel.*;
 import com.mobinil.sds.core.system.dcm.genericModel.DAO.*;
 import com.mobinil.sds.core.system.dcm.city.dao.*;
@@ -28,6 +26,7 @@ import com.mobinil.sds.core.system.dcm.chain.dao.*;
 import com.mobinil.sds.core.system.dcm.chain.model.*;
 import com.mobinil.sds.core.system.paymentHistory.dao.PaymentHistoryFileDAO;
 import com.mobinil.sds.core.system.regionPOSReport.dao.RegionPOSReportDAO;
+//import com.mobinil.sds.core.system.regionReport.model.RegionPOSReportModel;
 import com.mobinil.sds.core.system.request.dao.RequestDao;
 import com.mobinil.sds.core.system.scm.dao.PoiWriteExcelFile;
 import com.mobinil.sds.core.system.scm.dao.RepManagementDAO;
@@ -454,7 +453,7 @@ public class DCMIIHandler {
           case action_export_region_pos_report:
           {
              // Vector<POSSearchExcelModel> dataVec = RequestDao.searchPosDataExcel(con, posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, Level, Payment, Channel, posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation, supervisorDetailId,supervisorDetailName, teamleaderDetailId, teamleaderDetailName, salesrepDetailId, salesrepDetailName);
-            System.out.println("action_export_region_pos_report");
+                System.out.println("action_export_region_pos_report");
               String Slach = System.getProperty("file.separator");
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
@@ -467,7 +466,6 @@ public class DCMIIHandler {
               System.out.println("baseDirectory "+baseDirectory);
               /*add a function to get the region's parent level..need to be level 1 to export*/
               //String entityLevelName = RegionPOSReportDAO.getRegionLevel(con, entityName, entityLevel);
-              
               Vector files =RegionPOSReportDAO.getRegionPOSData(con,entityLevel,entityName,entityNameSearch,entityLevelSearch);
               String excelLink = PoiWriteExcelFile.exportExcelSheetForRegionPOSData(/*dataVec*/files, baseDirectory,entityLevel);
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);
@@ -1210,7 +1208,7 @@ public class DCMIIHandler {
                     for (int i = 0; i < paramHashMapSize; i++) {
                         
                         String tempKey = (String) paramHashMap.keySet().toArray()[i];
-                        System.out.println("tempKey "+tempKey);
+                        //System.out.println("tempKey "+tempKey);
                         //System.out.println(paramHashMap.get(tempKey));
                         //String tempValue = (String)paramHashMap.get(tempKey);
                         //Utility.logger.debug("wwwwwww"+tempKey+"-----------------"+tempValue);
@@ -1221,13 +1219,13 @@ public class DCMIIHandler {
                             System.out.println("The label id issssssssssss " + labelIdKey);
 
                             selectedList.add(RegionDAO.selectedParent(con, labelIdKey));
-                            for(int j=0;j<selectedList.size();j++)
-                                System.out.println("selected list "+selectedList.get(j).getParentRegionId());
+                            //for(int j=0;j<selectedList.size();j++)
+                              //  System.out.println("selected list "+selectedList.get(j).getParentRegionId());
                             // RegionDAO.editParent(con, labelIdKey);
-                            Vector paymentTypes = RegionDAO.editParent(con, labelIdKey);
+                            Vector paymentTypes = RegionDAO.editParent(con, labelIdKey,selectedList.get(0).getRegionLevelTypeId());
                             dataHashMap.put(DCMInterfaceKey.VECTOR_PARENTS, paymentTypes);
                             dataHashMap.put(DCMInterfaceKey.VECTOR_SELECTED, selectedList);
-
+                           
 
                         }
                     }

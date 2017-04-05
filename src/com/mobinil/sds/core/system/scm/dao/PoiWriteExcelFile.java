@@ -1521,7 +1521,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
       int cellCount=0;
       if(regionLevel.compareTo("1")==0 || regionLevel.compareTo("2")==0 || regionLevel.compareTo("3")==0)
           cellCount = 38;
-      if(regionLevel.compareTo("4")==0)
+      if(regionLevel.compareTo("4")==0 || regionLevel.compareTo("6")==0)//district or image district
           cellCount = 40;
       if(regionLevel.compareTo("5")==0)
           cellCount = 39;
@@ -1591,7 +1591,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                           cells.get(header).get(0).setCellValue("Governorate");
                                           header++;
                                       }
-                                      if(regionLevel.compareTo("4")==0)
+                                      if(regionLevel.compareTo("4")==0 || regionLevel.compareTo("6")==0)
                                       {
                                           cells.get(header).get(0).setCellValue("DistrictID");
                                           header++;
@@ -1726,7 +1726,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                     cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getGovernorate());
                                     j++;
                                 }
-                                if(regionLevel.compareTo("4")==0)
+                                if(regionLevel.compareTo("4")==0 || regionLevel.compareTo("6")==0)
                                 {
                                     cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDistrictCodeId());
                                     j++;
@@ -1848,7 +1848,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
   public static String exportExcelSheetForUserRegionPOSData(Vector<RegionPOSReportModel> RegionResults,String directionFile,boolean isSearch, String usersLevelType,String userFullName)
   {
       System.out.println("inside exportExcelSheetForUserRegionPOSData");
-      int cellCount=53;
+      int cellCount=45;//53
       java.util.Date dateNow = new java.util.Date();
         int imonth = dateNow.getMonth() + 1;
         int iyear = dateNow.getYear() + 1900;
@@ -1914,22 +1914,6 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                           cells.get(header).get(0).setCellValue("ImDistrict");
                                           header++;
                                       cells.get(header).get(0).setCellValue("AreaCode");
-                                          header++;
-                                          cells.get(header).get(0).setCellValue("Area");
-                                          header++;
-                                      cells.get(header).get(0).setCellValue("SalesRegion");
-                                          header++;
-                                          cells.get(header).get(0).setCellValue("City");
-                                          header++;
-                                          cells.get(header).get(0).setCellValue("Governorate");
-                                          header++;
-                                          cells.get(header).get(0).setCellValue("DistrictID");
-                                          header++;
-                                          cells.get(header).get(0).setCellValue("District");
-                                          header++;
-                                          cells.get(header).get(0).setCellValue("ImDistrict");
-                                          header++;
-                                          cells.get(header).get(0).setCellValue("AreaCode");
                                           header++;
                                           cells.get(header).get(0).setCellValue("Area");
                                           header++;
@@ -2033,23 +2017,7 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
                                     j++;
                                     cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getArea());
                                     j++;
-                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getRegion());
-                                    j++;
-                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getCity());
-                                    j++;
-                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getGovernorate());
-                                    j++;
-                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDistrictCodeId());
-                                    j++;
-                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDisctrict());
-                                    j++;
-                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getImageDistrict());
-                                    j++;
-                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getAreaCode());
-                                    j++;
-                                    cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getArea());
-                                    j++;
-                               cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getAddress());
+                                cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getAddress());
                                 j++;
                                 cells.get(j).get(i).setCellValue(RegionResults.get(i-1).getDocumentNumber());
                                 j++;
@@ -2127,9 +2095,10 @@ public static String ExportExcelPOSChanges (Vector <POSStatusCase> refusedPOSs,
 					e.printStackTrace();
 					return "";
 				}
-
-
   }
+
+
+  
   
   
   public static String exportExcelSheetForAllRepsData(Vector<RepExcelModel> RepResults,String directionFile, boolean isSearch)

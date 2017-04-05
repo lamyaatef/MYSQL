@@ -425,6 +425,7 @@ public interface DCMInterfaceKey {
     public static final String ACTION_VIEW_EDIT_PARENT = "action_view_edit_parent";
     public static final String VECTOR_PARENTS = "parents";
     public static final String VECTOR_SELECTED = "select";
+    
     public static final String VECTOR_UPDATED = "updated";
     public static final String CONTROL_SHOW_PARENT_COMBOBOX = "show_parent_combobox";
     public static final String ACTION_UPDATE_GEOGRAPHICAL = "action_update_geographical";
