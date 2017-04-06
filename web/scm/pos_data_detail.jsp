@@ -269,6 +269,14 @@ String appName = request.getContextPath();
        if(posData.getDistrict() !=null)
             out.println("      <TD class=TableTextNote>" + posData.getArea() + "</TD>");
       out.println("</tr>");
+      
+      
+      out.println("<TR>");
+      out.println("      <TD class=TableTextNote width='40%'>Image District</TD>");
+       if(posData.getDistrict() !=null)
+            out.println("      <TD class=TableTextNote>" + posData.getImgDist() + "</TD>");
+      out.println("</tr>");
+      
 
       out.println("<TR>");
       out.println("      <TD class=TableTextNote width='40%'>Area</TD>");

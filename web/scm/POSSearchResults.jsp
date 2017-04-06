@@ -254,6 +254,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                     String posDataDistrict = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT);
                     String posDataArea = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_AREA);
                     String posDataCity = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_CITY);
+                    String posDataImgDist = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT);
                     String posDataOwnerName = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_NAME);
                     String posDataOwnerIdNum = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_ID_NUMBER);
                     String posDataOwnerIdType = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_ID_TYPE);
@@ -285,6 +286,8 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                         posDataArea="";
                     if(posDataCity==null || posDataCity.compareTo("--")==0)
                        posDataCity=""; 
+                    if(posDataImgDist==null || posDataCity.compareTo("--")==0)
+                       posDataImgDist=""; 
 
 //                    Integer totalSearch=RequestDao.searchPosDataTotal(con ,posDataOwnerIdType.trim() , posDataDocNum.trim() , posDataManagerName.trim() , posDataStkNum.trim() , posDataManagerIdType.trim() , posDataProposedDoc.trim() , posDataManagerIdNum.trim() , posDataName.trim() , posDataCode.trim() , posDataRegion.trim() , posDataGover.trim() , posDataDistrict.trim() , posDataArea.trim() ,posDataCity.trim() , posDataOwnerName.trim() ,posDataOwnerIdNum.trim(),Level,Payment,Channel);
                     System.out.println("posDataGover "+posDataGover);
@@ -313,7 +316,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                             Level, 
                             Payment, 
                             Channel,
-                            posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation);
+                            posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation,posDataImgDist.trim());
                    
                     System.out.println(" data vec size = "+ dataVec.size());
                     
@@ -435,11 +438,15 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                     </tr>
                     <%
                         }
+                        
+                        
+                        // pos_search_results
                     %>
                 </table>
                 <div align="center">
                     <jsp:include page="pagingTable.jsp"  flush="true" >
                         <jsp:param   name="action_name_when_click_enter" value="search_pos_data_management"/>
+                      
                         <jsp:param   name="first_page_number" value="0"/>
                         <jsp:param   name="string_of_total_page_number" value="<%=totalSearch.toString()%>"/>
                         <jsp:param   name="control_text_page_number" value="<%=destinationPage%>"/>
@@ -461,16 +468,20 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                         <td>
                             <input class=button  type="button"  value="Create Data Entry " onclick="preRequestDataEntryWithoutStk();">
                         </td>
+                        <!--
                         <td>
-                            <input class=button  type="button"  value="Create Data Entry and STK " onclick="preRequestDataEntryWithStk()" disabled>
+                            <input class=button  type="button"  value="Create Data Entry and STK " onclick="preRequestDataEntryWithStk()" >
                         </td>
+                        -->
                     </tr>
+                    <!--
                     <tr>
                         <td colspan="2">
-                            <input class=button id="tempDown" type="button"  value="Generate Excel Template " onclick="exportExcel()" disabled>
+                            <input class=button id="tempDown" type="button"  value="Generate Excel Template " onclick="exportExcel()" >
                         </td>
 
                     </tr>
+                    -->
                 </table>
                 
                 <br><br><br><br>

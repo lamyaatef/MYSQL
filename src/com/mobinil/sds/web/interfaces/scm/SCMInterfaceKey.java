@@ -293,6 +293,7 @@ public class SCMInterfaceKey {
     public static final String VECTOR_GOVERNS = "vector_governs";
     public static final String VECTOR_CITIES = "vector_cities";
     public static final String VECTOR_DISTRICTS = "vector_districts";
+    public static final String VECTOR_IMAGE_DISTRICTS = "vector_image_districts";
     public static final String VECTOR_AREAS = "vector_areas";
     public static final String VECTOR_USER_LEVEL_TYPES = "vector_user_level_types";
     public static final String VECTOR_ID_TYPE = "vector_id_type";
@@ -359,6 +360,7 @@ public class SCMInterfaceKey {
     public static final String CONTROL_TEXT_POS_SALESREP = "pos_salesrep";
     public static final String CONTROL_TEXT_POS_DISTRICT = "pos_district";
     public static final String CONTROL_TEXT_POS_AREA = "pos_area";
+    public static final String CONTROL_TEXT_POS_IMAGE_DISTRICT = "pos_image_district";
     public static final String CONTROL_TEXT_POS_LEVEL = "pos_level";
     public static final String CONTROL_TEXT_POS_CHANNEL = "pos_channel";
     public static final String CONTROL_TEXT_POS_BRANCH = "pos_branch";

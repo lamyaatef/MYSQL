@@ -122,8 +122,9 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     String area = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_AREA);
     String city = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_CITY);
     String district = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT);
+    String imgDist = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT);
     
-            System.out.println("region "+region+" gov "+governrate+" area "+area+" city "+city+" district "+district);
+            System.out.println("region "+region+" gov "+governrate+" area "+area+" city "+city+" district "+district+" imgDist "+imgDist);
             
             System.out.println("USER DATA , teamleader data, salesrep data "+userData+"  "+teamleaderData+"  "+salesrepData);
             String userID = request.getParameter(InterfaceKey.HASHMAP_KEY_USER_ID);
@@ -167,6 +168,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
             Vector governs = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_GOVERNS);
             Vector cities = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_CITIES);
             Vector districts = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_DISTRICTS);
+            Vector imgDists = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_IMAGE_DISTRICTS);
             Vector areas = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_AREAS);
             
             Vector IDTypeVector = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_ID_TYPE);
@@ -240,9 +242,10 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
         
       
         $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").empty();
-        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").empty();
-        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").empty();
-        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
       
         
       
@@ -250,7 +253,12 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
 
         $.each(data.map.districts, function(k, v) {
             
-            var option= $("<option/>").text(v).val(k);
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+        var option= $("<option/>").text(k).val(v);
+ 
  
           //  console.log("data governorates ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").append(option);
@@ -279,15 +287,19 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").change(function(){
     success: function(data, textStatus, jqXHR)
     {
          $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").empty();
-        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").empty();
-        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
         
               
     $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").append($("<option/>").text("--"));
     
         $.each(data.map.districts, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+            var option= $("<option/>").text(k).val(v);
  
           //  console.log("data governorates ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").append(option);
@@ -326,13 +338,17 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").change(function(){
     {
         
         $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").empty();
-        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
         
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").append($("<option/>").text("--"));
     
         $.each(data.map.districts, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+            var option= $("<option/>").text(k).val(v);
  
            // console.log("data governorates ",option);
             $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").append(option);
@@ -363,26 +379,30 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").change(function(){
     url : "<%out.print(formAction);%>",
     type: "POST",
     datatype: "JSON",
-    data : {regionid:districtid ,type:"5"}, //arraySent:str
+    data : {regionid:districtid ,type:"6"}, //arraySent:str
     success: function(data, textStatus, jqXHR)
     {
         
       
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").empty();
         $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
         //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").empty();
         //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").empty();
         //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").empty();
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").append($("<option/>").text("--"));
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").append($("<option/>").text("--"));
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append($("<option/>").text("--"));
-        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append($("<option/>").text("--"));
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").append($("<option/>").text("--"));
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").append($("<option/>").text("--"));
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append($("<option/>").text("--"));
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append($("<option/>").text("--"));
     
         $.each(data.map.districts, function(k, v) {
-            
-            var option= $("<option/>").text(v).val(k);
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+            var option= $("<option/>").text(k).val(v);
  
         //    console.log("data governorates ",option);
-            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").append(option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").append(option);
 });
  
 /* $.each(data.map.users, function(k, v) {
@@ -419,6 +439,89 @@ $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").change(function(){
 });
 
 }); 
+
+
+
+//image district
+$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").change(function(){
+  
+  var districtid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").val(); //value id of Option selected in the Select object
+  var array=[3];
+    array[0]= 4;
+    array[1] = 5;
+    array[2] = 6;
+    var str = JSON.stringify(array);
+    $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    datatype: "JSON",
+    data : {regionid:districtid ,type:"5"}, //arraySent:str
+    success: function(data, textStatus, jqXHR)
+    {
+        
+        
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").empty();
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").empty();
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").append($("<option/>").text("--"));
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").append($("<option/>").text("--"));
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append($("<option/>").text("--"));
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append($("<option/>").text("--"));
+    
+        $.each(data.map.districts, function(k, v) {
+            
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+           
+            var option= $("<option/>").text(k).val(v);//val(k)
+ 
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").append(option);
+});
+ 
+ 
+ 
+ 
+ 
+ 
+/* $.each(data.map.users, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+         //   console.log("data supervisors ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").append(option);
+});*/
+ 
+/* $.each(data.map.teams, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+          //  console.log("data teamleaders ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append(option);
+});*/
+
+ /*$.each(data.map.sales, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+            //console.log("data salesrep ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append(option);
+});*/
+
+
+
+},
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+
+}); 
+
+
 
 
 /*
@@ -992,6 +1095,30 @@ $("#formPosMangement").submit(function(){
         System.out.println("jsp: selectedId "+selectedId);
         for (int i = 0; i < districts.size(); i++) {
             PlaceDataModel placeDataModel = (PlaceDataModel) districts.get(i);
+            if (placeDataModel.getTypeId() == 4) {
+                out.println("<option " + ((selectedId != null && selectedId.compareTo(placeDataModel.getRegionId() + "") == 0) ? "selected" : "") + " value=" + placeDataModel.getRegionId() + ">" + placeDataModel.getRegionName() + "</option>");
+            }
+        }
+        out.println("</select></TD>");
+        
+        
+        //out.println("      <TD>");
+        //old: drowRegionChild(out, regionsChilds, "4", SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT, posData.getDistrictId() + "");
+        //drawSelectRegions(out, (Vector<PlaceDataModel>) regions, SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT, district, 4/*,disabled*/);
+        //out.println("</TD>");
+        out.println("</tr>");
+        
+        
+        
+        out.println("<TR>");
+        out.println("      <TD class=TableTextNote width='40%'>Image District</TD>");
+        out.println("      <TD><select name='" + SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT + "'>");
+
+        out.println("<option value=0>--</option>");
+        selectedId = posData.getImgDistrictId()+ "";
+        System.out.println("jsp: selectedId "+selectedId);
+        for (int i = 0; i < imgDists.size(); i++) {
+            PlaceDataModel placeDataModel = (PlaceDataModel) imgDists.get(i);
             if (placeDataModel.getTypeId() == 4) {
                 out.println("<option " + ((selectedId != null && selectedId.compareTo(placeDataModel.getRegionId() + "") == 0) ? "selected" : "") + " value=" + placeDataModel.getRegionId() + ">" + placeDataModel.getRegionName() + "</option>");
             }

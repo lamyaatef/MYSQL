@@ -205,18 +205,18 @@ public class CommercialFileDAO{
         
         try {  
                 
-                if(districtCode.compareToIgnoreCase(imgDistrictCode)!=0 && imgDistrictCode.compareTo("")!=0)
+                if(/*districtCode.compareToIgnoreCase(imgDistrictCode)!=0 &&*/ imgDistrictCode.compareTo("")!=0)
                 {
-                    insertSCMUserDistrictForSupervisor(con, stat, imgDistrictName, supervisorName, posCode);
-                    insertSCMUserDistrictForTeamleader(con, stat, imgDistrictName, teamleaderName, posCode);
-                    insertSCMUserDistrictForSalesRep(con, stat, imgDistrictName, salesrepName, posCode);
+                    insertSCMUserDistrictForSupervisor(con, stat, imgDistrictName, supervisorName, posCode,6);
+                    insertSCMUserDistrictForTeamleader(con, stat, imgDistrictName, teamleaderName, posCode,6);
+                    insertSCMUserDistrictForSalesRep(con, stat, imgDistrictName, salesrepName, posCode,6);
 
                 }
                 else
                 {
-                    insertSCMUserDistrictForSupervisor(con, stat, districtName, supervisorName, posCode);
-                    insertSCMUserDistrictForTeamleader(con, stat, districtName, teamleaderName, posCode);
-                    insertSCMUserDistrictForSalesRep(con, stat, districtName, salesrepName, posCode);
+                    insertSCMUserDistrictForSupervisor(con, stat, districtName, supervisorName, posCode,4);
+                    insertSCMUserDistrictForTeamleader(con, stat, districtName, teamleaderName, posCode,4);
+                    insertSCMUserDistrictForSalesRep(con, stat, districtName, salesrepName, posCode,4);
 
                 }
                 
@@ -229,11 +229,19 @@ public class CommercialFileDAO{
 
                 //supposed to be stk number
                 //updateGenDCMTable(con, stat, stkDialNumber, Ex, Qc, L1, Sign, posLevelId, districtName, cityName, channelCode, posEnName, posAddress, paymentLevelName, posStatusName, posCode);
-                updateDcmPosDetailTable(con, stat, userId,surveyId, Ex, Qc, L1, Sign, posArAddress, docNumber, docLocation, supervisorName, teamleaderName, salesrepName, paymentLevelName, posLevelId, posStatusName, posCode, channelCode, regionName, districtCode, governName, districtName, cityName, areaName, posEnName , posArName, posAddress);
+                
 
-                updateDistrictCode(con, stat, districtCode, districtName);
-
-                updateAreaCode(con, stat, areaCode, areaName);
+                
+                
+                updateInsertRegion(con, stat, "", regionName,1);
+                updateInsertRegion(con, stat, "", governName,2);
+                updateInsertRegion(con, stat, "", cityName,3);
+                updateInsertRegion(con, stat, districtCode, districtName,4);
+                updateInsertRegion(con, stat, areaCode, areaName,5);
+                updateInsertRegion(con, stat, imgDistrictCode, imgDistrictName,6);
+                
+                updateDcmPosDetailTable(con, stat, userId,surveyId, Ex, Qc, L1, Sign, posArAddress, docNumber, docLocation, supervisorName, teamleaderName, salesrepName, paymentLevelName, posLevelId, posStatusName, posCode, channelCode, regionName, districtCode, governName, districtName, cityName, areaName, posEnName , posArName, posAddress, imgDistrictName,imgDistrictCode);
+                
                 //supposed to be stk number
                 //updateCAM_PAYMENT_SCM_STATUSTable(con, stat, stkDialNumber, stkStatusName, paymentStatusName, posCode);
 
@@ -430,23 +438,26 @@ public class CommercialFileDAO{
     }
     
     
-    private static int updateDistrictCode(Connection con, Statement stat,String districtcode, String districtName)
+    private static int updateInsertRegion(Connection con, Statement stat,String regionCode, String regionName, int regionLevel)
     {
         int updated=-1;
-        int districtId=-1;
-        
+        int regionId=-1;
+        String strSql ="";
         try {
             
             
-            String sqlDistrictId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+districtName+"%') and region_level_type_id=4";
-            ResultSet rs1 = stat.executeQuery(sqlDistrictId);
+            String sqlRegionId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+regionName+"%') and region_level_type_id="+regionLevel;
+            ResultSet rs1 = stat.executeQuery(sqlRegionId);
             if(rs1.next())
-                districtId = Integer.parseInt(rs1.getString("region_id"));
+                regionId = Integer.parseInt(rs1.getString("region_id"));
             
             
+            if(regionId!=-1)
+                strSql = "update dcm_region set region_code='"+regionCode+"' where region_level_type_id="+regionLevel+" and region_id="+regionId;
+            else
+                strSql = "insert into dcm_region (region_id,region_code,region_name,region_level_type_id) values ((select max(region_id)+1 from dcm_region),'"+regionCode+"','"+regionName+"',"+regionLevel+")";
             
-            String strSql = "update dcm_region set region_code='"+districtcode+"' where region_level_type_id=4 and region_id="+districtId;
-            System.out.println("SQL updateDistrictCode is " + strSql);
+            System.out.println("SQL updateInsertRegion is " + strSql);
             updated = stat.executeUpdate(strSql);
             
                 
@@ -580,7 +591,7 @@ public class CommercialFileDAO{
     }
     
     
-    private static int insertSCMUserDistrictForSupervisor(Connection con, Statement stat,String districtName, String supervisorName, String dcmCode)
+    private static int insertSCMUserDistrictForSupervisor(Connection con, Statement stat,String districtName, String supervisorName, String dcmCode, int distLevel)
     {
         int inserted=-1;
         int districtId=-1;
@@ -588,7 +599,7 @@ public class CommercialFileDAO{
         try {
             
             
-            String sqlDistrictId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+districtName+"%') and region_level_type_id=4";
+            String sqlDistrictId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+districtName+"%') and region_level_type_id="+distLevel;
             ResultSet rs1 = stat.executeQuery(sqlDistrictId);
             if(rs1.next())
                 districtId = Integer.parseInt(rs1.getString("region_id"));
@@ -600,12 +611,12 @@ public class CommercialFileDAO{
                 supervisorId = Integer.parseInt(rs8.getString("supervisor_id"));
             
             
-            String checkSql = "select * from scm_user_region where user_id="+supervisorId+" and region_id="+districtId+" and USER_LEVEL_TYPE_ID=4 and REGION_LEVEL_TYPE_ID=4";
+            String checkSql = "select * from scm_user_region where user_id="+supervisorId+" and region_id="+districtId+" and USER_LEVEL_TYPE_ID=4 and REGION_LEVEL_TYPE_ID="+distLevel;
             ResultSet rs = stat.executeQuery(checkSql);
             if(!rs.next())
             {
                 System.out.println("INSERT SCM USER REGION - supervisor : "+supervisorId+" district : "+districtId);
-                String strSql = "insert into scm_user_region (REGION_ID,USER_ID/*,POS_CODE*/,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+supervisorId+",/*'"+dcmCode+"',*/4,4)";
+                String strSql = "insert into scm_user_region (REGION_ID,USER_ID/*,POS_CODE*/,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+supervisorId+",/*'"+dcmCode+"',*/4,"+distLevel+")";
                 System.out.println("SQL insertSCMUserRegionForSupervisor is " + strSql);
                 inserted = stat.executeUpdate(strSql);
             }
@@ -618,7 +629,7 @@ public class CommercialFileDAO{
         return inserted;
         
     }
-    private static int insertSCMUserDistrictForTeamleader(Connection con, Statement stat,String districtName, String teamleaderName, String dcmCode)
+    private static int insertSCMUserDistrictForTeamleader(Connection con, Statement stat,String districtName, String teamleaderName, String dcmCode, int distLevel)
     {
         int inserted=-1;
         int districtId=-1;
@@ -626,7 +637,7 @@ public class CommercialFileDAO{
         try {
             
             
-            String sqlDistrictId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+districtName+"%') and region_level_type_id=4";
+            String sqlDistrictId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+districtName+"%') and region_level_type_id="+distLevel;
             ResultSet rs1 = stat.executeQuery(sqlDistrictId);
             if(rs1.next())
                 districtId = Integer.parseInt(rs1.getString("region_id"));
@@ -637,12 +648,12 @@ public class CommercialFileDAO{
             if(rs9.next())
                 teamleaderId = Integer.parseInt(rs9.getString("teamleader_id"));
             
-            String checkSql = "select * from scm_user_region where user_id="+teamleaderId+" and region_id="+districtId+" and USER_LEVEL_TYPE_ID=5 and REGION_LEVEL_TYPE_ID=4";
+            String checkSql = "select * from scm_user_region where user_id="+teamleaderId+" and region_id="+districtId+" and USER_LEVEL_TYPE_ID=5 and REGION_LEVEL_TYPE_ID="+distLevel;
             ResultSet rs = stat.executeQuery(checkSql);
             if(!rs.next())
             {
                 System.out.println("INSERT SCM USER REGION - teamleader : "+teamleaderId+" district : "+districtId);
-                String strSql = "insert into scm_user_region (REGION_ID,USER_ID/*,POS_CODE*/,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+teamleaderId+"/*,'"+dcmCode+"'*/,5,4)";
+                String strSql = "insert into scm_user_region (REGION_ID,USER_ID/*,POS_CODE*/,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+teamleaderId+"/*,'"+dcmCode+"'*/,5,"+distLevel+")";
                 System.out.println("SQL insertSCMUserRegionForTeamleader is " + strSql);
                 inserted = stat.executeUpdate(strSql);
             }
@@ -659,7 +670,7 @@ public class CommercialFileDAO{
     }
     
     
-    private static int insertSCMUserDistrictForSalesRep(Connection con, Statement stat,String districtName, String salesrepName, String dcmCode)
+    private static int insertSCMUserDistrictForSalesRep(Connection con, Statement stat,String districtName, String salesrepName, String dcmCode,int distLevel)
     {
         int inserted=-1;
         int districtId=-1;
@@ -667,7 +678,7 @@ public class CommercialFileDAO{
         try {
             
             
-            String sqlDistrictId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+districtName+"%') and region_level_type_id=4";
+            String sqlDistrictId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+districtName+"%') and region_level_type_id="+distLevel;
             ResultSet rs1 = stat.executeQuery(sqlDistrictId);
             if(rs1.next())
                 districtId = Integer.parseInt(rs1.getString("region_id"));
@@ -679,12 +690,12 @@ public class CommercialFileDAO{
                 salesrepId = Integer.parseInt(rs10.getString("salesrep_id"));
             
             
-            String checkSql = "select * from scm_user_region where user_id="+salesrepId+" and region_id="+districtId+" and USER_LEVEL_TYPE_ID=6 and REGION_LEVEL_TYPE_ID=4";
+            String checkSql = "select * from scm_user_region where user_id="+salesrepId+" and region_id="+districtId+" and USER_LEVEL_TYPE_ID=6 and REGION_LEVEL_TYPE_ID="+distLevel;
             ResultSet rs = stat.executeQuery(checkSql);
             if(!rs.next())
             {
                 System.out.println("INSERT SCM USER REGION - rep : "+salesrepId+" district : "+districtId);
-                String strSql = "insert into scm_user_region (REGION_ID,USER_ID/*,POS_CODE*/,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+salesrepId+",/*'"+dcmCode+"',*/6,4)";
+                String strSql = "insert into scm_user_region (REGION_ID,USER_ID/*,POS_CODE*/,USER_LEVEL_TYPE_ID,REGION_LEVEL_TYPE_ID) values ("+districtId+","+salesrepId+",/*'"+dcmCode+"',*/6,"+distLevel+")";
                 System.out.println("SQL insertSCMUserRegionForSalesRep is " + strSql);
                 inserted = stat.executeUpdate(strSql);
             }
@@ -816,40 +827,14 @@ public class CommercialFileDAO{
     
     
 
-    private static int updateAreaCode(Connection con, Statement stat,String areacode, String areaName)
-    {
-        int updated=-1;
-        int areaId=-1;
-        
-        try {
-            
-            
-            String sqlAreaId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+areaName+"%') and region_level_type_id=5";
-            ResultSet rs1 = stat.executeQuery(sqlAreaId);
-            if(rs1.next())
-                areaId = Integer.parseInt(rs1.getString("region_id"));
-            
-            
-            
-            String strSql = "update dcm_region set region_code='"+areacode+"' where region_level_type_id=5 and region_id="+areaId;
-            System.out.println("SQL updateAreaCode is " + strSql);
-            updated = stat.executeUpdate(strSql);
-            
-                
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return updated;
-        
-    }
     
    
-    private static int updateDcmPosDetailTable(Connection con, Statement stat,String userId,String surveyId,String isExclusive, String isQualityClub,String isLevelOne,String hasSign,String posArabicAddress,String posDocNum,String docLocation, String supervisorName, String teamleaderName,String salesrepName,String dcmPaymentLevelName, String dcmLevelCode ,String dcmStatusName,String posCode, String posChannelId, String regionName, String districtCode,String posGovernName,String posDistrictName, String posCityName,String posAreaName,String posName,String posArabicName,String posAddress)
+    private static int updateDcmPosDetailTable(Connection con, Statement stat,String userId,String surveyId,String isExclusive, String isQualityClub,String isLevelOne,String hasSign,String posArabicAddress,String posDocNum,String docLocation, String supervisorName, String teamleaderName,String salesrepName,String dcmPaymentLevelName, String dcmLevelCode ,String dcmStatusName,String posCode, String posChannelId, String regionName, String districtCode,String posGovernName,String posDistrictName, String posCityName,String posAreaName,String posName,String posArabicName,String posAddress, String imgDistName, String imgDistCode)
     {
         int updated=-1;
         int districtId=-1;
         int cityId=-1;
+        int imgDistId=-1;
         int dcmPayLevelId=-1;
         int dcmStatusId=-1;
         int dcmLevelId=-1;
@@ -918,6 +903,11 @@ public class CommercialFileDAO{
                 cityId = Integer.parseInt(rs2.getString("region_id"));
             
             
+            String sqlImgDistId="select region_id from dcm_region where LOWER(region_name) like LOWER('%"+imgDistName+"%') and region_level_type_id=6";
+            ResultSet rs11 = stat.executeQuery(sqlImgDistId);
+            if(rs11.next())
+                imgDistId = Integer.parseInt(rs11.getString("region_id"));
+            
             
             String sqlPayLevelId="select dcm_payment_level_id from gen_dcm_payment_level where LOWER(dcm_payment_level_name) like LOWER('%"+dcmPaymentLevelName+"%')";
             ResultSet rs3 = stat.executeQuery(sqlPayLevelId);
@@ -950,10 +940,11 @@ public class CommercialFileDAO{
             
             
             
-            String strSql = "update dcm_pos_detail set user_id="+userId+",survey_id='"+surveyId+"',is_exclusive='"+ex+"',is_quality_club='"+qc+"',is_level_one='"+l1+"',has_sign='"+sign+"',pos_arabic_address = '"+posArabicAddress+"',pos_doc_num='"+posDocNum+"',doc_location='"+docLocation+"',supervisor_id="+supervisorId+", teamleader_id="+teamleaderId+",salesrep_id="+salesrepId+",dcm_payment_level_id="+dcmPayLevelId+", DCM_LEVEL_ID="+dcmLevelCode+" ,pos_status_type_id="+dcmStatusId+", pos_channel_id="+posChannelId+", region_id="+regionId+", district_code='"+districtCode+"',pos_governrate = "+governId+",pos_district_id="+districtId+", pos_city_id="+cityId+",pos_area_id="+areaId+",pos_name='"+posName+"',pos_arabic_name='"+posArabicName+"',pos_address='"+posAddress+"' where pos_code='"+posCode+"'";
+            String strSql = "update dcm_pos_detail set user_id="+userId+",survey_id='"+surveyId+"',is_exclusive='"+ex+"',is_quality_club='"+qc+"',is_level_one='"+l1+"',has_sign='"+sign+"',pos_arabic_address = '"+posArabicAddress+"',pos_doc_num='"+posDocNum+"',doc_location='"+docLocation+"',supervisor_id="+supervisorId+", teamleader_id="+teamleaderId+",salesrep_id="+salesrepId+",dcm_payment_level_id="+dcmPayLevelId+", DCM_LEVEL_ID="+dcmLevelCode+" ,pos_status_type_id="+dcmStatusId+", pos_channel_id="+posChannelId+", region_id="+regionId+", pos_img_district_id='"+imgDistId+"', pos_img_district_code='"+imgDistCode+"',district_code='"+districtCode+"',pos_governrate = "+governId+",pos_district_id="+districtId+", pos_city_id="+cityId+",pos_area_id="+areaId+",pos_name='"+posName+"',pos_arabic_name='"+posArabicName+"',pos_address='"+posAddress+"' where pos_code='"+posCode+"'";
             System.out.println("SQL updateDcmPosDetailTable is " + strSql);
             updated = stat.executeUpdate(strSql);
             
+  
                 
 
         } catch (Exception e) {

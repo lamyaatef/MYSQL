@@ -1145,6 +1145,9 @@ public class SCMRequestHandler {
 
                 case search_pos_data_management: {
 /*NOT SURE*/
+                    
+                    
+                    
                     String userDataId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_USER_ID);
                     userDataName = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_SUPERVISOR_NAME);
                     /*String teamleaderId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_ID);
@@ -1152,11 +1155,22 @@ public class SCMRequestHandler {
                     String salesrepId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_SALESREP_ID);
                     String salesrepName = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_SALESREP_NAME);
                     */
+                    
+                    
+                    Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel> allSupervisors = RepManagementDAO.getSupervisors(con);
+                    Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel> allTeamleaders = RepManagementDAO.getTeamleaders(con);
+                    Vector<com.mobinil.sds.core.system.scm.model.RepModel> allReps = RepManagementDAO.getReps(con);
+                    
+                    dataHashMap.put("AllSupervisors", allSupervisors);
+                    dataHashMap.put("AllTeamleaders", allTeamleaders);
+                    dataHashMap.put("AllReps", allReps);
+                    
                     System.out.println("SUPERVISOR in search "+userDataName);
                     String destinationPage = (String) paramHashMap.get(SCMInterfaceKey.DESTINATION_PAGE);
                     if (destinationPage == null) {
                         destinationPage = "0";
                     }
+                    System.out.println("destinationnnn "+destinationPage);
                     Vector regions = new Vector();
                     Vector IDTypeVector = new Vector();
                     GenericModel IDTypeModel = new GenericModel();
@@ -1174,6 +1188,7 @@ public class SCMRequestHandler {
                     String superId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR);
                     String repId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP);
                     System.out.println("supervisor: "+superId+" teamleader: "+teamleadId+" rep: "+repId);
+                    System.out.println("superId.trim() "+superId.trim());
                     String posDataName = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_NAME);
                     String posDataCode = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_CODE);
                     String posDataRegion = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_REGION);
@@ -1201,6 +1216,7 @@ public class SCMRequestHandler {
                     String posStatusId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_SELECT_POS_STATUS);
                     String stkStatusId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_SELECT_STK_STATUS);
                     String psymentStatusId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_SELECT_PAYMENT_STATUS);
+                    String posDataImgDist = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT);
                     if (posDataRegion==null || posDataRegion.compareTo("--")==0)
                         posDataRegion="";
                     if (posDataGover==null || posDataGover.compareTo("--")==0)
@@ -1211,6 +1227,8 @@ public class SCMRequestHandler {
                         posDataArea="";
                     if(posDataCity==null || posDataCity.compareTo("--")==0)
                        posDataCity=""; 
+                    if(posDataImgDist==null || posDataCity.compareTo("--")==0)
+                       posDataImgDist=""; 
 
 //                    Integer totalSearch=RequestDao.searchPosDataTotal(con ,posDataOwnerIdType.trim() , posDataDocNum.trim() , posDataManagerName.trim() , posDataStkNum.trim() , posDataManagerIdType.trim() , posDataProposedDoc.trim() , posDataManagerIdNum.trim() , posDataName.trim() , posDataCode.trim() , posDataRegion.trim() , posDataGover.trim() , posDataDistrict.trim() , posDataArea.trim() ,posDataCity.trim() , posDataOwnerName.trim() ,posDataOwnerIdNum.trim(),Level,Payment,Channel);
                     System.out.println("before search pos data");
@@ -1238,7 +1256,7 @@ public class SCMRequestHandler {
                             Level, 
                             Payment, 
                             Channel,
-                            posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation);
+                            posStatusId, stkStatusId, psymentStatusId, posPhone, englishAddress, entryDate, docLocation,posDataImgDist.trim());
                    
                     System.out.println(" data vec size = "+ dataVec.size());
                     
@@ -1254,6 +1272,9 @@ public class SCMRequestHandler {
                     } else {
                         dataHashMap.put(SCMInterfaceKey.REP_KIT_Alert, "");
                     }
+                    
+                    dataHashMap.put("isNextSearch", "true");
+                    
                     dataHashMap.put(SCMInterfaceKey.SIMILAR_POS_LIST, dataVec);
                     dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_POS_NAME, posDataName);
                     dataHashMap.put(SCMInterfaceKey.CONTROL_TEXT_POS_CODE, posDataCode);
@@ -1843,6 +1864,7 @@ public class SCMRequestHandler {
                     Vector governs = new Vector();
                     Vector cities = new Vector();
                     Vector districts = new Vector();
+                    Vector imgDistricts = new Vector();
                     Vector areas = new Vector();
                     Vector IDTypeVector = new Vector();
                     Vector legalFormVec = new Vector();
@@ -1861,6 +1883,7 @@ public class SCMRequestHandler {
                     governs = RequestDao.getAllRegions(con,"2");
                     cities = RequestDao.getAllRegions(con,"3");
                     districts = RequestDao.getAllRegions(con,"4");
+                    imgDistricts = RequestDao.getAllRegions(con,"6");
                     areas = RequestDao.getAllRegions(con,"5");
 
                     dataHashMap.put(SCMInterfaceKey.VECTOR_ID_TYPE, IDTypeVector);
@@ -1869,6 +1892,7 @@ public class SCMRequestHandler {
                     dataHashMap.put(SCMInterfaceKey.VECTOR_GOVERNS, governs);
                     dataHashMap.put(SCMInterfaceKey.VECTOR_CITIES, cities);
                     dataHashMap.put(SCMInterfaceKey.VECTOR_DISTRICTS, districts);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_IMAGE_DISTRICTS, imgDistricts);
                     dataHashMap.put(SCMInterfaceKey.VECTOR_AREAS, areas);
                     
                     dataHashMap.put(SCMInterfaceKey.DCM_SAVE_POS_TYPE, SCMInterfaceKey.DCM_SAVE_POS_TYPE_NEW);
@@ -1969,6 +1993,7 @@ public class SCMRequestHandler {
                     String areaId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_AREA);
                     String cityId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_CITY);
                     String districtId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT);
+                    String imageDistrictId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT);
 
                     String posOwnerName = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_NAME);
                     String posOwnerBirthDate = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_BIRTH_DATE);
@@ -2041,7 +2066,10 @@ public class SCMRequestHandler {
                     else
                         posModel.setDistrictId(0);
                     
-                    
+                    if (imageDistrictId != null && !imageDistrictId.equals("empty") && !imageDistrictId.equals("") && !imageDistrictId.equals("--")) 
+                        posModel.setImgDistrictId(Integer.parseInt(imageDistrictId));
+                    else
+                        posModel.setImgDistrictId(0);
                     posModel.setDocNumber(proposedDocNum == null ? "" : proposedDocNum.trim());
                     
                     
@@ -2427,6 +2455,7 @@ public class SCMRequestHandler {
                     String posDataRegion = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_REGION);
                     String posDataGover = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_GOVER);
                     String posDataDistrict = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT);
+                    String posDataImgDistrict = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT);
                     String posDataArea = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_AREA);
                     String posDataCity = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_CITY);
                     String posDataOwnerName = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_NAME);

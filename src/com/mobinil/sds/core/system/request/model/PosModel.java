@@ -25,11 +25,13 @@ public class PosModel
     private String governrate;
     private String city;
     private String area;
+    private String imgDist;
     private String region;
     private int governateId;
     private int areaId;
     private int cityId;
     private int districtId;
+    private int imgDistrictId;
     private String demoLineNum;
     private int proposedDocId;
     private String docNumber;
@@ -768,6 +770,34 @@ public class PosModel
      */
     public void setStatusName(String statusName) {
         this.statusName = statusName;
+    }
+
+    /**
+     * @return the imgDistrictId
+     */
+    public int getImgDistrictId() {
+        return imgDistrictId;
+    }
+
+    /**
+     * @param imgDistrictId the imgDistrictId to set
+     */
+    public void setImgDistrictId(int imgDistrictId) {
+        this.imgDistrictId = imgDistrictId;
+    }
+
+    /**
+     * @return the imgDist
+     */
+    public String getImgDist() {
+        return imgDist;
+    }
+
+    /**
+     * @param imgDist the imgDist to set
+     */
+    public void setImgDist(String imgDist) {
+        this.imgDist = imgDist;
     }
 
     /**

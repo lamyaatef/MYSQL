@@ -915,8 +915,9 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
              */
             String city = Integer.toString(posModel.getCityId());
             String district = Integer.toString(posModel.getDistrictId());
+            String imgDist = Integer.toString(posModel.getImgDistrictId());
 
-            String update = "UPDATE GEN_DCM SET DCM_STATUS_ID = "+posStatus+" , MOBICASH_NUMBER= "+mobicashNum+" ,PAYMENT_TYPE_METHOD_ID = '"+payMethod+"' , DCM_NAME='" + posName + "' ,DCM_CITY_ID='" + city + "',DCM_DISTRICT_ID='" + district + "' ,DCM_EMAIL= '" + posEmail + "' , DCM_PAYMENT_LEVEL_ID= '" + posPayment + "' , DCM_ADDRESS='" + posAddress + "' ,CHANNEL_ID='" + posChannel + "',DCM_LEVEL_ID= '" + posLevel + "' , REPORT_TO_CALIDUS ='"+reportToCalidus+"', IS_DIRTY = '1' ,IS_EXCLUSIVE = '"+isEX+"', IS_LEVEL_ONE = '"+isL1+"' , IS_QUALITY_CLUB = '"+isQC+"', HAS_SIGN = '"+hasSign+"', IS_MOBICASH = '"+isMobicash+"', IS_NOMAD = '"+isNomad+"' WHERE DCM_ID= " + genDcmId;
+            String update = "UPDATE GEN_DCM SET dcm_img_district_id='"+imgDist+"' DCM_STATUS_ID = "+posStatus+" , MOBICASH_NUMBER= "+mobicashNum+" ,PAYMENT_TYPE_METHOD_ID = '"+payMethod+"' , DCM_NAME='" + posName + "' ,DCM_CITY_ID='" + city + "',DCM_DISTRICT_ID='" + district + "' ,DCM_EMAIL= '" + posEmail + "' , DCM_PAYMENT_LEVEL_ID= '" + posPayment + "' , DCM_ADDRESS='" + posAddress + "' ,CHANNEL_ID='" + posChannel + "',DCM_LEVEL_ID= '" + posLevel + "' , REPORT_TO_CALIDUS ='"+reportToCalidus+"', IS_DIRTY = '1' ,IS_EXCLUSIVE = '"+isEX+"', IS_LEVEL_ONE = '"+isL1+"' , IS_QUALITY_CLUB = '"+isQC+"', HAS_SIGN = '"+hasSign+"', IS_MOBICASH = '"+isMobicash+"', IS_NOMAD = '"+isNomad+"' WHERE DCM_ID= " + genDcmId;
 
             System.out.print(update);
             stmt.execute(update);
@@ -1898,13 +1899,13 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
             posDetailId = Utility.getSequenceNextVal(con, "SEQ_DCM_POS_DETAIL");
 
             String sqlString = "INSERT INTO DCM_POS_DETAIL "
-                    + "(SUPERVISOR_ID, TEAMLEADER_ID, SALESREP_ID,MOBICASH_NUMBER, IS_NOMAD,IS_MOBICASH, IS_EXCLUSIVE, IS_LEVEL_ONE, IS_QUALITY_CLUB, DCM_LEVEL_ID,IS_DIRTY,POS_DETAIL_ID, POS_ID ,POS_CODE,"
+                    + "(pos_img_district_id,SUPERVISOR_ID, TEAMLEADER_ID, SALESREP_ID,MOBICASH_NUMBER, IS_NOMAD,IS_MOBICASH, IS_EXCLUSIVE, IS_LEVEL_ONE, IS_QUALITY_CLUB, DCM_LEVEL_ID,IS_DIRTY,POS_DETAIL_ID, POS_ID ,POS_CODE,"
                     + "POS_NAME,POS_EMAIL,"
                     + "POS_ADDRESS,POS_STATUS_TYPE_ID,REGION_ID,"
                     + "UPDATED_IN,USER_ID"
                     + ", POS_CHANNEL_ID , POS_BRANCH_OF , POS_GOVERNRATE , POS_AREA_ID , POS_DEMO_LINE , POS_PROPOSED_DOC_ID"
                         + " , POS_DOC_NUM , POS_RATE_ID , POS_PLACE_TYPE_ID , POS_DISTRICT_ID , POS_CITY_ID,SURVEY_DATE,SURVEY_ID,DCM_PAYMENT_LEVEL_ID,POS_ARABIC_NAME,POS_ARABIC_ADDRESS,HAS_SIGN,REPORT_TO_CALIDUS, PAYMENT_TYPE_METHOD_ID,DOC_LOCATION)"
-                    + "values('"+posModel.getPosDetailModel().getSupervisorName()+"','"+posModel.getPosDetailModel().getTeamleaderName()+"','"+posModel.getPosDetailModel().getSalesrepName()+"',"+mobicashNum+" , '"+isNomad+"','"+isMobicash+"','"+isEX+"','"+isL1+"','"+isQC+"', '"+posLevel+"','1'," + posDetailId
+                    + "values('"+posModel.getImgDistrictId()+"',"+posModel.getPosDetailModel().getSupervisorName()+"','"+posModel.getPosDetailModel().getTeamleaderName()+"','"+posModel.getPosDetailModel().getSalesrepName()+"',"+mobicashNum+" , '"+isNomad+"','"+isMobicash+"','"+isEX+"','"+isL1+"','"+isQC+"', '"+posLevel+"','1'," + posDetailId
                     + ",'" + dcmId + "','" + posCode + "','" + posName + "','" + posEmail + "','" + posAddress + "','" + statusTypeId + "','" + posRegion + "'"
                     + ",sysdate,'" + UserID + "', " + posModel.getChannelId() + " , '" + posModel.getBranchOf() + "', " + posModel.getGovernateId()
                     + " , " + posModel.getAreaId() + " , '" + posModel.getDemoLineNum() + "' , " + (posModel.getProposedDocId() == -1 ? "null" : posModel.getProposedDocId())
@@ -2607,7 +2608,7 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
         return DBUtil.getMap(con, "select " + fields + " from " + table);
     }
 
-    private static String[] appendFromWhereStrs(String posDataOwnerIdType, String posDataDocNum, String posDataManagerName, String posDataStkNum, String posDataManagerIdType, String posDataProposedDoc, String posDataManagerIdNum, String posDataName, String posDataCode, String posDataRegion, String posDataGover, String posDataDistrict, String posDataArea, String posDataCity, String posDataOwnerName, String posDataOwnerIdNum, String level, String payment, String channel, String posStatusId, String stkStatusId, String paymentStatusId, String posPhone, String englishAdress, String strSurvDate, String docLocation,String supervisorId, String teamleaderId, String salesrepId) {
+    private static String[] appendFromWhereStrs(String posDataOwnerIdType, String posDataDocNum, String posDataManagerName, String posDataStkNum, String posDataManagerIdType, String posDataProposedDoc, String posDataManagerIdNum, String posDataName, String posDataCode, String posDataRegion, String posDataGover, String posDataDistrict, String posDataArea, String posDataCity, String posDataOwnerName, String posDataOwnerIdNum, String level, String payment, String channel, String posStatusId, String stkStatusId, String paymentStatusId, String posPhone, String englishAdress, String strSurvDate, String docLocation,String supervisorId, String teamleaderId, String salesrepId, String posImgDist) {
         StringBuilder fromStr = new StringBuilder();
         StringBuilder whereStr = new StringBuilder();
         String[] queryStrings = new String[2];
@@ -2687,6 +2688,11 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
         if (posDataDistrict != null && posDataDistrict.compareTo("") != 0) {
 
             whereStr.append("  and POS_DISTRICT_ID = '" + posDataDistrict + "'");
+
+        }
+        if (posImgDist != null && posImgDist.compareTo("") != 0) {
+
+            whereStr.append("  and pos_img_district_id = '" + posImgDist + "'");
 
         }
 
@@ -2788,7 +2794,7 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
 
     }
 
-    public static Vector<POSDetailModel> searchPosData(Connection con, String posDataOwnerIdType, String posDataDocNum, String posDataManagerName, String posDataStkNum, String posDataManagerIdType, String posDataProposedDoc, String posDataManagerIdNum, String posDataName, String posDataCode, String posDataRegion, String posDataGover, String posDataDistrict, String posDataArea, String posDataCity, String posDataOwnerName, String posDataOwnerIdNum, String supervisorId, String teamleaderId, String salesrepId, String rowNum, String level, String payment, String channel, String posStatusId, String stkStatusId, String paymentStatusId, String posPhone, String englishAdress, String strSurvDate, String docLocation) throws SQLException {
+    public static Vector<POSDetailModel> searchPosData(Connection con, String posDataOwnerIdType, String posDataDocNum, String posDataManagerName, String posDataStkNum, String posDataManagerIdType, String posDataProposedDoc, String posDataManagerIdNum, String posDataName, String posDataCode, String posDataRegion, String posDataGover, String posDataDistrict, String posDataArea, String posDataCity, String posDataOwnerName, String posDataOwnerIdNum, String supervisorId, String teamleaderId, String salesrepId, String rowNum, String level, String payment, String channel, String posStatusId, String stkStatusId, String paymentStatusId, String posPhone, String englishAdress, String strSurvDate, String docLocation, String posDataImgDist) throws SQLException {
 
         System.out.println("searchPosData");
         Vector<POSDetailModel> posDetailVec = new Vector<POSDetailModel>();
@@ -2802,7 +2808,7 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
         }
         
 
-        String[] queryStrings = appendFromWhereStrs(posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, level, payment, channel, posStatusId, stkStatusId, paymentStatusId, posPhone, englishAdress, strSurvDate, docLocation,supervisorId,teamleaderId, salesrepId);
+        String[] queryStrings = appendFromWhereStrs(posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, level, payment, channel, posStatusId, stkStatusId, paymentStatusId, posPhone, englishAdress, strSurvDate, docLocation,supervisorId,teamleaderId, salesrepId,posDataImgDist);
         fromStr += queryStrings[0];
         whereStr += queryStrings[1];
 
@@ -2933,7 +2939,7 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
         query.append(" AND blcase.stk_id(+) = stock.stk_id ");
 
 
-        String[] queryStrings = appendFromWhereStrs(posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, level, payment, channel, posStatusId, stkStatusId, paymentStatusId, posPhone, englishAdress, strSurvDate, docLocation,supervisorId, teamleaderId, salesrepId);
+        String[] queryStrings = appendFromWhereStrs(posDataOwnerIdType, posDataDocNum, posDataManagerName, posDataStkNum, posDataManagerIdType, posDataProposedDoc, posDataManagerIdNum, posDataName, posDataCode, posDataRegion, posDataGover, posDataDistrict, posDataArea, posDataCity, posDataOwnerName, posDataOwnerIdNum, level, payment, channel, posStatusId, stkStatusId, paymentStatusId, posPhone, englishAdress, strSurvDate, docLocation,supervisorId, teamleaderId, salesrepId,"");
 
 
         String queryStr = query.toString() + queryStrings[1];
@@ -3212,7 +3218,7 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
 
         String queryStr = "select distinct(detail.POS_DETAIL_ID),detail.supervisor_id, detail.teamleader_id,detail.salesrep_id,detail.POS_PLACE_TYPE_ID, gen.DCM_ID ,POS_BRANCH_OF ,DCM_LEVEL_NAME , CHANNEL_NAME ,"
                 + " POS_RATE_DATE, POS_PLACE_TYPE_NAME , DCM_PAYMENT_LEVEL_NAME , POS_DEMO_LINE ,"
-                + " POS_DISTRICT_ID , POS_CITY_ID , REGION_ID  , POS_GOVERNRATE , POS_AREA_ID "
+                + " POS_DISTRICT_ID ,pos_img_district_id, POS_CITY_ID , REGION_ID  , POS_GOVERNRATE , POS_AREA_ID "
                 + "  , POS_OWNER_NAME , POS_OWNER_BIRTHDATE , POS_OWNER_ID_NUMBER ,POS_OWNER_ID_TYPE_ID"
                 + "  , POS_MANAGER_NAME , POS_MANAGER_BIRTHDATE , POS_MANAGER_ID_NUMBER , POS_MANAGER_ID_TYPE_ID ,detail.POS_ARABIC_NAME,detail.POS_ARABIC_ADDRESS,detail.DOC_LOCATION,detail.survey_id,detail.POS_DOC_NUM,SCM_PROPOSED_DOCUMENT.PROPOSED_DOCUMENT_NAME"
                 + " from "
@@ -3261,6 +3267,7 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
             //posModel.setStkVerify(rs.getString("STK_VERIFICATION"));
             posModel.setAreaId(rs.getInt("POS_AREA_ID"));
             posModel.setDistrictId(Integer.parseInt(rs.getString("POS_DISTRICT_ID")));
+            posModel.setImgDistrictId(Integer.parseInt( (rs.getString("pos_img_district_id")==null? "-1":rs.getString("pos_img_district_id")) ));
             posModel.setCityId(Integer.parseInt(rs.getString("POS_CITY_ID")));
             posModel.setGovernateId(rs.getInt("POS_GOVERNRATE"));
             posModel.getPosDetailModel().setPosRegionID(rs.getInt("REGION_ID"));
@@ -3274,7 +3281,7 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
             posModel.setDistrict(getRegionName(con, Integer.parseInt(rs.getString("POS_DISTRICT_ID"))));
             posModel.setGovernrate(getRegionName(con, rs.getInt("POS_GOVERNRATE")));
             posModel.setCity(getRegionName(con, Integer.parseInt(rs.getString("POS_CITY_ID"))));
-
+            posModel.setImgDist(getRegionName(con, Integer.parseInt( (rs.getString("pos_img_district_id")==null? "-1":rs.getString("pos_img_district_id")) )));
             posModel.setRegion(getRegionName(con, rs.getInt("REGION_ID")));
             posModel.getPosDetailModel().setPosOwnerIDTypeName(getIdType(con, rs.getInt("POS_OWNER_ID_TYPE_ID")));
             posModel.getPosDetailModel().setPosManagerIDTypeName(getIdType(con, rs.getInt("POS_MANAGER_ID_TYPE_ID")));

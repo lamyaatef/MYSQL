@@ -225,8 +225,12 @@ public class RegionPOSReportDAO {
             strSql.append("  dcm_region.region_name," );
             strSql.append("  city.region_name as city_name,");
             strSql.append("  govern.region_name as govern_name," );
+            
             strSql.append("  dcm_pos_detail.district_code,");
             strSql.append("  district.region_name as district_name,");
+            strSql.append("  dcm_pos_detail.pos_img_district_code,");
+            strSql.append("  imgDist.region_name as imgDist_name,");
+            
             strSql.append("  area.region_code as area_code,");
             strSql.append("  area.region_name as area_name," );
  
@@ -248,8 +252,10 @@ public class RegionPOSReportDAO {
             strSql.append("  CAM_PAYMENT_cam_state.cam_status_for_payment as payment_status,");
             strSql.append("  gen_dcm_payment_level.dcm_payment_level_name as payment_level,");
             strSql.append("  dcm_pos_detail.pos_arabic_address,");
-            //strSql.append("  --scm_iqrar_receving_status.name as is_iqrar_received," );
-            //strSql.append("  --scm_verified_status.name as is_verified," );
+            
+            strSql.append("  scm_iqrar_receving_status.name as is_iqrar_received," );
+            strSql.append("  scm_verified_status.name as is_verified," );
+            
             strSql.append("  dcm_pos_detail.doc_location," );
             strSql.append("  dcm_pos_detail.survey_id,");
             strSql.append("  dcm_pos_detail.is_level_one as L1,");
@@ -264,6 +270,7 @@ public class RegionPOSReportDAO {
             strSql.append("  dcm_region city,");
             strSql.append("  dcm_region govern,");
             strSql.append("  dcm_region district," );
+            strSql.append("  dcm_region imgDist," );
             strSql.append("  dcm_region area," );
             strSql.append("  pos_documents," );
             strSql.append("  gen_dcm_status,");
@@ -275,10 +282,12 @@ public class RegionPOSReportDAO {
             strSql.append("  scm_stk_status,");
             strSql.append("  CAM_PAYMENT_SCM_STATUS," );
             strSql.append("  CAM_PAYMENT_cam_state,");
-            strSql.append("  gen_dcm_payment_level " );
-            //strSql.append(" -- scm_stk_owner,");
-            //strSql.append(" -- scm_iqrar_receving_status,");
-            //strSql.append(" -- scm_verified_status");
+            strSql.append("  gen_dcm_payment_level, " );
+            
+            strSql.append("  scm_stk_owner,");
+            strSql.append("  scm_iqrar_receving_status,");
+            strSql.append("  scm_verified_status");
+            
             strSql.append(" WHERE gen_dcm.dcm_id            = dcm_pos_detail.pos_id" );
             strSql.append(" AND gen_dcm.dcm_code            = dcm_pos_detail.pos_code" );
             strSql.append(" AND dcm_pos_owner.pos_detail_id = dcm_pos_detail.pos_detail_id" );
@@ -290,6 +299,7 @@ public class RegionPOSReportDAO {
             strSql.append(" AND govern.region_id = dcm_pos_detail.pos_governrate");
             
             strSql.append(" AND district.region_id = dcm_pos_detail.pos_district_id");
+            strSql.append(" AND imgDist.region_id = dcm_pos_detail.pos_img_district_id");
             
             strSql.append(" AND area.region_id = dcm_pos_detail.pos_area_id");
             
@@ -306,11 +316,13 @@ public class RegionPOSReportDAO {
             strSql.append(" AND CAM_PAYMENT_SCM_STATUS.scm_id = gen_dcm.dcm_id");
             strSql.append(" AND CAM_PAYMENT_cam_state.id = CAM_PAYMENT_SCM_STATUS.PAYMENT_cam_state_id" );
             strSql.append(" AND gen_dcm_payment_level.dcm_payment_level_id = dcm_pos_detail.dcm_payment_level_id " );
-            //strSql.append(" --AND scm_iqrar_receving_status.iqrar_receving_status_id = scm_stk_owner.iqrar_receving_status_id");
-            //strSql.append(" --AND scm_stk_owner.dcm_id = dcm_pos_detail.pos_id ");
-            //strSql.append("--AND scm_verified_status.dcm_verified_status_id = scm_stk_owner.dcm_verified_status_id");
+            
+            strSql.append(" AND scm_iqrar_receving_status.iqrar_receving_status_id = scm_stk_owner.iqrar_receving_status_id");
+            strSql.append(" AND scm_stk_owner.dcm_id = dcm_pos_detail.pos_id ");
+            strSql.append(" AND scm_verified_status.dcm_verified_status_id = scm_stk_owner.dcm_verified_status_id");
+            
             strSql.append(" AND dcm_pos_detail.flage       IS NULL ");
-           /*AND dcm_region.region_name='Alexandria'*/ 
+           
             
             System.out.println("SQL ^^^ : \n"+ strSql);
             ResultSet res = stat.executeQuery(strSql.toString());

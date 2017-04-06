@@ -546,6 +546,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append("  dcm_pos_detail.district_code,");
             strSql.append("  district.region_name as district_name,");
             strSql.append("  imgDist.region_name as image_district_name,");
+            strSql.append("  dcm_pos_detail.pos_img_district_code,");
             strSql.append("  area.region_code as area_code,");
             strSql.append("  area.region_name as area_name," );
  

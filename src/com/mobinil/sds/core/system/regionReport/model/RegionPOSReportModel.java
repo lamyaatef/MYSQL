@@ -129,7 +129,8 @@ public RegionPOSReportModel(ResultSet res, String regionLevel/*,String superviso
                     }//POS_CITY_ID , supervisor_city_id
                     else if(regionLevel.compareTo("4")==0)
                     {
-                        imageDistrict= res.getString("image_district_name");
+                        disctrict= res.getString("district_name");
+                        districtCodeId= res.getString("district_code");
                         
                     }//POS_DISTRICT_ID, salesrep_district_id
                     
@@ -137,6 +138,9 @@ public RegionPOSReportModel(ResultSet res, String regionLevel/*,String superviso
                     {
                         disctrict= res.getString("district_name");
                         districtCodeId= res.getString("district_code");
+                        imageDistrict= res.getString("imgDist_name");
+                        imageDistrictCode= res.getString("pos_img_district_code");
+                        
                     }
                     
                     
