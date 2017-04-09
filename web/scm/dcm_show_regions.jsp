@@ -677,6 +677,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
     </form>
     <%} 
         else if (childRegions != null && childRegions.size() != 0) {
+            System.out.println("child regions");
         
           //  System.out.println("child regions "+childRegions.size());
           //  int max = DBUtil.executeQuerySingleValueInt("SELECT MAX(REGION_LEVEL_TYPE_ID) FROM DCM_REGION_LEVEL_TYPE", "MAX(REGION_LEVEL_TYPE_ID)", con);
@@ -701,7 +702,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
                 if (childRegions.get(0).getRegionLevelTypeId().compareTo("5")==0)
                     addChildDisabled = "disabled";
                 
-                
+                System.out.println("get chilfffff");
                 
                 if (childRegions.get(0).getRegionLevelTypeId().compareTo("4")!=0 && childRegions.get(0).getRegionLevelTypeId().compareTo("6")!=0)
                     disabled = "disabled";
@@ -713,7 +714,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
             </tr>
 
             <%for (int j = 0; j < childRegions.size(); j++) {
-               // System.out.println("i "+j);
+                System.out.println("j "+j+" childRegions.size() "+childRegions.size());
             %>
             <tr class="TableTextNote">
                 <td align="center" >
@@ -721,7 +722,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
                 </td>
                 <td align="center" ><%=childRegions.get(j).getRegionName()%></td>
                 <td align="center" ><%=childRegions.get(j).getRegionLevelTypeName()%></td>
-                <td align="center" ><input type="button" name="edit_user" id="edit_user" value="Edit" <%=disabled%> onclick="edit('<%=childRegions.get(j).getRegionId()%>','<%=regions.get(j).getRegionLevelTypeId()%>')"></td>
+                <td align="center" ><input type="button" name="edit_user" id="edit_user" value="Edit" <%=disabled%> onclick="edit('<%=childRegions.get(j).getRegionId()%>','<%=childRegions.get(j).getRegionLevelTypeId()%>')"></td>
                 <td align="center" ><input type="button" <%
                     Integer num = 0;
                     
@@ -773,7 +774,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
             </tr>
 
             <%
-               // System.out.println("i end of for"+j);
+                System.out.println("j end of for"+j);
     }%>
         </table>
 

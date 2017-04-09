@@ -833,13 +833,15 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
             String posPayment = Integer.toString(posModel.getPaymentLevelId());
             String posChannel = Integer.toString(posModel.getChannelId());
             String posLevel = Integer.toString(posModel.getLevelId());
+            String imDistId = Integer.toString(posModel.getImgDistrictId());
+            
             /*
              * Ahmed Adel add city and district
              */
             String city = Integer.toString(posModel.getCityId());
             String district = Integer.toString(posModel.getDistrictId());
 
-            String update = "UPDATE GEN_DCM SET IS_DIRTY='0', HAS_SIGN = '"+hasSign+"', PAYMENT_TYPE_METHOD_ID ='"+payMethod+"', REPORT_TO_CALIDUS='"+reportToCalidus+"', DCM_NAME='" + posName + "' ,DCM_CITY_ID='" + city + "',DCM_DISTRICT_ID='" + district + "' ,DCM_EMAIL= '" + posEmail + "' , DCM_PAYMENT_LEVEL_ID= '" + posPayment + "' , DCM_ADDRESS='" + posAddress + "' ,DCM_STATUS_ID='" + statusId + "' ,CHANNEL_ID='" + posChannel + "',DCM_LEVEL_ID= '" + posLevel + "' WHERE DCM_ID= " + genDcmId;
+            String update = "UPDATE GEN_DCM SET DCM_IMG_DISTRICT_ID = '"+imDistId+"' ,IS_DIRTY='0', HAS_SIGN = '"+hasSign+"', PAYMENT_TYPE_METHOD_ID ='"+payMethod+"', REPORT_TO_CALIDUS='"+reportToCalidus+"', DCM_NAME='" + posName + "' ,DCM_CITY_ID='" + city + "',DCM_DISTRICT_ID='" + district + "' ,DCM_EMAIL= '" + posEmail + "' , DCM_PAYMENT_LEVEL_ID= '" + posPayment + "' , DCM_ADDRESS='" + posAddress + "' ,DCM_STATUS_ID='" + statusId + "' ,CHANNEL_ID='" + posChannel + "',DCM_LEVEL_ID= '" + posLevel + "' WHERE DCM_ID= " + genDcmId;
 
             System.out.print(update);
             stmt.execute(update);

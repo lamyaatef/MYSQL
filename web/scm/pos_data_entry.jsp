@@ -29,6 +29,11 @@
       document.write("<INPUT value="+argValue+" class=input readOnly name=\""+argOrder+"\">&nbsp;<A onclick=\"showCalendar(formDataView."+argOrder+",'dd-mm-yyyy','Choose date')\">");
       document.write("<IMG height=16 src=\"../resources/img/icon_calendar.gif\" width=20 border=0></A>");
   }
+    function ShowHideDiv(mobicash) {
+        var orange = document.getElementById("orange");
+        orange.style.display = mobicash.checked ? "block" : "none";
+       
+    }
 </script>
 <%
 String appName = request.getContextPath();
@@ -51,9 +56,414 @@ String appName = request.getContextPath();
       <SCRIPT language=JavaScript src="../resources/js/deepgrid.js" type=text/javascript></SCRIPT>
       <SCRIPT language=JavaScript src="../resources/js/yav/yav.js"></SCRIPT>
       <SCRIPT language=JavaScript src="../resources/js/yav/yav-config.js"></SCRIPT>
+      <script src="../resources/js/jquery-1.11.3.js"></script>
   </head>
-
   <body>
+      <%
+
+String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.ACTION_REGIONS; //action=
+      %>
+      <script>
+    $(document).ready(function(){ 
+   //region     
+  $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_REGION%>").change(function(){
+  //console.log("aaaa ",$(this).val());
+  var regionid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_REGION%>").val(); //value id of Option selected in the Select object
+ // console.log("value id of option selected in Select object is : ",regionid);
+    
+    $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    datatype: "JSON",
+    data : {regionid:regionid,type:"2"},
+    success: function(data, textStatus, jqXHR)
+    {
+        
+      
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
+      
+        
+      
+    $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").append($("<option/>").text("--"));
+
+        $.each(data.map.districts, function(k, v) {
+            
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+        var option= $("<option/>").text(k).val(v);
+ 
+ 
+          //  console.log("data governorates ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").append(option);
+});
+
+},
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+
+}); 
+
+
+
+//governorate
+$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").change(function(){
+  
+  var governid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_GOVER%>").val(); //value id of Option selected in the Select object
+  //console.log("value id of option selected in Select object is : ",id);
+    $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    data : {regionid:governid ,type:"3"/*,userLevel:4*/},
+    success: function(data, textStatus, jqXHR)
+    {
+         $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
+        
+              
+    $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").append($("<option/>").text("--"));
+    
+        $.each(data.map.districts, function(k, v) {
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+            var option= $("<option/>").text(k).val(v);
+ 
+          //  console.log("data governorates ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").append(option);
+});
+        
+        
+       
+        
+        
+        
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+
+}); 
+
+
+
+
+
+
+
+//city
+$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").change(function(){
+  
+  var cityid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_CITY%>").val(); //value id of Option selected in the Select object
+  //console.log("value id of option selected in Select object is : ",id);
+    $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    data : {regionid:cityid ,type:"4"/*,userLevel:4*/},
+    success: function(data, textStatus, jqXHR)
+    {
+        
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
+        
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").append($("<option/>").text("--"));
+    
+        $.each(data.map.districts, function(k, v) {
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+            var option= $("<option/>").text(k).val(v);
+ 
+           // console.log("data governorates ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").append(option);
+});
+        
+      
+      
+        
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+
+}); 
+         
+   //district
+$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").change(function(){
+  
+  var districtid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").val(); //value id of Option selected in the Select object
+  var array=[3];
+    array[0]= 4;
+    array[1] = 5;
+    array[2] = 6;
+    var str = JSON.stringify(array);
+    $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    datatype: "JSON",
+    data : {regionid:districtid ,type:"6"}, //arraySent:str
+    success: function(data, textStatus, jqXHR)
+    {
+        
+      
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").empty();
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").empty();
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").append($("<option/>").text("--"));
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").append($("<option/>").text("--"));
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append($("<option/>").text("--"));
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append($("<option/>").text("--"));
+    
+        $.each(data.map.districts, function(k, v) {
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+            var option= $("<option/>").text(k).val(v);
+ 
+        //    console.log("data governorates ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").append(option);
+});
+ 
+/* $.each(data.map.users, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+         //   console.log("data supervisors ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").append(option);
+});*/
+ 
+/* $.each(data.map.teams, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+          //  console.log("data teamleaders ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append(option);
+});*/
+
+ /*$.each(data.map.sales, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+            //console.log("data salesrep ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append(option);
+});*/
+
+
+
+},
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+
+}); 
+
+
+
+//image district
+$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").change(function(){
+  
+  var districtid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT%>").val(); //value id of Option selected in the Select object
+  var array=[3];
+    array[0]= 4;
+    array[1] = 5;
+    array[2] = 6;
+    var str = JSON.stringify(array);
+    $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    datatype: "JSON",
+    data : {regionid:districtid ,type:"5"}, //arraySent:str
+    success: function(data, textStatus, jqXHR)
+    {
+        
+        
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").empty();
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").empty();
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").empty();
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").append($("<option/>").text("--"));
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").append($("<option/>").text("--"));
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append($("<option/>").text("--"));
+        //$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append($("<option/>").text("--"));
+    
+        $.each(data.map.districts, function(k, v) {
+            
+            var arr = data.map.districts;
+            arr.sort = function(a,b) {
+                return a[1]>b[1]? 1:a[1]<b[1]?-1:0;
+            };
+           
+            var option= $("<option/>").text(k).val(v);//val(k)
+ 
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_AREA%>").append(option);
+});
+ 
+ 
+ 
+ 
+ 
+ 
+/* $.each(data.map.users, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+         //   console.log("data supervisors ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").append(option);
+});*/
+ 
+/* $.each(data.map.teams, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+          //  console.log("data teamleaders ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append(option);
+});*/
+
+ /*$.each(data.map.sales, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+            //console.log("data salesrep ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append(option);
+});*/
+
+
+
+},
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+
+}); 
+
+
+
+
+/*
+
+$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").change(function(){
+   $("#<%= SCMInterfaceKey.INPUT_HIDDEN_USER_ID%>").val($("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%> option:selected").val());
+   $("#<%= SCMInterfaceKey.INPUT_HIDDEN_SUPERVISOR_NAME%>").val($("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%> option:selected").text());
+  var managerid2= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>").val(); //value id of Option selected in the Select object
+  var regionid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").val(); //value id of Option selected in the Select object
+    $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    data : {managerid2:managerid2 ,regionid:regionid,type:"<%=SCMInterfaceKey.CONTROL_TEXT_POS_SUPERVISOR%>",userLevel:5},
+    success: function(data, textStatus, jqXHR)
+    {
+        
+      
+        
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").empty();
+     //   $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append($("<option/>").text("--"));
+      //  $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append($("<option/>").text("--"));*
+    
+
+$.each(data.map.superChildren, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+            //console.log("data supervisors ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").append(option);
+          
+});
+
+
+
+
+     
+        
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+
+});  
+
+
+
+
+
+
+$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").change(function(){
+   $("#<%= SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_ID%>").val($("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%> option:selected").val());
+   $("#<%= SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_NAME%>").val($("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%> option:selected").text());
+  var managerid2= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>").val(); //value id of Option selected in the Select object
+  var regionid= $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>").val(); //value id of Option selected in the Select object
+    $.ajax({
+    url : "<%out.print(formAction);%>",
+    type: "POST",
+    data : {managerid2:managerid2 ,regionid:regionid,type:"<%=SCMInterfaceKey.CONTROL_TEXT_POS_TEAMLEADER%>",userLevel:6},
+    success: function(data, textStatus, jqXHR)
+    {
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").empty();
+        $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append($("<option/>").text("--"));
+    
+
+$.each(data.map.superChildren, function(k, v) {
+            
+            var option= $("<option/>").text(v).val(k);
+ 
+           // console.log("data supervisors ",option);
+            $("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").append(option);
+          
+});
+     
+        
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+
+});  
+
+
+$("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%>").change(function() {
+  $("#<%= SCMInterfaceKey.INPUT_HIDDEN_SALESREP_ID%>").val($("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%> option:selected").val());
+  $("#<%= SCMInterfaceKey.INPUT_HIDDEN_SALESREP_NAME%>").val($("#<%=SCMInterfaceKey.CONTROL_TEXT_POS_SALESREP%> option:selected").text());
+});
+
+
+*/
+
+
+       
+
+}); 
+</script>
+
     <%
     HashMap dataHashMap = new HashMap(100);
                 dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
@@ -122,11 +532,21 @@ pos_level= (String)dataHashMap.get("pos_level");
     
     String alert = (String) dataHashMap.get(SCMInterfaceKey.REP_KIT_Alert);
     Vector regions        = (Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_REGIONS);
+    Vector governs = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_GOVERNS);
+    Vector cities = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_CITIES);
+    Vector districts = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_DISTRICTS);
+    Vector imgDists = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_IMAGE_DISTRICTS);
+    Vector areas = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_AREAS);
+    
+    
     HashMap <String,RegionModel> regionsChilds        = (HashMap <String,RegionModel>)dataHashMap.get(SCMInterfaceKey.CHILD_REGIONS_HM);
     Vector IDTypeVector   = (Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ID_TYPE);
 
     POSDetailModel posDetailModel = new POSDetailModel();
     posDetailModel = (POSDetailModel)dataHashMap.get(SCMInterfaceKey.POS_DETAIL_MODEL);
+    
+    PosModel posData = (PosModel) dataHashMap.get(SCMInterfaceKey.SIMILAR_POS_LIST);
+    
     String posCode = (String) dataHashMap.get(SCMInterfaceKey.POS_CODE);    
     posCode = pos_code ==null || pos_code.compareTo("")==0 ? posCode : pos_code;
     posCode = posCode!=null && !posCode.contains(".") ? "" : posCode;
@@ -348,7 +768,8 @@ payment = payment==null || payment.compareTo("")==0 ? control_text_payment_level
         
         
         out.println("<TR>");
-        out.println(" <td><input type=checkbox name=mobicash value=yes><font size='1'>Orange Money</font></td>");
+        out.println(" <td><input type=checkbox name=mobicash onclick=\"ShowHideDiv(this)\" value=yes><font size='1'>Orange Money</font></td>");
+        out.println("<td><div name=orange id=orange style=display:none><font size='1'>Orange Money Number: </font><input type=text name=orangeText id=orangeText /><font size='1'> ex. 1227777777</font></div></td>");
         out.println("</tr>");
         
         
@@ -418,55 +839,132 @@ payment = payment==null || payment.compareTo("")==0 ? control_text_payment_level
 
       out.println("<TR>");
       out.println("      <TD class=TableTextNote  width='40%'>Region</TD>");
-      out.println("      <TD><select onChange=AddGovernrate(); name='" + SCMInterfaceKey.CONTROL_TEXT_POS_REGION + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_REGION + "'>");
+      //onChange=AddGovernrate();
+      out.println("      <TD><select  name='" + SCMInterfaceKey.CONTROL_TEXT_POS_REGION + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_REGION + "'>");
 
       out.println("<option value=0>--</option>");
-String selectedId = (String)dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_REGION);
-selectedId = selectedId==null || selectedId.compareTo("")==0 ? pos_region : selectedId;
+/*String selectedId = (String)dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_REGION);
+selectedId = selectedId==null || selectedId.compareTo("")==0 ? pos_region : selectedId;*/
        for(int i = 0 ; i < regions.size() ; i++)
       {
         PlaceDataModel placeDataModel = (PlaceDataModel) regions.get(i);
         if(placeDataModel.getTypeId() == 1)
-            out.println("<option "+((selectedId!=null && selectedId.compareTo(placeDataModel.getRegionId()+"")==0) ? "selected" : "")+" value="+placeDataModel.getRegionId()+">"+placeDataModel.getRegionName()+"</option>");
+            out.println("<option value="+placeDataModel.getRegionId()+">"+placeDataModel.getRegionName()+"</option>");
       }
       out.println("</select></TD>");
       out.println("</tr>");
 
       out.println("<TR>");
       out.println("      <TD class=TableTextNote width='40%'>Governrate</TD>");
-      out.println("      <TD>");
-        drowRegionChild(out,regionsChilds,"2",SCMInterfaceKey.CONTROL_TEXT_POS_GOVER,pos_gover);
-            out.println("</TD>");
-      out.println("</tr>");
+      out.println("      <TD><select name='" + SCMInterfaceKey.CONTROL_TEXT_POS_GOVER + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_GOVER + "'>");
 
-      out.println("<TR>");
-      out.println("      <TD class=TableTextNote width='40%'>City</TD>");
-      out.println("      <TD>");
-        drowRegionChild(out,regionsChilds,"3",SCMInterfaceKey.CONTROL_TEXT_POS_CITY,pos_city);
-            
-      out.println("&nbsp;&nbsp;");
-      out.println("<input class='button' "+disabledStrCity+" type='button' name='similar_city' id='similar_city' value='All POS in City'  onclick=similarCity(); />");
-      out.println("</TD>");
-      out.println("</tr>");
+        out.println("<option value=0>--</option>");
+        /*selectedId = posData.getGovernateId() + "";
+        System.out.println("jsp: selectedId "+selectedId);
+        for (int i = 0; i < governs.size(); i++) {
+            PlaceDataModel placeDataModel = (PlaceDataModel) governs.get(i);
+            if (placeDataModel.getTypeId() == 2) {
+                out.println("<option " + ((selectedId != null && selectedId.compareTo(placeDataModel.getRegionId() + "") == 0) ? "selected" : "") + " value=" + placeDataModel.getRegionId() + ">" + placeDataModel.getRegionName() + "</option>");
+            }
+        }*/
+        out.println("</select></TD>");
+        out.println("</tr>");
 
 
+        out.println("<TR>");
+        out.println("      <TD class=TableTextNote width='40%'>City</TD>");
+        
+        out.println("      <TD><select name='" + SCMInterfaceKey.CONTROL_TEXT_POS_CITY + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_CITY + "'>");
+
+        out.println("<option value=0>--</option>");
+        /*selectedId = posData.getCityId()+ "";
+        System.out.println("jsp: selectedId "+selectedId);
+        for (int i = 0; i < cities.size(); i++) {
+            PlaceDataModel placeDataModel = (PlaceDataModel) cities.get(i);
+            if (placeDataModel.getTypeId() == 3) {
+                out.println("<option " + ((selectedId != null && selectedId.compareTo(placeDataModel.getRegionId() + "") == 0) ? "selected" : "") + " value=" + placeDataModel.getRegionId() + ">" + placeDataModel.getRegionName() + "</option>");
+            }
+        }*/
+        out.println("</select></TD>");
+        
+        
+        //out.println("      <TD>");
+        //ild: drowRegionChild(out, regionsChilds, "3", SCMInterfaceKey.CONTROL_TEXT_POS_CITY, posData.getCityId() + "");
+        //drawSelectRegions(out, (Vector<PlaceDataModel>) regions, SCMInterfaceKey.CONTROL_TEXT_POS_CITY, city, 3/*,disabled*/);
+        //out.println("&nbsp;&nbsp;");
+        out.println("<input class='button' " + disabledStrCity + " type='button' name='similar_city' id='similar_city' value='All POS in City'  onclick=similarCity(); />");
+        //out.println("</TD>");
+        out.println("</tr>");
+
+        
+        
+        
       out.println("<TR>");
       out.println("      <TD class=TableTextNote width='40%'>District</TD>");
-      out.println("      <TD>");
-        drowRegionChild(out,regionsChilds,"4",SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT,pos_district);
-            out.println("</TD>");
-      out.println("</tr>");
+      out.println("      <TD><select name='" + SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT + "'>");
 
-      out.println("<TR>");
-      out.println("      <TD class=TableTextNote width='40%'>Area</TD>");
-      out.println("<TD>");
-              drowRegionChild(out,regionsChilds,"5",SCMInterfaceKey.CONTROL_TEXT_POS_AREA,pos_area);
-            
-       out.println("&nbsp;&nbsp;");
-      out.println("<input class='button' "+disabledStrArea+" name='similar_area' id='similar_area' type='button' value='All POS in Area'  onclick=similarArea(); />");
-      out.println("</TD>");
-      out.println("</tr>");
+        out.println("<option value=0>--</option>");
+        /*selectedId = posData.getDistrictId()+ "";
+        System.out.println("jsp: selectedId "+selectedId);
+        for (int i = 0; i < districts.size(); i++) {
+            PlaceDataModel placeDataModel = (PlaceDataModel) districts.get(i);
+            if (placeDataModel.getTypeId() == 4) {
+                out.println("<option " + ((selectedId != null && selectedId.compareTo(placeDataModel.getRegionId() + "") == 0) ? "selected" : "") + " value=" + placeDataModel.getRegionId() + ">" + placeDataModel.getRegionName() + "</option>");
+            }
+        }*/
+        out.println("</select></TD>");
+        out.println("</tr>");
 
+        
+        
+        
+        out.println("<TR>");
+        out.println("      <TD class=TableTextNote width='40%'>Image District</TD>");
+        out.println("      <TD><select name='" + SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT + "'>");
+
+        out.println("<option value=0>--</option>");
+        /*selectedId = posData.getImgDistrictId()+ "";
+        System.out.println("jsp: selectedId "+selectedId);
+        for (int i = 0; i < imgDists.size(); i++) {
+            PlaceDataModel placeDataModel = (PlaceDataModel) imgDists.get(i);
+            if (placeDataModel.getTypeId() == 4) {
+                out.println("<option " + ((selectedId != null && selectedId.compareTo(placeDataModel.getRegionId() + "") == 0) ? "selected" : "") + " value=" + placeDataModel.getRegionId() + ">" + placeDataModel.getRegionName() + "</option>");
+            }
+        }*/
+        out.println("</select></TD>");
+        
+        
+        //out.println("      <TD>");
+        //old: drowRegionChild(out, regionsChilds, "4", SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT, posData.getDistrictId() + "");
+        //drawSelectRegions(out, (Vector<PlaceDataModel>) regions, SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT, district, 4/*,disabled*/);
+        //out.println("</TD>");
+        out.println("</tr>");
+
+        out.println("<TR>");
+        out.println("      <TD class=TableTextNote width='40%'>Area</TD>");
+        out.println("      <TD><select name='" + SCMInterfaceKey.CONTROL_TEXT_POS_AREA + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_AREA + "'>");
+
+        out.println("<option value=0>--</option>");
+        /*selectedId = posData.getAreaId()+ "";
+        System.out.println("jsp: selectedId "+selectedId);
+        for (int i = 0; i < areas.size(); i++) {
+            PlaceDataModel placeDataModel = (PlaceDataModel) areas.get(i);
+            if (placeDataModel.getTypeId() == 5) {
+                out.println("<option " + ((selectedId != null && selectedId.compareTo(placeDataModel.getRegionId() + "") == 0) ? "selected" : "") + " value=" + placeDataModel.getRegionId() + ">" + placeDataModel.getRegionName() + "</option>");
+            }
+        }*/
+        out.println("</select></TD>");
+        //out.println("<TD>");
+        //old: drowRegionChild(out, regionsChilds, "5", SCMInterfaceKey.CONTROL_TEXT_POS_AREA, posData.getAreaId() + "");
+        
+        //out.println("&nbsp;&nbsp;");
+        out.println("<input class='button' " + disabledStrArea + " name='similar_area' id='similar_area' type='button' value='All POS in Area'  onclick=similarArea(); />");
+        //out.println("</TD>");
+        out.println("</tr>");
+
+        
+        
+        
 
       out.println("  <input type=hidden value=1 name='" + SCMInterfaceKey.CONTROL_TEXT_POS_RATE + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_RATE+ "'>");
       

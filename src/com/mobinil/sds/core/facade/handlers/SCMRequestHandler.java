@@ -605,6 +605,11 @@ public class SCMRequestHandler {
                         loadDataBack3ak(con, dataHashMap, paramHashMap);
 
                         Vector regions = new Vector();
+                        Vector governs = new Vector();
+                    Vector cities = new Vector();
+                    Vector districts = new Vector();
+                    Vector imgDistricts = new Vector();
+                    Vector areas = new Vector();
                         Vector IDTypeVector = new Vector();
                         Vector legalFormVec = new Vector();
                         Vector placeTypeVec = new Vector();
@@ -621,8 +626,28 @@ public class SCMRequestHandler {
                         legalFormVec = gmDAO.getModels(con, gm);
                         placeTypeGM = gmDAO.getColumns(con, "DCM_POS_PLACE_TYPE");
                         placeTypeVec = gmDAO.getModels(con, placeTypeGM);
-                        regions = RequestDao.getAllRegionDataList(con);
+                        //regions = RequestDao.getAllRegionDataList(con);
+/////////////////////////////////////////////////////////////////////////////////////
+                        regions = RequestDao.getAllRegions(con,"1");
+                    governs = RequestDao.getAllRegions(con,"2");
+                    cities = RequestDao.getAllRegions(con,"3");
+                    districts = RequestDao.getAllRegions(con,"4");
+                    imgDistricts = RequestDao.getAllRegions(con,"6");
+                    areas = RequestDao.getAllRegions(con,"5");
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_REGIONS, regions);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_GOVERNS, governs);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_CITIES, cities);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_DISTRICTS, districts);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_IMAGE_DISTRICTS, imgDistricts);
+                    dataHashMap.put(SCMInterfaceKey.VECTOR_AREAS, areas);
 
+                    
+                        
+                        
+                        
+                        
+                        
+                        ///////////////////////////////////////////////////
                         dataHashMap.put(SCMInterfaceKey.VECTOR_ID_TYPE, IDTypeVector);
                         dataHashMap.put(SCMInterfaceKey.VECTOR_LEGAL_FORM, legalFormVec);
                         dataHashMap.put(SCMInterfaceKey.VECTOR_PLACE_TYPE, placeTypeVec);
@@ -665,7 +690,8 @@ public class SCMRequestHandler {
                         String posCode = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_CODE);
                         String posArabicName = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_ARABIC_POS_NAME);
                         String posArabicAddress = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_ARABIC_POS_ADDRESS);
-
+                        String orangeMoneyNum = (String) paramHashMap.get("orange");
+                        System.out.println("orangeMoneyNum "+orangeMoneyNum);
                         
                         
                         
@@ -698,7 +724,9 @@ public class SCMRequestHandler {
                         String areaId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_AREA);
                         String cityId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_CITY);
                         String districtId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT);
-
+                        String imgDistrictId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_IMAGE_DISTRICT);
+                        
+                        
                         String posOwnerName = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_NAME);
                         String posOwnerBirthDate = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_BIRTH_DATE);
                         int posOwnerIDType = Integer.parseInt((String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_ID_TYPE));
@@ -803,13 +831,16 @@ public class SCMRequestHandler {
                     mdl.setSupervisorName(userData.getDcmUserId());
                     mdl.setTeamleaderName(teamleaderData.getDcmUserId());
                     mdl.setSalesrepName(salesrepData.getDcmUserId());
-
+                    Long l = Long.parseLong(orangeMoneyNum);
+                    
+                    mdl.setMobicashNum(l.longValue());
 
                       /////////////////////////lamya - end/////////////////////////////////////////////
                         
                         setPOSDataPOSDetailFromParams(posModel, mdl, paramHashMap);
                         posModel.setPaymentMethod(paymentMethod);
                         posModel.setPaymentLevel(paymentLevel);
+                        posModel.setMobicashNum(l.longValue());
                         
                         if (areaId != null && !areaId.equals("empty") && !areaId.equals("") && !areaId.equals("--")) 
                             posModel.setAreaId(Integer.parseInt(areaId));
@@ -826,6 +857,12 @@ public class SCMRequestHandler {
                             posModel.setDistrictId(Integer.parseInt(districtId));
                         else
                             posModel.setDistrictId(0);
+                        
+                        if (imgDistrictId != null && !imgDistrictId.equals("empty") && !imgDistrictId.equals("") && !imgDistrictId.equals("--")) 
+                            posModel.setImgDistrictId(Integer.parseInt(imgDistrictId));
+                        else
+                            posModel.setImgDistrictId(0);
+                        
                         if (proposedDocNum != null) {
                             posModel.setDocNumber(proposedDocNum);
                         }
@@ -1335,7 +1372,7 @@ public class SCMRequestHandler {
                     
                     posGeneralData.setMobicashNum(posMobicashNum);
                     posGeneralData.setStatusName(posStatus);
-                    posDetailModel.setMobicashNum(posMobicashNum);
+                    
                     
 
                     posDetailModel = RequestDao.getPOSByID(con, posDetailId);
@@ -1357,6 +1394,7 @@ public class SCMRequestHandler {
                     payLevel= RequestDao.getPOSPaymentLevel(con, posDetailModel.getPOSCode());
                     payMethod= RequestDao.getPOSPaymentMethod(con, posDetailModel.getPOSCode());
                     
+                    posDetailModel.setMobicashNum(posMobicashNum);
                     posDetailModel.setPaymentMethod(payMethod);
                     posDetailModel.setPaymentLevel(payLevel);
                     

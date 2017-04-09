@@ -457,35 +457,6 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                 <%
                     }
                 %>
-
-                <br>
-                <center><font color=red style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=dataHashMap.get(SCMInterfaceKey.REP_KIT_Alert)%></font></center>
-                <br>
-                <br>
-
-                <table>
-                    <tr>
-                        <td>
-                            <input class=button  type="button"  value="Create Data Entry " onclick="preRequestDataEntryWithoutStk();">
-                        </td>
-                        <!--
-                        <td>
-                            <input class=button  type="button"  value="Create Data Entry and STK " onclick="preRequestDataEntryWithStk()" >
-                        </td>
-                        -->
-                    </tr>
-                    <!--
-                    <tr>
-                        <td colspan="2">
-                            <input class=button id="tempDown" type="button"  value="Generate Excel Template " onclick="exportExcel()" >
-                        </td>
-
-                    </tr>
-                    -->
-                </table>
-                
-                <br><br><br><br>
-
 <script>
     function exportExcel()
     {
