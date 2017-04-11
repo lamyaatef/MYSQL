@@ -63,7 +63,8 @@
     
             $( document ).ready(function() {
            
-                if($('#selectType').val()== "")
+                //if($('#selectType').val()== "" && $('#region_select').val()== "" && $('#name_select').val()== "")
+                if($('#name_select').val()== "" || $('#selectType').val()== "")
                     $('#export_row').hide();
             
 });
@@ -109,6 +110,7 @@
             function exportData(base,results)
             {
                 var userType = document.getElementById("selectType").value;
+                
                 var regionSelected = document.getElementById("region_select").value;
                 
                 if(userType=='6')
@@ -187,7 +189,7 @@
                         
                     <tr class=TableTextNote>
                         <td nowrap align=center >Name</td>
-                        <td colspan="4" align="center"><input type="text" name="<%=SCMInterfaceKey.SEARCH_NAME%>" value="<%=searchName%>"></td>
+                        <td colspan="4" align="center"><input type="text" id ="name_select" name="<%=SCMInterfaceKey.SEARCH_NAME%>" value="<%=searchName%>"></td>
                     </tr>
                     <tr class=TableTextNote>
                         <td align=center >Region</td>

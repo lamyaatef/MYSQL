@@ -482,7 +482,16 @@ public class DCMIIHandler {
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
               Vector<RegionModel> regions =(Vector<RegionModel>)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("region_search_vector"));
-              String entityLevel = (String) paramHashMap.get(DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME);
+              String entityLevel = (String) paramHashMap.get("search_level");
+              if (entityLevel.compareToIgnoreCase("undefined")==0)
+              {
+                  entityLevel = (String) paramHashMap.get("child_search_level");
+                  if (entityLevel.compareToIgnoreCase("undefined")==0)
+                  {
+                      entityLevel = (String) paramHashMap.get("region_select");
+                  }
+              }
+              System.out.println("entity levelll "+entityLevel);
               Vector files =RegionPOSReportDAO.getRegionSearchData(con,entityLevel,regions);
               String excelLink = PoiWriteExcelFile.exportExcelSheetForRegionPOSData(files, baseDirectory,entityLevel);
               dataHashMap.put(SCMInterfaceKey.SEARCH_EXCEL_SHEET_LINK, excelLink);

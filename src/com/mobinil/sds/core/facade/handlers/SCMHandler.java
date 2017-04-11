@@ -2837,6 +2837,7 @@ public class SCMHandler {
             Vector searchResults =(Vector)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_vector"));
             String searchName =(String)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("search_name"));
             String regionSelected = (String) paramHashMap.get("region_select");
+            String nameSelected = (String) paramHashMap.get("name_select");
             System.out.println("name = "+searchName+" region = "+regionSelected);
             Vector files = new Vector();
             boolean isSearch=false;

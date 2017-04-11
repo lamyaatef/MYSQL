@@ -128,8 +128,10 @@ String formAction = appName +"/servlet/com.mobinil.sds.web.controller.WebControl
                 
     
     
-    if($('#<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>').val()== "")
-                    $('#export_row').hide();
+    if ($('#<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>').val()== "" && '<%=Region%>' =='null' && '<%=Governorate%>' =='null' && '<%=City%>' =='null' && '<%=District%>' =='null' && '<%=ImgDistrict%>' =='null')
+        $('#export_row').hide();
+        
+    
             
 //});
 
@@ -153,15 +155,19 @@ $("#<%=SCMInterfaceKey.REGION_ID%>").change(function(){
         
       
       $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").empty();
-        $("#<%=SCMInterfaceKey.CITY_ID%>").empty();
+       $("#<%=SCMInterfaceKey.CITY_ID%>").empty();
+      
         $("#<%=SCMInterfaceKey.DISTRICT_ID%>").empty();
+      
         $("#<%=SCMInterfaceKey.IMAGE_DISTRICT_ID%>").empty();
+      
         $("#<%=SCMInterfaceKey.AREA_ID%>").empty();
-        
       
         
       
-    $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").append($("<option/>").text("--"));
+        
+      
+    $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").append($("<option/>").text("-----"));
 
 
         $.each(data.map.districts, function(k, v) {
@@ -211,7 +217,7 @@ $("#<%=SCMInterfaceKey.GOVERNORATE_ID%>").change(function(){
         
         
               
-    $("#<%=SCMInterfaceKey.CITY_ID%>").append($("<option/>").text("--"));
+    $("#<%=SCMInterfaceKey.CITY_ID%>").append($("<option/>").text("-----"));
     
         $.each(data.map.districts, function(k, v) {
             
@@ -259,7 +265,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
         $("#<%=SCMInterfaceKey.AREA_ID%>").empty();
         
         
-            $("#<%=SCMInterfaceKey.DISTRICT_ID%>").append($("<option/>").text("--"));
+            $("#<%=SCMInterfaceKey.DISTRICT_ID%>").append($("<option/>").text("-----"));
     
         $.each(data.map.districts, function(k, v) {
             
@@ -306,7 +312,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
         $("#<%=SCMInterfaceKey.AREA_ID%>").empty();
         
         
-            $("#<%=SCMInterfaceKey.IMAGE_DISTRICT_ID%>").append($("<option/>").text("--"));
+            $("#<%=SCMInterfaceKey.IMAGE_DISTRICT_ID%>").append($("<option/>").text("-----"));
     
         $.each(data.map.districts, function(k, v) {
             
@@ -362,7 +368,9 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
                 document.DCMform.baseDirectory.value=base;
                 //document.DCMform.SearchResults.value=results;
                 document.DCMform.region_select.value=level;
-                
+                document.DCMform.search_level.value=$('#result_search_level').val();
+                document.DCMform.child_search_level.value=$('#result_child_search_level').val();            
+    
                 document.DCMform.submit();
             }
             
@@ -418,6 +426,8 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
         <input type="hidden" name="region_select" id="region_select1" value=""/>
         <input type="hidden" name="selected_region_name" id="region_select2" value=""/>
         <input type="hidden" name="selected_region_level" id="region_select3" value=""/>
+        <input type="hidden" name="search_level" id="region_select4" value=""/>
+        <input type="hidden" name="child_search_level" id="region_select5" value=""/>
         
         <input type="hidden" name="Region" id="Region" value=""/>
         <input type="hidden" name="Governorate" id="Governorate" value=""/>
@@ -463,7 +473,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
                         <td align=middle>Region</td>
                         <td align=middle>
                             <select id="<%=SCMInterfaceKey.REGION_ID%>" name="<%=SCMInterfaceKey.REGION_ID%>">
-                                <option value="">-----</option>
+                                <option value="0">-----</option>
                                 <%
                                             if (myRegions != null && myRegions.size() != 0) {
                                                 
@@ -485,7 +495,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
                         <td align=middle>Governorate</td>
                         <td align=middle>
                             <select id="<%=SCMInterfaceKey.GOVERNORATE_ID%>" name="<%=SCMInterfaceKey.GOVERNORATE_ID%>" selected=''>
-                                <option value="">-----</option>
+                                <option value="0">-----</option>
                                 
                             </select>
 
@@ -496,7 +506,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
                         <td align=middle>City</td>
                         <td align=middle>
                             <select id="<%=SCMInterfaceKey.CITY_ID%>" name="<%=SCMInterfaceKey.CITY_ID%>">
-                                <option value="">-----</option>
+                                <option value="0">-----</option>
                                 
                             </select>
 
@@ -507,7 +517,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
                         <td align=middle>District</td>
                         <td align=middle>
                             <select id="<%=SCMInterfaceKey.DISTRICT_ID%>" name="<%=SCMInterfaceKey.DISTRICT_ID%>">
-                                <option value="">-----</option>
+                                <option value="0">-----</option>
                                 
                             </select>
 
@@ -521,7 +531,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
                         <td align=middle>Image District</td>
                         <td align=middle>
                             <select id="<%=SCMInterfaceKey.IMAGE_DISTRICT_ID%>" name="<%=SCMInterfaceKey.IMAGE_DISTRICT_ID%>">
-                                <option value="">-----</option>
+                                <option value="0">-----</option>
                                 
                             </select>
 
@@ -544,6 +554,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
             
             <tr   id="export_row">        
                     <td colspan="6" align="center">
+                        
                        <input align="middle"  id="export_but" type="button"  class="button" name="Export"  value="Export List" onclick="exportSearchData('<%=base%>','<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>');">
                          
                     </td>
@@ -601,7 +612,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
                     <input type="checkbox" name="<%=DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX + regions.get(i).getRegionId()%>" id="check_box" value="<%=checkbox%>">
                 </td>
                 <td align="center" ><%=regions.get(i).getRegionName()%></td>
-                <td align="center" ><%=regions.get(i).getRegionLevelTypeName()%></td>
+                <td align="center" ><input type="hidden" id="result_search_level" value="<%=regions.get(i).getRegionLevelTypeId()%>"><%=regions.get(i).getRegionLevelTypeName()%></td>
                 <td align="center" ><input type="button" name="edit_user" id="edit_user" value="Edit" <%=disabled%> onclick="edit('<%=regions.get(i).getRegionId()%>','<%=regions.get(i).getRegionLevelTypeId()%>')"></td>
                 <td align="center" ><input type="button" <%
                     Integer num = 0;
@@ -721,7 +732,8 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
                     <input type="checkbox" name="<%=DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX + childRegions.get(j).getRegionId()%>" id="<%=DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX + childRegions.get(j).getRegionId()%>" value="<%=checkbox%>">
                 </td>
                 <td align="center" ><%=childRegions.get(j).getRegionName()%></td>
-                <td align="center" ><%=childRegions.get(j).getRegionLevelTypeName()%></td>
+                <td align="center" ><input type="hidden" id="result_child_search_level" value="<%=childRegions.get(j).getRegionLevelTypeId()%>"><%=childRegions.get(j).getRegionLevelTypeName()%></td>
+                
                 <td align="center" ><input type="button" name="edit_user" id="edit_user" value="Edit" <%=disabled%> onclick="edit('<%=childRegions.get(j).getRegionId()%>','<%=childRegions.get(j).getRegionLevelTypeId()%>')"></td>
                 <td align="center" ><input type="button" <%
                     Integer num = 0;
@@ -746,7 +758,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
                         out.print("disabled=\"true\"");
                     }
                     
-                                           %>name="<%=childRegions.get(j).getRegionId()%>"  value="View parent" onclick="viewparent(<%=childRegions.get(j).getRegionId()%>)" /> </td>
+                   %>name="<%=childRegions.get(j).getRegionId()%>"  value="View parent" onclick="viewparent(<%=childRegions.get(j).getRegionId()%>)" /> </td>
                 <td align="center" ><input type="button" <%
 
                  
