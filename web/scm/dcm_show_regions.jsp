@@ -360,17 +360,17 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
                 document.DCMform.submit();
             }
             
-            function exportSearchData(base,level)
+            function exportSearchData(base)
             {
                 //document.DCMform.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_TEAMLEADERS);%>'
                
                 document.DCMform.action='<%=DCMFormAction%>'+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_EXPORT_SPECIFIC_REGION_REPORT);%>'
                 document.DCMform.baseDirectory.value=base;
                 //document.DCMform.SearchResults.value=results;
-                document.DCMform.region_select.value=level;
+                document.DCMform.region_select.value=$('#<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>').val();
                 document.DCMform.search_level.value=$('#result_search_level').val();
                 document.DCMform.child_search_level.value=$('#result_child_search_level').val();            
-    
+                
                 document.DCMform.submit();
             }
             
@@ -555,7 +555,7 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
             <tr   id="export_row">        
                     <td colspan="6" align="center">
                         
-                       <input align="middle"  id="export_but" type="button"  class="button" name="Export"  value="Export List" onclick="exportSearchData('<%=base%>','<%=DCMInterfaceKey.INPUT_SEARCH_SELECT_REGION_LEVEL_NAME%>');">
+                       <input align="middle"  id="export_but" type="button"  class="button" name="Export"  value="Export List" onclick="exportSearchData('<%=base%>');">
                          
                     </td>
                     </tr>
