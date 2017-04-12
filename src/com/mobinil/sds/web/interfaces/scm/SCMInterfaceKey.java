@@ -97,6 +97,7 @@ public class SCMInterfaceKey {
     public static final String ACTION_ADD_NEW_POS_GROUP = "add_new_pos_group";
     public static final String ACTION_UPDATE_POS_GROUP = "update_pos_group";
     public static final String ACTION_EXPORT_SALESREPS ="export_salesreps";
+    public static final String ACTION_EXPORT_USERS_FOR_REGION ="export_users_for_region";
     public static final String ACTION_EXPORT_SUPERVISORS ="export_supervisors";
     public static final String ACTION_EXPORT_TEAMLEADERS="export_teamleaders";
     //POS Group Add/Edit --End

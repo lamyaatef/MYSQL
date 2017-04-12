@@ -526,26 +526,32 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
     
     
     
-    public static Vector getUserRegionDataAll(Connection con, String userLevelTypeId, String userFullName) {
+    public static Vector getUserRegionDataAll(Connection con, String userLevelTypeId, String userFullName, String regionId) {
         
         Vector vec = new Vector();
         int level=-1;
         boolean isDist=false;
         boolean isImgDist=false;
+        String checkRegionLevel ="";
         try {
             Statement stat = con.createStatement();
-            
-            String checkRegionLevel ="select region_level_type_id from scm_user_region where user_id in (select dcm_user_id from dcm_user where user_level_type_id="+userLevelTypeId+" and user_detail_id in (select user_detail_id from dcm_user_detail where user_full_name= '"+userFullName+"'))";
-            ResultSet result = stat.executeQuery(checkRegionLevel);
-            while(result.next())
+            if(userLevelTypeId!=null && userLevelTypeId.compareTo("")!=0)
+                checkRegionLevel ="select region_level_type_id from scm_user_region where user_id in (select dcm_user_id from dcm_user where user_level_type_id="+userLevelTypeId+" )";
+            if(userLevelTypeId!=null && userLevelTypeId.compareTo("")!=0 && userFullName!=null && userFullName.compareTo("")!=0)
+                checkRegionLevel ="select region_level_type_id from scm_user_region where user_id in (select dcm_user_id from dcm_user where user_level_type_id="+userLevelTypeId+" and user_detail_id in (select user_detail_id from dcm_user_detail where user_full_name= '"+userFullName+"'))";
+            if(checkRegionLevel.compareTo("")!=0)
             {
-                System.out.println("in while result");
-                level = result.getInt("region_level_type_id");
-                if(level==4)
-                    isDist = true;
-                if(level==5)
-                    isImgDist = true;
-                
+                ResultSet result = stat.executeQuery(checkRegionLevel);
+                while(result.next())
+                {
+
+                    level = result.getInt("region_level_type_id");
+                    if(level==4)
+                        isDist = true;
+                    if(level==5)
+                        isImgDist = true;
+
+                }
             }
             System.out.println("isDist "+isDist+" isImgDist "+isImgDist);
             
@@ -569,6 +575,9 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
                 strSql.append("  imgDist.region_name as image_district_name,");
             if(isDist && isImgDist)
                 strSql.append("  district.region_name as district_name,imgDist.region_name as image_district_name, ");
+            if(regionId!=null && regionId.compareTo("")!=0 && !isDist && !isImgDist)
+                strSql.append("  district.region_name as district_name,imgDist.region_name as image_district_name, ");
+            
             strSql.append("  dcm_pos_detail.pos_img_district_code,");
             strSql.append("  area.region_code as area_code,");
             strSql.append("  area.region_name as area_name," );
@@ -614,6 +623,8 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
                 strSql.append("  dcm_region imgDist," );
             if(isDist && isImgDist)
                 strSql.append("  dcm_region district, dcm_region imgDist, " );
+            if(regionId!=null && regionId.compareTo("")!=0 && !isDist && !isImgDist)
+                strSql.append("  dcm_region district, dcm_region imgDist, " );
             strSql.append("  dcm_region area," );
             strSql.append("  pos_documents," );
             strSql.append("  gen_dcm_status,");
@@ -653,7 +664,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
                 strSql.append(" AND imgDist.region_id = dcm_pos_detail.pos_img_district_id");
                 strSql.append(" and scm_user_region.region_id = imgDist.region_id and scm_user_region.region_level_type_id=6 ");
             }
-            if(isDist && isImgDist)
+            if(isDist && isImgDist || (regionId!=null && regionId.compareTo("")!=0 && !isDist && !isImgDist) )
             {
                 strSql.append(" AND district.region_id = dcm_pos_detail.pos_district_id");
                 strSql.append(" AND imgDist.region_id = dcm_pos_detail.pos_img_district_id");
@@ -669,26 +680,27 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append(" AND scm_supervisor.supervisor_id = dcm_pos_detail.supervisor_id");
             strSql.append(" AND scm_teamleader.teamleader_id = dcm_pos_detail.teamleader_id");
             strSql.append(" AND scm_salesrep.salesrep_id = dcm_pos_detail.salesrep_id");
-            if(userLevelTypeId.compareTo("4")==0)
+            if(userLevelTypeId!=null && userLevelTypeId.compareTo("4")==0)
             {
                 strSql.append(" and scm_user_region.user_id = scm_supervisor.supervisor_id and scm_user_region.user_level_type_id=4");
-                 if(userFullName.compareTo("")!=0)
+                 if(userFullName!=null && userFullName.compareTo("")!=0)
                     strSql.append(" AND scm_supervisor.supervisor_name = '"+userFullName+"'");
             }
-            if(userLevelTypeId.compareTo("5")==0)
+            if(userLevelTypeId!=null && userLevelTypeId.compareTo("5")==0)
             {
                 strSql.append(" and scm_user_region.user_id = scm_teamleader.teamleader_id and scm_user_region.user_level_type_id=5");
-                if(userFullName.compareTo("")!=0)
+                if(userFullName!=null && userFullName.compareTo("")!=0)
                     strSql.append(" AND scm_teamleader.teamleader_name = '"+userFullName+"'");
             }
                 
-            if(userLevelTypeId.compareTo("6")==0)
+            if(userLevelTypeId!=null && userLevelTypeId.compareTo("6")==0)
             {
                 strSql.append(" and scm_user_region.user_id = scm_salesrep.salesrep_id and scm_user_region.user_level_type_id=6");
-                if(userFullName.compareTo("")!=0)
+                if(userFullName!=null && userFullName.compareTo("")!=0)
                     strSql.append(" AND scm_salesrep.salesrep_name = '"+userFullName+"'");
             }
-            
+            if(regionId!=null && regionId.compareTo("")!=0)
+                strSql.append(" AND dcm_region.region_id = '"+regionId+"' and dcm_region.region_level_type_id=1");
             strSql.append(" AND scm_stk_status.stk_status_id = CAM_PAYMENT_SCM_STATUS.stk_status");
             
             strSql.append(" AND CAM_PAYMENT_SCM_STATUS.scm_id = gen_dcm.dcm_id");
@@ -705,13 +717,17 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             System.out.println("SQL ^^^ : \n"+ strSql);
             ResultSet res = stat.executeQuery(strSql.toString());
             while (res.next()) {
-               //System.out.println("result POS Region : ");
-               if(isDist)
-                    vec.add(new RegionPOSReportModel(res,"4"/*,supervisorName,teamleaderName*/));
                if(isImgDist)
-                    vec.add(new RegionPOSReportModel(res,"6"/*,supervisorName,teamleaderName*/));
+                    vec.add(new RegionPOSReportModel(res,"",true));
+               else
+                   vec.add(new RegionPOSReportModel(res,"",false));
+               
+              /* if(isDist)
+                    vec.add(new RegionPOSReportModel(res,"4"));
+               if(isImgDist)
+                    vec.add(new RegionPOSReportModel(res,"6"));
                if(isDist && isImgDist)
-                    vec.add(new RegionPOSReportModel(res,"4&6"/*,supervisorName,teamleaderName*/));
+                    vec.add(new RegionPOSReportModel(res,"4&6"));*/
                 }
             res.close();
             //stat2.close();

@@ -63,8 +63,7 @@
     
             $( document ).ready(function() {
            
-                //if($('#selectType').val()== "" && $('#region_select').val()== "" && $('#name_select').val()== "")
-                if($('#name_select').val()== "" || $('#selectType').val()== "")
+                if($('#selectType').val()== "" /*&& $('#region_select').val()== "" && $('#name_select').val()== ""*/)
                     $('#export_row').hide();
             
 });
@@ -112,6 +111,11 @@
                 var userType = document.getElementById("selectType").value;
                 
                 var regionSelected = document.getElementById("region_select").value;
+                
+                
+                if(userType==null || userType=='null' || userType=='')
+                    document.repManagement.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_USERS_FOR_REGION);%>'
+                
                 
                 if(userType=='6')
                     document.repManagement.action= '<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet?<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(SCMInterfaceKey.ACTION_EXPORT_SALESREPS);%>'

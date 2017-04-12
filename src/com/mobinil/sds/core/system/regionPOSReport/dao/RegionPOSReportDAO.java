@@ -214,7 +214,7 @@ public class RegionPOSReportDAO {
             while (res.next()) {
               // System.out.println("result POS Region : ");
                
-                vec.add(new RegionPOSReportModel(res,regionLevel/*,supervisorName,teamleaderName*/));
+                vec.add(new RegionPOSReportModel(res,regionLevel,false));
                 }
             res.close();
             //stat2.close();
@@ -349,7 +349,7 @@ public class RegionPOSReportDAO {
             while (res.next()) {
                //System.out.println("result POS Region : ");
                
-                vec.add(new RegionPOSReportModel(res,""/*,supervisorName,teamleaderName*/));
+                vec.add(new RegionPOSReportModel(res,"",false));
                 }
             res.close();
             //stat2.close();
@@ -561,7 +561,7 @@ public class RegionPOSReportDAO {
             while (res.next()) {
               
                
-                vec.add(new RegionPOSReportModel(res,regionLevel));
+                vec.add(new RegionPOSReportModel(res,regionLevel,false));
                 }
             res.close();
             //stat2.close();

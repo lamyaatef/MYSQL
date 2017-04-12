@@ -94,7 +94,7 @@ public class RegionPOSReportModel {
 {
 	
 }
-public RegionPOSReportModel(ResultSet res, String regionLevel/*,String supervisorName, String teamleaderName*/)
+public RegionPOSReportModel(ResultSet res, String regionLevel,boolean imgDistExists/*,String supervisorName, String teamleaderName*/)
 {
     try
 	      {
@@ -109,7 +109,19 @@ public RegionPOSReportModel(ResultSet res, String regionLevel/*,String superviso
                     ownerName= res.getString("pos_owner_name");
                     IdNumber= res.getString("pos_owner_id_number");
                     IdType= res.getString("id_type_name");
-                   /* if(regionLevel.compareTo("")==0)
+                    if(regionLevel.compareTo("")==0 && imgDistExists)
+                    {
+                        region= res.getString("region_name");
+                        city= res.getString("city_name");
+                        disctrict= res.getString("district_name");
+                        districtCodeId= res.getString("district_code");
+                        imageDistrict= res.getString("imgDist_name");
+                        imageDistrictCode= res.getString("pos_img_district_code");
+                        governorate= res.getString("govern_name");
+                        areaCode= res.getString("area_code");
+                        area= res.getString("area_name");//salesrep_area_name,POS_AREA_ID
+                    }
+                    else if(regionLevel.compareTo("")==0 && !imgDistExists)
                     {
                         region= res.getString("region_name");
                         city= res.getString("city_name");
@@ -119,7 +131,7 @@ public RegionPOSReportModel(ResultSet res, String regionLevel/*,String superviso
                         areaCode= res.getString("area_code");
                         area= res.getString("area_name");//salesrep_area_name,POS_AREA_ID
                     }
-                    else */if(regionLevel.compareTo("1")==0)
+                    else if(regionLevel.compareTo("1")==0)
                     {
                         region= res.getString("region_name");
                     }//region_id , supervisor_region_id
