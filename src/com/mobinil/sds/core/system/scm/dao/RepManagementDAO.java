@@ -169,7 +169,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
 "    AND scm_user_region.REGION_ID           =DCM_REGION.REGION_ID\n" +
 "    AND    scm_user_region.USER_ID         =DCM_USER_DETAIL.USER_ID\n" +
 "    AND    scm_user_region.region_level_type_id         in (4,6)\n" +
-"    AND scm_user_region.USER_LEVEL_TYPE_ID IN(4,5,6)) x"
+"    /*AND scm_user_region.USER_LEVEL_TYPE_ID IN(4,5,6)*/) x"
             +" "+sqlSearch +"   "
  +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";           
 // +" ) ORDER BY LOWER(USER_FULL_NAME) ";
@@ -610,7 +610,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append("  dcm_pos_detail.is_exclusive as Ex,");
             strSql.append("  dcm_pos_detail.has_sign as Sign," );
             strSql.append("  dcm_pos_detail.is_quality_club as Qc" );
-            strSql.append(" FROM gen_dcm," );
+            strSql.append(" FROM /*scm_stk_stock,*/gen_dcm," );
             strSql.append("  dcm_pos_detail,");
             strSql.append("  dcm_pos_owner," );
             strSql.append("  dcm_id_type,");
@@ -701,7 +701,14 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             }
             if(regionId!=null && regionId.compareTo("")!=0)
                 strSql.append(" AND dcm_region.region_id = '"+regionId+"' and dcm_region.region_level_type_id=1");
+            
+            
             strSql.append(" AND scm_stk_status.stk_status_id = CAM_PAYMENT_SCM_STATUS.stk_status");
+            
+            
+           // strSql.append(" AND scm_stk_status.stk_status_id = scm_stk_owner.stk_status_id");
+         //   strSql.append(" AND scm_stk_owner.stk_id = scm_stk_stock.stk_id");
+           // strSql.append(" AND scm_stk_owner.dcm_id = CAM_PAYMENT_SCM_STATUS.scm_id");
             
             strSql.append(" AND CAM_PAYMENT_SCM_STATUS.scm_id = gen_dcm.dcm_id");
             strSql.append(" AND CAM_PAYMENT_cam_state.id = CAM_PAYMENT_SCM_STATUS.PAYMENT_cam_state_id" );
@@ -711,7 +718,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append(" AND scm_stk_owner.dcm_id = dcm_pos_detail.pos_id ");
             strSql.append(" AND scm_verified_status.dcm_verified_status_id = scm_stk_owner.dcm_verified_status_id");
             
-            strSql.append(" AND dcm_pos_detail.flage       IS NULL ");
+            strSql.append(" AND dcm_pos_detail.flage       IS NULL order by dcm_pos_detail.pos_code");
            
             
             System.out.println("SQL ^^^ : \n"+ strSql);

@@ -94,6 +94,9 @@ public class RegionPOSReportModel {
 {
 	
 }
+    
+    
+
 public RegionPOSReportModel(ResultSet res, String regionLevel,boolean imgDistExists/*,String supervisorName, String teamleaderName*/)
 {
     try
@@ -178,6 +181,10 @@ public RegionPOSReportModel(ResultSet res, String regionLevel,boolean imgDistExi
                     arAddress= res.getString("pos_arabic_address");
                     documentNumber= res.getString("pos_doc_num");
                     entryDate= res.getString("assign_date");
+                    
+                    if (entryDate!=null)
+                        entryDate = entryDate.substring(0, entryDate.indexOf(" "));
+                    
                     posStatus= res.getString("pos_status");
                     posLevel= res.getString("pos_level_code");
                     regionTeamleader= res.getString("teamleader_name");//teamleaderName;
@@ -185,8 +192,16 @@ public RegionPOSReportModel(ResultSet res, String regionLevel,boolean imgDistExi
                     regionSupervisor = res.getString("supervisor_name");
                     stkDialNumber= res.getString("StkDialNo");
                     stkStatus= res.getString("stk_status");
+                    
                     stkActivationDate= res.getString("stk_activation_date");
+                    if (stkActivationDate!=null)
+                        stkActivationDate = stkActivationDate.substring(0, stkActivationDate.indexOf(" "));
+                    
                     iqrarReceivedDate= res.getString("iqrar_received_date");
+                    
+                    if (iqrarReceivedDate!=null)
+                        iqrarReceivedDate = iqrarReceivedDate.substring(0, iqrarReceivedDate.indexOf(" "));
+                    
                     
                     iqrarReceived = res.getString("is_iqrar_received");
                     verifyOk = res.getString("is_verified");

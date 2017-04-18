@@ -3276,7 +3276,7 @@ public class SCMHandler {
         String passedSearchName = (String) paramHashMap.get(SCMInterfaceKey.SEARCH_NAME);
         String passedUserLevelTypeId = (String) paramHashMap.get(SCMInterfaceKey.USER_LEVEL_TYPE_ID);
 
-
+        System.out.println("passed level to SEARCH "+passedUserLevelTypeId);
 
         Vector<DCMUserModel> repSearchResults = new Vector();
         Integer regionId = null;

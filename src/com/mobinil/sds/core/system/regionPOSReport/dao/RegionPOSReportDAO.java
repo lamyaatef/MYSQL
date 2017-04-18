@@ -282,7 +282,7 @@ public class RegionPOSReportDAO {
             strSql.append("  dcm_pos_detail.is_exclusive as Ex,");
             strSql.append("  dcm_pos_detail.has_sign as Sign," );
             strSql.append("  dcm_pos_detail.is_quality_club as Qc" );
-            strSql.append(" FROM gen_dcm," );
+            strSql.append(" FROM scm_stk_stock,gen_dcm," );
             strSql.append("  dcm_pos_detail,");
             strSql.append("  dcm_pos_owner," );
             strSql.append("  dcm_id_type,");
@@ -332,7 +332,12 @@ public class RegionPOSReportDAO {
             strSql.append(" AND scm_teamleader.teamleader_id = dcm_pos_detail.teamleader_id");
             strSql.append(" AND scm_salesrep.salesrep_id = dcm_pos_detail.salesrep_id");
 
-            strSql.append(" AND scm_stk_status.stk_status_id = CAM_PAYMENT_SCM_STATUS.stk_status");
+            //strSql.append(" AND scm_stk_status.stk_status_id = CAM_PAYMENT_SCM_STATUS.stk_status");
+            
+            strSql.append(" AND scm_stk_status.stk_status_id = scm_stk_owner.stk_status_id");
+            strSql.append(" AND scm_stk_owner.stk_id = scm_stk_stock.stk_id");
+            strSql.append(" AND scm_stk_owner.dcm_id = CAM_PAYMENT_SCM_STATUS.scm_id");
+            
             strSql.append(" AND CAM_PAYMENT_SCM_STATUS.scm_id = gen_dcm.dcm_id");
             strSql.append(" AND CAM_PAYMENT_cam_state.id = CAM_PAYMENT_SCM_STATUS.PAYMENT_cam_state_id" );
             strSql.append(" AND gen_dcm_payment_level.dcm_payment_level_id = dcm_pos_detail.dcm_payment_level_id " );
@@ -341,7 +346,7 @@ public class RegionPOSReportDAO {
             strSql.append(" AND scm_stk_owner.dcm_id = dcm_pos_detail.pos_id ");
             strSql.append(" AND scm_verified_status.dcm_verified_status_id = scm_stk_owner.dcm_verified_status_id");
             
-            strSql.append(" AND dcm_pos_detail.flage       IS NULL ");
+            strSql.append(" AND dcm_pos_detail.flage       IS NULL order by dcm_pos_detail.pos_code");
            
             
             System.out.println("SQL ^^^ : \n"+ strSql);
@@ -447,7 +452,7 @@ public class RegionPOSReportDAO {
             strSql.append("  dcm_pos_detail.is_exclusive as Ex,");
             strSql.append("  dcm_pos_detail.has_sign as Sign," );
             strSql.append("  dcm_pos_detail.is_quality_club as Qc" );
-            strSql.append(" FROM gen_dcm," );
+            strSql.append(" FROM scm_stk_stock,gen_dcm," );
             strSql.append("  dcm_pos_detail,");
             strSql.append("  dcm_pos_owner," );
             strSql.append("  dcm_id_type,");
@@ -545,7 +550,15 @@ public class RegionPOSReportDAO {
             strSql.append(" AND scm_teamleader.teamleader_id = dcm_pos_detail.teamleader_id");
             strSql.append(" AND scm_salesrep.salesrep_id = dcm_pos_detail.salesrep_id");
 
-            strSql.append(" AND scm_stk_status.stk_status_id = CAM_PAYMENT_SCM_STATUS.stk_status");
+            //strSql.append(" AND scm_stk_status.stk_status_id = CAM_PAYMENT_SCM_STATUS.stk_status");
+            
+            
+            
+            strSql.append(" AND scm_stk_status.stk_status_id = scm_stk_owner.stk_status_id");
+            strSql.append(" AND scm_stk_owner.stk_id = scm_stk_stock.stk_id");
+            strSql.append(" AND scm_stk_owner.dcm_id = CAM_PAYMENT_SCM_STATUS.scm_id");
+            
+            
             strSql.append(" AND CAM_PAYMENT_SCM_STATUS.scm_id = gen_dcm.dcm_id");
             strSql.append(" AND CAM_PAYMENT_cam_state.id = CAM_PAYMENT_SCM_STATUS.PAYMENT_cam_state_id" );
             strSql.append(" AND gen_dcm_payment_level.dcm_payment_level_id = dcm_pos_detail.dcm_payment_level_id " );
@@ -553,7 +566,7 @@ public class RegionPOSReportDAO {
             strSql.append(" AND scm_iqrar_receving_status.iqrar_receving_status_id = scm_stk_owner.iqrar_receving_status_id");
             strSql.append(" AND scm_stk_owner.dcm_id = dcm_pos_detail.pos_id ");
             strSql.append(" AND scm_verified_status.dcm_verified_status_id = scm_stk_owner.dcm_verified_status_id");
-            strSql.append(" AND dcm_pos_detail.flage       IS NULL ");
+            strSql.append(" AND dcm_pos_detail.flage       IS NULL order by dcm_pos_detail.pos_code ");
            
             
             System.out.println("SQL ^^^ : \n"+ strSql);
