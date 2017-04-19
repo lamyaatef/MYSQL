@@ -529,7 +529,7 @@ public class CommercialFileDAO{
             }
             else
             {
-                String strSql = "update scm_salesrep set teamlead_id="+teamleaderId+" where salesrep_id="+salesrepId;
+                String strSql = "update scm_salesrep set sup_id ="+supervisorId+" , teamlead_id="+teamleaderId+" where salesrep_id="+salesrepId;
                 System.out.println("SQL updateSCMSalesRepTable is " + strSql);
                 updated = stat.executeUpdate(strSql);
             }
