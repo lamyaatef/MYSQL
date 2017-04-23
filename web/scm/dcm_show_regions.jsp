@@ -342,7 +342,19 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
 
 
 
-
+     $("#span1").click(function() {
+     //console.log("send");
+    /* var recipient = "robsisneros@yahoo.com";
+var recipient2 = "rsisneros@speakeasy.net";
+var combine = ";"
+var comrecip = recipient + combine + recipient2
+var subject = "Gavilan Totals"
+var msg = "Gavilan report is attached"*/
+var attach = "c:\\BankWest\\GAVILAN_REPT.txt"
+  var recipient = $(this).text();
+  window.location.href = "mailto:" + recipient + "?subject=Mail to " + recipient + "&body=" + recipient + "&attachment=" +attach;
+  
+});
 
 
 
@@ -351,6 +363,9 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
 
 
 
+     
+
+     
      
             
             function DevChangePageActionWithSubmit(action)
@@ -419,6 +434,19 @@ $("#<%=SCMInterfaceKey.DISTRICT_ID%>").change(function(){
         <br>
     </center>
     <form name='DCMform' id='DCMform' action='<%=DCMFormAction%>' method='post' >
+        <span id="span1">lamya.atef@sandcti.com</span>
+
+
+<style>
+    span {
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 10px;
+}
+span:hover {
+  border-bottom: 1px dotted black;
+}
+</style>
         <input type="hidden" name="baseDirectory" id="baseDirectory" value=""/>
         <input type="hidden" name="selectedEntityName" id="selectedEntityName" value=""/>
         <input type="hidden" name="selectedEntityLevel" id="selectedEntityLevel" value=""/>
