@@ -505,7 +505,7 @@ public class SCMRequestHandler {
 
                         for (int i = 0; i < validStk.size(); i++) {
                             RequestDao.insertStk(con, supervisorId, validStk.get(i), requestDate);
-                                RequestDao.insertStkToOwnerWithRep(con, supervisorId, validStk.get(i));
+                            RequestDao.insertStkToOwnerWithRep(con, supervisorId, validStk.get(i));
                             RequestDao.updateStkStatus(con, validStk.get(i));
                         }
                     } else {
