@@ -25,6 +25,7 @@ import com.mobinil.sds.core.system.scm.model.TeamleaderExcelModel;
 import com.mobinil.sds.core.system.scm.model.TeamleaderRepsModel;
 import com.mobinil.sds.core.system.scm.model.TeamleaderSupervisorsModel;
 import com.mobinil.sds.core.utilities.DBUtil;
+import com.mobinil.sds.core.utilities.Utility;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -82,6 +83,142 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
 
     }
 
+    
+    public static StringBuffer getRespsRegionsAndEmails(String name,String userLevelTypeId){
+        Vector<DCMUserModel> dcmUser=new Vector();
+        StringBuffer str = new StringBuffer();
+        String sqlStatement="";
+        
+        try{
+        Connection con = Utility.getConnection();
+        
+        sqlStatement="SELECT dcm_region.region_name,\n" ;
+        
+        if(userLevelTypeId.compareTo("4")==0)
+        {
+            sqlStatement+=" scm_teamleader.email \n" ;
+            sqlStatement+=" FROM scm_teamleader,\n";
+        }
+        if(userLevelTypeId.compareTo("5")==0)
+        {
+            sqlStatement+=" scm_salesrep.email \n" ;
+            sqlStatement+=" FROM scm_salesrep,\n";
+        }
+        
+        
+        sqlStatement+="  dcm_region,\n" +
+        "  scm_user_region\n" +
+        "WHERE dcm_region.region_id   = scm_user_region.region_id\n";
+        
+        
+        
+        
+        if(userLevelTypeId.compareTo("4")==0)
+        {
+            sqlStatement+=" AND scm_user_region.user_id  = scm_teamleader.teamleader_id\n";
+            sqlStatement+=" AND scm_user_region.user_id IN\n" +
+                "  (SELECT teamleader_id\n" +
+                "  FROM scm_teamleader\n" +
+                "  WHERE sup_id IN\n" +
+                "    (SELECT supervisor_id\n" +
+                "    FROM scm_supervisor\n" +
+                "    WHERE supervisor_name='"+name+"'\n" +
+                "    )\n" +
+                "  )\n" +
+                "AND scm_user_region.user_level_type_id=5"; 
+        }
+         if(userLevelTypeId.compareTo("5")==0)
+         {
+             sqlStatement+=" AND scm_user_region.user_id  = scm_salesrep.salesrep_id\n" ;
+             sqlStatement+=" AND scm_user_region.user_id IN\n" +
+                "  (SELECT salesrep_id\n" +
+                "  FROM scm_salesrep\n" +
+                "  WHERE teamlead_id IN\n" +
+                "    (SELECT teamleader_id\n" +
+                "    FROM scm_teamleader\n" +
+                "    WHERE teamleader_name='"+name+"'\n" +
+                "    )\n" +
+                "  )\n" +
+                "AND scm_user_region.user_level_type_id=6";
+         }        
+         
+                  
+
+        System.out.println("Search Rep emails and regions Query : "+sqlStatement);
+        dcmUser= DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class, "fillForRepManagementSearchEmailAndRegion", con);
+        for(int i=0; i< dcmUser.size();i++)
+            {
+                DCMUserModel rep = (DCMUserModel) dcmUser.get(i);
+                str.append(rep.getUserEmail());
+                str.append(",");
+                str.append(rep.getRegionName());
+                if(i==dcmUser.size()-1)
+                    str.append("  ");
+                
+                else
+                    str.append(",  ");
+                
+                
+            }
+        }
+        catch(SQLException sqlE){}
+        return str;
+    }
+
+    
+    public static StringBuffer getChildRespsEmails(String name,String userLevelTypeId){
+        Vector<DCMUserModel> dcmUser=new Vector();
+        StringBuffer str = new StringBuffer();
+        String sqlStatement="";
+        
+        try{
+        Connection con = Utility.getConnection();
+        
+        sqlStatement="SELECT email \n" ;
+        
+        if(userLevelTypeId.compareTo("4")==0)
+        {
+            sqlStatement +="  FROM scm_teamleader\n" +
+            "  WHERE sup_id IN\n" +
+            "    (SELECT supervisor_id\n" +
+            "    FROM scm_supervisor\n" +
+            "    WHERE supervisor_name='"+name+"'\n" +
+            "    )";
+        }     
+        
+        if(userLevelTypeId.compareTo("5")==0)
+        {
+            sqlStatement +="  FROM scm_salesrep\n" +
+            "  WHERE email is not null and teamlead_id IN\n" +
+            "    (SELECT teamleader_id\n" +
+            "    FROM scm_teamleader\n" +
+            "    WHERE teamleader_name='"+name+"'\n" +
+            "    )";
+        }     
+         
+                  
+
+        System.out.println("Search Rep emails and regions Query : "+sqlStatement);
+        dcmUser= DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class, "fillForRepManagementSearchEmail", con);
+        for(int i=0; i< dcmUser.size();i++)
+            {
+                DCMUserModel rep = (DCMUserModel) dcmUser.get(i);
+                if(i==dcmUser.size()-1)
+                    str.append(rep.getUserEmail());
+                else str.append(rep.getUserEmail()+",");
+                //str.append("  ");
+                
+            }
+        
+      //  System.out.println("strrr "+str);
+        }
+        catch(SQLException sqlE){}
+        return str;
+    }
+
+    
+    
+    
     public static Vector<DCMUserModel>searchRepsAndSupervisor(Connection con,String name,Integer regionId,Integer levelTypeId,String rowNum){
 
 
@@ -152,6 +289,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
 "      scm_user_region.USER_ID ,\n" +
 "      scm_user_region.USER_LEVEL_TYPE_ID,\n" +
 "      DCM_USER_DETAIL.USER_FULL_NAME,\n" +
+"      DCM_USER_DETAIL.USER_EMAIL,\n" +
 "      scm_user_region.REGION_ID,\n" +
 "      DCM_REGION.REGION_NAME,\n" +
 "      DCM_USER_LEVEL_TYPE.USER_LEVEL_TYPE_NAME,\n" +
@@ -174,7 +312,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
  +" ) WHERE row_num > = ('"+rowNum+"'*20)+1 AND row_num < = ('"+rowNum+"'+1)*20 ORDER BY LOWER(USER_FULL_NAME) ";           
 // +" ) ORDER BY LOWER(USER_FULL_NAME) ";
         System.out.println("Search Rep Query : "+sqlStatement);
-        dcmUser= DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class, "fillForRepManagementSearch", con);
+        dcmUser= DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserModel.class, "fillForRepManagementSearchWithEmail", con);
 
         return dcmUser;
     }

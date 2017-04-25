@@ -246,6 +246,48 @@ public void setCreationTimeStamp(Date passCreationTimeStamp) {
 
     }
 
+    
+    public void fillForRepManagementSearchWithEmail(ResultSet res){
+       
+        try {
+            
+            //this.setDcmUserId(res.getString("DCM_USER_ID"));
+            this.setDcmUserId(res.getString("USER_ID"));
+            this.setUserFullName(res.getString("USER_FULL_NAME"));
+            this.setUserId(res.getString("USER_ID"));
+            this.setRegionName(res.getString("REGION_NAME"));
+            this.setRegionId(res.getString("REGION_ID"));
+            this.setUserLevelTypeName(res.getString("USER_LEVEL_TYPE_NAME"));
+            this.setCreationTimeStamp(res.getDate("CREATION_TIMESTAMP"));
+            this.setUserLevelTypeId(res.getString("USER_LEVEL_TYPE_ID"));
+            this.setUserEmail(res.getString("USER_EMAIL"));
+        } catch (SQLException ex) {
+            Logger.getLogger(DCMUserModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    
+    public void fillForRepManagementSearchEmailAndRegion(ResultSet res){
+        try {
+            
+            this.setRegionName(res.getString("REGION_NAME"));
+            this.setUserEmail(res.getString("EMAIL"));
+        } catch (SQLException ex) {
+            Logger.getLogger(DCMUserModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    public void fillForRepManagementSearchEmail(ResultSet res){
+        try {
+            
+            
+            this.setUserEmail(res.getString("EMAIL"));
+        } catch (SQLException ex) {
+            Logger.getLogger(DCMUserModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     public void fillForRepManagementSearch(ResultSet res){
         try {

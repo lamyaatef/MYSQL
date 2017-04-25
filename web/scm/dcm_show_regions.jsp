@@ -434,7 +434,7 @@ var attach = "c:\\BankWest\\GAVILAN_REPT.txt"
         <br>
     </center>
     <form name='DCMform' id='DCMform' action='<%=DCMFormAction%>' method='post' >
-        <span id="span1">lamya.atef@sandcti.com</span>
+    
 
 
 <style>

@@ -3,6 +3,7 @@
     Created on : Nov 2, 2010, 9:19:23 AM
     Author     : AHMED SAFWAT
 --%>
+<%@page import="com.mobinil.sds.core.system.scm.dao.RepManagementDAO"%>
 <%@page contentType="text/html" pageEncoding="windows-1252"
         import="com.mobinil.sds.web.interfaces.*"
         import="com.mobinil.sds.web.interfaces.scm.*"
@@ -52,6 +53,17 @@
 
 <html>
     <head>
+        <style>
+                         span {
+                          cursor: pointer;
+                          display: inline-block;
+                          margin: 0 10px;
+                          font: bold;
+                        }
+                        span:hover {
+                          border-bottom: 1px dotted black;
+                        }
+        </style>
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
         <LINK REL=STYLESHEET TYPE="text/css" HREF="<%=appName%>/resources/css/Template1.css">
         <SCRIPT language=JavaScript src="<%=appName%>/resources/js/validation.js" type="text/javascript"></SCRIPT>
@@ -65,8 +77,37 @@
            
                 if($('#selectType').val()== "" /*&& $('#region_select').val()== "" && $('#name_select').val()== ""*/)
                     $('#export_row').hide();
+                
+                
+              /*  $("#span1").click(function() {
+                 console.log("send");
+                    var recipient = "robsisneros@yahoo.com";
+                   var recipient2 = "rsisneros@speakeasy.net";
+                   var combine = ";"
+                   var comrecip = recipient + combine + recipient2
+                   var subject = "Gavilan Totals"
+                   var msg = "Gavilan report is attached"
+                   var attach = "c:\\BankWest\\GAVILAN_REPT.txt";
+                   var recipient = $(this).text();
+                   window.location.href = "mailto:" + recipient + "?subject=Mail to " + recipient + "&body=" + recipient + "&attachment=" +attach;
+
+                });*/
+                
+                
+                
             
 });
+
+            function openEmail(email,list,childEmails,userLevelType)
+            {
+               //var str = list.split("  ");
+              if(userLevelType==6)
+                  window.location.href = "mailto:" + email + "?subject=Mail to " + email;
+              else
+                  window.location.href = "mailto:" + email + "?subject=Mail to " + email + "&CC=" + childEmails +"&body=" + list;
+                
+            }
+
             function submitEditForm(dcmUserId,userLevelTypeId,regionId,region_name){
                 
             document.<%=formName%>.<%=SCMInterfaceKey.DCM_USER_ID%>.value=dcmUserId;
@@ -172,6 +213,7 @@
        </script>
     </head>
     <body>
+             
                 <div align="center">
             <br>
             <br>
@@ -180,6 +222,7 @@
             <br>
 
             <form action="<%=appName%>/servlet/com.mobinil.sds.web.controller.WebControllerServlet" name="<%=formName%>" method="post">
+                
             <input type="hidden" name="baseDirectory" id="baseDirectory" value=""/>
             <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_ACTION%>" value="0">
             <input type="hidden" name="<%=InterfaceKey.HASHMAP_KEY_USER_ID%>" value="<%=userId%>">
@@ -291,6 +334,7 @@
                         <td class=TableHeader nowrap align=center>Level Type</td>
                         <td class=TableHeader nowrap align=center>Edit</td>
                         <td class=TableHeader nowrap align=center>Delete</td>
+                        <td class=TableHeader nowrap align=center>Email</td>
                     </tr>
 
 
@@ -298,7 +342,10 @@
 
                                 for (int i = 0; i < searchResults.size(); i++) {
                                     DCMUserModel rep = (DCMUserModel) searchResults.get(i);
-                    %>
+                                    StringBuffer childRepsWithEmailRegion = RepManagementDAO.getRespsRegionsAndEmails(rep.getUserFullName(),rep.getUserLevelTypeId());
+                                    StringBuffer childRepsWithEmails = RepManagementDAO.getChildRespsEmails(rep.getUserFullName(),rep.getUserLevelTypeId());
+                                   // System.out.println("childRepsWithEmails "+childRepsWithEmails);
+                    %>              
 
 
                     <tr>
@@ -307,6 +354,8 @@
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=rep.getUserLevelTypeName()%></td>
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><input type="button" class="button" value="Edit" onclick="submitEditForm(<%=rep.getDcmUserId()%>,<%=rep.getUserLevelTypeId()%>,<%=rep.getRegionId()%>,'<%=rep.getRegionName()%>');"></td>
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><input type="button" class="button" value="Delete" onclick="confirmDelete(<%=rep.getDcmUserId()%>,<%=rep.getUserLevelTypeId()%>);"></td>
+                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><span id="span1" onclick="openEmail('<%=rep.getUserEmail()%>','<%=childRepsWithEmailRegion%>','<%=childRepsWithEmails%>',<%=rep.getUserLevelTypeId()%>);"><%=rep.getUserEmail()%></span></td>
+                   
                     </tr>
 
                     <%
