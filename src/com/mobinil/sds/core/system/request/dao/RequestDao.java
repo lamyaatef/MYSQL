@@ -2669,38 +2669,38 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
 
         }
 
-        if (posDataRegion != null && posDataRegion.compareTo("") != 0) {
+        if (posDataRegion != null && posDataRegion.compareTo("") != 0 && posDataRegion.compareTo("--") != 0) {
 
             whereStr.append("  and detail.REGION_ID = " + posDataRegion);
 
         }
 
-        if (posDataGover != null && posDataGover.compareTo("") != 0) {
+        if (posDataGover != null && posDataGover.compareTo("") != 0 && posDataGover.compareTo("--") != 0) {
 
             whereStr.append("  and POS_GOVERNRATE = " + posDataGover);
 
         }
 
-        if (posDataCity != null && posDataCity.compareTo("") != 0) {
+        if (posDataCity != null && posDataCity.compareTo("") != 0 && posDataCity.compareTo("--") != 0) {
 
             whereStr.append("  and POS_CITY_ID = '" + posDataCity + "'");
 
         }
 
-        if (posDataDistrict != null && posDataDistrict.compareTo("") != 0) {
+        if (posDataDistrict != null && posDataDistrict.compareTo("") != 0 && posDataDistrict.compareTo("--") != 0) {
 
             whereStr.append("  and POS_DISTRICT_ID = '" + posDataDistrict + "'");
 
         }
-        if (posImgDist != null && posImgDist.compareTo("") != 0) {
+        if (posImgDist != null && posImgDist.compareTo("") != 0 && posImgDist.compareTo("--") != 0) {
 
             whereStr.append("  and pos_img_district_id = '" + posImgDist + "'");
 
         }
 
-        if (posDataArea != null && posDataArea.compareTo("") != 0) {
+        if (posDataArea != null && posDataArea.compareTo("") != 0 && posDataArea.compareTo("--") != 0) {
 
-            whereStr.append("  and POS_AREA_ID = " + posDataArea);
+            whereStr.append("  and POS_AREA_ID = '" + posDataArea+"'");
 
         }
 
