@@ -102,6 +102,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     Vector<com.mobinil.sds.core.system.scm.model.RepModel> allReps=(Vector<com.mobinil.sds.core.system.scm.model.RepModel>)dataHashMap.get("AllReps"); 
     String strUserID = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
     String alert = (String) dataHashMap.get(SCMInterfaceKey.REP_KIT_Alert);
+    
     Vector regions = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_REGIONS);
     Vector userLevels = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_USER_LEVEL_TYPES);
     Vector IDTypeVector = (Vector) dataHashMap.get(SCMInterfaceKey.VECTOR_ID_TYPE);
@@ -605,8 +606,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                     
                 </div>
                 <%
-                if (isNextSearch!=null && isNextSearch.compareToIgnoreCase("true")==0)
-                {
+                if (isNextSearch!=null && isNextSearch.compareToIgnoreCase("true")==0 && posDataVec.size() > 0){
                 %>
                 
                 <table class="sortable" style="BORDER-COLLAPSE: collapse" cellSpacing=2 cellPadding=1 width="90%" border="1">
@@ -665,6 +665,8 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                         // pos_search_results
                     %>
                 </table>
+                <br>
+                
                 <div align="center">
                     <jsp:include page="pagingTable.jsp"  flush="true" >
                         <jsp:param   name="action_name_when_click_enter" value="search_pos_data_management"/>
@@ -678,15 +680,22 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                 </div>
                 
                 <%
-                    }
-                %>
+                    } else {
+                    
                 
+                %>
+             
                 <br>
-                <center><font color=red style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=dataHashMap.get(SCMInterfaceKey.REP_KIT_Alert)%></font></center>
+                <center>
+                    <font color=red style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=alert%></font>
+                </center>
                 <br>
                 <br>
-
-                <table>
+             
+                <%
+                }
+                %>
+            <table>
                     <tr>
                         <td>
                             <input class=button  type="button"  value="Create Data Entry " onclick="preRequestDataEntryWithoutStk();">

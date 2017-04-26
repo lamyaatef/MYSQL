@@ -328,6 +328,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                     totalSearch = totalSearch == 0 ? 1 : totalSearch;
 
                     if (dataVec.size() == 0 || dataVec == null) {
+                        System.out.println("no pos found");
                         dataHashMap.put(SCMInterfaceKey.REP_KIT_Alert, "No Data Found ...");
                     } else {
                         dataHashMap.put(SCMInterfaceKey.REP_KIT_Alert, "");
@@ -455,7 +456,20 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                     </jsp:include>
                 </div>
                 <%
-                    }
+                    } else {
+                    
+                
+                %>
+             
+                <br>
+                <center>
+                    <font color=red style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=dataHashMap.get(SCMInterfaceKey.REP_KIT_Alert)%></font>
+                </center>
+                <br>
+                <br>
+             
+                <%
+                }
                 %>
 <script>
     function exportExcel()
