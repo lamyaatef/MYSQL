@@ -880,22 +880,6 @@ $("#formPosMangement").submit(function(){
         }
         out.println("</tr>");
 
-        out.println("<TR>");
-        out.println("      <TD class=TableTextNote  width='40%'>Region</TD>");
-        
-        out.println("      <TD><select name='" + SCMInterfaceKey.CONTROL_TEXT_POS_REGION + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_REGION + "'>");
-
-        out.println("<option value=0>--</option>");
-        String selectedId = posData.getPosDetailModel().getPosRegionID() + "";
-        System.out.println("jsp: selectedId "+selectedId);
-        for (int i = 0; i < regions.size(); i++) {
-            PlaceDataModel placeDataModel = (PlaceDataModel) regions.get(i);
-            if (placeDataModel.getTypeId() == 1) {
-                out.println("<option " + ((selectedId != null && selectedId.compareTo(placeDataModel.getRegionId() + "") == 0) ? "selected" : "") + " value=" + placeDataModel.getRegionId() + ">" + placeDataModel.getRegionName() + "</option>");
-            }
-        }
-        out.println("</select></TD>");
-        out.println("</tr>");
 
         //lamya
         //calidus
@@ -1041,6 +1025,24 @@ $("#formPosMangement").submit(function(){
         
         
         out.println("<TR>");
+        out.println("      <TD class=TableTextNote  width='40%'>Region</TD>");
+        
+        out.println("      <TD><select name='" + SCMInterfaceKey.CONTROL_TEXT_POS_REGION + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_REGION + "'>");
+
+        out.println("<option value=0>--</option>");
+        String selectedId = posData.getPosDetailModel().getPosRegionID() + "";
+        System.out.println("jsp: selectedId "+selectedId);
+        for (int i = 0; i < regions.size(); i++) {
+            PlaceDataModel placeDataModel = (PlaceDataModel) regions.get(i);
+            if (placeDataModel.getTypeId() == 1) {
+                out.println("<option " + ((selectedId != null && selectedId.compareTo(placeDataModel.getRegionId() + "") == 0) ? "selected" : "") + " value=" + placeDataModel.getRegionId() + ">" + placeDataModel.getRegionName() + "</option>");
+            }
+        }
+        out.println("</select></TD>");
+        out.println("</tr>");
+        
+        
+        out.println("<TR>");
         out.println("      <TD class=TableTextNote width='40%'>Governrate</TD>");
         out.println("      <TD><select name='" + SCMInterfaceKey.CONTROL_TEXT_POS_GOVER + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_GOVER + "'>");
 
@@ -1074,15 +1076,11 @@ $("#formPosMangement").submit(function(){
                 out.println("<option " + ((selectedId != null && selectedId.compareTo(placeDataModel.getRegionId() + "") == 0) ? "selected" : "") + " value=" + placeDataModel.getRegionId() + ">" + placeDataModel.getRegionName() + "</option>");
             }
         }
+        out.println("<input class='button' " + disabledStrCity + " type='button' name='similar_city' id='similar_city' value='All POS in City'  onclick=similarCity(); />");
         out.println("</select></TD>");
         
         
-        //out.println("      <TD>");
-        //ild: drowRegionChild(out, regionsChilds, "3", SCMInterfaceKey.CONTROL_TEXT_POS_CITY, posData.getCityId() + "");
-        //drawSelectRegions(out, (Vector<PlaceDataModel>) regions, SCMInterfaceKey.CONTROL_TEXT_POS_CITY, city, 3/*,disabled*/);
-        //out.println("&nbsp;&nbsp;");
-        out.println("<input class='button' " + disabledStrCity + " type='button' name='similar_city' id='similar_city' value='All POS in City'  onclick=similarCity(); />");
-        //out.println("</TD>");
+        
         out.println("</tr>");
 
 
@@ -1145,13 +1143,8 @@ $("#formPosMangement").submit(function(){
                 out.println("<option " + ((selectedId != null && selectedId.compareTo(placeDataModel.getRegionId() + "") == 0) ? "selected" : "") + " value=" + placeDataModel.getRegionId() + ">" + placeDataModel.getRegionName() + "</option>");
             }
         }
-        out.println("</select></TD>");
-        //out.println("<TD>");
-        //old: drowRegionChild(out, regionsChilds, "5", SCMInterfaceKey.CONTROL_TEXT_POS_AREA, posData.getAreaId() + "");
-        //drawSelectRegions(out, (Vector<PlaceDataModel>) regions, SCMInterfaceKey.CONTROL_TEXT_POS_AREA, area, 5/*,disabled*/);
-        //out.println("&nbsp;&nbsp;");
         out.println("<input class='button' " + disabledStrArea + " name='similar_area' id='similar_area' type='button' value='All POS in Area'  onclick=similarArea(); />");
-        //out.println("</TD>");
+        out.println("</select></TD>");
         out.println("</tr>");
 
 

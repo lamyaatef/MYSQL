@@ -1811,7 +1811,7 @@ public class SCMRequestHandler {
                     String PaymentMethod = RequestDao.getPaymentMethodIDForPOS(posDetailId);
                     String posCodeValue =(String) paramHashMap.get("pos_code");
                     
-                    System.out.println("pos detail id : "+posDetailId+" and pos code : "+posCodeValue);
+                    System.out.println("pos detail id : "+posDetailId+" and pos code : "+DCM_CODE);
                     
                     /////////////////////////////////
                     posGeneralData = setPOSDataPOSDetail(/*posGeneralData*//*, posDetailModel*/ posDetailId, con);
@@ -1940,7 +1940,7 @@ public class SCMRequestHandler {
                     dataHashMap.put(SCMInterfaceKey.INPUT_HIDDEN_POS_ID, posDetailId);
                     dataHashMap.put(SCMInterfaceKey.PAYMENT_LEVEL_VECTOR, RequestDao.getPaymentList(con));
                     dataHashMap.put(SCMInterfaceKey.PAYMENT_METHOD_VECTOR, RequestDao.getPaymentMethodList(con));
-                    dataHashMap.put(SCMInterfaceKey.SURVEY_DATE , RequestDao.getSurveyDate(con,posCodeValue));
+                    dataHashMap.put(SCMInterfaceKey.SURVEY_DATE , RequestDao.getSurveyDate(con,DCM_CODE));
                     //System.out.println("SCMInterfaceKey.SURVEY_DATE : "+(String)dataHashMap.get(SCMInterfaceKey.SURVEY_DATE));
                     Utility.logger.debug("USERID:  " + strUserID);
 

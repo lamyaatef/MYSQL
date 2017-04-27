@@ -678,12 +678,14 @@ String appName = request.getContextPath();
 
       out.println("</table>");
 
-
       out.println("</form>");
 
     %>
-    <br><br>
+<center>
+<input class='button' type='button' value='Back' onclick="history.go(-1);"/>
 
+    <br><br>
+</CENTER>
 </body>
 
 </html>

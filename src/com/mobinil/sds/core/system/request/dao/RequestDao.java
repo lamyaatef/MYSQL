@@ -2010,7 +2010,7 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
             surveyDate = rs.getString("max(survey_date)");
             System.out.println("Survey date is : "+surveyDate);
         }
-
+        surveyDate = surveyDate.substring(0, surveyDate.indexOf(" "));
         stmt.close();
         rs.close();
 

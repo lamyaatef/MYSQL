@@ -119,7 +119,8 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
 
     function editRequest(id,repid,teamid,superid)
     {
-        
+        //alert("posSearch");
+        //document.formPosMangement.pos_code.value  = pos_code;
         document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_POS_ID%>.value  = id;
         document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_SALESREP_NAME%>.value  = repid;
         document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_NAME%>.value  = teamid;
@@ -328,7 +329,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                     totalSearch = totalSearch == 0 ? 1 : totalSearch;
 
                     if (dataVec.size() == 0 || dataVec == null) {
-                        System.out.println("no pos found");
+                        
                         dataHashMap.put(SCMInterfaceKey.REP_KIT_Alert, "No Data Found ...");
                     } else {
                         dataHashMap.put(SCMInterfaceKey.REP_KIT_Alert, "");
@@ -384,8 +385,8 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     
     
     /////////////////////////end - lamya////////////////////////////////////////////////////
-                Vector<POSDetailModel> posDataVec = (Vector<POSDetailModel>) dataHashMap.get(SCMInterfaceKey.SIMILAR_POS_LIST);
-                    if (posDataVec.size() > 0) {
+                //Vector<POSDetailModel> posDataVec = (Vector<POSDetailModel>) dataHashMap.get(SCMInterfaceKey.SIMILAR_POS_LIST);
+                    if (dataVec.size() > 0) {
                 %>
                 
                 <table class="sortable" style="BORDER-COLLAPSE: collapse" cellSpacing=2 cellPadding=1 width="90%" border="1">
@@ -401,40 +402,42 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                         <td class=TableHeader nowrap align=center>Status</td>
                     </tr>
                     <%
-                        for (int i = 0; i < posDataVec.size(); i++) {
+                        for (int i = 0; i < dataVec.size(); i++) {
+                           
                     %>
                     <tr>
                     
-                        <% if (posDataVec.get(i).getPosName() == null) {
-                                posDataVec.get(i).setPosName("");
+                        <% if (dataVec.get(i).getPosName() == null) {
+                                dataVec.get(i).setPosName("");
                             }%>
-                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=posDataVec.get(i).getPosName()%></td>
-                        <% if (posDataVec.get(i).getPOSCode() == null) {
-                                posDataVec.get(i).setPOSCode("");
+                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=dataVec.get(i).getPosName()%></td>
+                        <% if (dataVec.get(i).getPOSCode() == null) {
+                            
+                                dataVec.get(i).setPOSCode("");
                             }%>
-                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=posDataVec.get(i).getPOSCode()%></td>
-                        <% if (posDataVec.get(i).getPosAddress() == null) {
-                                posDataVec.get(i).setPosAddress("");
+                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=dataVec.get(i).getPOSCode()%></td>
+                        <% if (dataVec.get(i).getPosAddress() == null) {
+                                dataVec.get(i).setPosAddress("");
                             }%>
-                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=posDataVec.get(i).getPosAddress()%></td>
-                        <% if (posDataVec.get(i).getPosOwnerName() == null) {
-                                posDataVec.get(i).setPosOwnerName("");
+                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=dataVec.get(i).getPosAddress()%></td>
+                        <% if (dataVec.get(i).getPosOwnerName() == null) {
+                                dataVec.get(i).setPosOwnerName("");
                             }%>
-                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=posDataVec.get(i).getPosOwnerName()%></td>
-                        <% if (posDataVec.get(i).getPosManagerName() == null) {
-                                posDataVec.get(i).setPosManagerName("");
+                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=dataVec.get(i).getPosOwnerName()%></td>
+                        <% if (dataVec.get(i).getPosManagerName() == null) {
+                                dataVec.get(i).setPosManagerName("");
                             }%>
-                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=posDataVec.get(i).getPosManagerName()%></td>
-                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><input class=button  type="button"  value="Details" onclick="detailRequest(<%=posDataVec.get(i).getPosID()%>)"></td>
+                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=dataVec.get(i).getPosManagerName()%></td>
+                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><input class=button  type="button"  value="Details" onclick="detailRequest(<%=dataVec.get(i).getPosID()%>)"></td>
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"> 
-                            <% if (posDataVec.get(i).getPosStatusName().contains("Stop")) {%>
+                            <% if (dataVec.get(i).getPosStatusName().contains("Stop")) {%>
 
                             <%--    <input class=button  type="button"  value="Edit" disabled readonly> --%>
                             <%} else { posDataRegion = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_REGION);System.out.println("pos regionnnn : "+posDataRegion);%>
-                            <input class=button  type="button"  value="Edit" onclick="editRequest(<%=posDataVec.get(i).getPosID()%>,<%=posDataVec.get(i).getSalesrepName()%>,<%=posDataVec.get(i).getTeamleaderName()%>,<%=posDataVec.get(i).getSupervisorName()%>)">
+                            <input class=button  type="button"  value="Edit" onclick="editRequest('<%=dataVec.get(i).getPosID()%>','<%=dataVec.get(i).getSalesrepName()%>','<%=dataVec.get(i).getTeamleaderName()%>','<%=dataVec.get(i).getSupervisorName()%>')">
                             <%}%>                        </td>
-                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"> <input class=button  type="button"  value="View History" onclick="viewHistory((<%=posDataVec.get(i).getPosID()%>))"></td>
-                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=posDataVec.get(i).getPosStatusName()%></td>
+                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"> <input class=button  type="button"  value="View History" onclick="viewHistory((<%=dataVec.get(i).getPosID()%>))"></td>
+                        <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=dataVec.get(i).getPosStatusName()%></td>
 
                     </tr>
                     <%

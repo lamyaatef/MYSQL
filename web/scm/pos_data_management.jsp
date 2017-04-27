@@ -652,7 +652,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
 
                             <%--    <input class=button  type="button"  value="Edit" disabled readonly> --%>
                             <%} else { posDataRegion = (String) request.getParameter(SCMInterfaceKey.CONTROL_TEXT_POS_REGION);System.out.println("pos regionnnn : "+posDataRegion);%>
-                            <input class=button  type="button"  value="Edit" onclick="editRequest(<%=posDataVec.get(i).getPosID()%>,<%=posDataVec.get(i).getSalesrepName()%>,<%=posDataVec.get(i).getTeamleaderName()%>,<%=posDataVec.get(i).getSupervisorName()%>)">
+                            <input class=button  type="button"  value="Edit" onclick="editRequest('<%=posDataVec.get(i).getPosID()%>','<%=posDataVec.get(i).getSalesrepName()%>','<%=posDataVec.get(i).getTeamleaderName()%>','<%=posDataVec.get(i).getSupervisorName()%>')">
                             <%}%>                        </td>
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"> <input class=button  type="button"  value="View History" onclick="viewHistory((<%=posDataVec.get(i).getPosID()%>))"></td>
                         <td align="center" style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=posDataVec.get(i).getPosStatusName()%></td>
@@ -777,14 +777,29 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     }
 
 
-    function editRequest(id)
+  function editRequest(id,repid,teamid,superid)
+    {
+        
+        document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_POS_ID%>.value  = id;
+        
+        document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_SALESREP_NAME%>.value  = repid;
+        document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_TEAMLEADER_NAME%>.value  = teamid;
+        document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_SUPERVISOR_NAME%>.value  = superid;
+        /*document.formPosMangement.<%=SCMInterfaceKey.CONTROL_TEXT_POS_REGION%>.value  = regionid;*/
+                   
+        document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%=SCMInterfaceKey.ACTION_POS_DATA_EDIT%>';
+        document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_USER_ID%>.value;
+        $("#formPosMangement").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction5);%>");
+        document.formPosMangement.submit();
+    }
+    /*function editRequest(id)
     {
         document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_POS_ID%>.value  = id;
         document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%=SCMInterfaceKey.ACTION_POS_DATA_EDIT%>';
         document.formPosMangement.<%=SCMInterfaceKey.INPUT_HIDDEN_USER_ID%>.value;
         $("#formPosMangement").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction5);%>");
         document.formPosMangement.submit();
-    }
+    }*/
     function searchRequest()
     {
         
