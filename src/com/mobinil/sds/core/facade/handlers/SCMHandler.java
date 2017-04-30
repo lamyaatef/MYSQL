@@ -2119,12 +2119,12 @@ public class SCMHandler {
                     String systemUserId=(String)paramHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
 
                     DCMUserDetailModel supDetails = new DCMUserDetailModel();
-                    //Vector<RepSupervisorModel> supervisorReps = new Vector();
+                    //Vector<DCMUserDetailModel> supDetails = new Vector<DCMUserDetailModel>();
                     Vector<SupervisorRepsModel> supervisorReps = new Vector();
                     Vector<SupervisorTeamleadersModel> supervisorTeams = new Vector();
                     
                     supDetails = RepManagementDAO.getSupDetail(con, userLevelTypeId, supId);
-                    //supervisorReps = RepManagementDAO.getSupervisorReps(con, supId);
+                    //supDetails = RepManagementDAO.getSupRegionDetail(con, userLevelTypeId, supId);
                     supervisorReps = RepManagementDAO.getSupervisorSalesReps(con, supId);
                     supervisorTeams = RepManagementDAO.getSupervisorTeamleaders(con, supId);
                     dataHashMap.put(SCMInterfaceKey.REP_SUP_DETAILS, supDetails);

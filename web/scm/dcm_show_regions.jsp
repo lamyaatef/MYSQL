@@ -31,7 +31,7 @@ String Slach = System.getProperty("file.separator");
           //  request.getSession().setAttribute("search_vector", searchResults);
             
     Boolean checkbox = false;
-
+    System.out.println("(String) objDataHashMap.get(DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX) "+(String) objDataHashMap.get(DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX));
     if ((String) objDataHashMap.get(DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX) != null) {
         checkbox = (Boolean) objDataHashMap.get(DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX);
     }
@@ -757,7 +757,7 @@ span:hover {
             %>
             <tr class="TableTextNote">
                 <td align="center" >
-                    <input type="checkbox" name="<%=DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX + childRegions.get(j).getRegionId()%>" id="<%=DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX + childRegions.get(j).getRegionId()%>" value="<%=checkbox%>">
+                    <input type="checkbox" name="<%=DCMInterfaceKey.CONTROL_SHOW_REGIONS_CHECKBOX + childRegions.get(j).getRegionId()%>" id="check_box" value="<%=checkbox%>">
                 </td>
                 <td align="center" ><%=childRegions.get(j).getRegionName()%></td>
                 <td align="center" ><input type="hidden" id="result_child_search_level" value="<%=childRegions.get(j).getRegionLevelTypeId()%>"><%=childRegions.get(j).getRegionLevelTypeName()%></td>
@@ -1012,6 +1012,7 @@ span:hover {
     }
     function editParent()
     {
+        
      
         /*document.DCMform.action=document.DCMform.action+'<%out.print(InterfaceKey.HASHMAP_KEY_ACTION + "");%>='+'<%out.print(DCMInterfaceKey.ACTION_VIEW_EDIT_PARENT);%>'+
             '&'+'<%out.print(InterfaceKey.HASHMAP_KEY_USER_ID + "");%>='+<%out.print(strUserID);%>*/

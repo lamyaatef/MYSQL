@@ -167,26 +167,40 @@
                         <td align="left">Full Name</td>
                         <td align="left"><font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=repDetails.getUserFullName()%></font></td>
                     </tr>
-
+                    <%--
                     <tr class=TableTextNote>
                         <td align="left">Address</td>
                         <td align="left"><font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=repDetails.getUserAddress()%></font></td>
                     </tr>
+                    --%>
                     <tr class=TableTextNote>
                         <td align="left">Email</td>
                         <td align="left"><font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=repDetails.getUserEmail()%></font></td>
                     </tr>
                     <tr class=TableTextNote>
                         <td align="left">Mobile No.</td>
-                        <td align="left"><font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=repDetails.getUserMobile()%></font></td>
+                        <td align="left">
+                         <%if (repDetails.getUserMobile()==null || (repDetails.getUserMobile()!=null && repDetails.getUserMobile().compareToIgnoreCase("null")==0 ))
+                            {
+                            %>
+                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px">None</font>
+                            <%
+                            } else{
+                            %>
+                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=repDetails.getUserMobile()%></font>
+                            <%
+                                    }
+                            %>
+                        </td>
                     </tr>
-
+                    <%--
                     <tr class=TableTextNote>
                         <td align="left">Region</td>
                         <td align="left">
                             <font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=repDetails.getRegionName()%></font>
                         </td>
                     </tr>
+                    --%>
                     <%--
                     <tr class=TableTextNote>
                         <td align="left">POS Group</td>

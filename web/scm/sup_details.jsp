@@ -18,12 +18,14 @@
             Vector<SupervisorTeamleadersModel> supervisorTeamleaders=new Vector();
             Vector<RepTeamleaderModel> repTeamleaders=new Vector();
             DCMUserDetailModel supDetails=new DCMUserDetailModel();
+            //Vector<DCMUserDetailModel> supDetails=new Vector<DCMUserDetailModel>();
             String appName = request.getContextPath();
             String formName = "supDetailsForm";
             String userId = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
             supervisorReps=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_SUP_REPS);
             supervisorTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_SUP_TEAMLEADERS);
             supDetails=(DCMUserDetailModel)dataHashMap.get(SCMInterfaceKey.REP_SUP_DETAILS);
+            //supDetails=(Vector<DCMUserDetailModel>)dataHashMap.get(SCMInterfaceKey.REP_SUP_DETAILS);
             String confMessage=(String)dataHashMap.get(SCMInterfaceKey.CONFIRMATION_MESSAGE);
             repTeamleaders=(Vector)dataHashMap.get(SCMInterfaceKey.VECTOR_ALL_REP_TEAMLEADS);
 
@@ -131,27 +133,48 @@
                         <td align="left">Full Name</td>
                         <td align="left"><font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=supDetails.getUserFullName()%></font></td>
                     </tr>
-
+                    <%--
                     <tr class=TableTextNote>
                         <td align="left">Address</td>
                         <td align="left"><font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=supDetails.getUserAddress()%></font></td>
                     </tr>
+                    --%>
                     <tr class=TableTextNote>
                         <td align="left">Email</td>
                         <td align="left"><font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=supDetails.getUserEmail()%></font></td>
                     </tr>
                     <tr class=TableTextNote>
                         <td align="left">Mobile No.</td>
-                        <td align="left"><font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=supDetails.getUserMobile()%></font></td>
-                    </tr>
-
-                    <tr class=TableTextNote>
-                        <td align="left">Region</td>
                         <td align="left">
-                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=supDetails.getRegionName()%></font>
+                            <%if (supDetails.getUserMobile()==null || (supDetails.getUserMobile()!=null && supDetails.getUserMobile().compareToIgnoreCase("null")==0 ))
+                            {
+                            %>
+                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px">None</font>
+                            <%
+                            } else{
+                            %>
+                            <font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=supDetails.getUserMobile()%></font>
+                            <%
+                                    }
+                            %>
                         </td>
                     </tr>
-
+                    <%--
+                    <tr class=TableTextNote>
+                        <td align="left">Regions</td>
+                        <td align="left">
+                            <% if (supDetails!=null && supDetails.size()!=0){
+                                for(int i=0;i<supDetails.size();i++){
+                             
+                            %>
+                            <b><font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=i%>-</font></b>&nbsp;<font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=supDetails.get(i).getRegionName()%></font><br>
+                            <%
+                               }
+                            }
+                            %>
+                        </td>
+                    </tr>
+--%>
                    <tr class=TableTextNote>
                         <td align="left">Reps</td>
                         <td align="left">

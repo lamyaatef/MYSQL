@@ -56,6 +56,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
         String sqlStatement;
         //sqlStatement="SELECT REGION_ID,REGION_NAME FROM DCM_REGION WHERE REGION_STATUS_TYPE_ID=1 AND REGION_LEVEL_TYPE_ID=(SELECT REGION_LEVEL_TYPE_ID FROM DCM_REGION_LEVEL_TYPE WHERE LOWER(REGION_LEVEL_TYPE_NAME) LIKE 'region' ) ORDER BY REGION_NAME ASC";
         sqlStatement="SELECT dcm_region_level_type.REGION_LEVEL_TYPE_NAME,dcm_region.region_level_type_id, REGION_ID,REGION_NAME FROM dcm_region_level_type,DCM_REGION WHERE dcm_region.region_level_type_id = dcm_region_level_type.region_level_type_id and REGION_STATUS_TYPE_ID=1 AND dcm_region.REGION_LEVEL_TYPE_ID=1 order by DCM_REGION.region_name";
+        
         regions=DBUtil.executeSqlQueryMultiValue(sqlStatement, RegionModel.class, "fillForRepManagementSearch", con);
         return regions;
     }
@@ -724,7 +725,8 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append("  dcm_pos_detail.pos_address,");
             strSql.append("  dcm_pos_detail.pos_doc_num,");
             strSql.append("  pos_documents.posdocuments,");
-            strSql.append("  pos_documents.assign_date,");
+            //strSql.append("  pos_documents.assign_date,");
+            strSql.append("  dcm_pos_detail.survey_date as assign_date,");
             strSql.append("  gen_dcm_status.dcm_status_name as pos_status,");
             strSql.append("  dcm_pos_owner_phone.pos_owner_phone_number," );
             strSql.append("  gen_dcm_level.dcm_level_id as pos_level_code,");
@@ -1284,7 +1286,52 @@ sqlStatement="select teamleader_id as DCM_USER_ID,teamleader_name as USER_FULL_N
     }
 
     
-    
+    public static Vector<DCMUserDetailModel> getSupRegionDetail(Connection con,String userLevelTypeId,String dcmUserId){
+
+        DCMUserDetailModel dcmUserDetail=new DCMUserDetailModel();
+        Vector<DCMUserDetailModel> users = new Vector<DCMUserDetailModel>();
+        String sqlStatement;
+        /*sqlStatement="SELECT DCM_USER.DCM_USER_ID, DCM_USER.USER_LEVEL_TYPE_ID, DCM_USER.REGION_ID ,DCM_USER_DETAIL.USER_FULL_NAME,DCM_USER_DETAIL.USER_ADDRESS,DCM_USER_DETAIL.USER_EMAIL,DCM_USER_DETAIL.USER_MOBILE,DCM_REGION.REGION_NAME"
+                    +" FROM  DCM_USER,DCM_USER_DETAIL,DCM_REGION"
+                    +" WHERE DCM_USER.USER_STATUS_TYPE_ID<>3 AND DCM_USER.DCM_USER_ID=DCM_USER_DETAIL.USER_ID AND"
+                    +" DCM_USER.USER_LEVEL_TYPE_ID="+userLevelTypeId+" AND DCM_USER.DCM_USER_ID="+dcmUserId;*/
+        sqlStatement="SELECT supervisor_id AS DCM_USER_ID,\n" +
+        "  supervisor_name    AS USER_FULL_NAME,\n" +
+        "  email              AS USER_EMAIL,\n" +
+        "  mobile             AS USER_MOBILE,\n" +
+        "  region.region_name as region,\n" +
+        "  govern.region_name as govern,\n" +
+        "  city.region_name as city,\n" +
+        "  \n" +
+        "  dcm_region.region_name as district,\n" +
+        "  \n" +
+        "  img_district.region_name as img_district,\n" +
+        "  area.region_name as area\n" +
+        "FROM dcm_region,\n" +
+        "  scm_supervisor,\n" +
+        "  scm_user_region,\n" +
+        "  \n" +
+        "  dcm_region region,\n" +
+        "  dcm_region govern,\n" +
+        "  dcm_region city,\n" +
+        "  dcm_region img_district,\n" +
+        " dcm_region area\n" +
+        "WHERE dcm_region.region_id            =scm_user_region.region_id\n" +
+        "AND scm_supervisor.supervisor_id      = scm_user_region.user_id\n" +
+        "\n" +
+        " and area.parent_region_id            =img_district.region_id\n" +
+        " and img_district.parent_region_id            =dcm_region.region_id\n" +
+        " and dcm_region.parent_region_id            =city.region_id\n" +
+        " and city.parent_region_id            =govern.region_id\n" +
+        " and govern.parent_region_id            =region.region_id\n" +
+        "\n" +
+        " AND scm_user_region.user_level_type_id="+userLevelTypeId+
+        " AND scm_supervisor.supervisor_id      ="+dcmUserId;
+        System.out.println("getSupDetailWithRegions "+sqlStatement);
+        users= DBUtil.executeSqlQueryMultiValue(sqlStatement, DCMUserDetailModel.class, "fillDetailWithRegion", con);
+
+        return users;
+    }
     
     public static DCMUserDetailModel getSupDetail(Connection con,String userLevelTypeId,String dcmUserId){
 

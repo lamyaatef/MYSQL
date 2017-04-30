@@ -330,8 +330,8 @@
                         
                     <tr>
                         <td class=TableHeader nowrap align=center >Name</td>
-                        <td  class=TableHeader nowrap align=center>Region</td>
-                        <td class=TableHeader nowrap align=center>Level Type</td>
+                        <td  class=TableHeader nowrap align=center>District / Image District</td>
+                        <td class=TableHeader nowrap align=center>User Level Type</td>
                         <td class=TableHeader nowrap align=center>Edit</td>
                         <td class=TableHeader nowrap align=center>Delete</td>
                         <td class=TableHeader nowrap align=center>Email</td>
@@ -342,9 +342,15 @@
 
                                 for (int i = 0; i < searchResults.size(); i++) {
                                     DCMUserModel rep = (DCMUserModel) searchResults.get(i);
-                                    StringBuffer childRepsWithEmailRegion = RepManagementDAO.getRespsRegionsAndEmails(rep.getUserFullName(),rep.getUserLevelTypeId());
-                                    StringBuffer childRepsWithEmails = RepManagementDAO.getChildRespsEmails(rep.getUserFullName(),rep.getUserLevelTypeId());
-                                   // System.out.println("childRepsWithEmails "+childRepsWithEmails);
+                                    StringBuffer childRepsWithEmailRegion = new StringBuffer("");
+                                    StringBuffer childRepsWithEmails = new StringBuffer("");
+                                    if (rep.getUserLevelTypeId().compareTo("6")!=0) //if not a salesrep get the children emails and regions
+                                    {
+                                        childRepsWithEmailRegion = RepManagementDAO.getRespsRegionsAndEmails(rep.getUserFullName(),rep.getUserLevelTypeId());
+                                        childRepsWithEmails = RepManagementDAO.getChildRespsEmails(rep.getUserFullName(),rep.getUserLevelTypeId());
+                                    }
+                                    
+                                   
                     %>              
 
 
