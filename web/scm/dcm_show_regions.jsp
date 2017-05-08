@@ -40,7 +40,10 @@ String Slach = System.getProperty("file.separator");
     String strUserID = (String) objDataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
     Connection con = Utility.getConnection();
    // Vector<RegionModel> regions =  RepManagementDAO.getRegions(con);
-        Vector<RegionModel> regions = (Vector) objDataHashMap.get(DCMInterfaceKey.SEARCH_REGION_RESULT);
+        Vector<RegionModel> regions = (Vector<RegionModel>) objDataHashMap.get(DCMInterfaceKey.SEARCH_REGION_RESULT);
+        System.out.println("regions after search "+regions);
+        objDataHashMap.put(DCMInterfaceKey.SEARCH_REGION_RESULT,regions);
+        request.getSession().setAttribute("region_search_vector", regions);
         Vector<RegionModel> myRegions = (Vector) objDataHashMap.get("my_regions");
         Vector<RegionModel> childRegions = (Vector) objDataHashMap.get("child_regions");
         
@@ -58,7 +61,7 @@ String Slach = System.getProperty("file.separator");
         System.out.println("all NAMESSS : "+Region+" "+Governorate+" "+City+" "+District+" "+ImgDistrict);
         
        //   request.setAttribute("search_vector", searchResults);
-            request.getSession().setAttribute("region_search_vector", regions);
+            
     Vector dcmRegionlevels = (Vector) objDataHashMap.get(DCMInterfaceKey.VECTOR_ALL_REGIONS_LEVELS);
     String appName = request.getContextPath();
     String DCMFormAction = appName + "/servlet/com.mobinil.sds.web.controller.WebControllerServlet?";
@@ -386,6 +389,11 @@ var attach = "c:\\BankWest\\GAVILAN_REPT.txt"
                 document.DCMform.search_level.value=$('#result_search_level').val();
                 document.DCMform.child_search_level.value=$('#result_child_search_level').val();            
                 
+                
+               // document.DCMform.region_search_vector.value=$('#<%=DCMInterfaceKey.SEARCH_REGION_RESULT%>').val();
+                
+                
+                
                 document.DCMform.submit();
             }
             
@@ -456,6 +464,9 @@ span:hover {
         <input type="hidden" name="selected_region_level" id="region_select3" value=""/>
         <input type="hidden" name="search_level" id="region_select4" value=""/>
         <input type="hidden" name="child_search_level" id="region_select5" value=""/>
+        
+        <input type="hidden" name="region_search_vector" id="region_select6" value=""/>
+        
         
         <input type="hidden" name="Region" id="Region" value=""/>
         <input type="hidden" name="Governorate" id="Governorate" value=""/>

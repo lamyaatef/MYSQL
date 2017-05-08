@@ -30,7 +30,7 @@ System.out.println("form action "+formAction);
             HashMap dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
             DCMUserModel dcmUser = (DCMUserModel) dataHashMap.get(SCMInterfaceKey.DCM_USER_MODEL);
             DCMUserDetailModel dcmUserDetail = (DCMUserDetailModel) dataHashMap.get(SCMInterfaceKey.DCM_USER_DETAIL_MODEL);
-            System.out.println("dcmUserDetail "+dcmUserDetail);
+            //System.out.println("dcmUserDetail "+dcmUserDetail);
             
             String selectedDistrictName = (String)dataHashMap.get("districtName");
             String selectedCityName = (String)dataHashMap.get("cityName");
@@ -122,7 +122,7 @@ System.out.println("form action "+formAction);
             dcmUserName = dcmUserDetail.getUserFullName()==null?"":dcmUserDetail.getUserFullName();
             dcmUserAddress = dcmUserDetail.getUserAddress()==null?"":dcmUserDetail.getUserAddress();
             dcmUserEmail = dcmUserDetail.getUserEmail()==null?"":dcmUserDetail.getUserEmail();
-            dcmUserMobile = dcmUserDetail.getUserMobile()==null?"":dcmUserDetail.getUserMobile();
+            dcmUserMobile = (dcmUserDetail.getUserMobile()==null || (dcmUserDetail.getUserMobile()!=null && dcmUserDetail.getUserMobile().compareToIgnoreCase("null")==0))?"None":dcmUserDetail.getUserMobile();
             dcmUserUserId =dcmUser.getUserId()==null?"":dcmUser.getUserId();
 
 
@@ -689,7 +689,7 @@ $("#<%=SCMInterfaceKey.CITY_ID%>").change(function(){
                                         for (int i = 0; i < allTeams.size(); i++) {
                                             com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
                                             String selected ="";
-                                            System.out.println("teamleaderIdComapre:-- "+teamleaderIdComapre);
+                                           // System.out.println("teamleaderIdComapre:-- "+teamleaderIdComapre);
                                             //if(superTeamleaders.get(0).getTeamleadId().compareTo(teamleader.getTeamleaderId())==0){
                                             if(teamleaderIdComapre!=null && teamleaderIdComapre.compareTo(teamleader.getTeamleaderId())==0){
                                                 selected = "selected";

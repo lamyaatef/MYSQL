@@ -481,7 +481,8 @@ public class DCMIIHandler {
               String Slach = System.getProperty("file.separator");
               System.out.println("BASE_DIRECTION test values "+paramHashMap.get("baseDirectory"));
               String baseDirectory = (String) paramHashMap.get("baseDirectory");//SCMInterfaceKey.BASE_DIRECTION
-              Vector<RegionModel> regions =(Vector<RegionModel>)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("region_search_vector"));
+             // Vector<RegionModel> regions =(Vector<RegionModel>) paramHashMap.get("region_search_vector");
+              Vector<RegionModel> regions =(Vector<RegionModel>)(((HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET)).getSession().getAttribute("region_search_vector"));//DCMInterfaceKey.SEARCH_REGION_RESULT
               String entityLevel = (String) paramHashMap.get("search_level");
               if (entityLevel.compareToIgnoreCase("undefined")==0)
               {
@@ -1116,18 +1117,22 @@ public class DCMIIHandler {
                     Vector<RegionModel> myRegions =  RepManagementDAO.getRegions(con);
                     
                     if(selectedRegionLevel!=null && selectedRegionLevel.compareTo("")!=0 &&  selectedRegionName!=null && selectedRegionName.compareTo("")!=0)
+                    {
                         childRegions =  RepManagementDAO.getRegionChildrenBylevelAndName(con, selectedRegionName, selectedRegionLevel);
+                        dataHashMap.put(DCMInterfaceKey.SEARCH_REGION_RESULT, childRegions);
+                    }
                     
                     if((regionName!=null && regionName.compareTo("")!=0) || (levelId!=null && levelId.compareTo("")!=0)){
                         totalpages = RegionDAO.getRegionByNameCount(regionName, levelId, con);
                         regions = RegionDAO.getRegionByName(regionName, levelId, con, destinationPage);
+                        dataHashMap.put(DCMInterfaceKey.SEARCH_REGION_RESULT, regions);
                     }
                     
                     System.out.println("destinationPage "+destinationPage);
                     System.out.println("totalpages "+totalpages);
                     
                     dataHashMap.put("my_regions",myRegions);
-                    dataHashMap.put(DCMInterfaceKey.SEARCH_REGION_RESULT, regions);
+                    //dataHashMap.put(DCMInterfaceKey.SEARCH_REGION_RESULT, regions);
                     dataHashMap.put("child_regions", childRegions);
                     
                     Vector<RegionLevelDto> levels = RegionDAO.getALLRegionlevels(con);

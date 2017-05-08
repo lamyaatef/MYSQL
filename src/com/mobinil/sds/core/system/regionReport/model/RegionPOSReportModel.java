@@ -101,7 +101,7 @@ public RegionPOSReportModel(ResultSet res, String regionLevel,boolean imgDistExi
 {
     try
 	      {
-	    	   
+	    	   System.out.println("regionLevel "+regionLevel);
                        
                   posARName = res.getString("pos_arabic_name");
                   posCode = res.getString("pos_code");
@@ -112,6 +112,8 @@ public RegionPOSReportModel(ResultSet res, String regionLevel,boolean imgDistExi
                     ownerName= res.getString("pos_owner_name");
                     IdNumber= res.getString("pos_owner_id_number");
                     IdType= res.getString("id_type_name");
+                    
+                    
                     if(regionLevel.compareTo("")==0 && imgDistExists)
                     {
                         region= res.getString("region_name");
@@ -126,6 +128,7 @@ public RegionPOSReportModel(ResultSet res, String regionLevel,boolean imgDistExi
                     }
                     else if(regionLevel.compareTo("")==0 && !imgDistExists)
                     {
+                        System.out.println("ELSE ..");
                         region= res.getString("region_name");
                         city= res.getString("city_name");
                         disctrict= res.getString("district_name");

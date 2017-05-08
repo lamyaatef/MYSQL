@@ -733,10 +733,16 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append("  scm_supervisor.supervisor_name," );
             strSql.append("  scm_teamleader.teamleader_name,");
             strSql.append("  scm_salesrep.salesrep_name," );
-            strSql.append("  pos_documents.StkDialNo," );
+            //strSql.append("  pos_documents.StkDialNo," );
+            strSql.append("  scm_stk_stock.STK_NUMBER as StkDialNo," );
             strSql.append("  scm_stk_status.name as stk_status,");
-            strSql.append("  pos_documents.stkactvdt as stk_activation_date," );
-            strSql.append("  pos_documents.iqrarrcvdt as iqrar_received_date," );
+            //strSql.append("  pos_documents.stkactvdt as stk_activation_date," );
+            //strSql.append("  pos_documents.iqrarrcvdt as iqrar_received_date," );
+            
+            strSql.append("  scm_stk_stock.STK_ACTIVE_DATE as stk_activation_date," );
+            strSql.append("  scm_stk_stock.IQRAR_RECEIVE_DATE as iqrar_received_date," );
+            
+            
             strSql.append("  CAM_PAYMENT_cam_state.cam_status_for_payment as payment_status,");
             strSql.append("  gen_dcm_payment_level.dcm_payment_level_name as payment_level,");
             strSql.append("  dcm_pos_detail.pos_arabic_address,");
@@ -849,6 +855,7 @@ public static Vector<RegionModel> getSubRegions(Connection con, String regionId)
             strSql.append(" AND scm_stk_status.stk_status_id = scm_stk_owner.stk_status_id");
             strSql.append(" AND scm_stk_owner.stk_id = scm_stk_stock.stk_id");
             strSql.append(" AND scm_stk_owner.dcm_id = CAM_PAYMENT_SCM_STATUS.scm_id");
+            
             
             strSql.append(" AND CAM_PAYMENT_SCM_STATUS.scm_id = gen_dcm.dcm_id");
             strSql.append(" AND CAM_PAYMENT_cam_state.id = CAM_PAYMENT_SCM_STATUS.PAYMENT_cam_state_id" );
