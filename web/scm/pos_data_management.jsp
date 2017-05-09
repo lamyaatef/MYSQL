@@ -758,6 +758,7 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     }
     function preRequestDataEntryWithoutStk()
     {
+        //alert("hi");
         document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value  = '<%=SCMInterfaceKey.ACTION_POS_DATA_ENTRY%>';
         document.formPosMangement.submit();
     }

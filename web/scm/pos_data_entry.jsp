@@ -981,7 +981,7 @@ selectedId = selectedId==null || selectedId.compareTo("")==0 ? pos_region : sele
 
       ///////////////////////////////////////////////////////////////////lamya//////////////
       /////////////////////////////////////////////////////////
-        out.println("<TR>");
+       /* out.println("<TR>");
         out.println("<TD colspan=2 class=TableTextNote>Supervisor Data ");
         out.println("</TD>");
         out.println("</tr>");
@@ -1121,7 +1121,7 @@ selectedId = selectedId==null || selectedId.compareTo("")==0 ? pos_region : sele
 
         out.println("      </table>");
         out.println("      </TD>");
-        out.println("</tr>");
+        out.println("</tr>");*/
         ///added - end
         
         /////////////////////////////////////////////////////////////////////////
