@@ -422,16 +422,20 @@ public class RequestDao {
     public static UserDataModel getUserDataByDetailId(Connection con, String userDetailId) {
         
         UserDataModel userDataModel = new UserDataModel();
+        System.out.println("getUserDataByDetailId : userDetailId "+userDetailId);
         try {
             Statement stmt = con.createStatement();
-            String sqlString = "select * from dcm_user_detail , dcm_user where dcm_user_detail.user_detail_id = dcm_user.user_detail_id and dcm_user.dcm_user_id = dcm_user_detail.user_id and dcm_user_detail.user_detail_id='"+userDetailId+"' ";
-            System.out.println("GET USER  OF ID : "+userDetailId+" query: "+sqlString);
-            if(userDetailId!=null && userDetailId.compareTo("")!=0)
             
+            
+            
+            if(userDetailId!=null && userDetailId.compareTo("")!=0)
             {
+                String sqlString = "select * from dcm_user_detail , dcm_user where dcm_user_detail.user_detail_id = dcm_user.user_detail_id and dcm_user.dcm_user_id = dcm_user_detail.user_id and dcm_user_detail.user_detail_id='"+userDetailId+"' ";
+                
                 ResultSet rs = stmt.executeQuery(sqlString);
                 rs = stmt.executeQuery(sqlString);
                 if (rs.next()) {
+                    
                     userDataModel = new UserDataModel();
                     userDataModel.setCreationTimestamp(rs.getString("CREATION_TIMESTAMP"));
                     userDataModel.setCreationUserId(rs.getString("CREATION_USER_ID"));
@@ -450,8 +454,7 @@ public class RequestDao {
                 stmt.close();
                 rs.close();
             }
-            
-            
+  
 
         } catch (SQLException ex) {
             Logger.getLogger(RequestDao.class.getName()).log(Level.SEVERE, null, ex);

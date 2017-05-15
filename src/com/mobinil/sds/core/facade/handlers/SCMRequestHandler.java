@@ -32,6 +32,9 @@ import com.mobinil.sds.core.system.scm.dao.PoiWriteExcelFile;
 import com.mobinil.sds.core.system.scm.dao.RepManagementDAO;
 import com.mobinil.sds.core.system.scm.dao.STKDAO;
 import com.mobinil.sds.core.system.scm.model.POSSearchExcelModel;
+import com.mobinil.sds.core.system.scm.model.RepModel;
+import com.mobinil.sds.core.system.scm.model.SupervisorModel;
+import com.mobinil.sds.core.system.scm.model.TeamleaderModel;
 import com.mobinil.sds.core.utilities.GetUploadedFile;
 import com.mobinil.sds.core.utilities.Utility;
 import com.mobinil.sds.web.interfaces.InterfaceKey;
@@ -1794,12 +1797,25 @@ public class SCMRequestHandler {
                     String salesrepDetail = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_SALESREP_NAME);
                    
                     
+                    Vector<SupervisorModel> allSupervisors = RepManagementDAO.getSupervisors(con);
+                    Vector<TeamleaderModel> allTeamleaders = RepManagementDAO.getTeamleaders(con);
+                    Vector<RepModel> allReps = RepManagementDAO.getReps(con);
+                    
+                    dataHashMap.put("AllSupervisors", allSupervisors);
+                    dataHashMap.put("AllTeamleaders", allTeamleaders);
+                    dataHashMap.put("AllReps", allReps);
+                    
                     System.out.println("supervisor id JSP : "+supervisorDetail);
                     System.out.println("teamleader id JSP : "+teamleaderDetail);
                     System.out.println("salesrep id JSP : "+salesrepDetail);
                     
                     posGeneralData = new PosModel();
                     posDetailModel = new POSDetailModel();
+                    
+                    UserDataModel userData2 = new UserDataModel();
+                    UserDataModel teamleaderData2 = new UserDataModel();
+                    UserDataModel salesrepData2 = new UserDataModel();
+                    
                     
                     DCM_CODE = RequestDao.getDCMCodeForPOS(posDetailId);
                     
@@ -1875,26 +1891,26 @@ public class SCMRequestHandler {
                    // posGeneralData.setPosDetailModel(posDetailModel);
                     posGeneralData = RequestDao.getPosData(con, posGeneralData, DCM_CODE,posDetailId);
                     posGeneralData = RequestDao.getPosDetailData(con, posGeneralData, posDetailId);
-                    System.out.println("in EDIT befire getuserbyid : "+posGeneralData.getPosDetailModel().getSupervisorName());
+                    System.out.println("in EDIT before getuserbyid : "+posGeneralData.getPosDetailModel().getSupervisorName());
                     
                     
                     
                     
                     if (supervisorDetail!=null && supervisorDetail.compareTo("")!=0 && supervisorDetail.compareTo("---")!=0)
-                        userData = RequestDao.getUserDataByDetailId(con, supervisorDetail);
-                    else
-                        userData = RequestDao.getUserDataByDetailId(con, posGeneralData.getPosDetailModel().getSupervisorName()/*supervisorDetailId*/);
+                        userData2 = RequestDao.getUserDataByDetailId(con, supervisorDetail);
+                    else if(posGeneralData.getPosDetailModel().getSupervisorName()!=null)
+                        userData2 = RequestDao.getUserDataByDetailId(con, posGeneralData.getPosDetailModel().getSupervisorName()/*supervisorDetailId*/);
                     
                     if (teamleaderDetail!=null && teamleaderDetail.compareTo("")!=0 && teamleaderDetail.compareTo("---")!=0)
-                        teamleaderData = RequestDao.getUserDataByDetailId(con, teamleaderDetail);
-                    else
-                        teamleaderData = RequestDao.getUserDataByDetailId(con, posGeneralData.getPosDetailModel().getTeamleaderName()/*teamleaderDetailId*/);
+                        teamleaderData2 = RequestDao.getUserDataByDetailId(con, teamleaderDetail);
+                    else if(posGeneralData.getPosDetailModel().getTeamleaderName()!=null)
+                        teamleaderData2 = RequestDao.getUserDataByDetailId(con, posGeneralData.getPosDetailModel().getTeamleaderName()/*teamleaderDetailId*/);
                     
                     
                     if (salesrepDetail!=null && salesrepDetail.compareTo("")!=0 && salesrepDetail.compareTo("---")!=0)
-                        salesrepData = RequestDao.getUserDataByDetailId(con, salesrepDetail);
-                    else
-                        salesrepData = RequestDao.getUserDataByDetailId(con, posGeneralData.getPosDetailModel().getSalesrepName()/*salesrepDetailId*/);
+                        salesrepData2 = RequestDao.getUserDataByDetailId(con, salesrepDetail);
+                    else if(posGeneralData.getPosDetailModel().getSalesrepName()!=null)
+                        salesrepData2 = RequestDao.getUserDataByDetailId(con, posGeneralData.getPosDetailModel().getSalesrepName()/*salesrepDetailId*/);
                     
                     System.out.println("action_pos_data_edit: posData.getPosDetailModel().getPosRegionID() "+posGeneralData.getPosDetailModel().getPosRegionID());
                     dataHashMap.put(SCMInterfaceKey.SIMILAR_POS_LIST, posGeneralData);
@@ -1959,9 +1975,9 @@ public class SCMRequestHandler {
 
                     dataHashMap.put(SCMInterfaceKey.POS_DETAIL_MODEL, posDetailModel);//SCMInterfaceKey.SIMILAR_POS_LIST
                     dataHashMap.put(SCMInterfaceKey.SIMILAR_POS_LIST, posGeneralData);
-                    dataHashMap.put(SCMInterfaceKey.SIMILAR_USER_LIST, userData);
-                    dataHashMap.put(SCMInterfaceKey.SIMILAR_TEAMLEADER_LIST, teamleaderData);
-                    dataHashMap.put(SCMInterfaceKey.SIMILAR_SALESREP_LIST, salesrepData);
+                    dataHashMap.put(SCMInterfaceKey.SIMILAR_USER_LIST, userData2);
+                    dataHashMap.put(SCMInterfaceKey.SIMILAR_TEAMLEADER_LIST, teamleaderData2);
+                    dataHashMap.put(SCMInterfaceKey.SIMILAR_SALESREP_LIST, salesrepData2);
                     break;
 
                 case action_pos_data_edit_store:
@@ -1980,6 +1996,9 @@ public class SCMRequestHandler {
                     String docChanged = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_POS_DOC_CHANGE);
                     posDetailId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_POS_ID);
 
+                    String supervisorID = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_NAME);
+                    System.out.println("action_pos_data_edit_store sup id : "+supervisorID);
+                    
                     String posName = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_NAME);
                     String posCodeValue1 = (String) paramHashMap.get("pos_code");
                     String posArabicName = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_ARABIC_POS_NAME);

@@ -31,6 +31,7 @@
           import="com.mobinil.sds.core.system.dcm.genericModel.DAO.*"
           import="com.mobinil.sds.core.system.dcm.pos.model.*"
           import="com.mobinil.sds.core.system.dcm.region.model.*"
+          import="com.mobinil.sds.core.system.scm.model.*"
           import="com.mobinil.sds.core.system.request.model.*"
           %>
 
@@ -104,8 +105,8 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     
     String formAction8 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
                     +InterfaceKey.HASHMAP_KEY_ACTION+"="
-                    +SCMInterfaceKey.ACTION_POS_DATA_EDIT_STORE;%>
-        <%
+                    +SCMInterfaceKey.ACTION_POS_DATA_EDIT_STORE;
+        
             HashMap dataHashMap = new HashMap(100);
             dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
             
@@ -116,6 +117,14 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
             UserDataModel userData = (UserDataModel) dataHashMap.get(SCMInterfaceKey.SIMILAR_USER_LIST);
             UserDataModel teamleaderData = (UserDataModel) dataHashMap.get(SCMInterfaceKey.SIMILAR_TEAMLEADER_LIST);
             UserDataModel salesrepData = (UserDataModel) dataHashMap.get(SCMInterfaceKey.SIMILAR_SALESREP_LIST);
+            
+            Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel> allSupers=(Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel>)dataHashMap.get("AllSupervisors"); 
+            Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel> allTeams=(Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel>)dataHashMap.get("AllTeamleaders"); 
+            Vector<com.mobinil.sds.core.system.scm.model.RepModel> allReps=(Vector<com.mobinil.sds.core.system.scm.model.RepModel>)dataHashMap.get("AllReps"); 
+            
+            
+            
+            
             
             String region = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_REGION);
     String governrate = (String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_GOVER);
@@ -1280,10 +1289,79 @@ $("#formPosMangement").submit(function(){
         
         
         out.println("<TR>");
-        out.println("<TD colspan=2 class=TableTextNote>Manager Data ");
-
+        out.println("<TD colspan=2 class=TableTextNote>Users Data ");
         out.println("</TD>");
         out.println("</tr>");
+        
+        
+        
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD colspan=2>");
+        out.println("      <table border=1 align='center' width='100%'>");
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD width='40%'>Supervisor Name</TD>");
+        out.println("      <TD><select  name='" + SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_NAME + "' id='" + SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_NAME + "'>");
+        out.println("<option value=0>--</option>");
+        for (int i = 0; i < allSupers.size(); i++) {
+            com.mobinil.sds.core.system.scm.model.SupervisorModel supervisor = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
+            if (userData.getDcmUserId()!=null && supervisor.getSupervisorId().compareTo(userData.getDcmUserId())==0) 
+                out.println("<option value='"+userData.getDcmUserId()+"'>"+userData.getUserFullName()+"</option>");
+            
+            else 
+                out.println("<option value='"+supervisor.getSupervisorId()+"'>"+supervisor.getSupervisorName()+"</option>");
+            
+        }
+         out.println("</select></TD>");
+            
+        
+        out.println("</tr>");
+        
+        
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD width='40%'>Teaml Leader Name</TD>");
+        out.println("      <TD><select  name='" + SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_NAME + "' id='" + SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_NAME + "'>");
+        out.println("<option value=0>--</option>");
+        for (int i = 0; i < allTeams.size(); i++) {
+            com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
+            if (teamleaderData.getDcmUserId()!=null && teamleader.getTeamleaderId().compareTo(userData.getDcmUserId())==0) 
+                out.println("<option value='"+teamleaderData.getDcmUserId()+"'>"+teamleaderData.getUserFullName()+"</option>");
+            
+            else 
+                out.println("<option value='"+teamleader.getTeamleaderId()+"'>"+teamleader.getTeamleaderName()+"</option>");
+            
+        }
+         out.println("</select></TD>");
+        out.println("</tr>");
+         
+        
+        
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD width='40%'>Salesrep Name</TD>");
+        out.println("      <TD><select  name='" + SCMInterfaceKey.CONTROL_TEXT_SALESREP_NAME + "' id='" + SCMInterfaceKey.CONTROL_TEXT_SALESREP_NAME + "'>");
+        out.println("<option value=0>--</option>");
+        for (int i = 0; i < allReps.size(); i++) {
+            com.mobinil.sds.core.system.scm.model.RepModel rep = (com.mobinil.sds.core.system.scm.model.RepModel) allReps.get(i);
+            if (salesrepData.getDcmUserId()!=null && rep.getRepId().compareTo(salesrepData.getDcmUserId())==0) 
+                out.println("<option value='"+salesrepData.getDcmUserId()+"'>"+salesrepData.getUserFullName()+"</option>");
+            
+            else 
+                out.println("<option value='"+rep.getRepId()+"'>"+rep.getRepName()+"</option>");
+            
+        }
+         out.println("</select></TD>");
+        out.println("</tr>");
+          out.println("      </table>");
+        out.println("      </TD>");
+        out.println("</tr>");
+        
+        
+         
+        
+        out.println("<TR>");
+        out.println("<TD colspan=2 class=TableTextNote>Manager Data ");
+        out.println("</TD>");
+        out.println("</tr>");
+        
         out.println("<TR class=TableTextNote>");
         out.println("      <TD colspan=2>");
         out.println("      <table border=1 align='center' width='100%'>");
@@ -1987,19 +2065,19 @@ $("#formPosMangement").submit(function(){
          
         }
 
-        
+       // alert("before flag");
         if(flag != 1)
         {
           
-            
+            alert(flag);
             document.formDataView.phones__R0__C1.value=trimPhone(document.formDataView.phones__R0__C1.value);
             document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value=trimPhone(document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value);
             document.formDataView.manager_phones__R0__C1.value=trimPhone(document.formDataView.manager_phones__R0__C1.value);
             document.formDataView.owner_phones__R0__C1.value=trimPhone(document.formDataView.owner_phones__R0__C1.value);
             document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_MOBILE%>.value=trimPhone(document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_MOBILE%>.value);
             document.formDataView.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%= SCMInterfaceKey.ACTION_POS_DATA_EDIT_STORE%>';
-        
-            $("#formDataView").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction8);%>");
+        alert(document.formDataView.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value);
+           // $("#formDataView").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction8);%>");
             document.formDataView.submit();
         }
 

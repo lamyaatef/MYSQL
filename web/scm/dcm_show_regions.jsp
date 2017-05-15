@@ -633,7 +633,7 @@ span:hover {
                 //System.out.println("jsp regions LEVEL "+Level);
                 if (regions.get(0).getRegionLevelTypeId().compareTo("4")!=0 && regions.get(0).getRegionLevelTypeId().compareTo("6")!=0)
                     disabled = "disabled";
-                System.out.println("region: jsp regions LEVEL disabled? "+disabled);
+                //System.out.println("region: jsp regions LEVEL disabled? "+disabled);
                 if (childnum.parseInt(regions.get(0).getRegionLevelTypeId()) == 5/*max*/) {
                 %>
                 <td align = "center" >View Details</td>
@@ -756,7 +756,7 @@ span:hover {
                 
                 if (childRegions.get(0).getRegionLevelTypeId().compareTo("4")!=0 && childRegions.get(0).getRegionLevelTypeId().compareTo("6")!=0)
                     disabled = "disabled";
-                System.out.println("child regions: jsp regions LEVEL disabled? "+disabled);
+                //System.out.println("child regions: jsp regions LEVEL disabled? "+disabled);
                 
                 
                 if (childnum.parseInt(childRegions.get(0).getRegionLevelTypeId()) == 5/*max*/) {
