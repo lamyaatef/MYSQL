@@ -1275,10 +1275,11 @@ $("#formPosMangement").submit(function(){
          * End of Change
          *
          */
-        out.println("      <TD><input  value='" + posData.getPosDetailModel().getPosOwnerIDNumber() + "' type='text' name='" + SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_ID_NUMBER_HIDDEN + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_ID_NUMBER_HIDDEN + "'></TD>");
+        if(posData.getPosDetailModel().getPosOwnerIDNumber()!=null && posData.getPosDetailModel().getPosOwnerIDNumber().compareToIgnoreCase("null")!=0)
+            out.println("      <TD><input  value='" + posData.getPosDetailModel().getPosOwnerIDNumber() + "' type='text' name='" + SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_ID_NUMBER_HIDDEN + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_ID_NUMBER_HIDDEN + "'></TD>");
 
-
-
+        else
+            out.println("      <TD><input  value='' type='text' name='" + SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_ID_NUMBER_HIDDEN + "' id='" + SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_ID_NUMBER_HIDDEN + "'></TD>");
 
         out.println("</tr>");
 
@@ -1318,7 +1319,7 @@ $("#formPosMangement").submit(function(){
         
         
         out.println("<TR class=TableTextNote>");
-        out.println("      <TD width='40%'>Teaml Leader Name</TD>");
+        out.println("      <TD width='40%'>Team Leader Name</TD>");
         out.println("      <TD><select  name='" + SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_NAME + "' id='" + SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_NAME + "'>");
         out.println("<option value=0>--</option>");
         for (int i = 0; i < allTeams.size(); i++) {
@@ -2065,19 +2066,20 @@ $("#formPosMangement").submit(function(){
          
         }
 
-       // alert("before flag");
+       
         if(flag != 1)
         {
           
-            alert(flag);
+            
             document.formDataView.phones__R0__C1.value=trimPhone(document.formDataView.phones__R0__C1.value);
             document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value=trimPhone(document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_STK_DIAL%>.value);
             document.formDataView.manager_phones__R0__C1.value=trimPhone(document.formDataView.manager_phones__R0__C1.value);
             document.formDataView.owner_phones__R0__C1.value=trimPhone(document.formDataView.owner_phones__R0__C1.value);
-            document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_MOBILE%>.value=trimPhone(document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_MOBILE%>.value);
-            document.formDataView.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%= SCMInterfaceKey.ACTION_POS_DATA_EDIT_STORE%>';
-        alert(document.formDataView.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value);
-           // $("#formDataView").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction8);%>");
+            //document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_MOBILE%>.value=trimPhone(document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_MOBILE%>.value);
+            //document.formDataView.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%= SCMInterfaceKey.ACTION_POS_DATA_EDIT_STORE%>';
+            
+        
+            $("#formDataView").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction8);%>");
             document.formDataView.submit();
         }
 

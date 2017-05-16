@@ -64,6 +64,10 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
                     +InterfaceKey.HASHMAP_KEY_ACTION+"="
                     +SCMInterfaceKey.ACTION_SHOW_DETAIL_POS_DATA_MANAGEMENT;
 
+String formAction8 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.ACTION_POS_DATA_ENTRY;
+
 %>
 
 
@@ -759,7 +763,8 @@ String formAction7 = appName +"/servlet/com.mobinil.sds.web.controller.WebContro
     function preRequestDataEntryWithoutStk()
     {
         //alert("hi");
-        document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value  = '<%=SCMInterfaceKey.ACTION_POS_DATA_ENTRY%>';
+        $("#formPosMangement").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction8);%>");
+        //document.formPosMangement.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value  = '<%=SCMInterfaceKey.ACTION_POS_DATA_ENTRY%>';
         document.formPosMangement.submit();
     }
     function preRequestDataEntryWithStk()

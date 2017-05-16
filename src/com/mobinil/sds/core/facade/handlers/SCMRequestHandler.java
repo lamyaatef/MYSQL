@@ -646,7 +646,13 @@ public class SCMRequestHandler {
 
                     
                         
-                        
+                        Vector<SupervisorModel> allSupervisors = RepManagementDAO.getSupervisors(con);
+                    Vector<TeamleaderModel> allTeamleaders = RepManagementDAO.getTeamleaders(con);
+                    Vector<RepModel> allReps = RepManagementDAO.getReps(con);
+                    
+                    dataHashMap.put("AllSupervisors", allSupervisors);
+                    dataHashMap.put("AllTeamleaders", allTeamleaders);
+                    dataHashMap.put("AllReps", allReps);
                         
                         
                         
@@ -698,7 +704,10 @@ public class SCMRequestHandler {
                         
                         
                         
-                        
+                        String supervisorID = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_NAME);
+                        String teamleaderID = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_NAME);
+                        String salesrepID = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_SALESREP_NAME);
+                        System.out.println("action_pos_data_edit_store sup id : "+supervisorID+" team id : "+teamleaderID+" rep id : "+salesrepID);
                         
                         String channelId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_CHANNEL);
                         String levelId = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_LEVEL);
@@ -800,13 +809,10 @@ public class SCMRequestHandler {
                         POSDetailModel mdl = new POSDetailModel();
                         
                         /////////////////////////lamya/////////////////////////////////////////////
-                      UserDataModel userData = new UserDataModel();
+                     /* UserDataModel userData = new UserDataModel();
                         UserDataModel teamleaderData = new UserDataModel();
                         UserDataModel salesrepData = new UserDataModel();
-                        
-                    userData = new UserDataModel();
-                    teamleaderData = new UserDataModel();
-                    salesrepData = new UserDataModel();
+                       
 
 
                     
@@ -829,11 +835,11 @@ public class SCMRequestHandler {
                     String salesrepAddress = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_SALESREP_ADDRESS);
                     
                     salesrepData = RequestDao.insertUserDetail(con, salesrepName,salesrepMobile,salesrepEmail,salesrepAddress, "6", districtId, null); //managerId   
+*/
 
-
-                    mdl.setSupervisorName(userData.getDcmUserId());
-                    mdl.setTeamleaderName(teamleaderData.getDcmUserId());
-                    mdl.setSalesrepName(salesrepData.getDcmUserId());
+                    mdl.setSupervisorName(supervisorID);
+                    mdl.setTeamleaderName(teamleaderID);
+                    mdl.setSalesrepName(salesrepID);
                     Long l = Long.parseLong(orangeMoneyNum);
                     
                     mdl.setMobicashNum(l.longValue());
@@ -969,6 +975,9 @@ public class SCMRequestHandler {
                                 //Ahmed Adel 30\1\2012
                             }
                             RequestDao.updateGenDcm(con, posModel, "1", posId, strUserID);
+                            
+                            RequestDao.updateSCMUserRegion(con, posModel, posId, strUserID);
+                            
                             Long pos_detail_id = RequestDao.insertPosDetail(con, posModel, posId, "1");
 
 
@@ -1997,7 +2006,9 @@ public class SCMRequestHandler {
                     posDetailId = (String) paramHashMap.get(SCMInterfaceKey.INPUT_HIDDEN_POS_ID);
 
                     String supervisorID = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_NAME);
-                    System.out.println("action_pos_data_edit_store sup id : "+supervisorID);
+                    String teamleaderID = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_NAME);
+                    String salesrepID = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_SALESREP_NAME);
+                    System.out.println("action_pos_data_edit_store sup id : "+supervisorID+" team id : "+teamleaderID+" rep id : "+salesrepID);
                     
                     String posName = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_TEXT_POS_NAME);
                     String posCodeValue1 = (String) paramHashMap.get("pos_code");
@@ -2076,7 +2087,7 @@ public class SCMRequestHandler {
                     
                     int branchIndicator = 0;
                     String branchValue = "";
-                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!! " + posCodeValue1);
+                    System.out.println(" posCodeValue1 " + posCodeValue1);
 
 
                     String strFlagSuperAdmin = (String) paramHashMap.get(SCMInterfaceKey.CONTROL_HIDDEN_POS_SUPER_ADMIN_FLAG);
@@ -2196,6 +2207,11 @@ public class SCMRequestHandler {
                     posModel.getPosDetailModel().setPaymentLevel(Payment);
                     posModel.getPosDetailModel().setPaymentMethod(PaymentM);
                     
+                    posModel.getPosDetailModel().setSalesrepName(salesrepID);
+                    posModel.getPosDetailModel().setSupervisorName(supervisorID);
+                    posModel.getPosDetailModel().setTeamleaderName(teamleaderID);
+                    
+                    
                     //posModel.setPosDetailModel(mdl);
                     
                     posModel.setDocLocation(strDocLoc);
@@ -2210,7 +2226,7 @@ public class SCMRequestHandler {
                     if (stkDialNum == null || stkDialNum.compareTo("") == 0 || stkChanged.compareTo("1") == 0) {
                         stkFlag = true;
                     }
-                    System.out.println("pos id issssssssssssssssss " + posId);
+                    System.out.println("pos id is " + posId);
                     if (stkFlag == false && stkId == 0) // stk data entered but invalid or entered b4
                     {
                         System.out.println("Sorry , STK Dial Invalid or Can't be updated its Data .. " + stkFlag + stkId);
@@ -2245,11 +2261,10 @@ public class SCMRequestHandler {
                         }
                         
                         RequestDao.updateGenDcmUpdated(con, posModel, posId, strUserID);
+                        RequestDao.updateSCMUserRegion(con, posModel, posId, strUserID);
                         RequestDao.deletePosDetailForEdit(con, posDetailId, strUserID);
                         
-                        posModel.getPosDetailModel().setSupervisorName(superId);
-                        posModel.getPosDetailModel().setTeamleaderName(teamId);
-                        posModel.getPosDetailModel().setSalesrepName(repId);
+                        
                         
                        // posModel.setPosDetailModel(mdl);
                         Long pos_detail_id = RequestDao.insertPosDetail(con, posModel, posId, "1");
@@ -2259,7 +2274,6 @@ public class SCMRequestHandler {
                             RequestDao.updateStkData(con, stkDialNum.trim(), posId + "", strUserID, "");
                         }
                         dataHashMap.put(SCMInterfaceKey.REP_KIT_Alert, "POS Data Updated Successfully ..");
-                        System.out.println("TEST action_pos_data_edit_store TEST");
                         dataHashMap.put(SCMInterfaceKey.POS_DETAIL_MODEL, /*mdl*/posModel.getPosDetailModel());//SCMInterfaceKey.SIMILAR_POS_LIST
                         dataHashMap.put(SCMInterfaceKey.SIMILAR_POS_LIST, posModel);
                        /* dataHashMap.put(SCMInterfaceKey.SIMILAR_USER_LIST, userData);

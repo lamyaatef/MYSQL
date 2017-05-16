@@ -22,7 +22,7 @@
           import="com.mobinil.sds.core.system.dcm.pos.model.*"
           import="com.mobinil.sds.core.system.dcm.region.model.*"
           import="com.mobinil.sds.core.system.request.model.*"
-%>
+    %>
 <script>
       function drawCalender(argOrder,argValue)
   {
@@ -37,6 +37,9 @@
 </script>
 <%
 String appName = request.getContextPath();
+String formAction8 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.ACTION_POS_DATA_EDIT_STORE;
 %>
 <SCRIPT language=JavaScript>
   function checkbeforSubmit()
@@ -562,6 +565,14 @@ pos_level= (String)dataHashMap.get("pos_level");
             String payment=(String) dataHashMap.get(SCMInterfaceKey.CONTROL_TEXT_PAYMENT_LEVEL);
 
 
+            
+            
+            Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel> allSupers=(Vector<com.mobinil.sds.core.system.scm.model.SupervisorModel>)dataHashMap.get("AllSupervisors"); 
+            Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel> allTeams=(Vector<com.mobinil.sds.core.system.scm.model.TeamleaderModel>)dataHashMap.get("AllTeamleaders"); 
+            Vector<com.mobinil.sds.core.system.scm.model.RepModel> allReps=(Vector<com.mobinil.sds.core.system.scm.model.RepModel>)dataHashMap.get("AllReps"); 
+        
+            
+            
 
 
             Object parentIdObj =  dataHashMap.get(SCMInterfaceKey.CONTROL_REGION_PARENT_ID);
@@ -885,6 +896,7 @@ selectedId = selectedId==null || selectedId.compareTo("")==0 ? pos_region : sele
                 out.println("<option " + ((selectedId != null && selectedId.compareTo(placeDataModel.getRegionId() + "") == 0) ? "selected" : "") + " value=" + placeDataModel.getRegionId() + ">" + placeDataModel.getRegionName() + "</option>");
             }
         }*/
+        out.println("<input class='button' " + disabledStrCity + " type='button' name='similar_city' id='similar_city' value='All POS in City'  onclick=similarCity(); />");
         out.println("</select></TD>");
         
         
@@ -892,7 +904,7 @@ selectedId = selectedId==null || selectedId.compareTo("")==0 ? pos_region : sele
         //ild: drowRegionChild(out, regionsChilds, "3", SCMInterfaceKey.CONTROL_TEXT_POS_CITY, posData.getCityId() + "");
         //drawSelectRegions(out, (Vector<PlaceDataModel>) regions, SCMInterfaceKey.CONTROL_TEXT_POS_CITY, city, 3/*,disabled*/);
         //out.println("&nbsp;&nbsp;");
-        out.println("<input class='button' " + disabledStrCity + " type='button' name='similar_city' id='similar_city' value='All POS in City'  onclick=similarCity(); />");
+        
         //out.println("</TD>");
         out.println("</tr>");
 
@@ -912,7 +924,7 @@ selectedId = selectedId==null || selectedId.compareTo("")==0 ? pos_region : sele
                 out.println("<option " + ((selectedId != null && selectedId.compareTo(placeDataModel.getRegionId() + "") == 0) ? "selected" : "") + " value=" + placeDataModel.getRegionId() + ">" + placeDataModel.getRegionName() + "</option>");
             }
         }*/
-        out.println("</select></TD>");
+        out.println("</select><font style='font-size: 11px;font-family: tahoma;line-height: 15px;color: red'>*</font></TD>");
         out.println("</tr>");
 
         
@@ -953,12 +965,13 @@ selectedId = selectedId==null || selectedId.compareTo("")==0 ? pos_region : sele
                 out.println("<option " + ((selectedId != null && selectedId.compareTo(placeDataModel.getRegionId() + "") == 0) ? "selected" : "") + " value=" + placeDataModel.getRegionId() + ">" + placeDataModel.getRegionName() + "</option>");
             }
         }*/
+        out.println("<input class='button' " + disabledStrArea + " name='similar_area' id='similar_area' type='button' value='All POS in Area'  onclick=similarArea(); />");
         out.println("</select></TD>");
         //out.println("<TD>");
         //old: drowRegionChild(out, regionsChilds, "5", SCMInterfaceKey.CONTROL_TEXT_POS_AREA, posData.getAreaId() + "");
         
         //out.println("&nbsp;&nbsp;");
-        out.println("<input class='button' " + disabledStrArea + " name='similar_area' id='similar_area' type='button' value='All POS in Area'  onclick=similarArea(); />");
+        
         //out.println("</TD>");
         out.println("</tr>");
 
@@ -1130,8 +1143,8 @@ selectedId = selectedId==null || selectedId.compareTo("")==0 ? pos_region : sele
       
       
       String ownerIDTypeName = "";
-      out.println("<tr>");
-      out.println("<td>Owner Data ");
+      out.println("<tr class=TableTextNote>");
+      out.println("<td width='40%'>Owner Data ");
 
       out.println("</td>");
       out.println("</tr>");
@@ -1180,8 +1193,68 @@ selectedId = selectedId==null || selectedId.compareTo("")==0 ? pos_region : sele
       out.println("      </table>");
       out.println("      </TD>");
       out.println("</tr>");
-      out.println("<tr>");
-      out.println("<td>Manager Data ");
+      /////////////////////////////////////////////////////////////////////
+      out.println("<TR>");
+        out.println("<TD colspan=2 class=TableTextNote>Users Data ");
+        out.println("</TD>");
+        out.println("</tr>");
+        
+        
+        
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD colspan=2>");
+        out.println("      <table border=1 align='center' width='100%'>");
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD width='40%'>Supervisor Name</TD>");
+        out.println("      <TD><select  name='" + SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_NAME + "' id='" + SCMInterfaceKey.CONTROL_TEXT_SUPERVISOR_NAME + "'>");
+        out.println("<option value=0>--</option>");
+        for (int i = 0; i < allSupers.size(); i++) {
+            com.mobinil.sds.core.system.scm.model.SupervisorModel supervisor = (com.mobinil.sds.core.system.scm.model.SupervisorModel) allSupers.get(i);
+            out.println("<option value='"+supervisor.getSupervisorId()+"'>"+supervisor.getSupervisorName()+"</option>");
+            
+        }
+         out.println("</select></TD>");
+            
+        
+        out.println("</tr>");
+        
+        
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD width='40%'>Team Leader Name</TD>");
+        out.println("      <TD><select  name='" + SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_NAME + "' id='" + SCMInterfaceKey.CONTROL_TEXT_TEAMLEADER_NAME + "'>");
+        out.println("<option value=0>--</option>");
+        for (int i = 0; i < allTeams.size(); i++) {
+            com.mobinil.sds.core.system.scm.model.TeamleaderModel teamleader = (com.mobinil.sds.core.system.scm.model.TeamleaderModel) allTeams.get(i);
+            out.println("<option value='"+teamleader.getTeamleaderId()+"'>"+teamleader.getTeamleaderName()+"</option>");
+            
+        }
+         out.println("</select></TD>");
+        out.println("</tr>");
+         
+        
+        
+        out.println("<TR class=TableTextNote>");
+        out.println("      <TD width='40%'>Salesrep Name</TD>");
+        out.println("      <TD><select  name='" + SCMInterfaceKey.CONTROL_TEXT_SALESREP_NAME + "' id='" + SCMInterfaceKey.CONTROL_TEXT_SALESREP_NAME + "'>");
+        out.println("<option value=0>--</option>");
+        for (int i = 0; i < allReps.size(); i++) {
+            com.mobinil.sds.core.system.scm.model.RepModel rep = (com.mobinil.sds.core.system.scm.model.RepModel) allReps.get(i);
+            out.println("<option value='"+rep.getRepId()+"'>"+rep.getRepName()+"</option>");
+            
+        }
+         out.println("</select></TD>");
+        out.println("</tr>");
+          out.println("      </table>");
+        out.println("      </TD>");
+        out.println("</tr>");
+        
+      
+      
+      
+      
+      ///////////////////////////////////////////////////////////////////////
+      out.println("<tr class=TableTextNote>");
+      out.println("<td width='40%'>Manager Data ");
 
       out.println("</td>");
       out.println("</tr>");
@@ -1247,8 +1320,8 @@ selectedId = selectedId==null || selectedId.compareTo("")==0 ? pos_region : sele
       out.println("      </TD>");
       out.println("</tr>");
 
-      out.println("<tr>");
-      out.println("<td>Documents ");
+      out.println("<tr class=TableTextNote>");
+      out.println("<td width='40%'>Documents ");
 
       out.println("</td>");
       out.println("</tr>");
@@ -1293,8 +1366,8 @@ selectedId = selectedId==null || selectedId.compareTo("")==0 ? pos_region : sele
       document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DOC_NUM %>.disabled=true;
       </script>
 <%
-      out.println("<tr>");
-      out.println("<td>STK Data ");
+      out.println("<tr class=TableTextNote>");
+      out.println("<td width='40%'>STK Data ");
 
       out.println("</td>");
       out.println("</tr>");
@@ -1310,8 +1383,8 @@ selectedId = selectedId==null || selectedId.compareTo("")==0 ? pos_region : sele
       out.println("</tr>");
       out.println("</tr>");
       out.println("</table>");
-      out.println("<tr>");
-      out.println("<td>Iqrar Data");
+      out.println("<tr class=TableTextNote>");
+      out.println("<td width='40%'>Iqrar Data");
 
       out.println("</td>");
       out.println("</tr>");
@@ -1336,13 +1409,13 @@ selectedId = selectedId==null || selectedId.compareTo("")==0 ? pos_region : sele
       out.println("<TD><Script>drawCalender('" +SCMInterfaceKey.CONTROL_TEXT_IQRAR_DATE+ "',\""+(control_text_iqrar_date==null||control_text_iqrar_date.compareTo("")==0?"*": control_text_iqrar_date)+"\");</script></TD>");
       out.println("</tr>");
       out.println("</table>");
-      out.println("<tr>");
+      out.println("<tr class=TableTextNote>");
 %>
       <script>
       document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_IQRAR_DATE%>.disabled=true;
       </script>
 <%
-      out.println("<td>General Data ");
+      out.println("<td width='40%'>General Data ");
 
       out.println("</td>");
       out.println("</tr>");
@@ -1596,6 +1669,11 @@ if( docLoc == "")
         flag = 1;
        alert("POS Code Accepts Numbers Only ...");
     }
+    else if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>.value") == "0" || eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>.value") == "")
+    {
+        flag = 1;
+         alert("Please Enter District ..");
+    }
    // else if(indicator== -1)
     //{
     // flag = 1;
@@ -1803,7 +1881,8 @@ document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_PHONE%>.value=tr
 
 if(flag != 1)
         {
-          document.formDataView.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%= SCMInterfaceKey.ACTION_POS_DATA_ENTRY_STORE %>';
+          //document.formDataView.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%= SCMInterfaceKey.ACTION_POS_DATA_ENTRY_STORE %>';
+          $("#formDataView").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction8);%>");
           formDataView.submit();
         }
 

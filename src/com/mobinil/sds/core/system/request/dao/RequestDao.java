@@ -428,7 +428,7 @@ public class RequestDao {
             
             
             
-            if(userDetailId!=null && userDetailId.compareTo("")!=0)
+            if(userDetailId!=null && userDetailId.compareTo("")!=0 && userDetailId.compareToIgnoreCase("null")!=0)
             {
                 String sqlString = "select * from dcm_user_detail , dcm_user where dcm_user_detail.user_detail_id = dcm_user.user_detail_id and dcm_user.dcm_user_id = dcm_user_detail.user_id and dcm_user_detail.user_detail_id='"+userDetailId+"' ";
                 
@@ -860,8 +860,96 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
      * 2011
      *
      */
+    
+    public static void updateSCMUserRegion(Connection con, PosModel posModel, int genDcmId, String userId) {
+        System.out.println("updateSCMUserRegion");
+        try {
+            Statement stmt = con.createStatement();
+            
+            String city = Integer.toString(posModel.getCityId());
+            String district = Integer.toString(posModel.getDistrictId());
+            String imgDist = Integer.toString(posModel.getImgDistrictId());
+            
+            String supervisorId = posModel.getPosDetailModel().getSupervisorName();
+            String teamleaderId = posModel.getPosDetailModel().getTeamleaderName();
+            String repId = posModel.getPosDetailModel().getSalesrepName();
+            
+            String update = "";
+            String update2 = "";
+            String update3 = "";
+            
+            
+            String insert = "";
+            String insert2 = "";
+            String insert3 = "";
+            
+            boolean distExits = false;
+            boolean imgDistExits = false;
+            
+            if(district!=null && district.compareTo("")!=0 && district.compareToIgnoreCase("null")!=0)
+            {
+                String checkDist = "select * from scm_user_region where region_id='"+district+"' and region_level_type_id=4 ";
+                ResultSet rs = stmt.executeQuery(checkDist);
+                if(rs.next())
+                    distExits=true;
+                if(distExits)
+                {
+                    update = "UPDATE scm_user_region SET user_id = "+supervisorId+" , user_level_type_id= 4 where region_id='"+district+"'";
+                    update2 = "UPDATE scm_user_region SET user_id = "+teamleaderId+" , user_level_type_id= 5 where region_id='"+district+"'";
+                    update3 = "UPDATE scm_user_region SET user_id = "+repId+" , user_level_type_id= 6 where region_id='"+district+"'";
+                    stmt.execute(update);
+                    stmt.execute(update2);
+                    stmt.execute(update3);
+                }
+                else
+                {
+                    insert = "insert into scm_user_region values('"+district+"','"+supervisorId+"',4,4)";
+                    insert2 = "insert into scm_user_region values('"+district+"','"+teamleaderId+"',5,4)";
+                    insert3 = "insert into scm_user_region values('"+district+"','"+repId+"',6,4)";
+                    stmt.execute(insert);
+                    stmt.execute(insert2);
+                    stmt.execute(insert3);
+                }
+                
+            }
+            
+            if(imgDist!=null && imgDist.compareTo("")!=0 && imgDist.compareToIgnoreCase("null")!=0)
+            {
+                String checkDist = "select * from scm_user_region where region_id='"+imgDist+"' and region_level_type_id=6 ";
+                ResultSet rs = stmt.executeQuery(checkDist);
+                if(rs.next())
+                    imgDistExits=true;
+                if(imgDistExits)
+                {
+                    update = "UPDATE scm_user_region SET user_id = "+supervisorId+" , user_level_type_id= 4 where region_id='"+imgDist+"'";
+                    update2 = "UPDATE scm_user_region SET user_id = "+teamleaderId+" , user_level_type_id= 5 where region_id='"+imgDist+"'";
+                    update3 = "UPDATE scm_user_region SET user_id = "+repId+" , user_level_type_id= 6 where region_id='"+imgDist+"'";
+                    stmt.execute(update);
+                    stmt.execute(update2);
+                    stmt.execute(update3);
+                }
+                else
+                {
+                    insert = "insert into scm_user_region values('"+imgDist+"','"+supervisorId+"',4,6)";
+                    insert2 = "insert into scm_user_region values('"+imgDist+"','"+teamleaderId+"',5,6)";
+                    insert3 = "insert into scm_user_region values('"+imgDist+"','"+repId+"',6,6)";
+                    stmt.execute(insert);
+                    stmt.execute(insert2);
+                    stmt.execute(insert3);
+                }
+                
+            }
+            
+            //System.out.print("update "+update);
+            
+            stmt.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
     public static void updateGenDcmUpdated(Connection con, PosModel posModel, int genDcmId, String userId) {
-        System.out.println("lamya inside updateGenDcmUpdated in RequestDao.java");
+        System.out.println("updateGenDcmUpdated");
         try {
             Statement stmt = con.createStatement();
             //lamya
@@ -921,10 +1009,8 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
             String city = Integer.toString(posModel.getCityId());
             String district = Integer.toString(posModel.getDistrictId());
             String imgDist = Integer.toString(posModel.getImgDistrictId());
-
-            String update = "UPDATE GEN_DCM SET dcm_img_district_id='"+imgDist+"' DCM_STATUS_ID = "+posStatus+" , MOBICASH_NUMBER= "+mobicashNum+" ,PAYMENT_TYPE_METHOD_ID = '"+payMethod+"' , DCM_NAME='" + posName + "' ,DCM_CITY_ID='" + city + "',DCM_DISTRICT_ID='" + district + "' ,DCM_EMAIL= '" + posEmail + "' , DCM_PAYMENT_LEVEL_ID= '" + posPayment + "' , DCM_ADDRESS='" + posAddress + "' ,CHANNEL_ID='" + posChannel + "',DCM_LEVEL_ID= '" + posLevel + "' , REPORT_TO_CALIDUS ='"+reportToCalidus+"', IS_DIRTY = '1' ,IS_EXCLUSIVE = '"+isEX+"', IS_LEVEL_ONE = '"+isL1+"' , IS_QUALITY_CLUB = '"+isQC+"', HAS_SIGN = '"+hasSign+"', IS_MOBICASH = '"+isMobicash+"', IS_NOMAD = '"+isNomad+"' WHERE DCM_ID= " + genDcmId;
-
-            System.out.print(update);
+            String update = "UPDATE GEN_DCM SET dcm_img_district_id='"+imgDist+"', DCM_STATUS_ID = "+posStatus+" , MOBICASH_NUMBER= "+mobicashNum+" ,PAYMENT_TYPE_METHOD_ID = '"+payMethod+"' , DCM_NAME='" + posName + "' ,DCM_CITY_ID='" + city + "',DCM_DISTRICT_ID='" + district + "' ,DCM_EMAIL= '" + posEmail + "' , DCM_PAYMENT_LEVEL_ID= '" + posPayment + "' , DCM_ADDRESS='" + posAddress + "' ,CHANNEL_ID='" + posChannel + "',DCM_LEVEL_ID= '" + posLevel + "' , REPORT_TO_CALIDUS ='"+reportToCalidus+"', IS_DIRTY = '1' ,IS_EXCLUSIVE = '"+isEX+"', IS_LEVEL_ONE = '"+isL1+"' , IS_QUALITY_CLUB = '"+isQC+"', HAS_SIGN = '"+hasSign+"', IS_MOBICASH = '"+isMobicash+"', IS_NOMAD = '"+isNomad+"' WHERE DCM_ID= '" +genDcmId+"' ";
+            System.out.print("update "+update);
             stmt.execute(update);
             stmt.close();
         } catch (Exception ex) {
@@ -1827,6 +1913,7 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
     
     public static Long insertPosDetail(Connection con, PosModel posModel, int dcmId, String statusTypeId) {
         Long posDetailId = null;
+        System.out.println("insertPosDetail");
         try {
             Statement stmt = con.createStatement();
             
@@ -1910,7 +1997,7 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
                     + "UPDATED_IN,USER_ID"
                     + ", POS_CHANNEL_ID , POS_BRANCH_OF , POS_GOVERNRATE , POS_AREA_ID , POS_DEMO_LINE , POS_PROPOSED_DOC_ID"
                         + " , POS_DOC_NUM , POS_RATE_ID , POS_PLACE_TYPE_ID , POS_DISTRICT_ID , POS_CITY_ID,SURVEY_DATE,SURVEY_ID,DCM_PAYMENT_LEVEL_ID,POS_ARABIC_NAME,POS_ARABIC_ADDRESS,HAS_SIGN,REPORT_TO_CALIDUS, PAYMENT_TYPE_METHOD_ID,DOC_LOCATION)"
-                    + "values('"+posModel.getImgDistrictId()+"',"+posModel.getPosDetailModel().getSupervisorName()+"','"+posModel.getPosDetailModel().getTeamleaderName()+"','"+posModel.getPosDetailModel().getSalesrepName()+"',"+mobicashNum+" , '"+isNomad+"','"+isMobicash+"','"+isEX+"','"+isL1+"','"+isQC+"', '"+posLevel+"','1'," + posDetailId
+                    + "values('"+posModel.getImgDistrictId()+"','"+posModel.getPosDetailModel().getSupervisorName()+"','"+posModel.getPosDetailModel().getTeamleaderName()+"','"+posModel.getPosDetailModel().getSalesrepName()+"',"+mobicashNum+" , '"+isNomad+"','"+isMobicash+"','"+isEX+"','"+isL1+"','"+isQC+"', '"+posLevel+"','1'," + posDetailId
                     + ",'" + dcmId + "','" + posCode + "','" + posName + "','" + posEmail + "','" + posAddress + "','" + statusTypeId + "','" + posRegion + "'"
                     + ",sysdate,'" + UserID + "', " + posModel.getChannelId() + " , '" + posModel.getBranchOf() + "', " + posModel.getGovernateId()
                     + " , " + posModel.getAreaId() + " , '" + posModel.getDemoLineNum() + "' , " + (posModel.getProposedDocId() == -1 ? "null" : posModel.getProposedDocId())
@@ -3646,13 +3733,13 @@ public static Vector getAllRegions(Connection con,String regionLevelTypeId) {
 
 
         Long historyId = DBUtil.getSequenceNextVal(con, "SCM_History");
-        String sqlDeleteDetail = "update dcm_pos_detail set flage=1,UPDATED_IN=sysdate,USER_ID=" + userId + ",HISTORY_ID=" + historyId + " where pos_Detail_id=" + posDetailId;
+        String sqlDeleteDetail = " update dcm_pos_detail set flage=1,UPDATED_IN=sysdate,USER_ID=" + userId + ",HISTORY_ID=" + historyId + " where pos_Detail_id=" + posDetailId;
         DBUtil.executeSQL(sqlDeleteDetail, con);
         System.out.println("after flage =1 update");
-        String sqlDeletePhones = "update dcm_pos_phone set flage=1,UPDATED_IN=sysdate,USER_ID=" + userId + ",HISTORY_ID=" + historyId + " where pos_Detail_id=" + posDetailId;
+        String sqlDeletePhones = " update dcm_pos_phone set flage=1,UPDATED_IN=sysdate,USER_ID=" + userId + ",HISTORY_ID=" + historyId + " where pos_Detail_id=" + posDetailId;
         DBUtil.executeSQL(sqlDeletePhones, con);
         System.out.println("after flage =1 update");
-        String sqlDeleteManagerPhones = "update DCM_POS_MANAGER_PHONE set FLAGE=1,UPDATED_IN=sysdate,HISTORY_ID=" + historyId + " where POS_MANAGER_ID = "
+        String sqlDeleteManagerPhones = " update DCM_POS_MANAGER_PHONE set FLAGE=1,UPDATED_IN=sysdate,HISTORY_ID=" + historyId + " where POS_MANAGER_ID = "
                 + "(SELECT POS_MANAGER_ID FROM DCM_POS_MANAGER WHERE POS_DETAIL_ID = " + posDetailId + " AND FLAGE IS NULL)";
 
         DBUtil.executeSQL(sqlDeleteManagerPhones);
