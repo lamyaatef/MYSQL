@@ -39,7 +39,7 @@
 String appName = request.getContextPath();
 String formAction8 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
                     +InterfaceKey.HASHMAP_KEY_ACTION+"="
-                    +SCMInterfaceKey.ACTION_POS_DATA_EDIT_STORE;
+                    +"action_pos_data_entry_store";//SCMInterfaceKey.ACTION_POS_DATA_ENTRY_STORE;
 %>
 <SCRIPT language=JavaScript>
   function checkbeforSubmit()
@@ -637,10 +637,11 @@ payment = payment==null || payment.compareTo("")==0 ? control_text_payment_level
       
      
     
-      out.println("<form name='formDataView' method='post'>");
+      out.println("<form id='formDataView' name='formDataView' onsubmit=\"mySubmit.disabled = true;\" method='post' action=''>");
            %><input type="hidden" name="<%= SCMInterfaceKey.CONTROL_REGION_PARENT_ID%>" id="<%= SCMInterfaceKey.CONTROL_REGION_PARENT_ID%>" value="<%=(parentIdstr.compareTo("")==0?CONTROL_REGION_PARENT_ID : parentIdstr) %>" />
-
+<!--
            <input type="hidden" value="<%=action%>" name="<%=InterfaceKey.HASHMAP_KEY_ACTION%>" >
+-->
            <input type="hidden" value="<%=isGenerateChild%>" name="<%=SCMInterfaceKey.HIDDEN_IS_GENERATE_CHILD_CODE%>" >
 <%
       out.println("<input type='hidden' name='"+SCMInterfaceKey.CONTROL_HIDDEN_POS_SUPER_ADMIN_FLAG+"' value='"+(superAdminFlag==null ? hidden_pos_super_admin_flag :superAdminFlag )+"'>");
@@ -1669,7 +1670,7 @@ if( docLoc == "")
         flag = 1;
        alert("POS Code Accepts Numbers Only ...");
     }
-    else if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>.value") == "0" || eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>.value") == "")
+    else if(eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>.value") == "0" || eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>.value") == "" || eval("document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_DISTRICT%>.value") == "--")
     {
         flag = 1;
          alert("Please Enter District ..");
@@ -1881,14 +1882,18 @@ document.formDataView.<%=SCMInterfaceKey.CONTROL_TEXT_POS_OWNER_PHONE%>.value=tr
 
 if(flag != 1)
         {
-          //document.formDataView.<%=InterfaceKey.HASHMAP_KEY_ACTION%>.value = '<%= SCMInterfaceKey.ACTION_POS_DATA_ENTRY_STORE %>';
-          $("#formDataView").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction8);%>");
-          formDataView.submit();
+            
+          //document.formDataView.action.value = "<%out.print(appName);%>" +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +"action"+"="
+                    +"action_pos_data_entry_store";
+    //alert(document.formDataView.action.value);      
+    $("#formDataView").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction8);%>");
+          document.formDataView.submit();
         }
 
 
 
-System.out.println("after generation of the script");
+
 }
 
 

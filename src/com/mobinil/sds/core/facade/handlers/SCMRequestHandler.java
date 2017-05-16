@@ -840,7 +840,9 @@ public class SCMRequestHandler {
                     mdl.setSupervisorName(supervisorID);
                     mdl.setTeamleaderName(teamleaderID);
                     mdl.setSalesrepName(salesrepID);
-                    Long l = Long.parseLong(orangeMoneyNum);
+                    Long l = new Long(0);
+                    if(orangeMoneyNum!=null)
+                        l= Long.parseLong(orangeMoneyNum);
                     
                     mdl.setMobicashNum(l.longValue());
 
