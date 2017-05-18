@@ -52,6 +52,7 @@ public class SCMInterfaceKey {
     public static final String ACTION_REGIONS = "get_child_regions";
     public static final String ACTION_POS_SERCH = "pos_search_results";
     public static final String POS_CODE = "pos_code";
+    public static final String POS_CODE_NEW = "pos_code_new";
     public static final String IS_GENERATE_CHILD_CODE = "IS_GENERATE_CHILD_CODE";
     public static final String HIDDEN_IS_GENERATE_CHILD_CODE = "HIDDEN_IS_GENERATE_CHILD_CODE";
     public static final String IS_CONTINUE = "isContinue";
@@ -426,10 +427,13 @@ public class SCMInterfaceKey {
     public static final String POS_STATUS_TABLE = "49";
     public static final String ACTION_SHOW_POS_STATUS = "show_pos_status";
     public static final String GET_POS_STATUS = "get_pos_status";
+    public static final String GET_POS_OLD_CODE = "get_pos_old_code";
     public static final String POS_STATUS_VECTOR = "pos_status_vector";
     public static final String POS_STATUS_CHANGE_LIST = "pos_status_list";
     public static final String PAYMENT_STATUS_CHANGE_LIST = "payment_status_list";
     public static final String ACTION_CHANGE_POS_STATUS = "change_pos_status";
+    public static final String ACTION_CHANGE_POS_CODE = "change_pos_code";
+    //public static final String ACTION_EDIT_DCM_CODE = "edit_dcm_codes";
     public static final String CHANGE_POS_STATUS_SHEET = "change_pos_status_sheet";
     public static final String ACTION_SHOW_STK_STATUS = "show_stk_status";
     public static final String ACTION_STK_CHANGE_STATUS = "change_stk_status";

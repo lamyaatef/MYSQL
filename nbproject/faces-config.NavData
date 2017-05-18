@@ -545,6 +545,7 @@
         <Node id="ca/update_ca.xhtml" x="650" y="2550" zoom="true"/>
         <Node id="cam/MemoMonitor.jsp" x="1900" y="1950" zoom="true"/>
         <Node id="scm/change_pos_status.jsp" x="1650" y="4200" zoom="true"/>
+        <Node id="scm/edit_dcm_code.jsp" x="1650" y="4200" zoom="true"/>
         <Node id="scm/pos_detail_update.jsp" x="900" y="1200" zoom="true"/>
         <Node id="acc/view_product_values.jsp" x="1650" y="4050" zoom="true"/>
         <Node id="cam/freeze_payment.jsp" x="6150" y="600" zoom="true"/>

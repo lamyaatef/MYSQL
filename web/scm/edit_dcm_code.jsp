@@ -1,5 +1,5 @@
 <%-- 
-    Document   : change_pos_status
+    Document   : change_dcm_code
     Created on : 31/10/2010, 13:40:53
     Author     : Ahmed Adel
 --%>
@@ -19,7 +19,7 @@
             String userId = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
             String showStatusAction=appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
             +InterfaceKey.HASHMAP_KEY_ACTION+"="
-            +SCMInterfaceKey.GET_POS_STATUS+"&"+InterfaceKey.HASHMAP_KEY_USER_ID+"="+userId;
+            +SCMInterfaceKey.GET_POS_OLD_CODE+"&"+InterfaceKey.HASHMAP_KEY_USER_ID+"="+userId;
             Vector <POSModel> POSStatusVector=(Vector)dataHashMap.get(SCMInterfaceKey.POS_STATUS_VECTOR);
             String changeStatusAction=appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
             +InterfaceKey.HASHMAP_KEY_ACTION+"="
@@ -33,7 +33,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
                 <LINK REL=STYLESHEET TYPE="text/css" HREF="<%=appName%>/resources/css/Template1.css">
-       <title>Change POS Status</title>
+       <title>Edit DCM Codes</title>
 
 </head>
 
@@ -41,7 +41,7 @@
         <div align="center">
         <br>
         <br>
-        <h2>Change POS Status</h2>
+        <h2>Edit DCM Codes</h2>
         <br>
         <br>
         </div>
@@ -86,7 +86,7 @@
     </tr>
     <tr>
     <td align=center colspan="3">
-    <input type="button" class="button" name="Submit" onclick="posStatus();" value="show"></td>
+    <input type="button" class="button" name="Submit" onclick="myPosStatus();" value="show"></td>
     </tr>
   </table>
     </form>
@@ -106,74 +106,19 @@
        <form name="changeStatus" id="changeStatus" action="<%=changeStatusAction%>"  method="post" enctype="multipart/form-data">
         <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1" >
             <tr>
-                <td class=TableHeader nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px">POS Name</font></td>
-                <td class=TableHeader nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px">POS Status</font></td>
-               <%if (POSStatusVector.get(0).getPayment_Status()!=null)
-                 {%>
-                <td class=TableHeader nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px">Payment Status</font></td>
-                <%}%>
+                <td class=TableHeader nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px">POS Code</font></td>
+                <td class=TableHeader nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px">POS New Code</font></td>
+                <td class=TableHeader nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px">Change</font></td>
+                
             </tr>
             <tr>
-                <td  nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"></font><%=POSStatusVector.get(0).getPOS_NAME()%></td>
-                <td  nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"></font><%=POSStatusVector.get(0).getPOS_Status()%></td>
-                <%if (POSStatusVector.get(0).getPayment_Status()!=null)
-                 {%>
-                <td  nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"></font><%=POSStatusVector.get(0).getPayment_Status()%></td>
-                <%}%>
+                <td  nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"></font><%=SCMInterfaceKey.POS_CODE%></td>
+                <td  nowrap align=center ><input name="new_code" type="text"></td>
+                <td  nowrap align=center ><input type="button" class="button" name="Submit" onclick="updatePOS();" value="Update"></td>
+                
             </tr>
             </table>
             <br>
-
-             <%if (POSStatusVector.get(0).getPayment_Status()!=null&&POSStatusVector.get(0).getPOS_Status().equals("ACTIVE"))
-                 {%>
-            <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1" >
-            <tr>
-                <td class=TableTextNote nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"></font>Change Status</td>
-                <td  nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"></font><input type="radio" name="status" value="pos" onclick="showpos();">POS Status</td>
-                <td  nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"></font><input type="radio" name="status"  value="payment" onclick="showpayment();">Payment Status</td>
-           </tr>
-            </table>
-                <%}%>
-            
-
-            <br>
-           
-            <select name="<%=SCMInterfaceKey.POS_STATUS_CHANGE_LIST%>" id="changepos" style="display: none">
-                <option value="1">ACTIVE</option>
-                <option value="7">Stop Dealing (Closed)</option>
-                <option value="18">Pending</option>
-                <option value="19">Closed Add & Win</option>
-                <option value="20">Add & Win</option>
-                <option value="21">Retailer</option>
-                <option value="22">Potential</option>
-                <option value="23">Rejected</option>
-                <option value="24">Not Identified</option>
-                <option value="25">Re Accepted</option>
-                <option value="26">Waiting List</option>
-                <option value="27">Accepted (need First Support)</option>
-                <option value="28">Integrated (Temporary Closed)</option>
-                <option value="29">Van</option>
-                <option value="30">New</option>
-                <option value="31">New and Data Entered</option>
-            </select>
-            <%if (POSStatusVector.get(0).getPayment_Status()!=null&&POSStatusVector.get(0).getPOS_Status().equals("ACTIVE")){%>
-              <select name="<%=SCMInterfaceKey.PAYMENT_STATUS_CHANGE_LIST%>" id="changepayment" style="display: none">
-                <option value="1">Eligible</option>
-                <option value="2">Non Eligible</option>
-                <option value="3">Suspended</option>
-                <%}%>
-            </select>
-            <br>
-            <br>
-            <label id="reasonlabel" style="display: none" align="center" >Reason</label>
-            <br>
-            <textarea rows="10" cols="50" align="center" name="<%=SCMInterfaceKey.CHANGE_POS_REASON%>" id="reason" style="display: none"></textarea>
-            <br>
-            <br>
-            <input type="button" class="button" id="posbutton" name="Submit" value="Change POS Status" style="display: none" onclick="submitchangepos();">
-            <%if (POSStatusVector.get(0).getPayment_Status()!=null){%>
-            <input align="center" type="button" class="button" id="paymentbutton" name="Submit" value="Change Payment Status" style="display: none" onclick="submitchangepayment();">
-            <%}%>
        </form>
    
                 <script>
@@ -324,7 +269,7 @@ function showpayment()
 }
 </script>
  <script>
- function posStatus()
+ function myPosStatus()
  {
      if(document.showStatus.<%out.print(SCMInterfaceKey.POS_CODE);%>.value=="")
         {
@@ -334,9 +279,29 @@ function showpayment()
         }else{
 
  document.showStatus.action = document.showStatus.action+'&'+'<%out.print(SCMInterfaceKey.POS_CODE+"");%>='+document.showStatus.<%out.print(SCMInterfaceKey.POS_CODE);%>.value
- document.showStatus.submit();
+ 
+    document.showStatus.submit();
             }
 }
+
+function updatePOS()
+ {
+     var new_code = document.getElementsByName("new_code").value;
+     if(document.showStatus.<%out.print(SCMInterfaceKey.POS_CODE);%>.value=="")
+        {
+
+          alert("POS Code Cannot be Empty");
+
+        }else{
+
+ document.showStatus.action = document.showStatus.action+'&'+'<%out.print(SCMInterfaceKey.POS_CODE+"");%>='+document.showStatus.<%out.print(SCMInterfaceKey.POS_CODE);%>.value
+ 
+    document.showStatus.submit();
+            }
+}
+
+
+
 </script>
  <script>
 function submitchangepos()

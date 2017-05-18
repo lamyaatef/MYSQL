@@ -150,6 +150,10 @@ public class SCMHandler {
     public static final int SHOW_COMMERCIAL_DATA_UPLOAD =105;
     public static final int SHOW_COMMERCIAL_DATA_UPLOAD_PROCESS =106;
     public static final int ACTION_EXPORT_USERS_FOR_REGION = 107;
+    //public static final int edit_dcm_code=108;
+    public static final int pos_get_old_code=109;
+    public static final int pos_change_code=110;
+    
     //Rep Management --End
 
     public static HashMap handle(String action, HashMap paramHashMap, java.sql.Connection con) {
@@ -204,6 +208,10 @@ public class SCMHandler {
             }
             if (action.compareTo(SCMInterfaceKey.ACTION_POS_STK_STATUS_PROCESS) == 0) {
                 actionType = pos_status_process;
+            }
+            if (action.compareTo(SCMInterfaceKey.ACTION_CHANGE_POS_CODE) == 0) {
+                   actionType = pos_change_code;
+            
             }
             if (action.compareTo(SCMInterfaceKey.ACTION_POS_STATUS_EXCEL_SHEET) == 0) {
                 actionType = pos_status_excel;
@@ -268,10 +276,18 @@ public class SCMHandler {
 
                 actionType = pos_get_status;
             }
+            if (action.equals(SCMInterfaceKey.GET_POS_OLD_CODE)) {
+
+                actionType = pos_get_old_code;
+            }
              if (action.equals(SCMInterfaceKey.ACTION_CHANGE_POS_STATUS)) {
 
                 actionType = change_pos_status;
             }
+            /* if (action.equals(SCMInterfaceKey.ACTION_EDIT_DCM_CODE)) {
+
+                actionType = edit_dcm_code;
+            }*/
             if (action.equals(SCMInterfaceKey.CHANGE_POS_STATUS_SHEET)) {
 
                 actionType = change_pos_status_sheet;
@@ -1166,9 +1182,11 @@ public class SCMHandler {
                     break;
                case pos_get_status:
                {
-                   System.out.println("innnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+                   
                     String POSCode=(String)paramHashMap.get(SCMInterfaceKey.POS_CODE);
+                    
                     Vector <POSModel> POSStatus=POSDAO.getPOSStatus(POSCode);
+                    
                     dataHashMap.put(SCMInterfaceKey.POS_STATUS_VECTOR,POSStatus);
                     if(!POSStatus.isEmpty())
                     {
@@ -1181,6 +1199,42 @@ public class SCMHandler {
 
                }
                     break;
+                   
+               case pos_get_old_code:
+               {
+                   
+                    String POSCode=(String)paramHashMap.get(SCMInterfaceKey.POS_CODE);
+                    Vector <POSModel> POSStatus=POSDAO.getPOSStatus(POSCode);
+                   System.out.println("action : pos_get_status "+POSCode);
+                    System.out.println("POSStatus "+POSStatus);
+                    dataHashMap.put(SCMInterfaceKey.POS_STATUS_VECTOR,POSStatus);
+                    if(!POSStatus.isEmpty())
+                    {
+                    dataHashMap.put(SCMInterfaceKey.POS_CODE,POSCode);
+                    dataHashMap.put(SCMInterfaceKey.ACTION_GET_VALID_MESSAGE,null);
+                    }else{
+                    dataHashMap.put(SCMInterfaceKey.ACTION_GET_VALID_MESSAGE,"POS Not Found");
+                    dataHashMap.put(SCMInterfaceKey.POS_CODE,"");
+                    }
+
+               }
+                    break;
+               
+               case pos_change_code:
+               {
+                   
+                    String POSCode=(String)paramHashMap.get(SCMInterfaceKey.POS_CODE);
+                    String POSCodeNew=(String)paramHashMap.get(SCMInterfaceKey.POS_CODE_NEW);
+                    POSDAO.updatePOSCode(POSCode, POSCodeNew, strUserID);
+                    
+                    dataHashMap.put(SCMInterfaceKey.ACTION_GET_VALID_MESSAGE,"POS Code Updated");
+                    dataHashMap.put(SCMInterfaceKey.POS_CODE,"");
+                    
+
+               }
+                    break;
+                   
+                   
                 case change_pos_status:
                 {
                     String POSCode=(String)paramHashMap.get(SCMInterfaceKey.POS_CODE);
@@ -1203,6 +1257,9 @@ public class SCMHandler {
 
                 }
                     break;
+                    
+               /*   case  edit_dcm_code:
+                      break;    */
                 case change_pos_status_sheet:
 
                 break;

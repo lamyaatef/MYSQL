@@ -66,10 +66,26 @@ public class POSDAO {
             Logger.getLogger(POSDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-
-
-
     }
+
+    
+    public static void updatePOSCode(String oldPOSCode, String newPOSCode,String userId) {
+         
+        try {
+            Connection con = Utility.getConnection();
+            String updateGenDCM = "update gen_dcm set dcm_code='"+newPOSCode+"' where dcm_code='"+oldPOSCode+"'";
+            String updateDCMDetail = "update dcm_pos_detail set pos_code='"+newPOSCode+"' where pos_code='"+oldPOSCode+"'";
+            String insertDCMLog = "insert into DCM_CODE_LOG values('"+oldPOSCode+"','"+newPOSCode+"','"+userId+"',SYSTIMESTAMP)";
+            DBUtil.executeSQL(updateGenDCM);
+            DBUtil.executeSQL(updateDCMDetail);
+            DBUtil.executeSQL(insertDCMLog);
+        } catch (SQLException ex) {
+            Logger.getLogger(POSDAO.class.getName()).log(Level.SEVERE, null, ex);
+         
+        }
+    }
+
+    
 
     public static void changePOSStatus(String POSCode, String POSStatus, String userId, String reason) {
         String POSchangestatusquery = "UPDATE GEN_DCM SET DCM_STATUS_ID=" + POSStatus + "  WHERE DCM_CODE=" + "'" + POSCode + "'";
