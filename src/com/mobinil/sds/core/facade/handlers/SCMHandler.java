@@ -1223,8 +1223,10 @@ public class SCMHandler {
                case pos_change_code:
                {
                    
-                    String POSCode=(String)paramHashMap.get(SCMInterfaceKey.POS_CODE);
-                    String POSCodeNew=(String)paramHashMap.get(SCMInterfaceKey.POS_CODE_NEW);
+                    HttpServletRequest request = (HttpServletRequest) paramHashMap.get(InterfaceKey.HASHMAP_KEY_REQUEST_FROM_SERVLET);
+                    String POSCode=(String)request.getParameter("old_code");
+                    String POSCodeNew=(String)request.getParameter("new_code");
+                    System.out.println("action pos_change_code "+POSCode+" "+POSCodeNew);
                     POSDAO.updatePOSCode(POSCode, POSCodeNew, strUserID);
                     
                     dataHashMap.put(SCMInterfaceKey.ACTION_GET_VALID_MESSAGE,"POS Code Updated");

@@ -68,7 +68,7 @@
         <LINK REL=STYLESHEET TYPE="text/css" HREF="<%=appName%>/resources/css/Template1.css">
         <SCRIPT language=JavaScript src="<%=appName%>/resources/js/validation.js" type="text/javascript"></SCRIPT>
         <SCRIPT language=JavaScript src="<%=appName%>/resources/js/sorttable.js" type="text/javascript"></SCRIPT>
-<script src="../resources/js/jquery-1.11.3.js"></script>
+        <script src="../resources/js/jquery-1.11.3.js"></script>
         <title>Rep Management</title>
 
         <script language="JavaScript">

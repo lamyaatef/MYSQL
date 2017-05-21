@@ -13,7 +13,12 @@
               %>
 
     <%
+        
             String appName = request.getContextPath();
+            String formAction8 = appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
+                    +InterfaceKey.HASHMAP_KEY_ACTION+"="
+                    +SCMInterfaceKey.ACTION_CHANGE_POS_CODE;
+
             HashMap dataHashMap = (HashMap) request.getAttribute(InterfaceKey.HASHMAP_KEY_DTO_OBJECT);
             String confMessage=(String)dataHashMap.get(SCMInterfaceKey.ACTION_GET_VALID_MESSAGE);
             String userId = (String) dataHashMap.get(InterfaceKey.HASHMAP_KEY_USER_ID);
@@ -23,7 +28,7 @@
             Vector <POSModel> POSStatusVector=(Vector)dataHashMap.get(SCMInterfaceKey.POS_STATUS_VECTOR);
             String changeStatusAction=appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
             +InterfaceKey.HASHMAP_KEY_ACTION+"="
-            +SCMInterfaceKey.ACTION_CHANGE_POS_STATUS+"&"+InterfaceKey.HASHMAP_KEY_USER_ID+"="+userId;
+            +SCMInterfaceKey.ACTION_CHANGE_POS_CODE+"&"+InterfaceKey.HASHMAP_KEY_USER_ID+"="+userId;
             String alert=(String)dataHashMap.get(SCMInterfaceKey.ACTION_GET_VALID_MESSAGE);
             String excelAction=appName +"/servlet/com.mobinil.sds.web.controller.WebControllerServlet?"
             +InterfaceKey.HASHMAP_KEY_ACTION+"="
@@ -31,8 +36,12 @@
     %>
 <html>
     <head>
+        <script src="../resources/js/jquery-1.11.3.js"></script>
+        <SCRIPT language=JavaScript src="<%=appName%>/resources/js/validation.js" type="text/javascript"></SCRIPT>
+        <SCRIPT language=JavaScript src="<%=appName%>/resources/js/sorttable.js" type="text/javascript"></SCRIPT>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-                <LINK REL=STYLESHEET TYPE="text/css" HREF="<%=appName%>/resources/css/Template1.css">
+        <LINK REL=STYLESHEET TYPE="text/css" HREF="<%=appName%>/resources/css/Template1.css">
        <title>Edit DCM Codes</title>
 
 </head>
@@ -77,11 +86,12 @@
 <br>
 <div name="oneByone" id="oneByone" align="center" style="display: none" >
     <form name="showStatus" id="showStatus" action="<%=showStatusAction%>"  method="post" enctype="multipart/form-data">
+    
   <table style="BORDER-COLLAPSE: collapse" cellSpacing=2 cellPadding=1 width="80%" border="1" >
     <tr>
     <td class="TableTextNote" nowrap align=center >POS Code:</td>
     <td  nowrap align=center colspan="2"><font style="font-size: 11px;font-family: tahoma;line-height: 15px">
-    <input type="text" name="<%=SCMInterfaceKey.POS_CODE%>" value="<%=dataHashMap.get(SCMInterfaceKey.POS_CODE)%>">
+    <input type="text"  id="<%=SCMInterfaceKey.POS_CODE%>" name="<%=SCMInterfaceKey.POS_CODE%>" value="<%=dataHashMap.get(SCMInterfaceKey.POS_CODE)%>">
     </td>
     </tr>
     <tr>
@@ -104,7 +114,9 @@
     </script>
     
        <form name="changeStatus" id="changeStatus" action="<%=changeStatusAction%>"  method="post" enctype="multipart/form-data">
-        <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1" >
+        <input type="hidden" name="old_code" id="old_code" value="">
+        <input type="hidden" name="new_code" id="new_code" value="">
+           <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1" >
             <tr>
                 <td class=TableHeader nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px">POS Code</font></td>
                 <td class=TableHeader nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px">POS New Code</font></td>
@@ -112,8 +124,8 @@
                 
             </tr>
             <tr>
-                <td  nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"></font><%=SCMInterfaceKey.POS_CODE%></td>
-                <td  nowrap align=center ><input name="new_code" type="text"></td>
+                <td  nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"></font><%=dataHashMap.get(SCMInterfaceKey.POS_CODE)%></td>
+                <td  nowrap align=center ><input id = "<%=SCMInterfaceKey.POS_CODE_NEW%>" name="<%=SCMInterfaceKey.POS_CODE_NEW%>" type="text"></td>
                 <td  nowrap align=center ><input type="button" class="button" name="Submit" onclick="updatePOS();" value="Update"></td>
                 
             </tr>
@@ -137,68 +149,9 @@
         <%}%>
  </div>
  
-
- <div name="byExcel" id="byExcel" align="center" style="display: none">
-
-     <form name="excelform" id="excelform" method="post" action="<%=excelAction%>" enctype="multipart/form-data">
-
-    <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1" >
-    <tr>
-    <td class=TableTextNote nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px">Excel File:</font></td>
-    <td nowrap align=center colspan="2"><font style="font-size: 11px;font-family: tahoma;line-height: 15px">
-     <% out.println("<input type=hidden name="+SCMInterfaceKey.IMPORT_TABLE+"  value="+SCMInterfaceKey.POS_STATUS_TABLE+">");%>
-    <input type="file" name="myfile">
-    </tr>
-    </table>
-
-    <br>
-
-    <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1" >
-            <tr>
-                <td class=TableTextNote nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"></font>Change Status</td>
-                <td  nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"></font><input type="radio" name="status" value="pos" onclick="showexcelpos();">POS Status</td>
-                <td  nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"></font><input type="radio" name="status"  value="payment" onclick="showexcelpayment();">Payment Status</td>
-            </tr>
-     </table>
-
-    <br>
-
-    <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="0" >
-        <tr>
-            <td align="center">
-    <select name="<%=SCMInterfaceKey.POS_STATUS_CHANGE_LIST%>" id="excelchangepos" style="display: none">
-                <option value="1">ACTIVE</option>
-                <option value="7">Stop Dealing (Closed)</option>
-                <option value="18">Pending</option>
-    </select>
-
-            <select name="<%=SCMInterfaceKey.PAYMENT_STATUS_CHANGE_LIST%>" id="excelchangepayment" style="display: none">
-                        <option value="1">Eligible</option>
-                        <option value="2">Non Eligible</option>
-                        <option value="3">Suspended</option>
-
-            </select>
-             </td>
-        </tr>
-
-        <tr>
-            <td align="center" style="vertical-align:middle">
-            <label align="center" id="excelreasonlabel" style="display: none">Reason</label>
-            </td>
-        </tr>
-        <tr>
-            <td align="center" style="vertical-align:middle">
-            <textarea  cols="50" rows="10" name="<%=SCMInterfaceKey.CHANGE_POS_REASON%>" id="excelreason" style="display: none"></textarea></td>
-        </tr>
-    <tr>
-        <td align="center" >
-        <input type="button" class="button" id="excelposbutton" name="Submit" value="Change POS Status" style="display: none" onclick="submitchangeposexcel();">
-        <input type="button" class="button" id="excelpaymentbutton" name="Submit" value="Change Payment Status" style="display: none" onclick="submitchangepaymentexcel();">
-        </td>
-    </tr>
- </table>
- </form>
- </div>
+ 
+ 
+ 
     </body>
     <script>
 function show(selectBox)
@@ -284,19 +237,21 @@ function showpayment()
             }
 }
 
-function updatePOS()
- {
-     var new_code = document.getElementsByName("new_code").value;
-     if(document.showStatus.<%out.print(SCMInterfaceKey.POS_CODE);%>.value=="")
+function updatePOS() 
+{
+   document.changeStatus.new_code.value =  document.getElementById("<%out.print(SCMInterfaceKey.POS_CODE_NEW);%>").value;
+   document.changeStatus.old_code.value =  document.getElementById("<%out.print(SCMInterfaceKey.POS_CODE);%>").value;
+  
+   if(document.changeStatus.new_code.value=="")
         {
 
           alert("POS Code Cannot be Empty");
 
         }else{
 
- document.showStatus.action = document.showStatus.action+'&'+'<%out.print(SCMInterfaceKey.POS_CODE+"");%>='+document.showStatus.<%out.print(SCMInterfaceKey.POS_CODE);%>.value
- 
-    document.showStatus.submit();
+    document.changeStatus.action = document.changeStatus.action+'&'+'old_code='+document.changeStatus.old_code.value+'&'+'new_code='+document.changeStatus.new_code.value
+ //$("#changeStatus").attr("<%=InterfaceKey.HASHMAP_KEY_ACTION%>","<%out.print(formAction8);%>");
+    document.changeStatus.submit();
             }
 }
 
