@@ -1232,6 +1232,7 @@ public class SCMHandler {
                     dataHashMap.put(SCMInterfaceKey.ACTION_GET_VALID_MESSAGE,"POS Code Updated");
                     dataHashMap.put(SCMInterfaceKey.POS_CODE,"");
                     
+                    
 
                }
                     break;

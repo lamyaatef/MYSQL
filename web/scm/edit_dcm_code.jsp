@@ -62,7 +62,9 @@
 <select name="inputtype" id="inputtype" onchange="show(this);">
     <option></option>
     <option value="oneByone">One by One</option>
+    <!--
     <option value="byExcel">By Excel Sheet</option>
+    -->
 </select>
       </td>
  </TABLE>
@@ -118,13 +120,13 @@
         <input type="hidden" name="new_code" id="new_code" value="">
            <table style="BORDER-COLLAPSE: collapse" cellSpacing=3 cellPadding=3 width="80%" border="1" >
             <tr>
-                <td class=TableHeader nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px">POS Code</font></td>
+                <td class=TableHeader nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px">POS Name</font></td>
                 <td class=TableHeader nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px">POS New Code</font></td>
                 <td class=TableHeader nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px">Change</font></td>
                 
             </tr>
             <tr>
-                <td  nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"></font><%=dataHashMap.get(SCMInterfaceKey.POS_CODE)%></td>
+                <td  nowrap align=center ><font style="font-size: 11px;font-family: tahoma;line-height: 15px"><%=POSStatusVector.get(0).getPOS_NAME()%></font></td>
                 <td  nowrap align=center ><input id = "<%=SCMInterfaceKey.POS_CODE_NEW%>" name="<%=SCMInterfaceKey.POS_CODE_NEW%>" type="text"></td>
                 <td  nowrap align=center ><input type="button" class="button" name="Submit" onclick="updatePOS();" value="Update"></td>
                 
@@ -143,7 +145,8 @@
                     document.getElementById("changepos").style.display="";
                     document.getElementById("posbutton").style.display="";
                      </script>
-                     <%}%>
+                    <% 
+                    }%>
               
 
         <%}%>
