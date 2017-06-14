@@ -71,13 +71,13 @@ public class MySQLExportApp {
             Statement stat = con.createStatement();
             System.out.println("query : "+query);
             ResultSet res = stat.executeQuery(query);
-            Vector rows = new Vector();
+            Vector <ArrayList<String>>  rows = new Vector <ArrayList<String>> ();
             ResultSetMetaData rsMetaData = res.getMetaData();
             int count = rsMetaData.getColumnCount();
-            System.out.println("number of columns "+count);
+            
             ArrayList<String> columns = new ArrayList<String>();
             int rowNumber=0;
-            System.out.println("row : "+rowNumber);
+            //System.out.println("row : "+rowNumber);
             while (res.next())
             {
                 
@@ -86,15 +86,15 @@ public class MySQLExportApp {
                 {
                    String columnName = rsMetaData.getColumnName(i);
                    String value = res.getString(columnName);
-                   System.out.println("column no "+i+" name "+columnName+" value "+value);
+                   //System.out.println("column no "+i+" name "+columnName+" value "+value);
                    columns.add(value);
                 }
                 
                 rows.add(columns);
                 rowNumber++;
-                System.out.println("next row : "+rowNumber);
+                //System.out.println("next row : "+rowNumber);
             }
-            
+            System.out.println("number of columns "+count);
             System.out.println("rows size : "+rows.size());
             String resultFile = exportExcelSheetForSMSSendingData(rows,count,rsMetaData,fileName);
             System.out.println("result file is : "+resultFile);
@@ -111,36 +111,39 @@ private static String exportExcelSheetForSMSSendingData(Vector results,int cellC
       FileOutputStream fileOut;
         try {
             fileOut = new FileOutputStream(directionFile);
-            System.out.println("fileout "+fileOut);
-            Workbook workbook = new SXSSFWorkbook(-1);
+            
+            //Workbook workbook = new SXSSFWorkbook(-1);
             //Workbook workbook = new XSSFWorkbook();
+            Workbook workbook = new HSSFWorkbook();
             System.out.println("workbook "+workbook);
             Sheet worksheet = workbook.createSheet("My Worksheet");
             System.out.println("worksheet "+worksheet);
             ArrayList<Row> rows = new ArrayList<Row>();
             ArrayList<ArrayList<Cell>> cells=new ArrayList<ArrayList<Cell>>();
           
+            System.out.println("results size "+results.size()+" and cellcount "+cellCount);
+            
             for(int i=1; i<=cellCount;i++){
-                System.out.println("inside loop");
+                
                 ArrayList<Cell> cell = new ArrayList<Cell>();
                 cells.add(cell);
             }
-            System.out.println("results size "+results.size());
-            for (int i=0;i<=results.size();i++){
+            
+            for (int k=0;k<=results.size();k++){
 
-                boolean isAdded = rows.add(worksheet.createRow(i));
+                boolean isAdded = rows.add(worksheet.createRow(k));
                 
                 for(int cellno=0;cellno<cellCount;cellno++){
-                    cells.get(cellno).add(rows.get(i).createCell((short) cellno));
+                    cells.get(cellno).add(rows.get(k).createCell((short) cellno));
                 }
-                System.out.println("row "+i+" isAdded? "+isAdded);
+                System.out.println("row "+k+" isAdded? "+isAdded);
 
             }
 
 
             for(int header=0;header<cellCount;header++)
             {
-                cells.get(header).get(0).setCellValue(resultMeta.getColumnName(header));
+                cells.get(header).get(0).setCellValue(resultMeta.getColumnName(header+1));
             }
             try {
                
@@ -178,7 +181,12 @@ private static String exportExcelSheetForSMSSendingData(Vector results,int cellC
                                         System.out.println("file name empty "+e);
 					return "";
 				}
-                                
+                                catch(Exception e)
+                                {
+                                    	e.printStackTrace();
+                                        System.out.println("GENERAL file name empty "+e);
+					return "";
+                                }
   }
 
     
