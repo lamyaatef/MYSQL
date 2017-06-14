@@ -115,10 +115,9 @@ private static String exportExcelSheetForSMSSendingData(Vector results,int cellC
         try {
             fileOut = new FileOutputStream(directionFile);
             System.out.println("before creating");
-            Workbook workbook = new SXSSFWorkbook(-1);
-            System.out.println("index "+workbook.getActiveSheetIndex());
+            //Workbook workbook = new SXSSFWorkbook(-1);
             //Workbook workbook = new XSSFWorkbook();
-            //Workbook workbook = new HSSFWorkbook();
+            Workbook workbook = new HSSFWorkbook();
             System.out.println("workbook "+workbook);
             Sheet worksheet = workbook.createSheet("My Worksheet");
             System.out.println("worksheet "+worksheet);
