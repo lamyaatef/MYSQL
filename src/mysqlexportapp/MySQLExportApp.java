@@ -11,6 +11,7 @@ import java.util.Properties;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,11 +30,13 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFFontFormatting;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.poifs.filesystem.NPOIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -111,10 +114,11 @@ private static String exportExcelSheetForSMSSendingData(Vector results,int cellC
       FileOutputStream fileOut;
         try {
             fileOut = new FileOutputStream(directionFile);
-            
-            //Workbook workbook = new SXSSFWorkbook(-1);
+            System.out.println("before creating");
+            Workbook workbook = new SXSSFWorkbook(-1);
+            System.out.println("index "+workbook.getActiveSheetIndex());
             //Workbook workbook = new XSSFWorkbook();
-            Workbook workbook = new HSSFWorkbook();
+            //Workbook workbook = new HSSFWorkbook();
             System.out.println("workbook "+workbook);
             Sheet worksheet = workbook.createSheet("My Worksheet");
             System.out.println("worksheet "+worksheet);
@@ -210,9 +214,10 @@ private static String exportExcelSheetForSMSSendingData(Vector results,int cellC
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://10.0.0.163:"+nLocalPort, strDbUser, strDbPassword);
 
+            String query="select dial from smssending.round2_arpu_60   where batchname = 'batch29-1'";//select * from smssending.round2_arpu_0, smssending.smstext where smssending.round2_arpu_0.batchname='batch13-1'";
 
-
-            dumpFile("select dial from smssending.round2_arpu_60   where batchname = 'batch29-1'","/home/sand/Downloads/batch.xlsx",con);
+            
+            dumpFile(query,"/home/sand/Downloads/batch.xlsx",con);
 
             con.close();
         }
