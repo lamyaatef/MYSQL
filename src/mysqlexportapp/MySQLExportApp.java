@@ -16,6 +16,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -74,30 +76,29 @@ public class MySQLExportApp {
             Statement stat = con.createStatement();
             System.out.println("query : "+query);
             ResultSet res = stat.executeQuery(query);
-            Vector <ArrayList<String>>  rows = new Vector <ArrayList<String>> ();
+            
             ResultSetMetaData rsMetaData = res.getMetaData();
             int count = rsMetaData.getColumnCount();
-            
+            System.out.println("columns returned: "+count);
+            Vector <ArrayList<String>>  rows = new Vector <ArrayList<String>> ();
             ArrayList<String> columns = new ArrayList<String>();
+            
             int rowNumber=0;
-            //System.out.println("row : "+rowNumber);
+            System.out.println("rows "+rows+" columns "+columns);
+            System.out.println("first row : "+rowNumber);
             while (res.next())
             {
                 
-                columns = new ArrayList<String>();
                 for(int i=1;i<=count;i++)
                 {
-                   String columnName = rsMetaData.getColumnName(i);
-                   String value = res.getString(columnName);
-                   //System.out.println("column no "+i+" name "+columnName+" value "+value);
-                   columns.add(value);
+                   columns.add(res.getString(rsMetaData.getColumnName(i)));
+               
                 }
-                
                 rows.add(columns);
                 rowNumber++;
-                //System.out.println("next row : "+rowNumber);
+                System.out.println("next row : "+rowNumber);
             }
-            System.out.println("number of columns "+count);
+          
             System.out.println("rows size : "+rows.size());
             String resultFile = exportExcelSheetForSMSSendingData(rows,count,rsMetaData,fileName);
             System.out.println("result file is : "+resultFile);
@@ -108,7 +109,7 @@ public class MySQLExportApp {
             e.printStackTrace();
         }
     }
-private static String exportExcelSheetForSMSSendingData(Vector results,int cellCount,ResultSetMetaData resultMeta,String directionFile)
+private static String exportExcelSheetForSMSSendingData(Vector<ArrayList<String>> results,int cellCount,ResultSetMetaData resultMeta,String directionFile)
   {
       System.out.println("inside exportExcelSheetForSMSSendingData "+cellCount);
       FileOutputStream fileOut;
@@ -118,13 +119,10 @@ private static String exportExcelSheetForSMSSendingData(Vector results,int cellC
             //Workbook workbook = new SXSSFWorkbook(-1);
             //Workbook workbook = new XSSFWorkbook();
             Workbook workbook = new HSSFWorkbook();
-            System.out.println("workbook "+workbook);
             Sheet worksheet = workbook.createSheet("My Worksheet");
-            System.out.println("worksheet "+worksheet);
             ArrayList<Row> rows = new ArrayList<Row>();
             ArrayList<ArrayList<Cell>> cells=new ArrayList<ArrayList<Cell>>();
-          
-            System.out.println("results size "+results.size()+" and cellcount "+cellCount);
+          System.out.println("results size "+results.size()+" and cellcount "+cellCount);
             
             for(int i=1; i<=cellCount;i++){
                 
@@ -143,7 +141,7 @@ private static String exportExcelSheetForSMSSendingData(Vector results,int cellC
 
             }
 
-
+            
             for(int header=0;header<cellCount;header++)
             {
                 cells.get(header).get(0).setCellValue(resultMeta.getColumnName(header+1));
@@ -153,7 +151,11 @@ private static String exportExcelSheetForSMSSendingData(Vector results,int cellC
                     for(int i=1;i<=results.size();i++)
                     {
                         for(int j=0;j<cellCount;j++)
-                            cells.get(j).get(i).setCellValue(results.get(i-1).toString());
+                        {
+                            String cellVal = results.get(i-1).toString();
+                            cellVal = cellVal.substring(0,cellVal.indexOf(","));
+                            cells.get(j).get(i).setCellValue(cellVal/*results.get(i-1).toString()*/);
+                        }
                     }
              
                 } 
@@ -213,7 +215,9 @@ private static String exportExcelSheetForSMSSendingData(Vector results,int cellC
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://10.0.0.163:"+nLocalPort, strDbUser, strDbPassword);
 
-            String query="select dial from smssending.round2_arpu_60   where batchname = 'batch29-1'";//select * from smssending.round2_arpu_0, smssending.smstext where smssending.round2_arpu_0.batchname='batch13-1'";
+            String query="select * from smssending.round2_arpu_0, smssending.smstext where smssending.round2_arpu_0.batchname='batch13-1' limit 10";
+//select dial from smssending.round2_arpu_60   where batchname = 'batch29-1'            
+//select * from smssending.round2_arpu_0, smssending.smstext where smssending.round2_arpu_0.batchname='batch13-1'
 
             
             dumpFile(query,"/home/sand/Downloads/batch.xlsx",con);
