@@ -99,8 +99,7 @@ public class MySQLExportApp {
     
            
           worksheet.shiftRows(0, worksheet.getPhysicalNumberOfRows(), 1);
-          System.out.println("worksheet.getFirstRowNum() "+worksheet.getFirstRowNum());
-          Row rowhead=   worksheet.createRow((short)worksheet.getFirstRowNum()-1);
+          Row rowhead = worksheet.createRow((short)worksheet.getFirstRowNum()-1);
           for(int header=0;header<count;header++){
             
                 rowhead.createCell((short) header).setCellValue(rsMetaData.getColumnName(header+1));
@@ -316,6 +315,9 @@ public class MySQLExportApp {
             Connection con = DriverManager.getConnection("jdbc:mysql://10.0.0.163:"+nLocalPort, strDbUser, strDbPassword);
 
             String query="select * from smssending.round2_arpu_0, smssending.smstext where smssending.round2_arpu_0.batchname='batch13-1' limit 300";
+            
+
+
 //select dial from smssending.round2_arpu_60   where batchname = 'batch29-1'            
 //select * from smssending.round2_arpu_0, smssending.smstext where smssending.round2_arpu_0.batchname='batch13-1'
 
