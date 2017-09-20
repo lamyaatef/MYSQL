@@ -87,11 +87,10 @@ public class SQLExportSDS {
         String query="select table_name from user_tables";
         ResultSet rs = stat.executeQuery(query);
         System.out.println("get tables: "+query);
-        //loop on each table retrieved from gvms
-       // int tables =0;
+        
         while(rs.next())
             {
-            //    System.out.println("table "+tables);
+            
                 String tableName = rs.getString("table_name");
                 String columnName = "";
                 String columnType = "";       
@@ -120,7 +119,7 @@ public class SQLExportSDS {
                 }catch(SQLException ex){System.out.println(ex);}
                 
                 String query1="create table sds."+tableName+" ( ";
-                //columns of each table
+                
                 for(int k=1;k<=count;k++)
                 {
                     columnName = rsMetaData.getColumnName(k);
@@ -170,14 +169,14 @@ public class SQLExportSDS {
                                 {
                                     String dateSt = data.getString(metaData.getColumnName(dataCount));
                                     System.out.println("date st "+dateSt);
-                                    //new
+                                    
                                     if (dateSt==null || dateSt.compareToIgnoreCase("null")==0)
                                     {
                                         query3 +=null;
                                     }
                                     else 
                                     {
-                                        //end new
+                                        
                                         if (dateSt!=null && dateSt.contains(" "))
                                             dateSt = dateSt.substring(0, dateSt.indexOf(" "));
                                     System.out.println("date st After "+dateSt);
@@ -192,7 +191,7 @@ public class SQLExportSDS {
                                 st = "null";
                                 query3+=st;
                             }
-                            //new
+                            
                             else if (dateType.compareToIgnoreCase("NUMBER")==0)
                             {
                                st = data.getString(metaData.getColumnName(dataCount));
@@ -200,9 +199,9 @@ public class SQLExportSDS {
                                if (st==null || st.compareToIgnoreCase("null")==0)
                                     query3 +="0";
                                else query3+=st;
-                               //query3+=st;
+                               
                             }
-                            //end - new
+                            
                             else
                             {
                                 st = data.getString(metaData.getColumnName(dataCount));
@@ -216,7 +215,7 @@ public class SQLExportSDS {
                             if(dataCount==count)
                             {
                                 query3+=" ) ";
-        //                        break;
+        
                             }
 
                             else
@@ -228,25 +227,7 @@ public class SQLExportSDS {
                         stat2.execute(query3);
                     recordNo++;
                 }
-               /* if(dataCount==0)
-                {
-                    query3 = "insert into sds."+tableName+" values( ";
-                    for(int i=1;i<=count;i++)
-                    {
-                        query3 +="0";
-                        if(i==count)
-                            query3+=" ) ";
-                    
-                        else
-                            query3+=" , ";
-                    }
-                 
-                }*/
-                
-                //System.out.println("query3 "+query3);
-                /*if(hasData)
-                    stat2.execute(query3);*/
-              //  tables++;
+       
             }
             
             
@@ -279,13 +260,14 @@ public class SQLExportSDS {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             //SID : GVMS
             Connection con = DriverManager.getConnection("jdbc:oracle:thin:@10.0.0.16:1521:gvms",strDbUser,strDbPassword);
+           // Connection con = DriverManager.getConnection("jdbc:oracle:thin:@10.11.113.80:1521:sds",strDbUser2,strDbPassword2);
             System.out.println("get con "+con);
             //SID : SDS
             Connection con2 = DriverManager.getConnection("jdbc:oracle:thin:@10.0.0.77:1521:sds",strDbUser2,strDbPassword2);
             System.out.println("get con2 "+con2);
             
             loadSDSTables(con,con2);
-    
+            
 
 
             con.close();
