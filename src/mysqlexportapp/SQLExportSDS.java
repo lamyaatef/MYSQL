@@ -107,6 +107,8 @@ public class SQLExportSDS {
                 System.out.println("count of table columns: "+tableName+" : "+count);
                 
                 String checkTable = "select * from sds."+tableName;
+                try
+                {
                 boolean exists = con2.createStatement().execute(checkTable);
                 if(exists)
                 {
@@ -115,6 +117,7 @@ public class SQLExportSDS {
                     con2.createStatement().execute(dropQuery);
                 
                 }
+                }catch(SQLException ex){System.out.println(ex);}
                 
                 String query1="create table sds."+tableName+" ( ";
                 //columns of each table
@@ -124,7 +127,7 @@ public class SQLExportSDS {
                     columnType = rsMetaData.getColumnTypeName(k);
                     System.out.println("table name "+tableName+" column name "+columnName+" column type "+columnType);
                     if (columnType.contains("VARCHAR"))
-                            columnType += "(250)";
+                            columnType += "(1000)";
                     query1+=columnName+" "+columnType;
                     if(k==count)
                         query1+=" ) ";
@@ -159,22 +162,47 @@ public class SQLExportSDS {
                             hasData=true;
                             String dateType= metaData.getColumnTypeName(dataCount);
                             System.out.println("date type "+dateType);
-                            if (dateType.compareToIgnoreCase("DATE")==0)
+                            if (dateType.compareToIgnoreCase("DATE")==0 || dateType.compareToIgnoreCase("TIMESTAMP")==0)
                             {
-                                if (st==null)
+                                if (st==null || st.compareToIgnoreCase("null")==0)
                                     query3 +=st;
                                 else
                                 {
                                     String dateSt = data.getString(metaData.getColumnName(dataCount));
                                     System.out.println("date st "+dateSt);
-                                    if (dateSt.contains(" "))
-                                        dateSt = dateSt.substring(0, dateSt.indexOf(" "));
+                                    //new
+                                    if (dateSt==null || dateSt.compareToIgnoreCase("null")==0)
+                                    {
+                                        query3 +=null;
+                                    }
+                                    else 
+                                    {
+                                        //end new
+                                        if (dateSt!=null && dateSt.contains(" "))
+                                            dateSt = dateSt.substring(0, dateSt.indexOf(" "));
                                     System.out.println("date st After "+dateSt);
                                     st = "to_date('"+dateSt+"','yyyy-mm-dd')";
                                     query3 +=st;
+                                    }
                                 }
 
                             }
+                            else if (dateType.compareToIgnoreCase("BLOB")==0)
+                            {
+                                st = "null";
+                                query3+=st;
+                            }
+                            //new
+                            else if (dateType.compareToIgnoreCase("NUMBER")==0)
+                            {
+                               st = data.getString(metaData.getColumnName(dataCount));
+                               System.out.println("ST in Number "+st);
+                               if (st==null || st.compareToIgnoreCase("null")==0)
+                                    query3 +="0";
+                               else query3+=st;
+                               //query3+=st;
+                            }
+                            //end - new
                             else
                             {
                                 st = data.getString(metaData.getColumnName(dataCount));
